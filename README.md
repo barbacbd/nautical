@@ -11,3 +11,15 @@ specific use case, and I would like to create a generic Alexa skill to let me qu
 multiple surf locations for their forecast. 
 
 > **Disclaimer** I do NOT pretend to be the creator of the surf forecasts. All rights of any surf forecast belong to [Swellinfo](https://www.swellinfo.com) and their team of forecasters.
+
+
+## TO DO ##
+- Currently grab the first level from the website. I need to get the next level down which should include the areas and subareas for forecasts. 
+- Make the first function a little bit more generic for searching.
+
+
+
+
+## Software Versions ##
+- Python version
+- BeautifulSoup Version
