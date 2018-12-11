@@ -5,7 +5,6 @@ import html2text
 from urlparse import urljoin
 from BeautifulSoup import BeautifulSoup
 import re
-import mechanize
 
 '''
 Get the source information for the url and place the information into
@@ -21,24 +20,6 @@ def get_url_source(url_name):
     soup = BeautifulSoup(open_url.read())
 
     return soup
-
-
-def submit_form(url_name):
-    br = mechanize.Browser()
-    br.open(url_name)
-
-    for form in br.forms():
-        #print form.name
-        print form
-
-    #br.select_form(nr=0)
-    #br.form['Region'] = 'United States'
-    #br.form['title'] = 'Enter your Title'
-    #br.form['message'] = 'Enter your message'
-    #req = br.submit()
-
-    print br.geturl()
-
 
 '''
 @param url_name - string representation of the url
@@ -63,6 +44,8 @@ def find_url_source_info(url_name, soup, find_all, search_criteria):
 
     for url in soup.findAll(find_all):
         path = url.get(search_criteria)
+
+        #print path
 
         # remove empty strings and null strings
         if path is not None and path:
@@ -118,32 +101,24 @@ def main():
     relative_paths = find_relative_paths(surf_url, soup)
     forecast_url = find_forecast_url(relative_paths)
 
+    for i in relative_paths:
+        print i
+
     # could not find the forecast page, so let's exit
     if not forecast_url:
         sys.exit()
 
-    # get the source for the relative path to the swellinfo.com/forecasts
-    soup = get_url_source(forecast_url)
+    '''
+    This will work to get the sub regions but there isn't a way to select it using
+    beautiful soup. May need to be able to select a list item.
+    '''
 
-    # Get all Possible Regions
-
-    # Present the regions to the user
-    # Once the region is selected by the user, check if it existed
-    # if it existed then submit that form with the proper value
-
-
-
-    # Get all Possible Subregions
-
-    # Present the subregions to the user
-    # once the subregion is selected by the user, check if it existed
-    # if it existed then submit that form with the proper value
-
+    '''
     # get all of the possible form values !!!
     data_region_forms = find_url_source_info(forecast_url, soup, 'li', 'data-region')
 
-    # list of long/display names
-    long_names = []
+    # [abbreviated name fo the region, long/display name of the region]
+    region_name_map = []
 
     # the data-regions are between tags of <li> ... </li>
     for url in soup.findAll('li'):
@@ -165,32 +140,9 @@ def main():
                     # if this text contains the long-name string, get the name of the data
                     long_name = str(t)
 
-                    if 'long-name' in long_name and t.text not in long_names:
-                        long_names.append(t.text)
-
-    for i in data_region_forms:
-        print i
-
-    for i in long_names:
-        print i
-
-
-        #i = str(url)
-        #if 'data-region' in i:
-        #    print i
-
-
-
-    relative_paths = find_relative_paths(forecast_url, soup)
-
-    #for i in relative_paths:
-    #    print i
-
-    #submit_form(forecast_url)
-
-    #print(soup.prettify())
-    
-
+                    if 'long-name' in long_name:
+                        region_name_map.append([data_region, t.text])
+    '''
 
 if __name__ == "__main__":
     main()
