@@ -13,13 +13,13 @@ multiple surf locations for their forecast.
 > **Disclaimer** I do NOT pretend to be the creator of the surf forecasts. All rights of any surf forecast belong to [Swellinfo](https://www.swellinfo.com) and their team of forecasters.
 
 
-## TO DO ##
+## TO DO 
 - Currently grab the first level from the website. I need to get the next level down which should include the areas and subareas for forecasts. 
 - Make the first function a little bit more generic for searching.
 
-**NOTE: looks like this implementation will not go anywhere. I keep getting flagged as a bot for my requests and I cannot execute their javascript code. I need to move to selenium for python 3.x. **
+> It looks like this implementation will not go anywhere. I keep getting flagged as a bot for my requests and I cannot execute their javascript code. I need to move to selenium for python 3.x. **
 
 
-## Software Versions ##
+## Software Versions
 - Python version
 - BeautifulSoup Version
