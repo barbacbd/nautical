@@ -14,6 +14,7 @@ def get_url_source(url_name):
     soup = BeautifulSoup(open_url.read())
     return soup
 
+
 def get_wave_table(url_name):
     """
     Get a table of all Wave Data
@@ -28,28 +29,33 @@ def get_wave_table(url_name):
     for row in table.findAll("tr"):
         cells = row.findAll("td")
 
+        """ 
+        18 is a magic number unfortunately this is the CURRENT number of columns in
+        the table presented by NOAA. NOTE: not all columns are used they are either 
+        left blank or contain a dash (-)
+        """
         if len(cells) == 18:
             wd = WaveData()
 
-            wd.mm = cells[0].find(text=True)
-            wd.dd = cells[1].find(text=True)
-            wd.time = cells[2].find(text=True)
+            wd.mm = str(cells[0].find(text=True)).strip()
+            wd.dd = str(cells[1].find(text=True)).strip()
+            wd.time = str(cells[2].find(text=True)).strip()
             wd.convert_time()
-            wd.wdir = cells[3].find(text=True)
-            wd.wspd = cells[4].find(text=True)
-            wd.gst = cells[5].find(text=True)
-            wd.wvht = cells[6].find(text=True)
-            wd.dpd = cells[7].find(text=True)
-            wd.apd = cells[8].find(text=True)
-            wd.mwd = cells[9].find(text=True)
-            wd.pres = cells[10].find(text=True)
-            wd.ptdy = cells[11].find(text=True)
-            wd.atmp = cells[12].find(text=True)
-            wd.wtmp = cells[13].find(text=True)
-            wd.dewp = cells[14].find(text=True)
-            wd.sal = cells[15].find(text=True)
-            wd.vis = cells[16].find(text=True)
-            wd.tide = cells[17].find(text=True)
+            wd.wdir = str(cells[3].find(text=True)).strip()
+            wd.wspd = str(cells[4].find(text=True)).strip()
+            wd.gst = str(cells[5].find(text=True)).strip()
+            wd.wvht = str(cells[6].find(text=True)).strip()
+            wd.dpd = str(cells[7].find(text=True)).strip()
+            wd.apd = str(cells[8].find(text=True)).strip()
+            wd.mwd = str(cells[9].find(text=True)).strip()
+            wd.pres = str(cells[10].find(text=True)).strip()
+            wd.ptdy = str(cells[11].find(text=True)).strip()
+            wd.atmp = str(cells[12].find(text=True)).strip()
+            wd.wtmp = str(cells[13].find(text=True)).strip()
+            wd.dewp = str(cells[14].find(text=True)).strip()
+            wd.sal = str(cells[15].find(text=True)).strip()
+            wd.vis = str(cells[16].find(text=True)).strip()
+            wd.tide = str(cells[17].find(text=True)).strip()
 
             past_data.append(wd)
 

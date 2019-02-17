@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import io
+import analysis
 
 
 def main():
@@ -11,8 +12,7 @@ def main():
 
     data = io.get_wave_table(search_url)
 
-    for x in data:
-        print(x.to_string())
+    print(analysis.analyze_dominant_wave_period(data, 10))
 
 
 if __name__ == "__main__":

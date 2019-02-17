@@ -2,28 +2,49 @@
 
 class WaveData:
 
+    """
+    month - number
+    day - number
+    time - (after conversion) hour:minutes am/pm (EST)
+    wind direction - degrees
+    wind speed - kts
+    gust - kts
+    wave height - feet
+    dominant wave period - sec
+    average wave period - sec
+    mean wave direction - degrees
+    pressure - inches
+    pressure tendency - inches
+    air temp - Deg F
+    water temp - Deg F
+    dew point - Deg F
+    salinity - PSU
+    visibility - nautical miles
+    tide - feet
+    """
+
     def __init__(self):
         """
         Member Variables According to the table on NOAA's buoy website
         """
-        self.mm = None # Month
-        self.dd = None # Day
-        self.time = None # EST
-        self.wdir = None # Wind direction deg
-        self.wspd = None # wind speed kts
-        self.gst = None # gust kts
-        self.wvht = None # wave height ft
-        self.dpd = None  # sec
-        self.apd = None # sec
+        self.mm = None
+        self.dd = None
+        self.time = None
+        self.wdir = None
+        self.wspd = None
+        self.gst = None
+        self.wvht = None
+        self.dpd = None
+        self.apd = None
         self.mwd = None
-        self.pres = None # inches
-        self.ptdy = None # inches
-        self.atmp = None # degrees F
-        self.wtmp = None  # degrees F
-        self.dewp = None # degrees F
-        self.sal = None # psu
-        self.vis = None # nmi
-        self.tide = None # ft
+        self.pres = None
+        self.ptdy = None
+        self.atmp = None
+        self.wtmp = None
+        self.dewp = None
+        self.sal = None
+        self.vis = None
+        self.tide = None
 
     def convert_time(self):
         """
