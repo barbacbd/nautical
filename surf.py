@@ -12,7 +12,14 @@ def main():
 
     data = io.get_wave_table(search_url)
 
-    print(analysis.analyze_dominant_wave_period(data, 10))
+    header = "Current information at buoy {}\n".format(vb_id)
+    wave_ht = "Wave Height = {} Feet\n".format(data[0].wvht)
+    period = "Average Period = {} secs with a Dominant Period = {} secs\n".format(data[0].apd, data[0].dpd)
+    dir = "The waves are out of the {}\n".format(data[0].mwd)
+    temp = "The Water temperature = {}".format(data[0].wtmp)
+
+    current = "{}{}{}{}{}".format(header, wave_ht, period, dir, temp)
+    print(current)
 
 
 if __name__ == "__main__":
