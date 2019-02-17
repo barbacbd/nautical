@@ -92,57 +92,27 @@ Main Point of execution. Read the url and grab all information. We should slowly
 our way down to the forecasts for each individual location.
 '''
 def main():
-    # starting url 
-    surf_url = 'https://www.swellinfo.com'
+    soup = get_url_source("https://www.ndbc.noaa.gov/station_page.php?station=44099")
+    # table = soup.find('table', {'class': 'dataTable'})
+    #
+    # rows = table.find_all('tr')
+    #
+    # data = []
+    #
+    # for row in rows:
+    #     cols = row.find_all('td')
+    #     cols = [ele.text.strip() for ele in cols]
+    #     data.append([ele for ele in cols if ele])
+    #
+    #
+    # for x in data:
+    #     print(x)
 
-    # get the web page source for swellinfo
-    soup = get_url_source(surf_url)
-    # find the forecast relative path url
-    relative_paths = find_relative_paths(surf_url, soup)
-    forecast_url = find_forecast_url(relative_paths)
-
-    for i in relative_paths:
-        print i
-
-    # could not find the forecast page, so let's exit
-    if not forecast_url:
-        sys.exit()
-
-    '''
-    This will work to get the sub regions but there isn't a way to select it using
-    beautiful soup. May need to be able to select a list item.
-    '''
-
-    '''
-    # get all of the possible form values !!!
-    data_region_forms = find_url_source_info(forecast_url, soup, 'li', 'data-region')
-
-    # [abbreviated name fo the region, long/display name of the region]
-    region_name_map = []
-
-    # the data-regions are between tags of <li> ... </li>
-    for url in soup.findAll('li'):
-
-        # convert the result to a string for comparison of contains
-        region = str(url)
-
-        # for each data-region id, get try to get the long name for display or
-        # for voice text comparison
-        for data_region in data_region_forms:
-
-            # is the id inside of this text?
-            if data_region in region:
-
-                # id was found, next get the <span> tags as that is where the long
-                # and short name representations reside
-                for t in url.findAll('span'):
-
-                    # if this text contains the long-name string, get the name of the data
-                    long_name = str(t)
-
-                    if 'long-name' in long_name:
-                        region_name_map.append([data_region, t.text])
-    '''
+    table = soup.find("table", {"class": "dataTable"})
+    for row in table.findAll("tr"):
+        cells = row.findAll("td")
+        for cell in cells:
+            print(cell)
 
 if __name__ == "__main__":
     main()
