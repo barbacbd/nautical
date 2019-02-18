@@ -1,6 +1,6 @@
 import urllib2
 from BeautifulSoup import BeautifulSoup
-from wave_data import WaveData
+from wave_data import WaveData, SwellData
 
 
 def get_url_source(url_name):
@@ -101,5 +101,45 @@ def get_wave_table(url_name):
             wd.tide = str(cells[17].find(text=True)).strip()
 
             past_data.append(wd)
+
+    return past_data
+
+
+def get_swell_data(url_name):
+    """
+
+    :param url_name:
+    :return:
+    """
+    soup = get_url_source(url_name)
+    past_data = []
+
+    table = soup.findAll("table", {"class": "dataTable"})
+    for row in table[1].findAll("tr"):
+        cells = row.findAll("td")
+
+        """ 
+        18 is a magic number unfortunately this is the CURRENT number of columns in
+        the table presented by NOAA. NOTE: not all columns are used they are either 
+        left blank or contain a dash (-)
+        """
+        if len(cells) == 12:
+            sd = SwellData()
+
+            sd.mm = str(cells[0].find(text=True)).strip()
+            sd.dd = str(cells[1].find(text=True)).strip()
+            sd.time = str(cells[2].find(text=True)).strip()
+            sd.convert_time()
+            sd.wvht = str(cells[3].find(text=True)).strip()
+            sd.swh = str(cells[4].find(text=True)).strip()
+            sd.swp = str(cells[5].find(text=True)).strip()
+            sd.swd = str(cells[6].find(text=True)).strip()
+            sd.wwh = str(cells[7].find(text=True)).strip()
+            sd.wwp = str(cells[8].find(text=True)).strip()
+            sd.wwd = str(cells[9].find(text=True)).strip()
+            sd.steepness = str(cells[10].find(text=True)).strip()
+            sd.apd = str(cells[11].find(text=True)).strip()
+
+            past_data.append(sd)
 
     return past_data

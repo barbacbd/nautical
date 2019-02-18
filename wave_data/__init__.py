@@ -104,3 +104,63 @@ class WaveLocations:
         self.hateras_id = "HCGN7"
         self.wilmington_id = 41110
         self.chincoteague_id = 44089
+
+
+class SwellData:
+
+    """
+    month - number
+    day - number
+    time - (after conversion) hour:minutes am/pm (EST)
+    wind direction - deg
+    wave height - ft
+    swell height - ft
+    swell period - sec
+    swell direction - deg
+    wind wave height - ft
+    wind wave period - sec
+    wind wave direction - deg
+    steepness - text
+    average wave period - sec
+    """
+
+    def __init__(self):
+        """
+        Member Variables According to the table on NOAA's buoy website
+        """
+        self.mm = None
+        self.dd = None
+        self.time = None
+        self.wvht = None
+        self.swh = None
+        self.swp = None
+        self.swd = None
+        self.wwh = None
+        self.wwp = None
+        self.wwd = None
+        self.steepness = None
+        self.apd = None
+
+    def convert_time(self):
+        """
+        Convert the time value to a more readable time
+        :return: none
+        """
+        if self.time:
+            sp = self.time.split(";")
+            am_pm = sp[1]
+            time = sp[0].split("&")[0]
+
+            self.time = "{} {}".format(time, am_pm)
+
+    def to_string(self):
+        """
+        Convert all swell data to one long string
+        :return: String representation of the wave data
+        """
+        header = "{}-{} {}\n".format(self.mm, self.dd, self.time)
+        waves = "Wave Ht = {} Swell Ht = {} Swell Period = {} Swell Dir = {}\n".format(self.wvht, self.swh, self.swp, self.swd)
+        wind = "Wind Wave HT = {} Wind Wave Period = {} Wind Wave Dir = {}\n".format(self.wwh, self.wwp, self.wwd)
+        other = "Steepness = {} Average Wave Period = {}\n".format(self.steepness, self.apd)
+
+        return "{}{}{}{}".format(header, waves, wind, other)

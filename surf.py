@@ -15,18 +15,8 @@ def main():
 
     current_data = io.get_current_data(search_url, id)
     detailed_data = io.get_detailed_wave_summary(search_url)
-
-    data = io.get_wave_table(search_url)
-
-    header = "Current information at buoy {}\n".format(id)
-    wave_ht = "Wave Height = {} Feet\n".format(data[0].wvht)
-    period = "Average Period = {} secs with a Dominant Period = {} secs\n".format(data[0].apd, data[0].dpd)
-    dir = "The waves are out of the {}\n".format(data[0].mwd)
-    temp = "The Water temperature = {}".format(data[0].wtmp)
-
-    current = "{}{}{}{}{}".format(header, wave_ht, period, dir, temp)
-    print(current)
-
+    past_swell = io.get_swell_data(search_url)
+    past_wave = io.get_wave_table(search_url)
 
 if __name__ == "__main__":
     main()
