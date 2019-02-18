@@ -24,6 +24,8 @@ def main():
     current = "{}{}{}{}{}".format(header, wave_ht, period, dir, temp)
     print(current)
 
+    # https://stackoverflow.com/questions/35737366/locating-table-with-no-id-or-class-attributes
+
 
 if __name__ == "__main__":
     main()
