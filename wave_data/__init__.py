@@ -89,3 +89,18 @@ class DetailedData:
         self.wwd = None # wind wave direction
         self.steepness = None # wave steepness
         self.apd = None # average wave period
+
+
+class WaveLocations:
+
+    def __init__(self):
+        """
+        all locations we are concerned with
+        """
+        self.vb_id = 44099
+        self.kill_devil_hills = 44086
+        self.southern_shores_id = 44100
+        self.duck_id = 44056
+        self.hateras_id = "HCGN7"
+        self.wilmington_id = 41110
+        self.chincoteague_id = 44089
