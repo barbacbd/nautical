@@ -15,6 +15,49 @@ def get_url_source(url_name):
     return soup
 
 
+def get_current_data(url_name, id):
+    """
+
+    :param url_name:
+    :param id:
+    :return:
+    """
+    soup = get_url_source(url_name)
+
+    search = "Conditions at {} as of".format(id)
+    table = soup.find(text=search).findParent("table")
+
+    attributes = []
+
+    for row in table.findAll('tr'):
+        cells = row.findAll('td')
+
+        if len(cells) == 3:
+            attributes.append((str(cells[1].find(text=True)).strip(), str(cells[2].find(text=True)).strip()))
+
+    return attributes
+
+
+def get_detailed_wave_summary(url_name):
+    """
+
+    :param url_name:
+    :return:
+    """
+    soup = get_url_source(url_name)
+    table = soup.find(text="Detailed Wave Summary").findParent("table")
+
+    attributes = []
+
+    for row in table.findAll('tr'):
+        cells = row.findAll('td')
+
+        if len(cells) == 3:
+            attributes.append((str(cells[1].find(text=True)).strip(), str(cells[2].find(text=True)).strip()))
+
+    return attributes
+
+
 def get_wave_table(url_name):
     """
     Get a table of all Wave Data
