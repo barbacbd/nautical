@@ -1,6 +1,6 @@
-import urllib2
-from BeautifulSoup import BeautifulSoup
-from wave_data import WaveData, SwellData
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+from forecaster.wave_data import WaveData, SwellData
 
 
 def get_url_source(url_name):
@@ -10,7 +10,7 @@ def get_url_source(url_name):
     :param url_name: name of the url to search for
     :return: BeautifulSoup Object
     """
-    open_url = urllib2.urlopen(url_name)
+    open_url = urlopen(url_name)
     soup = BeautifulSoup(open_url.read())
     return soup
 
@@ -143,3 +143,23 @@ def get_swell_data(url_name):
             past_data.append(sd)
 
     return past_data
+
+
+def get_noaa_forecast_url(buoy):
+    """
+    get the buoy data from a specific station by passing in its id
+
+    pass this url and buoy value to several other functions for
+    forecast data.
+
+    get_current_data(search_url, id)
+    get_detailed_wave_summary(search_url)
+    get_swell_data(search_url)
+    get_wave_table(search_url)
+
+    :param buoy: id of the buoy
+    :return: the url to grab data from
+    """
+    init_url = "https://www.ndbc.noaa.gov/station_page.php?station="
+    search_url = "{}{}".format(init_url, buoy)
+    return search_url

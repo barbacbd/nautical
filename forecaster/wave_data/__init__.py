@@ -46,7 +46,7 @@ class WaveData:
         self.vis = None
         self.tide = None
 
-    def convert_time(self):
+    def convert_time(self) -> None:
         """
         Convert the time value to a more readable time
         :return: none
@@ -58,7 +58,7 @@ class WaveData:
 
             self.time = "{} {}".format(time, am_pm)
 
-    def to_string(self):
+    def to_string(self) -> str:
         """
         Convert all wave date to one long string
         :return: String representation of the wave data
@@ -141,7 +141,7 @@ class SwellData:
         self.steepness = None
         self.apd = None
 
-    def convert_time(self):
+    def convert_time(self) -> None:
         """
         Convert the time value to a more readable time
         :return: none
@@ -153,7 +153,7 @@ class SwellData:
 
             self.time = "{} {}".format(time, am_pm)
 
-    def to_string(self):
+    def to_string(self) -> str:
         """
         Convert all swell data to one long string
         :return: String representation of the wave data

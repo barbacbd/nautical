@@ -1,7 +1,7 @@
-from wave_data import WaveData
+from forecaster.wave_data import WaveData
 
 
-def analyze_wave_height(data, observations = 1):
+def analyze_wave_height(data, observations = 1) -> str:
     """
     Provide a string to the user that describes what the data has done over the last x hours
     :param data: list of wave data points in half hour increments
@@ -31,7 +31,7 @@ def analyze_wave_height(data, observations = 1):
         return "Over the last {} hours the wave height has remained constant {} feet".format(int(obs/2), fdata[0])
 
 
-def analyze_water_temp(data, observations=1):
+def analyze_water_temp(data, observations=1) -> str:
     """
     Provide a string to the user that describes what the data has done over the last x hours
     :param data: list of wave data points in half hour increments
@@ -61,7 +61,7 @@ def analyze_water_temp(data, observations=1):
         return "Over the last {} hours the water temperature has remained constant {} Deg F".format(int(obs / 2), fdata[0])
 
 
-def analyze_dominant_wave_period(data, observations=1):
+def analyze_dominant_wave_period(data, observations=1) -> str:
     """
     Provide a string to the user that describes what the data has done over the last x hours
     :param data: list of wave data points in half hour increments
