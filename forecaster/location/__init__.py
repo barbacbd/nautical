@@ -148,14 +148,16 @@ def in_distance(p1: Point, p2: Point, distance: float) -> bool:
     :param distance: distance in meters
     :return: true if p2 is less than or equal to distance(meters) from p1
     """
-    R = 6371.0 * 1000.0 # earth's radius in meters
+    R = 6371.0 * 1000
     lat1r = math.radians(p1.lat)
     lat2r = math.radians(p2.lat)
 
     diff1 = math.radians(p2.lat - p1.lat)
     diff2 = math.radians(p2.lon - p1.lon)
 
-    a = math.pow(math.sin(diff1/2.0), 2.0) + (math.cos(lat1r) * math.cos(lat2r)) + math.pow(math.sin(diff2/2.0), 2.0)
+    a = math.pow(math.sin(diff1/2.0), 2.0) + (math.cos(lat1r) * math.cos(lat2r)) * math.pow(math.sin(diff2/2.0), 2.0)
     c = 2.0 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+
+    # print("{} -> {}".format(R*c, distance))
 
     return (R * c) <= distance
