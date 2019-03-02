@@ -85,49 +85,51 @@ class Point:
 
                     if len(kv) == 2:
                         if 'lat' in kv[0]:
-                            try:
-                                self.set_latitude(float(kv[1]))
-                            except ValueError:
-                                pass
+                            self.try_set_latitude(kv[1])
                         elif 'lon' in kv[0]:
-                            try:
-                                self.set_longitude(float(kv[1]))
-                            except ValueError:
-                                pass
+                            self.try_set_longitude(kv[1])
                         elif 'alt' in kv[0]:
-                            try:
-                                self.alt = float(split_data[2])
-                            except ValueError:
-                                pass
+                            self.try_set_altitude(kv[1])
             else:
                 if len(split_data) == 2:
                     """" Latitude, Longitude """
-                    try:
-                        lat = float(split_data[0])
-                        self.set_latitude(lat)
-                    except ValueError:
-                        pass
-
-                    try:
-                        lon = float(split_data[1])
-                        self.set_longitude(lon)
-                    except ValueError:
-                        pass
+                    self.try_set_latitude(split_data[0])
+                    self.try_set_longitude(split_data[1])
                 elif len(split_data) == 3:
                     """ Latitude, Longitude, Altitude"""
-                    try:
-                        lat = float(split_data[0])
-                        self.set_latitude(lat)
-                    except ValueError:
-                        pass
+                    self.try_set_latitude(split_data[0])
+                    self.try_set_longitude(split_data[1])
+                    self.try_set_altitude(split_data[2])
 
-                    try:
-                        lon = float(split_data[1])
-                        self.set_longitude(lon)
-                    except ValueError:
-                        pass
+    def try_set_latitude(self, data: str) -> None:
+        """
+        Function to protect the setting of a latitude value
+        :param data: potential latitude value
+        :return: none
+        """
+        try:
+            self.set_latitude(float(data))
+        except ValueError:
+            pass
 
-                    try:
-                        self.alt = float(split_data[2])
-                    except ValueError:
-                        pass
+    def try_set_longitude(self, data: str) -> None:
+        """
+        Function to protect the setting of a longitude value
+        :param data: potential longitude value
+        :return: none
+        """
+        try:
+            self.set_longitude(float(data))
+        except ValueError:
+            pass
+
+    def try_set_altitude(self, data: str) -> None:
+        """
+        Function to protect the setting of a altitude value
+        :param data: potential altitude value
+        :return: none
+        """
+        try:
+            self.alt = float(data)
+        except ValueError:
+            pass

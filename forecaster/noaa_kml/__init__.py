@@ -13,7 +13,7 @@ class Buoy:
         self.name = None
 
 
-class Reader:
+class BuoyLookup:
 
     def __init__(self):
         """
@@ -21,7 +21,9 @@ class Reader:
         """
         self.buoys = []
 
-    def parse(self):
+        self.__parse()
+
+    def __parse(self):
         """
         The URL below is the original URL to grab a KML document that will
         contain the link to the real kml document containing all coordinates
@@ -48,8 +50,10 @@ class Reader:
 
                     for pm in subfolder.Placemark:
 
+                        # print("{}: {}".format(str(pm.name), str(pm.Point.coordinates)))
+
                         buoy = Buoy()
-                        buoy.name = pm.name
-                        buoy.location.parse(pm.Point.coordinates)
+                        buoy.name = str(pm.name)
+                        buoy.location.parse(str(pm.Point.coordinates))
 
                         self.buoys.append(buoy)
