@@ -1,6 +1,9 @@
 import math
 
 
+EARTH_RADIUS_METERS = 6372800
+
+
 def valid_lat(lat) -> bool:
     """
     return true if the latitude value is valid
@@ -57,10 +60,11 @@ class Point:
         """
         Read in a string contain lat, lon, altitude. Note, all whitespace is ignored but it is NOT a delimiter
 
-        If data is comma separated it is parsed as lat, lon, alt [altitude is optional -> default to 0.0].
+        If data is comma separated it is parsed as lon, lat, alt [altitude is optional -> default to 0.0].
+        NOTE: NOAA data is in the form LON, LAT
 
-        Ex: 76.45, -110.123, 0.0
-        Ex: 76.45, -110.123
+        Ex: -110.123, 76.45, 0.0
+        Ex: -110.123, 76.45
 
         If the data is colon separated with commas, a string identifier should be added to denote the field, AND the
         arguments should be comma delimited
@@ -95,12 +99,12 @@ class Point:
             else:
                 if len(split_data) == 2:
                     """" Latitude, Longitude """
-                    self.try_set_latitude(split_data[0])
-                    self.try_set_longitude(split_data[1])
+                    self.try_set_longitude(split_data[0])
+                    self.try_set_latitude(split_data[1])
                 elif len(split_data) == 3:
                     """ Latitude, Longitude, Altitude"""
-                    self.try_set_latitude(split_data[0])
-                    self.try_set_longitude(split_data[1])
+                    self.try_set_longitude(split_data[0])
+                    self.try_set_latitude(split_data[1])
                     self.try_set_altitude(split_data[2])
 
     def try_set_latitude(self, data: str) -> None:
@@ -136,28 +140,30 @@ class Point:
         except ValueError:
             pass
 
+    def get_distance(self, lat: float, lon: float) -> float:
+        """
+        Get the distance between this point and a lat/lon coordinate. This is the haversine methodology
+        of calculating the distance between two points.
+        :param lat: latitude coordinate (degrees)
+        :param lon: longitude coordinate (degrees)
+        :return: distance between the two points
+        """
+        lat1 = math.radians(self.lat)
+        lat2 = math.radians(lat)
 
-def in_distance(p1: Point, p2: Point, distance: float) -> bool:
-    """
-    Determine if two latitude/longitude points are within a certain distance from each other.
+        diff1 = math.radians(self.lat - lat)
+        diff2 = math.radians(self.lon - lon)
 
-    Earth's Radius R = 6371 km
+        a = math.sin(diff1 / 2.0) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(diff2 / 2.0) ** 2
 
-    :param p1: Point 1
-    :param p2: Point 2
-    :param distance: distance in meters
-    :return: true if p2 is less than or equal to distance(meters) from p1
-    """
-    R = 6371.0 * 1000
-    lat1r = math.radians(p1.lat)
-    lat2r = math.radians(p2.lat)
+        return 2.0 * EARTH_RADIUS_METERS * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
-    diff1 = math.radians(p2.lat - p1.lat)
-    diff2 = math.radians(p2.lon - p1.lon)
-
-    a = math.pow(math.sin(diff1/2.0), 2.0) + (math.cos(lat1r) * math.cos(lat2r)) * math.pow(math.sin(diff2/2.0), 2.0)
-    c = 2.0 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-
-    # print("{} -> {}".format(R*c, distance))
-
-    return (R * c) <= distance
+    def in_range(self, lat: float, lon: float, distance: float) -> bool:
+        """
+        Determine if the latitude and longitude point is within the distance specified
+        :param lat: latitude coordinate (degrees)
+        :param lon: longitude coordinate (degrees)
+        :param distance: distance to measure (meters)
+        :return: true if it is in the distance
+        """
+        return self.get_distance(lat, lon) <= distance

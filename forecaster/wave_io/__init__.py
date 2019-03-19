@@ -11,7 +11,7 @@ def get_url_source(url_name):
     :return: BeautifulSoup Object
     """
     open_url = urlopen(url_name)
-    soup = BeautifulSoup(open_url.read())
+    soup = BeautifulSoup(open_url.read(), features="lxml")
     return soup
 
 

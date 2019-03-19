@@ -1,4 +1,35 @@
 
+class SeaState:
+
+    def __init__(self) -> None:
+        """
+        Define all sea state values here.
+
+        All values are in meters
+        """
+        self.state = {
+            0: 0.0,
+            1: 0.1,
+            2: 0.5,
+            3: 1.25,
+            4: 2.5,
+            5: 4.0,
+            6: 6.0,
+            7: 9.0,
+            8: 14.0,
+            9: float('inf')
+        }
+
+    def get_state(self, wave_height: float) -> int:
+        """
+        Get the current sea state based on your current wave height
+        :param wave_height: average wave height (meters)
+        :return: integer representation of the sea state based on the current wave height
+        """
+        for key, value in self.state.items():
+            if wave_height <= value:
+                return key
+
 
 class WaveData:
 
