@@ -6,6 +6,7 @@ with open('requirements.txt') as file:
 setup(
     name='nautical',
     version='0.0.1',
+    scripts=['nautical_test'],
     packages=find_packages(),
     description='The nautical package is able to lookup NOAA buoy data including swell and wave information.',
     author='Brent Barbachem',

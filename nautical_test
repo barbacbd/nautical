@@ -1,8 +1,8 @@
-from nautical.noaa import BuoyLookup
+#!/usr/bin/python3
+
 from nautical.location import Point
-from nautical import io
-from nautical.wave_data import SeaState
-import math
+from nautical.io import *
+from nautical.noaa import get_sea_state
 
 
 """
@@ -12,8 +12,7 @@ a buoy that is in the water. The nearest buoy is actually at Cape Henry and is n
 in the water. Print out the data about this buoy and the current sea state.
 """
 
-
-bl = BuoyLookup(True)
+buoys = get_buoys_information(True)
 
 p = Point()
 p.set_latitude(36.8529)
@@ -26,22 +25,20 @@ name = ""
 lat = 0
 lon = 0
 
-for buoy in bl.buoys:
-    dist = p.get_distance(buoy.location.lat, buoy.location.lon)/1000.0
-
-    #print("{}: {}, {}".format(buoy.name, buoy.location.lat, buoy.location.lon))
+for key, value in buoys.items():
+    dist = p.get_distance(value.lat, value.lon)/1000.0
 
     if dist < min_distance:
-        name = buoy.name
+        name = key
         min_distance = dist
-        lat = buoy.location.lat
-        lon = buoy.location.lon
+        lat = value.lat
+        lon = value.lon
 
 print("Found Buoy {} at {},{}: {} meters from the search location".format(name, lat, lon, min_distance))
 
-url = io.get_noaa_forecast_url(name)
-
-attrs = io.get_current_data(url, name)
+url = get_noaa_forecast_url(name)
+soup = get_url_source(url)
+attrs = get_current_data(soup, name)
 
 wave_height = 0.0
 
@@ -54,8 +51,8 @@ for attr in attrs:
         except ValueError:
             pass
 
-ss = SeaState()
-state = ss.get_state(wave_height / 3.28) # move it to meters
+# convert the sea state to meters and get the sea state
+state = get_sea_state(wave_height / 3.28)
 
-print("Wave Height = {} \nSea State = {}".format(wave_height, state)) 
+print("Wave Height = {} meters\nSea State = {}".format(wave_height, state))
 
