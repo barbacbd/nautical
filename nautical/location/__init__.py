@@ -16,10 +16,11 @@ class Point:
         """
         self.lat = 0.0
         self.lon = 0.0
+        self.alt = 0.0
 
         self.set_latitude(lat)
         self.set_longitude(lon)
-        self.alt = alt
+        self.set_altitude(alt)
 
     def set_latitude(self, lat) -> None:
         """
@@ -31,7 +32,7 @@ class Point:
         try:
             self.lat = float(lat) if -90.0 <= float(lat) <= 90.0 else self.lat if self.lat else 0.0
         except ValueError:
-            pass
+            print("Nautical.location Package Error: set_latitude() -> invalid latitude {}.".format(lat))
 
     def set_longitude(self, lon) -> None:
         """
@@ -43,7 +44,7 @@ class Point:
         try:
             self.lon = float(lon) if -180.0 <= float(lon) <= 180.0 else self.lon if self.lon else 0.0
         except ValueError:
-            pass
+            print("Nautical.location Package Error: set_longitude() -> invalid longitude {}.".format(lon))
 
     def set_altitude(self, data: str) -> None:
         """
@@ -54,7 +55,7 @@ class Point:
         try:
             self.alt = float(data)
         except ValueError:
-            pass
+            print("Nautical.location Package Error: set_altitude() -> invalid altitude {}.".format(alt))
 
     def parse(self, data: str) -> None:
         """

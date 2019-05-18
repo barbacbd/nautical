@@ -110,11 +110,9 @@ Sea State = 2
 ```
 
 ## Furture Work
-1. More protection in the code for possible Errors
-2. Alert the user(s) when no data is found
-3. Further Testing to ensure all tables are readable
-4. Unit Tests
-5. Parse the current wave data better
-6. Parse the current swell data better
-7. True Parsers for the tables
-8. Ability to save the data on the computer and read last known values in
+1. Further Testing to ensure all tables are readable
+2. Unit Tests
+3. Parse the current wave data better
+4. Parse the current swell data better
+5. True Parsers for the tables
+6. Ability to save the data on the computer and read last known values in

@@ -69,6 +69,9 @@ def get_buoys_information(only_wave_data: bool = False):
                         p.parse(str(pm.Point.coordinates))
                         buoys[str(pm.name)] = p
 
+    if not buoys:
+        print("Nautical Package Error: get_buoys_information() -> no buoy information found.")
+
     return buoys
 
 
@@ -93,7 +96,11 @@ def get_noaa_forecast_url(buoy):
     :param buoy: id of the buoy
     :return: if buoy is not empty , return the full url, otherwise return nothing
     """
-    return "https://www.ndbc.noaa.gov/station_page.php?station={}".format(buoy) if buoy else None
+    if buoy:
+        return "https://www.ndbc.noaa.gov/station_page.php?station={}".format(buoy)
+    else:
+        print("Nautical Package Error: get_noaa_forecast_url() -> no buoy id provided.")
+        return None
 
 
 def get_url_source(url_name):
@@ -108,9 +115,13 @@ def get_url_source(url_name):
     :param url_name: name of the url to search for
     :return: BeautifulSoup Object
     """
-    open_url = urlopen(url_name)
-    soup = BeautifulSoup(open_url.read(), features="lxml")
-    return soup
+    try:
+        open_url = urlopen(url_name)
+        soup = BeautifulSoup(open_url.read(), features="lxml")
+        return soup
+    except ValueError:
+        print("Nautical Package Error: get_url_source() -> BeautifulSoup object failed.")
+        return
 
 
 def get_current_data(soup, id):
