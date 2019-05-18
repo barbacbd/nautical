@@ -1,32 +1,15 @@
-import math
+from math import sin, cos, sqrt, radians, atan2
 
 
 EARTH_RADIUS_METERS = 6372800
-
-
-def valid_lat(lat) -> bool:
-    """
-    return true if the latitude value is valid
-    :param lat: latitude to check
-    :return: bool
-    """
-    return -90.0 <= lat <= 90.0
-
-
-def valid_lon(lon) -> bool:
-    """
-    return true if the longitude value is valid
-    :param lon: longitude value
-    :return: bool
-    """
-    return -180.0 <= lon <= 180.0
 
 
 class Point:
 
     def __init__(self, lat: float = 0.0, lon: float = 0.0, alt: float = 0.0) -> None:
         """
-        A 3D point containing a latitude, longitude and altitude coordinate
+        A 3D point containing latitude, longitude and altitude coordinates
+
         :param lat: latitude value
         :param lon: longitude value
         :param alt: altitude value
@@ -45,7 +28,10 @@ class Point:
         :param lat: latitude value
         :return: none
         """
-        self.lat = lat if valid_lat(lat) else self.lat if self.lat else 0.0
+        try:
+            self.lat = float(lat) if -90.0 <= float(lat) <= 90.0 else self.lat if self.lat else 0.0
+        except ValueError:
+            pass
 
     def set_longitude(self, lon) -> None:
         """
@@ -54,7 +40,21 @@ class Point:
         :param lon: longitude value
         :return: none
         """
-        self.lon = lon if valid_lon(lon) else self.lon if self.lon else 0.0
+        try:
+            self.lon = float(lon) if -180.0 <= float(lon) <= 180.0 else self.lon if self.lon else 0.0
+        except ValueError:
+            pass
+
+    def set_altitude(self, data: str) -> None:
+        """
+        Function to protect the setting of a altitude value
+        :param data: potential altitude value
+        :return: none
+        """
+        try:
+            self.alt = float(data)
+        except ValueError:
+            pass
 
     def parse(self, data: str) -> None:
         """
@@ -91,54 +91,21 @@ class Point:
 
                     if len(kv) == 2:
                         if 'lat' in kv[0]:
-                            self.try_set_latitude(kv[1])
+                            self.set_latitude(kv[1])
                         elif 'lon' in kv[0]:
-                            self.try_set_longitude(kv[1])
+                            self.set_longitude(kv[1])
                         elif 'alt' in kv[0]:
-                            self.try_set_altitude(kv[1])
+                            self.set_altitude(kv[1])
             else:
                 if len(split_data) == 2:
                     """" Latitude, Longitude """
-                    self.try_set_longitude(split_data[0])
-                    self.try_set_latitude(split_data[1])
+                    self.set_longitude(split_data[0])
+                    self.set_latitude(split_data[1])
                 elif len(split_data) == 3:
                     """ Latitude, Longitude, Altitude"""
-                    self.try_set_longitude(split_data[0])
-                    self.try_set_latitude(split_data[1])
-                    self.try_set_altitude(split_data[2])
-
-    def try_set_latitude(self, data: str) -> None:
-        """
-        Function to protect the setting of a latitude value
-        :param data: potential latitude value
-        :return: none
-        """
-        try:
-            self.set_latitude(float(data))
-        except ValueError:
-            pass
-
-    def try_set_longitude(self, data: str) -> None:
-        """
-        Function to protect the setting of a longitude value
-        :param data: potential longitude value
-        :return: none
-        """
-        try:
-            self.set_longitude(float(data))
-        except ValueError:
-            pass
-
-    def try_set_altitude(self, data: str) -> None:
-        """
-        Function to protect the setting of a altitude value
-        :param data: potential altitude value
-        :return: none
-        """
-        try:
-            self.alt = float(data)
-        except ValueError:
-            pass
+                    self.set_longitude(split_data[0])
+                    self.set_latitude(split_data[1])
+                    self.set_altitude(split_data[2])
 
     def get_distance(self, lat: float, lon: float) -> float:
         """
@@ -148,15 +115,15 @@ class Point:
         :param lon: longitude coordinate (degrees)
         :return: distance between the two points
         """
-        lat1 = math.radians(self.lat)
-        lat2 = math.radians(lat)
+        lat1 = radians(self.lat)
+        lat2 = radians(lat)
 
-        diff1 = math.radians(self.lat - lat)
-        diff2 = math.radians(self.lon - lon)
+        diff1 = radians(self.lat - lat)
+        diff2 = radians(self.lon - lon)
 
-        a = math.sin(diff1 / 2.0) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(diff2 / 2.0) ** 2
+        a = sin(diff1 / 2.0) ** 2 + cos(lat1) * cos(lat2) * sin(diff2 / 2.0) ** 2
 
-        return 2.0 * EARTH_RADIUS_METERS * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+        return 2.0 * EARTH_RADIUS_METERS * atan2(sqrt(a), sqrt(1 - a))
 
     def in_range(self, lat: float, lon: float, distance: float) -> bool:
         """

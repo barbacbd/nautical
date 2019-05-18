@@ -1,7 +1,7 @@
-from forecaster.noaa_kml import BuoyLookup
-from forecaster.location import Point
-from forecaster import wave_io
-from forecaster.wave_data import SeaState
+from nautical.noaa import BuoyLookup
+from nautical.location import Point
+from nautical import io
+from nautical.wave_data import SeaState
 import math
 
 
@@ -39,9 +39,9 @@ for buoy in bl.buoys:
 
 print("Found Buoy {} at {},{}: {} meters from the search location".format(name, lat, lon, min_distance))
 
-url = wave_io.get_noaa_forecast_url(name)
+url = io.get_noaa_forecast_url(name)
 
-attrs = wave_io.get_current_data(url, name)
+attrs = io.get_current_data(url, name)
 
 wave_height = 0.0
 

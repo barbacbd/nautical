@@ -4,10 +4,10 @@ with open('requirements.txt') as file:
     reqs = file.read().splitlines()
 
 setup(
-    name='forecaster',
+    name='nautical',
     version='0.0.1',
     packages=find_packages(),
-    description='The forecaster is able to lookup forecasted data for the NOAA Buoys.',
+    description='The nautical package is able to lookup NOAA buoy data including swell and wave information.',
     author='Brent Barbachem',
     author_email='barbacbd@dukes.jmu.edu',
     license='Proprietary',
