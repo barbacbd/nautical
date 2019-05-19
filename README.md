@@ -30,6 +30,7 @@ html output, and grab some of the specific data from the tables that we are look
 to and from other points.
 - [noaa](./noaa) - The module contains classes to store/utilize/manipulate swell and wave data read in from NOAA's website. 
 There are also some extra functions such as getting the sea state based on the current wave height.
+- [tests](./tests) - The module contains the unit tests for the Nautical package.
 
 ## How to use this module
 
@@ -109,10 +110,22 @@ Wave Height = 1.0 meters
 Sea State = 2
 ```
 
+## Unit Tests
+
+To run the unit tests utilize the unit test suite provided by the unit test python package. The following python snippet 
+demonstrates a simple way to run all of the unit tests. If the _test_beautiful_soup_ or _test_forecast_url_ tests fail, then
+there is a good possibility that you are not connected to the internet OR you cannot reach the noaa website.
+
+```python
+from nautical.tests import *
+
+suite = TestNautical.suite()
+unittest.TextTestRunner().run(suite)
+```
+
 ## Furture Work
 1. Further Testing to ensure all tables are readable
-2. Unit Tests
-3. Parse the current wave data better
-4. Parse the current swell data better
-5. True Parsers for the tables
-6. Ability to save the data on the computer and read last known values in
+2. Parse the current wave data better
+3. Parse the current swell data better
+4. True Parsers for the tables
+5. Ability to save the data on the computer and read last known values in

@@ -1,4 +1,5 @@
 from urllib.request import urlopen
+from urllib.error import HTTPError
 from bs4 import BeautifulSoup
 from pykml import parser
 from ..noaa import WaveData, SwellData
@@ -119,7 +120,7 @@ def get_url_source(url_name):
         open_url = urlopen(url_name)
         soup = BeautifulSoup(open_url.read(), features="lxml")
         return soup
-    except ValueError:
+    except (ValueError, HTTPError):
         print("Nautical Package Error: get_url_source() -> BeautifulSoup object failed.")
         return
 

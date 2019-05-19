@@ -46,14 +46,14 @@ class Point:
         except ValueError:
             print("Nautical.location Package Error: set_longitude() -> invalid longitude {}.".format(lon))
 
-    def set_altitude(self, data: str) -> None:
+    def set_altitude(self, alt) -> None:
         """
         Function to protect the setting of a altitude value
-        :param data: potential altitude value
+        :param alt: potential altitude value
         :return: none
         """
         try:
-            self.alt = float(data)
+            self.alt = float(alt)
         except ValueError:
             print("Nautical.location Package Error: set_altitude() -> invalid altitude {}.".format(alt))
 

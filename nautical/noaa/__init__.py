@@ -215,10 +215,23 @@ def convert_noaa_time(ugly_time: str) -> str:
         if len(sp) > 1:
             am_pm = sp[1]
 
-            # We don't care about anything after the &
-            time = sp[0].split("&")[0]
+            if am_pm == "am" or am_pm == "pm":
 
-            human_readable_time = "{} {}".format(time, am_pm)
+                # We don't care about anything after the &
+                time = sp[0].split("&")[0]
+
+                sp_time = time.split(":")
+
+                if len(sp_time) == 2:
+                    try:
+                        hour = int(sp_time[0])
+                        minute = int(sp_time[1])
+                    except ValueError:
+                        print("Nautical.noaa Package Error: convert_noaa_time() -> invalid time.")
+
+                    human_readable_time = "{}:{} {}".format(hour, minute, am_pm)
+            else:
+                print("Nautical.noaa Package Error: convert_noaa_time() -> invalid am/pm value.")
 
     return human_readable_time
 

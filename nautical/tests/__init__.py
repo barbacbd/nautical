@@ -1,5 +1,8 @@
 import unittest
 from ..location import Point
+from ..noaa import get_sea_state, convert_noaa_time
+from ..io import get_noaa_forecast_url, get_url_source
+from bs4 import BeautifulSoup
 
 
 class TestNautical(unittest.TestCase):
@@ -69,8 +72,18 @@ class TestNautical(unittest.TestCase):
     def test_distance(self):
         """
         Test the haversine distance function of the Point class
+
+        test distance from virginia beach to norfolk Virginia
+
         """
-        pass
+        # location of virginia beach
+        p = Point(36.8529, -75.9780)
+
+        # location of norfolk
+        dist = p.get_distance(36.8508, -76.2859)
+
+        # roughly 27 km but it is closer to 27404.727 .... meters
+        self.assertAlmostEqual(dist, 27404.73, 2, "Distance between VB and Norfolk is incorrect.")
 
     """
     NOAA sub module tests
@@ -80,13 +93,30 @@ class TestNautical(unittest.TestCase):
         """
         Test valid and invalid time conversion values
         """
-        pass
+        valid_str = "2:30&nbsp;pm"
+        invalid_str = "nbsp;pm"
+
+        ret_valid = convert_noaa_time(valid_str)
+        self.assertEqual(ret_valid, "2:30 pm", "2:30&nbsp;pm failed to convert")
+
+        ret_invalid = convert_noaa_time(invalid_str)
+        self.assertEqual(ret_invalid, "", "Failed to fail to convert")
 
     def test_sea_state(self):
         """
         Test that the proper sea state value was foudn
         """
-        pass
+        self.assertEqual(get_sea_state(0), 0, "Sea state is incorrect for 0 meters.")
+        self.assertEqual(get_sea_state(-121312), 0, "Sea state is incorrect for -121312 meters.")
+        self.assertEqual(get_sea_state(0.05), 1, "Sea state is incorrect for 0.05 meters.")
+        self.assertEqual(get_sea_state(0.49), 2, "Sea state is incorrect for 0.49 meters.")
+        self.assertEqual(get_sea_state(0.51), 3, "Sea state is incorrect for 0.51 meters.")
+        self.assertEqual(get_sea_state(2), 4, "Sea state is incorrect for 2 meters.")
+        self.assertEqual(get_sea_state(3.99), 5, "Sea state is incorrect for 3.99 meters.")
+        self.assertEqual(get_sea_state(4.001), 6, "Sea state is incorrect for 4.001 meters.")
+        self.assertEqual(get_sea_state(7.5), 7, "Sea state is incorrect for 7.5 meters.")
+        self.assertEqual(get_sea_state(12), 8, "Sea state is incorrect for 12 meters.")
+        self.assertEqual(get_sea_state(123123123), 9, "Sea state is incorrect for 123123123 meters.")
 
     """
     IO sub module tests
@@ -96,13 +126,22 @@ class TestNautical(unittest.TestCase):
         """
         Test that an invalid and valid url return the proper data
         """
-        pass
+        url = get_noaa_forecast_url(44099)
+        soup = get_url_source(url)
+        self.assertTrue(isinstance(soup, BeautifulSoup), "44099 did not return a viable Beautiful soup object")
+
+        bad_url = get_noaa_forecast_url("afasdfasdjfna")
+        bad_soup = get_url_source(bad_url)
+        self.assertFalse(isinstance(bad_soup, BeautifulSoup), "afasdfasdjfna did not return a viable Beautiful soup object")
 
     def test_forecast_url(self):
         """
         Test valid and invalid sets of data passed to the create forecast url
         """
-        pass
+        self.assertEqual(get_noaa_forecast_url(44099), "https://www.ndbc.noaa.gov/station_page.php?station=44099",
+                         "Failed to find url for 44099")
+
+        self.assertEqual(get_noaa_forecast_url(""), None, "Failed to find url")
 
     @staticmethod
     def suite() -> unittest.TestSuite:
