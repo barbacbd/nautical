@@ -34,7 +34,7 @@ There are also some extra functions such as getting the sea state based on the c
 
 ## How to use this module
 
-1. Start by getting all of the buoy information (unless you already know the buoy id that you wish to lookup).
+Start by getting all of the buoy information (unless you already know the buoy id that you wish to lookup).
 
 ```python
 from nautical.io import get_buoys_information
@@ -67,7 +67,7 @@ for key, value in buoys.items():
         lon = value.lon
 ```
 
-2. Get the beautiful soup object for this buoy, so that we can move on to parsing through some of the data.
+Get the beautiful soup object for this buoy, so that we can move on to parsing through some of the data.
 
 ```python
 from nautical.io import get_noaa_forecast_url, get_url_source
@@ -75,13 +75,13 @@ url = get_noaa_forecast_url(name)
 soup = get_url_source(url)
 ```
 
-3. Now that we have the beautiful soup object we can get some of the data from the tables.
+Now that we have the beautiful soup object we can get some of the data from the tables.
 
 ```python
 from nautical.io import get_current_data
 attrs = get_current_data(soup, name)
 ```
-4. Parse through the data at your own discretion and find what you are looking for
+Parse through the data at your own discretion and find what you are looking for
 
 ```python
 from nautical.noaa import get_sea_state
@@ -127,5 +127,4 @@ unittest.TextTestRunner().run(suite)
 1. Further Testing to ensure all tables are readable
 2. Parse the current wave data better
 3. Parse the current swell data better
-4. True Parsers for the tables
-5. Ability to save the data on the computer and read last known values in
+
