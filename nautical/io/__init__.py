@@ -136,14 +136,17 @@ def get_current_data(soup, id):
 
     if isinstance(soup, BeautifulSoup):
 
-        search = "Conditions at {} as of".format(id)
-        table = soup.find(text=search).findParent("table")
+        try:
+            search = "Conditions at {} as of".format(id)
+            table = soup.find(text=search).findParent("table")
 
-        for row in table.findAll('tr'):
-            cells = row.findAll('td')
+            for row in table.findAll('tr'):
+                cells = row.findAll('td')
 
-            if len(cells) == 3:
-                attributes.append((str(cells[1].find(text=True)).strip(), str(cells[2].find(text=True)).strip()))
+                if len(cells) == 3:
+                    attributes.append((str(cells[1].find(text=True)).strip(), str(cells[2].find(text=True)).strip()))
+        except Exception:
+            print("Nautical Package Error: get_current_data() -> table lookup failed.")
 
     return attributes
 
@@ -162,13 +165,16 @@ def get_detailed_wave_summary(soup):
     attributes = []
 
     if isinstance(soup, BeautifulSoup):
-        table = soup.find(text="Detailed Wave Summary").findParent("table")
+        try:
+            table = soup.find(text="Detailed Wave Summary").findParent("table")
 
-        for row in table.findAll('tr'):
-            cells = row.findAll('td')
+            for row in table.findAll('tr'):
+                cells = row.findAll('td')
 
-            if len(cells) == 3:
-                attributes.append((str(cells[1].find(text=True)).strip(), str(cells[2].find(text=True)).strip()))
+                if len(cells) == 3:
+                    attributes.append((str(cells[1].find(text=True)).strip(), str(cells[2].find(text=True)).strip()))
+        except Exception:
+            print("Nautical Package Error: get_detailed_wave_summary() -> table lookup failed.")
 
     return attributes
 
@@ -182,39 +188,42 @@ def get_wave_data(soup):
     past_data = []
 
     if isinstance(soup, BeautifulSoup):
-        table = soup.find("table", {"class": "dataTable"})
-        for row in table.findAll("tr"):
-            cells = row.findAll("td")
+        try:
+            table = soup.find("table", {"class": "dataTable"})
+            for row in table.findAll("tr"):
+                cells = row.findAll("td")
 
-            """ 
-            18 is a magic number unfortunately this is the CURRENT number of columns in
-            the table presented by NOAA. NOTE: not all columns are used they are either 
-            left blank or contain a dash (-)
-            """
-            if len(cells) == 18:
-                mm = str(cells[0].find(text=True)).strip()
-                dd = str(cells[1].find(text=True)).strip()
-                time = str(cells[2].find(text=True)).strip()
-                wdir = str(cells[3].find(text=True)).strip()
-                wspd = str(cells[4].find(text=True)).strip()
-                gst = str(cells[5].find(text=True)).strip()
-                wvht = str(cells[6].find(text=True)).strip()
-                dpd = str(cells[7].find(text=True)).strip()
-                apd = str(cells[8].find(text=True)).strip()
-                mwd = str(cells[9].find(text=True)).strip()
-                pres = str(cells[10].find(text=True)).strip()
-                ptdy = str(cells[11].find(text=True)).strip()
-                atmp = str(cells[12].find(text=True)).strip()
-                wtmp = str(cells[13].find(text=True)).strip()
-                dewp = str(cells[14].find(text=True)).strip()
-                sal = str(cells[15].find(text=True)).strip()
-                vis = str(cells[16].find(text=True)).strip()
-                tide = str(cells[17].find(text=True)).strip()
+                """ 
+                18 is a magic number unfortunately this is the CURRENT number of columns in
+                the table presented by NOAA. NOTE: not all columns are used they are either 
+                left blank or contain a dash (-)
+                """
+                if len(cells) == 18:
+                    mm = str(cells[0].find(text=True)).strip()
+                    dd = str(cells[1].find(text=True)).strip()
+                    time = str(cells[2].find(text=True)).strip()
+                    wdir = str(cells[3].find(text=True)).strip()
+                    wspd = str(cells[4].find(text=True)).strip()
+                    gst = str(cells[5].find(text=True)).strip()
+                    wvht = str(cells[6].find(text=True)).strip()
+                    dpd = str(cells[7].find(text=True)).strip()
+                    apd = str(cells[8].find(text=True)).strip()
+                    mwd = str(cells[9].find(text=True)).strip()
+                    pres = str(cells[10].find(text=True)).strip()
+                    ptdy = str(cells[11].find(text=True)).strip()
+                    atmp = str(cells[12].find(text=True)).strip()
+                    wtmp = str(cells[13].find(text=True)).strip()
+                    dewp = str(cells[14].find(text=True)).strip()
+                    sal = str(cells[15].find(text=True)).strip()
+                    vis = str(cells[16].find(text=True)).strip()
+                    tide = str(cells[17].find(text=True)).strip()
 
-                wd = WaveData(mm=mm, dd=dd, time=time, wdir=wdir, wspd=wspd, gst=gst, wvht=wvht, dpd=dpd, apd=apd,
-                              mwd=mwd, pres=pres, ptdy=ptdy, atmp=atmp, wtmp=wtmp, dewp=dewp, sal=sal, vis=vis, tide=tide)
+                    wd = WaveData(mm=mm, dd=dd, time=time, wdir=wdir, wspd=wspd, gst=gst, wvht=wvht, dpd=dpd, apd=apd,
+                                  mwd=mwd, pres=pres, ptdy=ptdy, atmp=atmp, wtmp=wtmp, dewp=dewp, sal=sal, vis=vis, tide=tide)
 
-                past_data.append(wd)
+                    past_data.append(wd)
+        except Exception:
+            print("Nautical Package Error: get_wave_data() -> table lookup failed.")
 
     return past_data
 
@@ -228,33 +237,36 @@ def get_swell_data(soup):
 
     past_data = []
     if isinstance(soup, BeautifulSoup):
-        table = soup.findAll("table", {"class": "dataTable"})
-        for row in table[1].findAll("tr"):
-            cells = row.findAll("td")
+        try:
+            table = soup.findAll("table", {"class": "dataTable"})
+            for row in table[1].findAll("tr"):
+                cells = row.findAll("td")
 
-            """ 
-            12 is a magic number unfortunately this is the CURRENT number of columns in
-            the table presented by NOAA. NOTE: not all columns are used they are either 
-            left blank or contain a dash (-)
-            """
-            if len(cells) == 12:
-                mm = str(cells[0].find(text=True)).strip()
-                dd = str(cells[1].find(text=True)).strip()
-                time = str(cells[2].find(text=True)).strip()
-                wvht = str(cells[3].find(text=True)).strip()
-                swh = str(cells[4].find(text=True)).strip()
-                swp = str(cells[5].find(text=True)).strip()
-                swd = str(cells[6].find(text=True)).strip()
-                wwh = str(cells[7].find(text=True)).strip()
-                wwp = str(cells[8].find(text=True)).strip()
-                wwd = str(cells[9].find(text=True)).strip()
-                steepness = str(cells[10].find(text=True)).strip()
-                apd = str(cells[11].find(text=True)).strip()
+                """ 
+                12 is a magic number unfortunately this is the CURRENT number of columns in
+                the table presented by NOAA. NOTE: not all columns are used they are either 
+                left blank or contain a dash (-)
+                """
+                if len(cells) == 12:
+                    mm = str(cells[0].find(text=True)).strip()
+                    dd = str(cells[1].find(text=True)).strip()
+                    time = str(cells[2].find(text=True)).strip()
+                    wvht = str(cells[3].find(text=True)).strip()
+                    swh = str(cells[4].find(text=True)).strip()
+                    swp = str(cells[5].find(text=True)).strip()
+                    swd = str(cells[6].find(text=True)).strip()
+                    wwh = str(cells[7].find(text=True)).strip()
+                    wwp = str(cells[8].find(text=True)).strip()
+                    wwd = str(cells[9].find(text=True)).strip()
+                    steepness = str(cells[10].find(text=True)).strip()
+                    apd = str(cells[11].find(text=True)).strip()
 
-                sd = SwellData(mm=mm, dd=dd, time=time, wvht=wvht, swh=swh, swp=swp,
-                               swd=swd, wwh=wwh, wwp=wwp, wwd=wwd, steepness=steepness, apd=apd)
+                    sd = SwellData(mm=mm, dd=dd, time=time, wvht=wvht, swh=swh, swp=swp,
+                                   swd=swd, wwh=wwh, wwp=wwp, wwd=wwd, steepness=steepness, apd=apd)
 
-                past_data.append(sd)
+                    past_data.append(sd)
+        except Exception:
+            print("Nautical Package Error: get_swell_data() -> table lookup failed.")
 
     return past_data
 
