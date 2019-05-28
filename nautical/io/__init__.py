@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from pykml import parser
 from ..noaa import WaveData, SwellData
 from ..location import Point
-
+from os import remove
 
 def get_buoys_information(only_wave_data: bool = False):
     """
@@ -269,6 +269,3 @@ def get_swell_data(soup):
             print("Nautical Package Error: get_swell_data() -> table lookup failed.")
 
     return past_data
-
-
-
