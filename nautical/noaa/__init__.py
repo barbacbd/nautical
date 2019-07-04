@@ -1,105 +1,34 @@
 
-class WaveData:
-
-    def __init__(self, **config):
-        """
-        The following data in this class is stored in an html data table for each buoy on NOAA's website.
-        The data should be parsed in any way possible and stored here so that it can be accessed later.
-
-        All of the variables are considered public, so the user can edit them at any point without feeling
-        as though the data changes will have effects on the overall execution of their program.
-
-        The dictionary lookup was chosen because the data that NOAA provides could change at any point. Also
-        the fields that NOAA has chosen to provide in the table can be null or invalid.
-
-        :param month: number
-        :param day: number
-        :param time: (after conversion) hour:minutes am/pm (EST)
-        :param wdir: wind direction - degrees
-        :param wspd: wind speed - kts
-        :param  gst: gust - kts
-        :param wvht: wave height - feet
-        :param dpd: dominant wave period - sec
-        :param apd: average wave period - sec
-        :param mwd: mean wave direction - degrees
-        :param pres: pressure - inches
-        :param ptdy: pressure tendency - inches
-        :param atmp: air temp - Deg F
-        :param wtmp: water temp - Deg F
-        :param dewp: dew point - Deg F
-        :param sal: salinity - PSU
-        :param vis: visibility - nautical miles
-        :param tide: feet
-        """
-        mm = config.get("month", None)
-        dd = config.get("day", None)
-        time = config.get("time", None)
-        wdir = config.get("wdir", None)
-        wspd = config.get("wspd", None)
-        gst = config.get("gst", None)
-        wvht = config.get("wvht", None)
-        dpd = config.get("dpd", None)
-        apd = config.get("apd", None)
-        mwd = config.get("mwd", None)
-        pres = config.get("pres", None)
-        ptdy = config.get("ptdy", None)
-        atmp = config.get("atmp", None)
-        wtmp = config.get("wtmp", None)
-        dewp = config.get("dewp", None)
-        sal = config.get("sal", None)
-        vis = config.get("vis", None)
-        tide = config.get("tide", None)
-
-        self.mm = mm if isinstance(mm, int) else None
-        self.dd = dd if isinstance(dd, int) else None
-        self.time = convert_noaa_time(time)
-
-        self.wdir = wdir if isinstance(wdir, float) else None
-        self.wspd = wspd if isinstance(wspd, float) else None
-        self.gst = gst if isinstance(gst, float) else None
-
-        self.wvht = wvht if isinstance(wvht, float) else None
-        self.dpd = dpd if isinstance(dpd, float) else None
-        self.apd = apd if isinstance(apd, float) else None
-        self.mwd = mwd if isinstance(mwd, float) else None
-
-        self.pres = pres if isinstance(pres, float) else None
-        self.ptdy = ptdy if isinstance(ptdy, float) else None
-        self.atmp = atmp if isinstance(atmp, float) else None
-        self.wtmp = wtmp if isinstance(wtmp, float) else None
-
-        self.dewp = dewp if isinstance(dewp, float) else None
-        self.sal = sal if isinstance(sal, float) else None
-        self.vis = vis if isinstance(vis, float) else None
-        self.tide = tide if isinstance(tide, float) else None
+class WaveData(object):
 
     def __str__(self) -> str:
         """
-        Create the python version of to-string, so that all of our can be displayed well
+        It appears that all of the attributes that we added through setattr are stored in
+        a dictionary called self.__dict__ ... let's loop over that to print out the
+        attrivutes that we have stored.
+
+        NOTE: just in case, we can filter out some of our values here if we wanted to
+        by making sure that no private variables are displayed ... filter for the __
+        inside of the key (leaving this out for now though)
+
         :return: string representation of this object
         """
-        header = ""
-        if self.mm and self.dd and self.time:
-            header = "{}-{} {}\n".format(self.mm, self.dd, self.time)
+        ret = ""
+        for k, v in self.__dict__.items():
+            ret = ret + "{} = {}\n".format(k, v)
 
-        wind = ""
-        if self.wdir and self.wspd and self.gst:
-            wind = "Wind DIR({}) SPD({}) GST({})\n".format(self.wdir, self.wspd, self.gst)
+        return ret
 
-        waves = ""
-        if self.wvht and self.dpd and self.apd and self.mwd:
-            waves = "Wave HT({}) DP({}) AP({}) MWD({})\n".format(self.wvht, self.dpd, self.apd, self.mwd)
-
-        other = ""
-        if self.pres and self.ptdy and self.atmp and self.wtmp and self.dewp:
-            other = "PRES({}) PTDY({}) ATMP({}) WTMP({}) DEWP({})\n".format(
-                self.pres, self.ptdy, self.atmp, self.wtmp, self.dewp)
-
-        water = ""
-        if self.sal and self.vis and self.tide:
-            water = "SAL({}) VIS({}) Tide({})\n".format(self.sal, self.vis, self.tide)
-
-        return "{}{}{}{}{}".format(header, wind, waves, other, water)
+    def __setattr__(self, key, value):
+        """
+        Probably don't neeed to override this function, but for debugging purposes I will leave
+        this hear in case the user wishes to print out the data as it is set.
+        :param key: dictionary key the attirubte is stored as
+        :param value: value of the attribute
+        :return: None
+        """
+        # print("WaveData {} = {}".format(key, value))
+        super().__setattr__(key, value)
 
 
 class DetailedData:

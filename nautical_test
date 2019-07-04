@@ -12,14 +12,13 @@ a buoy that is in the water. The nearest buoy is actually at Cape Henry and is n
 in the water. Print out the data about this buoy and the current sea state.
 """
 
-buoys = get_buoys_information(False)
+# buoys = get_buoys_information(False)
 
-for id, coord in buoys.items():
-    print("{} - {}".format(id, coord))
+# for id, coord in buoys.items():
+#     print("{} - {}".format(id, coord))
 
 # for key, value in buoys:
 #     print("{} - {}".format(key, value))
-exit(1)
 
 # Virginia Beach
 #p = Point(36.8529, -75.9780)
@@ -29,12 +28,12 @@ p = Point(29.717752, -93.337436)
 # Port Hueneme
 #p = Point(34.1478, -119.1951)
 
-print("Searching for NOAA Data Near {}, {}".format(p.lat, p.lon))
+# print("Searching for NOAA Data Near {}, {}".format(p.lat, p.lon))
 
-in_range_buoys = {}
-for key, value in buoys.items():
-    if p.in_range(value.lat, value.lon, 500000):
-       in_range_buoys[key] = value
+# in_range_buoys = {}
+# for key, value in buoys.items():
+#     if p.in_range(value.lat, value.lon, 500000):
+#        in_range_buoys[key] = value
 
 
 #min_distance = float("inf")
@@ -51,25 +50,34 @@ for key, value in buoys.items():
 #        lat = value.lat
 #        lon = value.lon
 
-for key, value in in_range_buoys.items():
-    print("Found Buoy {} at {},{}".format(key, value.lat, value.lon))
+# for key, value in in_range_buoys.items():
+#     # print("Found Buoy {} at {},{}".format(key, value.lat, value.lon))
+#
+#     url = get_noaa_forecast_url(key)
+#     soup = get_url_source(url)
+#     attrs = get_current_data(soup, key)
+#
+#     wave_height = 0.0
+#
+#     for attr in attrs:
+#         if 'Wave Height' in attr[0]:
+#             try:
+#                 stuff = attr[1].split()
+#                 wave_height = float(stuff[0])
+#             except ValueError:
+#                 pass
+#
+#     # convert the sea state to meters and get the sea state
+#     state = get_sea_state(wave_height / 3.28)
 
-    url = get_noaa_forecast_url(key)
-    soup = get_url_source(url)
-    attrs = get_current_data(soup, key)
+    # print("Wave Height = {} meters\nSea State = {}".format(wave_height, state))
 
-    wave_height = 0.0
 
-    for attr in attrs:
-        if 'Wave Height' in attr[0]:
-            try:
-                stuff = attr[1].split()
-                wave_height = float(stuff[0])
-            except ValueError:
-                pass
+buoy = 44099
+url = get_noaa_forecast_url(buoy)
 
-    # convert the sea state to meters and get the sea state
-    state = get_sea_state(wave_height / 3.28)
+soup = get_url_source(url)
 
-    print("Wave Height = {} meters\nSea State = {}".format(wave_height, state))
+past_data = get_wave_data(soup)
 
+[print(p) for p in past_data]

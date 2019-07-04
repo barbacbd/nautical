@@ -1,4 +1,4 @@
-from math import sin, cos, sqrt, radians, atan2, inf
+from math import sin, cos, sqrt, radians, atan2
 
 
 EARTH_RADIUS_METERS = 6372800
@@ -151,10 +151,10 @@ def area_converter(area: [Point]) -> [Point]:
     :param area: original list of points
     :return: list of Points
     """
-    max_lat = -inf
-    min_lat = inf
-    max_lon = -inf
-    min_lon = inf
+    max_lat = -float("inf")
+    min_lat = float("inf")
+    max_lon = -float("inf")
+    min_lon = float("inf")
 
     for point in area:
         if isinstance(point, Point):

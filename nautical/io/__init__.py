@@ -187,43 +187,86 @@ def get_wave_data(soup):
     """
     past_data = []
 
+    headers = []
+
     if isinstance(soup, BeautifulSoup):
         try:
             table = soup.find("table", {"class": "dataTable"})
             for row in table.findAll("tr"):
+
+                header_info = row.findAll("th", {"class": "dataHeader"})
+
+                for info in header_info:
+                    # headers.append(str(info[0].find(text=True)).strip())
+                    headers.append(str(info.next).lower())
+
                 cells = row.findAll("td")
 
-                """ 
-                18 is a magic number unfortunately this is the CURRENT number of columns in
-                the table presented by NOAA. NOTE: not all columns are used they are either 
-                left blank or contain a dash (-)
-                """
-                if len(cells) == 18:
-                    mm = str(cells[0].find(text=True)).strip()
-                    dd = str(cells[1].find(text=True)).strip()
-                    time = str(cells[2].find(text=True)).strip()
-                    wdir = str(cells[3].find(text=True)).strip()
-                    wspd = str(cells[4].find(text=True)).strip()
-                    gst = str(cells[5].find(text=True)).strip()
-                    wvht = str(cells[6].find(text=True)).strip()
-                    dpd = str(cells[7].find(text=True)).strip()
-                    apd = str(cells[8].find(text=True)).strip()
-                    mwd = str(cells[9].find(text=True)).strip()
-                    pres = str(cells[10].find(text=True)).strip()
-                    ptdy = str(cells[11].find(text=True)).strip()
-                    atmp = str(cells[12].find(text=True)).strip()
-                    wtmp = str(cells[13].find(text=True)).strip()
-                    dewp = str(cells[14].find(text=True)).strip()
-                    sal = str(cells[15].find(text=True)).strip()
-                    vis = str(cells[16].find(text=True)).strip()
-                    tide = str(cells[17].find(text=True)).strip()
+                if len(cells) == len(headers) and len(cells) > 0:
 
-                    wd = WaveData(mm=mm, dd=dd, time=time, wdir=wdir, wspd=wspd, gst=gst, wvht=wvht, dpd=dpd, apd=apd,
-                                  mwd=mwd, pres=pres, ptdy=ptdy, atmp=atmp, wtmp=wtmp, dewp=dewp, sal=sal, vis=vis, tide=tide)
+                    wd = WaveData()
+
+                    # print("{} ... {}".format(len(cells), len(headers)))
+
+                    for i in range(0, len(cells)):
+                        setattr(wd, headers[i], "".join(str(cells[i].next).split()))
 
                     past_data.append(wd)
+                    # print(wd)
+
         except Exception:
-            print("Nautical Package Error: get_wave_data() -> table lookup failed.")
+            print("Nautical Package Error: get_wave_data() -> table header lookup failed.")
+            return
+
+        # try:
+        #     table = soup.find("table", {"class": "dataTable"})
+        #     for row in table.findAll("tr"):
+        #
+        #         cells = row.findAll("td")
+        #
+        #         print("{} ... {}".format(len(cells), len(headers)))
+        #
+        #         if len(cells) != len(headers):
+        #             print("Nautical Package Error: get_wave_data() -> table header and info mismatch.")
+        #             return
+        #
+        #         wd = WaveData()
+        #         for i in range(0, len(headers)):
+        #             setattr(wd, headers[i], str(cells[i].find(text=True)).strip())
+                #
+                # """
+                # 18 is a magic number unfortunately this is the CURRENT number of columns in
+                # the table presented by NOAA. NOTE: not all columns are used they are either
+                # left blank or contain a dash (-)
+                # """
+                # if len(cells) == 18:
+                #     mm = str(cells[0].find(text=True)).strip()
+                #     dd = str(cells[1].find(text=True)).strip()
+                #     time = str(cells[2].find(text=True)).strip()
+                #     wdir = str(cells[3].find(text=True)).strip()
+                #     wspd = str(cells[4].find(text=True)).strip()
+                #     gst = str(cells[5].find(text=True)).strip()
+                #     wvht = str(cells[6].find(text=True)).strip()
+                #     dpd = str(cells[7].find(text=True)).strip()
+                #     apd = str(cells[8].find(text=True)).strip()
+                #     mwd = str(cells[9].find(text=True)).strip()
+                #     pres = str(cells[10].find(text=True)).strip()
+                #     ptdy = str(cells[11].find(text=True)).strip()
+                #     atmp = str(cells[12].find(text=True)).strip()
+                #     wtmp = str(cells[13].find(text=True)).strip()
+                #     dewp = str(cells[14].find(text=True)).strip()
+                #     sal = str(cells[15].find(text=True)).strip()
+                #     vis = str(cells[16].find(text=True)).strip()
+                #     tide = str(cells[17].find(text=True)).strip()
+                #
+                #     wd = WaveData(mm=mm, dd=dd, time=time, wdir=wdir, wspd=wspd, gst=gst, wvht=wvht, dpd=dpd, apd=apd,
+                #                   mwd=mwd, pres=pres, ptdy=ptdy, atmp=atmp, wtmp=wtmp, dewp=dewp, sal=sal, vis=vis, tide=tide)
+
+        #         past_data.append(wd)
+        #         print(wd)
+        #
+        # except Exception:
+        #     print("Nautical Package Error: get_wave_data() -> table lookup failed.")
 
     return past_data
 
