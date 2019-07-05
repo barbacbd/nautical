@@ -40,101 +40,22 @@ class NOAAData(object):
         super().__setattr__(key, value)
 
 
-class DetailedData:
+class CombinedNOAAData:
 
-    def __init__(self):
+    def  __init__(self) -> None:
         """
-        Member Variables for the detailed NOAA data over the last 5 hours
+        This class is meant to serve as the combination of past and present NOAA
+        data for a particular buoy location. This will will include:
+
+        present wave data
+        present swell data
+        past wave data
+        past swell data
         """
-        self.wvht = None # significant wave height
-        self.swh = None # swell height
-        self.swp = None # swell period
-        self.swd = None # swell direction
-        self.wwh = None # wind wave height
-        self.wwp = None # wind wave period
-        self.wwd = None # wind wave direction
-        self.steepness = None # wave steepness
-        self.apd = None # average wave period
-
-
-class SwellData:
-
-    def __init__(self, **config):
-        """
-        The following data in this class is stored in an html data table for each buoy on NOAA's website.
-        The data should be parsed in any way possible and stored here so that it can be accessed later.
-
-        All of the variables are considered public, so the user can edit them at any point without feeling
-        as though the data changes will have effects on the overall execution of their program.
-
-        The dictionary lookup was chosen because the data that NOAA provides could change at any point. Also
-        the fields that NOAA has chosen to provide in the table can be null or invalid.
-
-        :param month: number
-        :param day: number
-        :param time - (after conversion) hour:minutes am/pm (EST)
-        :param wdir: wind direction - deg
-        :param wvht: wave height - ft
-        :param swh: swell height - ft
-        :param swp: swell period - sec
-        :param swd: swell direction - deg
-        :param wwh: wind wave height - ft
-        :param wwp: wind wave period - sec
-        :param wwd: wind wave direction - deg
-        :param steepness: text
-        :param apd: average wave period - sec
-        """
-        mm = config.get("month", None)
-        dd = config.get("day", None)
-        time = config.get("time", None)
-        wvht = config.get("wvht", None)
-        swh = config.get("swh", None)
-        swp = config.get("swp", None)
-        swd = config.get("swd", None)
-        wwh = config.get("wwh", None)
-        wwp = config.get("wwp", None)
-        wwd = config.get("wwd", None)
-        steepness = config.get("steepness", None)
-        apd = config.get("apd", None)
-
-        self.mm = mm if isinstance(mm, int) else None
-        self.dd = dd if isinstance(dd, int) else None
-        self.time = convert_noaa_time(time)
-
-        self.wvht = wvht if isinstance(wvht, float) else None
-        self.swh = swh if isinstance(swh, float) else None
-        self.swp = swp if isinstance(swp, float) else None
-        self.swd = swd if isinstance(swd, float) else None
-
-        self.wwh = wwh if isinstance(wwh, float) else None
-        self.wwp = wwp if isinstance(wwp, float) else None
-        self.wwd = wwd if isinstance(wwd, float) else None
-
-        self.steepness = steepness if isinstance(steepness, str) else ""
-        self.apd = apd if isinstance(apd, float) else None
-
-    def __str__(self) -> str:
-        """
-        Convert all swell data to one long string
-        :return: String representation of the wave data
-        """
-        header = ""
-        if self.mm and self.dd and self.time:
-            header = "{}-{} {}\n".format(self.mm, self.dd, self.time)
-
-        waves = ""
-        if self.wvht and self._wh and self.swp and self.swd:
-            waves = "Wave HT({}) SWH({}) SWP({}) SWD({})\n".format(self.wvht, self.swh, self.swp, self.swd)
-
-        wind_wave = ""
-        if self.wwh and self.wwp and self.wwd and self.apd:
-            wind_wave = "WWH({}) WWP({}) WWD({}) APD({})\n".format(self.wwh, self.wwp, self.wwd, self.apd)
-
-        other = ""
-        if self.steepness:
-            other = "Steepness({})\n".format(self.steepness)
-
-        return "{}{}{}{}".format(header, waves, wind_wave, other)
+        self.present_wave_data = None
+        self.present_swell_data = None
+        self.past_wave_data = None
+        self.past_swell_data = None
 
 
 def convert_noaa_time(ugly_time: str) -> str:

@@ -2,8 +2,6 @@
 
 from nautical.location import Point
 from nautical.io import *
-from nautical.noaa import get_sea_state
-
 
 """
 This is a test program to grab some relatively simple information near Virginia Beach.
@@ -13,75 +11,30 @@ in the water. Print out the data about this buoy and the current sea state.
 """
 
 # buoys = get_buoys_information(False)
-
-# for id, coord in buoys.items():
-#     print("{} - {}".format(id, coord))
-
-# for key, value in buoys:
-#     print("{} - {}".format(key, value))
-
-# Virginia Beach
-#p = Point(36.8529, -75.9780)
-# Cameron
-#p = Point(29.7977, -93.3252)
-p = Point(29.717752, -93.337436)
-# Port Hueneme
-#p = Point(34.1478, -119.1951)
-
+#
+# # Virginia Beach
+# p = Point(36.8529, -75.9780)
+#
 # print("Searching for NOAA Data Near {}, {}".format(p.lat, p.lon))
-
+#
 # in_range_buoys = {}
 # for key, value in buoys.items():
 #     if p.in_range(value.lat, value.lon, 500000):
 #        in_range_buoys[key] = value
 
 
-#min_distance = float("inf")
-#name = ""
-#lat = 0
-#lon = 0
-
-#for key, value in buoys.items():
-#    dist = p.get_distance(value.lat, value.lon)/1000.0
-
-#    if dist < min_distance:
-#        name = key
-#        min_distance = dist
-#        lat = value.lat
-#        lon = value.lon
-
-# for key, value in in_range_buoys.items():
-#     # print("Found Buoy {} at {},{}".format(key, value.lat, value.lon))
-#
-#     url = get_noaa_forecast_url(key)
-#     soup = get_url_source(url)
-#     attrs = get_current_data(soup, key)
-#
-#     wave_height = 0.0
-#
-#     for attr in attrs:
-#         if 'Wave Height' in attr[0]:
-#             try:
-#                 stuff = attr[1].split()
-#                 wave_height = float(stuff[0])
-#             except ValueError:
-#                 pass
-#
-#     # convert the sea state to meters and get the sea state
-#     state = get_sea_state(wave_height / 3.28)
-
-    # print("Wave Height = {} meters\nSea State = {}".format(wave_height, state))
-
-
 buoy = 44099
-url = get_noaa_forecast_url(buoy)
 
-soup = get_url_source(url)
+data = buoy_workup(buoy)
 
-# past_data = get_wave_data(soup)
+print("CURRENT WAVE DATA")
+print(data.present_wave_data)
 
-past_data = get_swell_data(soup)
+print("CURRENT SWELL DATA")
+print(data.present_swell_data)
 
-# get_current_data(soup, buoy)
+print("PAST WAVE DATA")
+[print(x) for x in data.past_wave_data]
 
-[print(p) for p in past_data]
+print("PAST SWELL DATA")
+[print(x) for x in data.past_swell_data]

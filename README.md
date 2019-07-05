@@ -110,6 +110,32 @@ Wave Height = 1.0 meters
 Sea State = 2
 ```
 
+If you wish to get all past and present informmation (over a 24 hour period) about a buoy, there are several
+different ways to go about this:
+
+The simplest way is to get all of the data at once (that is available):
+
+```python
+buoy = 44099
+data = buoy_workup(buoy)
+```
+
+This example will grab all of the current data about the buoy. However, if you wish to grab specific information
+about the buoy you can use any of the following:
+
+```python
+current_wave_search = "Conditions at {} as of".format(buoy)
+data.present_wave_data = get_current_data(soup, current_wave_search)
+
+detailed_search = "Detailed Wave Summary"
+data.present_swell_data = get_current_data(soup, detailed_search)
+
+data.past_wave_data = get_wave_data(soup)
+data.past_swell_data = get_swell_data(soup)
+```
+
+
+
 ## Unit Tests
 
 To run the unit tests utilize the unit test suite provided by the unit test python package. The following python snippet 

@@ -2,9 +2,10 @@ from urllib.request import urlopen
 from urllib.error import HTTPError
 from bs4 import BeautifulSoup
 from pykml import parser
-from ..noaa import NOAAData, SwellData
+from ..noaa import NOAAData, CombinedNOAAData
 from ..location import Point
-from os import remove
+from re import sub
+
 
 def get_buoys_information(only_wave_data: bool = False):
     """
@@ -76,6 +77,39 @@ def get_buoys_information(only_wave_data: bool = False):
     return buoys
 
 
+def buoy_workup(buoy):
+    """
+    Provide a full workup for a specific buoy. If the buoy is nNone or it cannot be found
+    then the data returned will be considered invalid as None
+
+    NOTE: while the other function do NOT hve partial data, we may fill out the
+    CombinedNOAAData partially
+
+    :param buoy: id of the buoy to do a workup on
+    :return: CombinedNOAAData if successful else None
+    """
+    if buoy is not None:
+        url = get_noaa_forecast_url(buoy)
+
+        soup = get_url_source(url)
+
+        data = CombinedNOAAData()
+
+        current_wave_search = "Conditions at {} as of".format(buoy)
+        data.present_wave_data = get_current_data(soup, current_wave_search)
+
+        detailed_search = "Detailed Wave Summary"
+        data.present_swell_data = get_current_data(soup, detailed_search)
+
+        data.past_wave_data = get_wave_data(soup)
+        data.past_swell_data = get_swell_data(soup)
+
+        return data
+
+    else:
+        return None
+
+
 def get_noaa_forecast_url(buoy):
     """
     NOAA is kind enough to post all of their data from their buoys at the same url ONLY requiring
@@ -125,81 +159,63 @@ def get_url_source(url_name):
         return
 
 
-def get_current_data(soup, id):
+def get_current_data(soup, search: str):
     """
-    Get a list of all attributes pertaining to the current data for the given id
+    Search the beautiful soup object for a TABLE containing the search string. The function will
+    grab the data from the table and create a NOAAData object and return the data
     :param soup: beautiful soup object generated from the get_url_source()
-    :param id: id or name to search for
-    :return: list of all data for the current table
+    :param search: text to search for in the soup object. The text MUST be an exact match as this is
+    a possible limitation of beautiful soup searching
+    :return: NOAAData object if successful otherwise NONE
     """
-    attributes = []
-
-    search_text = "Conditions at"
-
     if isinstance(soup, BeautifulSoup):
 
         try:
-            # table = soup.find("table", {"class": "titleDataHeader"})
-            table = soup.findAll("table")
+            table = soup.find(text=search).findParent("table")
 
-            for t in table:
-                if search_text in str(t.caption):
-                    print(t)
-                    break
-            #
-            # print(table)
-            #
-            # for t in table:
-            #
-            #     caption = t.findAll("caption")
-            #
-            #     for c in caption:
-            #
-            #         if search_text.lower() in str(c.next).lower():
-            #
-            #             print(c.next)
-
-
-            # search = "Conditions at {} as of".format(id)
-            # table = soup.find(text=search).findParent("table")
-            #
-            # for row in table.findAll('tr'):
-            #     cells = row.findAll('td')
-            #
-            #     if len(cells) == 3:
-            #         attributes.append((str(cells[1].find(text=True)).strip(), str(cells[2].find(text=True)).strip()))
-        except Exception:
-            print("Nautical Package Error: get_current_data() -> table lookup failed.")
-
-    return attributes
-
-
-def get_detailed_wave_summary(soup):
-    """
-    Get a list of attributes containing the detailed wave summary.
-
-    The user will pass in the url_name that is generated from get_noaa_forecast_url(), where the buoy id
-    is provided. This function will search through the html source and find the 'Detailed Wave Summary'
-    html table and parse the data from the table
-
-    :param soup: beautiful soup object generated from the get_url_source()
-    :return: attributes of this information in the table
-    """
-    attributes = []
-
-    if isinstance(soup, BeautifulSoup):
-        try:
-            table = soup.find(text="Detailed Wave Summary").findParent("table")
+            nd = NOAAData()
 
             for row in table.findAll('tr'):
                 cells = row.findAll('td')
 
-                if len(cells) == 3:
-                    attributes.append((str(cells[1].find(text=True)).strip(), str(cells[2].find(text=True)).strip()))
-        except Exception:
-            print("Nautical Package Error: get_detailed_wave_summary() -> table lookup failed.")
+                """
+                I really don't like this way of doing the parsing but I believe that I am limited ...
+                cell[0] -> href data that we do not care about
+                cell[1] -> somewhere in here is the same abbreviation use for past data - parse that out
+                cell[2] -> this is the value that we want 
 
-    return attributes
+                ... like I said I don't like this because it makes it less dynamic 
+                """
+
+                if len(cells) > 0:
+
+                    key = None
+                    value = None
+
+                    for i in range(1, len(cells)):
+
+                        split_data = cells[i].next.split()
+
+                        """ 
+                        The key is kind of embedded so we have to extract it:
+                        Swell Direction (SwD): <- this is original text and we want just what will be in the parentheses
+                        Split the data and strip off the (): from the last one                        
+                        """
+                        if i == 1 and len(split_data) > 0:
+                            key = sub('[():]', '', split_data[len(split_data) - 1]).lower()
+
+                        # The value is just the first entry in this split data
+                        elif i == 2 and len(split_data) > 0:
+                            value = split_data[0]
+
+                    if key is not None and value is not None:
+                        setattr(nd, key, value)
+
+            return nd
+
+        except Exception:
+            print("Nautical Package Error: get_current_data() -> table lookup failed.")
+            return None
 
 
 def get_wave_data(soup):
@@ -281,7 +297,7 @@ def get_swell_data(soup):
                 header_info = row.findAll("th", {"class": "dataHeader"})
 
                 for info in header_info:
-                    
+
                     headers.append(str(info.next).lower())
 
                 cells = row.findAll("td")
