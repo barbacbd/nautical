@@ -148,9 +148,3 @@ from nautical.tests import *
 suite = TestNautical.suite()
 unittest.TextTestRunner().run(suite)
 ```
-
-## Furture Work
-1. Further Testing to ensure all tables are readable
-2. Parse the current wave data better
-3. Parse the current swell data better
-
