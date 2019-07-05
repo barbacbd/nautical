@@ -2,7 +2,7 @@ from urllib.request import urlopen
 from urllib.error import HTTPError
 from bs4 import BeautifulSoup
 from pykml import parser
-from ..noaa import WaveData, SwellData
+from ..noaa import NOAAData, SwellData
 from ..location import Point
 from os import remove
 
@@ -134,17 +134,40 @@ def get_current_data(soup, id):
     """
     attributes = []
 
+    search_text = "Conditions at"
+
     if isinstance(soup, BeautifulSoup):
 
         try:
-            search = "Conditions at {} as of".format(id)
-            table = soup.find(text=search).findParent("table")
+            # table = soup.find("table", {"class": "titleDataHeader"})
+            table = soup.findAll("table")
 
-            for row in table.findAll('tr'):
-                cells = row.findAll('td')
+            for t in table:
+                if search_text in str(t.caption):
+                    print(t)
+                    break
+            #
+            # print(table)
+            #
+            # for t in table:
+            #
+            #     caption = t.findAll("caption")
+            #
+            #     for c in caption:
+            #
+            #         if search_text.lower() in str(c.next).lower():
+            #
+            #             print(c.next)
 
-                if len(cells) == 3:
-                    attributes.append((str(cells[1].find(text=True)).strip(), str(cells[2].find(text=True)).strip()))
+
+            # search = "Conditions at {} as of".format(id)
+            # table = soup.find(text=search).findParent("table")
+            #
+            # for row in table.findAll('tr'):
+            #     cells = row.findAll('td')
+            #
+            #     if len(cells) == 3:
+            #         attributes.append((str(cells[1].find(text=True)).strip(), str(cells[2].find(text=True)).strip()))
         except Exception:
             print("Nautical Package Error: get_current_data() -> table lookup failed.")
 
@@ -192,81 +215,41 @@ def get_wave_data(soup):
     if isinstance(soup, BeautifulSoup):
         try:
             table = soup.find("table", {"class": "dataTable"})
+
             for row in table.findAll("tr"):
 
+                """
+                Grab the header information so that we can match the header title 
+                to the data from each cell in the table ... this should make this section
+                much more dynamic in the event that noaa changes the data 
+                """
                 header_info = row.findAll("th", {"class": "dataHeader"})
 
                 for info in header_info:
-                    # headers.append(str(info[0].find(text=True)).strip())
+
                     headers.append(str(info.next).lower())
 
                 cells = row.findAll("td")
 
                 if len(cells) == len(headers) and len(cells) > 0:
 
-                    wd = WaveData()
+                    """
+                    the header length matched the number of cells in this row ... good 
+                    that means that we can add this data to the WaveData list to be returned
+                    """
 
-                    # print("{} ... {}".format(len(cells), len(headers)))
+                    nd = NOAAData()
 
                     for i in range(0, len(cells)):
-                        setattr(wd, headers[i], "".join(str(cells[i].next).split()))
+                        setattr(nd, headers[i], "".join(str(cells[i].next).split()))
 
-                    past_data.append(wd)
-                    # print(wd)
-
+                    past_data.append(nd)
         except Exception:
             print("Nautical Package Error: get_wave_data() -> table header lookup failed.")
-            return
-
-        # try:
-        #     table = soup.find("table", {"class": "dataTable"})
-        #     for row in table.findAll("tr"):
-        #
-        #         cells = row.findAll("td")
-        #
-        #         print("{} ... {}".format(len(cells), len(headers)))
-        #
-        #         if len(cells) != len(headers):
-        #             print("Nautical Package Error: get_wave_data() -> table header and info mismatch.")
-        #             return
-        #
-        #         wd = WaveData()
-        #         for i in range(0, len(headers)):
-        #             setattr(wd, headers[i], str(cells[i].find(text=True)).strip())
-                #
-                # """
-                # 18 is a magic number unfortunately this is the CURRENT number of columns in
-                # the table presented by NOAA. NOTE: not all columns are used they are either
-                # left blank or contain a dash (-)
-                # """
-                # if len(cells) == 18:
-                #     mm = str(cells[0].find(text=True)).strip()
-                #     dd = str(cells[1].find(text=True)).strip()
-                #     time = str(cells[2].find(text=True)).strip()
-                #     wdir = str(cells[3].find(text=True)).strip()
-                #     wspd = str(cells[4].find(text=True)).strip()
-                #     gst = str(cells[5].find(text=True)).strip()
-                #     wvht = str(cells[6].find(text=True)).strip()
-                #     dpd = str(cells[7].find(text=True)).strip()
-                #     apd = str(cells[8].find(text=True)).strip()
-                #     mwd = str(cells[9].find(text=True)).strip()
-                #     pres = str(cells[10].find(text=True)).strip()
-                #     ptdy = str(cells[11].find(text=True)).strip()
-                #     atmp = str(cells[12].find(text=True)).strip()
-                #     wtmp = str(cells[13].find(text=True)).strip()
-                #     dewp = str(cells[14].find(text=True)).strip()
-                #     sal = str(cells[15].find(text=True)).strip()
-                #     vis = str(cells[16].find(text=True)).strip()
-                #     tide = str(cells[17].find(text=True)).strip()
-                #
-                #     wd = WaveData(mm=mm, dd=dd, time=time, wdir=wdir, wspd=wspd, gst=gst, wvht=wvht, dpd=dpd, apd=apd,
-                #                   mwd=mwd, pres=pres, ptdy=ptdy, atmp=atmp, wtmp=wtmp, dewp=dewp, sal=sal, vis=vis, tide=tide)
-
-        #         past_data.append(wd)
-        #         print(wd)
-        #
-        # except Exception:
-        #     print("Nautical Package Error: get_wave_data() -> table lookup failed.")
+            """
+            Something failed. let's NOT return partial data
+            """
+            return []
 
     return past_data
 
@@ -277,38 +260,50 @@ def get_swell_data(soup):
     :param soup: beautiful soup object generated from the get_url_source()
     :return: list of swell data
     """
-
+    headers = []
     past_data = []
     if isinstance(soup, BeautifulSoup):
         try:
             table = soup.findAll("table", {"class": "dataTable"})
+
+            """
+            NEED to find the correct table easier
+            """
+
             for row in table[1].findAll("tr"):
+
+                """
+                Grab the header information so that we can match the header title 
+                to the data from each cell in the table ... this should make this section
+                much more dynamic in the event that noaa changes the data 
+                """
+
+                header_info = row.findAll("th", {"class": "dataHeader"})
+
+                for info in header_info:
+                    
+                    headers.append(str(info.next).lower())
+
                 cells = row.findAll("td")
 
-                """ 
-                12 is a magic number unfortunately this is the CURRENT number of columns in
-                the table presented by NOAA. NOTE: not all columns are used they are either 
-                left blank or contain a dash (-)
-                """
-                if len(cells) == 12:
-                    mm = str(cells[0].find(text=True)).strip()
-                    dd = str(cells[1].find(text=True)).strip()
-                    time = str(cells[2].find(text=True)).strip()
-                    wvht = str(cells[3].find(text=True)).strip()
-                    swh = str(cells[4].find(text=True)).strip()
-                    swp = str(cells[5].find(text=True)).strip()
-                    swd = str(cells[6].find(text=True)).strip()
-                    wwh = str(cells[7].find(text=True)).strip()
-                    wwp = str(cells[8].find(text=True)).strip()
-                    wwd = str(cells[9].find(text=True)).strip()
-                    steepness = str(cells[10].find(text=True)).strip()
-                    apd = str(cells[11].find(text=True)).strip()
+                if len(cells) == len(headers) and len(cells) > 0:
 
-                    sd = SwellData(mm=mm, dd=dd, time=time, wvht=wvht, swh=swh, swp=swp,
-                                   swd=swd, wwh=wwh, wwp=wwp, wwd=wwd, steepness=steepness, apd=apd)
+                    """
+                    the header length matched the number of cells in this row ... good 
+                    that means that we can add this data to the WaveData list to be returned
+                    """
 
-                    past_data.append(sd)
+                    nd = NOAAData()
+
+                    for i in range(0, len(cells)):
+                        setattr(nd, headers[i], "".join(str(cells[i].next).split()))
+
+                    past_data.append(nd)
         except Exception:
             print("Nautical Package Error: get_swell_data() -> table lookup failed.")
+            """
+            Something failed. let's NOT return partial data
+            """
+            return []
 
     return past_data

@@ -78,6 +78,10 @@ url = get_noaa_forecast_url(buoy)
 
 soup = get_url_source(url)
 
-past_data = get_wave_data(soup)
+# past_data = get_wave_data(soup)
+
+past_data = get_swell_data(soup)
+
+# get_current_data(soup, buoy)
 
 [print(p) for p in past_data]

@@ -1,5 +1,5 @@
 
-class WaveData(object):
+class NOAAData(object):
 
     def __str__(self) -> str:
         """
@@ -23,10 +23,19 @@ class WaveData(object):
         """
         Probably don't neeed to override this function, but for debugging purposes I will leave
         this hear in case the user wishes to print out the data as it is set.
-        :param key: dictionary key the attirubte is stored as
+
+        We will not keep values that are empty
+
+        We will also not keep blank values that NOAA stores as - on their website
+
+        :param key: dictionary key the attirbute is stored as
         :param value: value of the attribute
         :return: None
         """
+
+        if value is None or value == '-':
+            return
+
         # print("WaveData {} = {}".format(key, value))
         super().__setattr__(key, value)
 
