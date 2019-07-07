@@ -49,13 +49,11 @@ class CombinedNOAAData:
 
         present wave data
         present swell data
-        past wave data
-        past swell data
+        past data [currently wave data and swell data]
         """
         self.present_wave_data = None
         self.present_swell_data = None
-        self.past_wave_data = None
-        self.past_swell_data = None
+        self.past_data = None
 
 
 def convert_noaa_time(ugly_time: str) -> str:

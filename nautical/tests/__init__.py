@@ -138,9 +138,7 @@ class TestNautical(unittest.TestCase):
         """
         Test valid and invalid sets of data passed to the create forecast url
         """
-        self.assertEqual(get_noaa_forecast_url(44099), "https://www.ndbc.noaa.gov/station_page.php?station=44099",
-                         "Failed to find url for 44099")
-
+        self.assertNotEqual(get_noaa_forecast_url(44099), None, "Failed to find url for 44099")
         self.assertEqual(get_noaa_forecast_url(""), None, "Failed to find url")
 
     @staticmethod

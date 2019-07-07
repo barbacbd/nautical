@@ -6,7 +6,7 @@ EARTH_RADIUS_METERS = 6372800
 
 class Point:
 
-    def __init__(self, lat: float = 0.0, lon: float = 0.0, alt: float = 0.0) -> None:
+    def __init__(self, lat: float = 0.0, lon: float = 0.0, alt: float = 0.0, debug = None) -> None:
         """
         A 3D point containing latitude, longitude and altitude coordinates
 
@@ -21,6 +21,10 @@ class Point:
         self.set_latitude(lat)
         self.set_longitude(lon)
         self.set_altitude(alt)
+
+        self._debug = False
+        if debug is not None and isinstance(debug, bool):
+            self._debug = debug
 
     def __str__(self) -> str:
         """
@@ -39,7 +43,8 @@ class Point:
         try:
             self.lat = float(lat) if -90.0 <= float(lat) <= 90.0 else self.lat if self.lat else 0.0
         except ValueError:
-            print("Nautical.location Package Error: set_latitude() -> invalid latitude {}.".format(lat))
+            if self._debug:
+                print("Nautical.location Package Error: set_latitude() -> invalid latitude {}.".format(lat))
 
     def set_longitude(self, lon) -> None:
         """
@@ -51,7 +56,8 @@ class Point:
         try:
             self.lon = float(lon) if -180.0 <= float(lon) <= 180.0 else self.lon if self.lon else 0.0
         except ValueError:
-            print("Nautical.location Package Error: set_longitude() -> invalid longitude {}.".format(lon))
+            if self._debug:
+                print("Nautical.location Package Error: set_longitude() -> invalid longitude {}.".format(lon))
 
     def set_altitude(self, alt) -> None:
         """
@@ -62,7 +68,8 @@ class Point:
         try:
             self.alt = float(alt)
         except ValueError:
-            print("Nautical.location Package Error: set_altitude() -> invalid altitude {}.".format(alt))
+            if self._debug:
+                print("Nautical.location Package Error: set_altitude() -> invalid altitude {}.".format(alt))
 
     def parse(self, data: str) -> None:
         """

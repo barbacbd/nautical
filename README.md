@@ -130,8 +130,7 @@ data.present_wave_data = get_current_data(soup, current_wave_search)
 detailed_search = "Detailed Wave Summary"
 data.present_swell_data = get_current_data(soup, detailed_search)
 
-data.past_wave_data = get_wave_data(soup)
-data.past_swell_data = get_swell_data(soup)
+data.past_data = get_past_data(soup)
 ```
 
 

@@ -33,8 +33,5 @@ print(data.present_wave_data)
 print("CURRENT SWELL DATA")
 print(data.present_swell_data)
 
-print("PAST WAVE DATA")
-[print(x) for x in data.past_wave_data]
-
-print("PAST SWELL DATA")
-[print(x) for x in data.past_swell_data]
+print("PAST DATA")
+[print(x) for x in data.past_data]

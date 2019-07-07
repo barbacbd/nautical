@@ -101,8 +101,7 @@ def buoy_workup(buoy):
         detailed_search = "Detailed Wave Summary"
         data.present_swell_data = get_current_data(soup, detailed_search)
 
-        data.past_wave_data = get_wave_data(soup)
-        data.past_swell_data = get_swell_data(soup)
+        data.past_data = get_past_data(soup)
 
         return data
 
@@ -148,7 +147,7 @@ def get_url_source(url_name):
     can do any lookups of the data that we need.
 
     :param url_name: name of the url to search for
-    :return: BeautifulSoup Object
+    :return: BeautifulSoup Object on success otherwise none
     """
     try:
         open_url = urlopen(url_name)
@@ -156,7 +155,7 @@ def get_url_source(url_name):
         return soup
     except (ValueError, HTTPError):
         print("Nautical Package Error: get_url_source() -> BeautifulSoup object failed.")
-        return
+        return None
 
 
 def get_current_data(soup, search: str):
@@ -218,108 +217,48 @@ def get_current_data(soup, search: str):
             return None
 
 
-def get_wave_data(soup):
-    """
-    Get a table of all Wave Data
-    :param soup: beautiful soup object generated from the get_url_source()
-    :return: list of Wave Data
-    """
-    past_data = []
-
-    headers = []
-
-    if isinstance(soup, BeautifulSoup):
-        try:
-            table = soup.find("table", {"class": "dataTable"})
-
-            for row in table.findAll("tr"):
-
-                """
-                Grab the header information so that we can match the header title 
-                to the data from each cell in the table ... this should make this section
-                much more dynamic in the event that noaa changes the data 
-                """
-                header_info = row.findAll("th", {"class": "dataHeader"})
-
-                for info in header_info:
-
-                    headers.append(str(info.next).lower())
-
-                cells = row.findAll("td")
-
-                if len(cells) == len(headers) and len(cells) > 0:
-
-                    """
-                    the header length matched the number of cells in this row ... good 
-                    that means that we can add this data to the WaveData list to be returned
-                    """
-
-                    nd = NOAAData()
-
-                    for i in range(0, len(cells)):
-                        setattr(nd, headers[i], "".join(str(cells[i].next).split()))
-
-                    past_data.append(nd)
-        except Exception:
-            print("Nautical Package Error: get_wave_data() -> table header lookup failed.")
-            """
-            Something failed. let's NOT return partial data
-            """
-            return []
-
-    return past_data
-
-
-def get_swell_data(soup):
+def get_past_data(soup):
     """
     Get a list of all swell data from the past.
     :param soup: beautiful soup object generated from the get_url_source()
     :return: list of swell data
     """
-    headers = []
+
     past_data = []
     if isinstance(soup, BeautifulSoup):
         try:
-            table = soup.findAll("table", {"class": "dataTable"})
+            tables = soup.findAll("table", {"class": "dataTable"})
 
-            """
-            NEED to find the correct table easier
-            """
+            for table in tables:
 
-            for row in table[1].findAll("tr"):
+                # list of header information from the table
+                headers = []
 
-                """
-                Grab the header information so that we can match the header title 
-                to the data from each cell in the table ... this should make this section
-                much more dynamic in the event that noaa changes the data 
-                """
+                for row in table.findAll("tr"):
 
-                header_info = row.findAll("th", {"class": "dataHeader"})
+                    # grab the header information so we can compare it to each row of the table
+                    header_info = row.findAll("th", {"class": "dataHeader"})
 
-                for info in header_info:
+                    for info in header_info:
 
-                    headers.append(str(info.next).lower())
+                        headers.append(str(info.next).lower())
 
-                cells = row.findAll("td")
+                    # Get all of the information in the table that is NOT part of the header
+                    cells = row.findAll("td")
 
-                if len(cells) == len(headers) and len(cells) > 0:
+                    if len(cells) == len(headers) and len(cells) > 0:
 
-                    """
-                    the header length matched the number of cells in this row ... good 
-                    that means that we can add this data to the WaveData list to be returned
-                    """
+                        # Header and length of the rows matched - we have a proper amount of data to store
 
-                    nd = NOAAData()
+                        nd = NOAAData()
 
-                    for i in range(0, len(cells)):
-                        setattr(nd, headers[i], "".join(str(cells[i].next).split()))
+                        for i in range(0, len(cells)):
+                            setattr(nd, headers[i], "".join(str(cells[i].next).split()))
 
-                    past_data.append(nd)
+                        past_data.append(nd)
         except Exception:
-            print("Nautical Package Error: get_swell_data() -> table lookup failed.")
-            """
-            Something failed. let's NOT return partial data
-            """
+            print("Nautical Package Error: get_past_data() -> table lookup failed.")
+            # Error occurredd, DON'T return partial data
             return []
 
     return past_data
