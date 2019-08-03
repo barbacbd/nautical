@@ -147,3 +147,12 @@ from nautical.tests import *
 suite = TestNautical.suite()
 unittest.TextTestRunner().run(suite)
 ```
+
+## Troubleshooting
+
+If you are using _python3.5_, _pykml_ will install with references to urllib2. Please edit the files in the 
+_pykml_ directory with the following change(s):
+
+```python
+import urllib as urllib2
+```

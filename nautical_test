@@ -2,6 +2,7 @@
 
 from nautical.location import Point
 from nautical.io import *
+import geocoder
 
 """
 This is a test program to grab some relatively simple information near Virginia Beach.
@@ -23,15 +24,48 @@ in the water. Print out the data about this buoy and the current sea state.
 #        in_range_buoys[key] = value
 
 
-buoy = 44099
+buoys = get_buoys_information(True)
 
-data = buoy_workup(buoy)
+"""
+Get my current location based on the ip address. We should technically wrap this 
+as any failure to find an ip address will fail here
+"""
+g = geocoder.ip('me')
 
-print("CURRENT WAVE DATA")
-print(data.present_wave_data)
+if g.lat is not None and g.lng is not None:
 
-print("CURRENT SWELL DATA")
-print(data.present_swell_data)
+    print("Searching for NOAA Data near {}, {}".format(g.lat, g.lng))
+    p = Point(g.lat, g.lng)
 
-print("PAST DATA")
-[print(x) for x in data.past_data]
+
+    closest_buoy = None
+
+    #from math import inf
+
+    closest_distance = float('inf')
+    close_point = None
+
+    for key, value in buoys.items():
+
+        distance = p.get_distance(value.lat, value.lon)
+
+        if distance < closest_distance:
+            closest_buoy = key
+            closest_distance = distance
+            close_point = value
+
+    print("Closest buoy id = {} [{}, {}]".format(closest_buoy, close_point.lat, close_point.lon))
+
+
+# buoy = 44099
+#
+# data = buoy_workup(buoy)
+#
+# print("CURRENT WAVE DATA")
+# print(data.present_wave_data)
+#
+# print("CURRENT SWELL DATA")
+# print(data.present_swell_data)
+#
+# print("PAST DATA")
+# [print(x) for x in data.past_data]

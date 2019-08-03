@@ -1,5 +1,5 @@
 from urllib.request import urlopen
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 from bs4 import BeautifulSoup
 from pykml import parser
 from ..noaa import NOAAData, CombinedNOAAData
@@ -34,7 +34,12 @@ def get_buoys_information(only_wave_data: bool = False):
     next kml file that contains all of the information we need!
     """
     url = "https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml"
-    fileobject = urlopen(url)
+
+    try:
+        fileobject = urlopen(url)
+    except URLError:
+        return buoys
+
     root = parser.parse(fileobject).getroot()
 
     """ 
