@@ -1,6 +1,7 @@
 import unittest
-from ..location import Point
-from ..noaa import get_sea_state, convert_noaa_time
+from ..location.point import Point
+from ..noaa.SeaState import get_sea_state
+from ..noaa.time import convert_noaa_time
 from ..io import get_noaa_forecast_url, get_url_source
 from bs4 import BeautifulSoup
 

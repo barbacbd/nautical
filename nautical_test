@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from nautical.location import Point
+from nautical.location.point import Point
 from nautical.io import *
 import geocoder
 

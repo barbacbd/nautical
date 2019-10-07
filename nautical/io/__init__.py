@@ -3,7 +3,7 @@ from urllib.error import HTTPError, URLError
 from bs4 import BeautifulSoup
 from pykml import parser
 from ..noaa import NOAAData, CombinedNOAAData
-from ..location import Point
+from ..location.point import Point
 from re import sub
 
 
