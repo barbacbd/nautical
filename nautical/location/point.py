@@ -1,7 +1,7 @@
 from math import sin, cos, sqrt, radians, atan2
 
 
-EARTH_RADIUS_METERS = 6372800
+_EARTH_RADIUS_METERS = 6372800
 
 
 class Point:
@@ -138,7 +138,7 @@ class Point:
 
         a = sin(diff1 / 2.0) ** 2 + cos(lat1) * cos(lat2) * sin(diff2 / 2.0) ** 2
 
-        return 2.0 * EARTH_RADIUS_METERS * atan2(sqrt(a), sqrt(1 - a))
+        return 2.0 * _EARTH_RADIUS_METERS * atan2(sqrt(a), sqrt(1 - a))
 
     def in_range(self, lat: float, lon: float, distance: float) -> bool:
         """
