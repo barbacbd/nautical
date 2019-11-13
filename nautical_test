@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from nautical.location.point import Point
-from nautical.io import *
+from nautical.io.parse import *
 import geocoder
 
 """
