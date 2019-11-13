@@ -13,7 +13,7 @@ sea state 7 = (6.0, 9.0]
 sea state 8 = (9.0, 14.0]
 sea state 9 = (14.0, inf]
 """
-SeaStates = {
+_SeaStates = {
         0: 0.0,
         1: 0.1,
         2: 0.5,
@@ -33,6 +33,6 @@ def get_sea_state(wvht_m: float) -> int:
     :param wvht_m: wave height in METERS
     :return: integer value for the sea state
     """
-    for key, value in SeaStates.items():
+    for key, value in _SeaStates.items():
         if wvht_m <= value:
             return key
