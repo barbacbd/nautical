@@ -5,6 +5,7 @@ from pykml import parser
 from ..noaa.NOAAData import NOAAData, CombinedNOAAData
 from ..location.point import Point
 from re import sub
+from enum import IntEnum
 
 
 def get_buoys_information(only_wave_data: bool = False):
@@ -163,6 +164,22 @@ def get_url_source(url_name):
         return None
 
 
+class _BuoyHeaderPositions(IntEnum):
+    """
+
+    """
+    KEY = 1
+    VALUE = 2
+
+
+class _BuoyDataPositions(IntEnum):
+    """
+
+    """
+    VALUE = 0
+    UNITS = 1
+
+
 def get_current_data(soup, search: str):
     """
     Search the beautiful soup object for a TABLE containing the search string. The function will
@@ -195,25 +212,37 @@ def get_current_data(soup, search: str):
 
                     key = None
                     value = None
+                    units = None
 
                     for i in range(1, len(cells)):
 
                         split_data = cells[i].next.split()
 
-                        """ 
-                        The key is kind of embedded so we have to extract it:
-                        Swell Direction (SwD): <- this is original text and we want just what will be in the parentheses
-                        Split the data and strip off the (): from the last one                        
-                        """
-                        if i == 1 and len(split_data) > 0:
+                        if i == _BuoyHeaderPositions.KEY and len(split_data) > 0:
+                            # The key is embedded so let's extract it.
+                            # Swell Direction (SwD): Split the data and strip off the (): from the last entry.
                             key = sub('[():]', '', split_data[len(split_data) - 1]).lower()
 
                         # The value is just the first entry in this split data
-                        elif i == 2 and len(split_data) > 0:
-                            value = split_data[0]
+                        elif i == _BuoyHeaderPositions.VALUE and len(split_data) > 0:
 
-                    if key is not None and value is not None:
+                            num_entries = len(split_data)
+
+                            # Grab the value, if there is a unit associated with the data,
+                            # attempt to save the units to the NOAA Data too..
+
+                            if num_entries >= _BuoyDataPositions.VALUE:
+                                value = split_data[_BuoyDataPositions.VALUE]
+
+                            if num_entries >= _BuoyDataPositions.UNITS:
+                                units = " ".join(split_data[_BuoyDataPositions.UNITS:])
+
+                    if key is not None and value is not None and value != "-":
                         setattr(nd, key, value)
+
+                        # save the units if they existed
+                        if units is not None:
+                            setattr(nd, key+"_units", units)
 
             return nd
 
@@ -258,7 +287,12 @@ def get_past_data(soup):
                         nd = NOAAData()
 
                         for i in range(0, len(cells)):
-                            setattr(nd, headers[i], "".join(str(cells[i].next).split()))
+
+                            value = "".join(str(cells[i].next).split())
+
+                            # for some reason NOAA has added - for data without entries
+                            if value is not None and value != "-":
+                                setattr(nd, headers[i], value)
 
                         past_data.append(nd)
         except Exception:
