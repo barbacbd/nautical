@@ -24,6 +24,7 @@ Notable data of interest includes:
 
 ## Structure
 
+- [error](./error) - The module contains the custom exception used in this package.
 - [io](./io) - The module contains the majority of the code where the user can read all buoy data, parse kml, parse beautiful soup 
 html output, and grab some of the specific data from the tables that we are looking for.
 - [location](./location) - The module contains a 3D Point class that can be used to store locations as well as determine distance
