@@ -1,3 +1,6 @@
+from ..error import NauticalError
+
+
 def convert_noaa_time(ugly_time: str) -> str:
     """
     Convert the time value read in from the table that NOAA has hosted. The time string is formatted
@@ -27,8 +30,8 @@ def convert_noaa_time(ugly_time: str) -> str:
                         minute = int(sp_time[1])
                         human_readable_time = "{}:{} {}".format(hour, minute, am_pm)
                     except ValueError:
-                        print("Nautical.noaa Package Error: convert_noaa_time() -> invalid time.")
+                        raise NauticalError("invalid time.")
             else:
-                print("Nautical.noaa Package Error: convert_noaa_time() -> invalid am/pm value.")
+                raise NauticalError("invalid am/pm value.")
 
     return human_readable_time

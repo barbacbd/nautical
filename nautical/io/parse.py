@@ -6,6 +6,7 @@ from ..noaa.NOAAData import NOAAData, CombinedNOAAData
 from ..location.point import Point
 from re import sub
 from enum import IntEnum
+from ..error import NauticalError
 
 
 def get_buoys_information(only_wave_data: bool = False):
@@ -78,7 +79,7 @@ def get_buoys_information(only_wave_data: bool = False):
                         buoys[str(pm.name)] = p
 
     if not buoys:
-        print("Nautical Package Error: get_buoys_information() -> no buoy information found.")
+        raise NauticalError("no buoy information found")
 
     return buoys
 
@@ -139,8 +140,7 @@ def get_noaa_forecast_url(buoy):
     if buoy:
         return "https://www.ndbc.noaa.gov/station_page.php?station={}".format(buoy)
     else:
-        print("Nautical Package Error: get_noaa_forecast_url() -> no buoy id provided.")
-        return None
+        raise NauticalError("no buoy id provided")
 
 
 def get_url_source(url_name):
@@ -160,13 +160,12 @@ def get_url_source(url_name):
         soup = BeautifulSoup(open_url.read(), features="lxml")
         return soup
     except (ValueError, HTTPError):
-        print("Nautical Package Error: get_url_source() -> BeautifulSoup object failed.")
-        return None
+        raise NauticalError("failed to create beautiful soup object")
 
 
 class _BuoyHeaderPositions(IntEnum):
     """
-
+    Enumeration to allow the user to know where the buoy header fields exist
     """
     KEY = 1
     VALUE = 2
@@ -174,7 +173,7 @@ class _BuoyHeaderPositions(IntEnum):
 
 class _BuoyDataPositions(IntEnum):
     """
-
+    Enumeration to allow the user to know where the buoy data fields exist
     """
     VALUE = 0
     UNITS = 1
@@ -247,8 +246,7 @@ def get_current_data(soup, search: str):
             return nd
 
         except Exception:
-            print("Nautical Package Error: get_current_data() -> table lookup failed.")
-            return None
+            raise NauticalError("table lookup failed")
 
 
 def get_past_data(soup):
@@ -296,8 +294,6 @@ def get_past_data(soup):
 
                         past_data.append(nd)
         except Exception:
-            print("Nautical Package Error: get_past_data() -> table lookup failed.")
-            # Error occurredd, DON'T return partial data
-            return []
+            raise NauticalError("table lookup failed")
 
     return past_data

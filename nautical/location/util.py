@@ -1,4 +1,5 @@
 from .point import Point
+from ..error import NauticalError
 
 
 def area_converter(area: [Point]) -> [Point]:
@@ -32,8 +33,7 @@ def in_area(p: Point, area: [Point]) -> bool:
     :return: true if it is in the area false otherwise
     """
     if len(area) != 2:
-        print("Nautical Package Error: in_area() -> area should be 2 points (min, min) -> (max, max).")
-        return False
+        raise NauticalError("area should be 2 points (min, min) -> (max, max).")
 
     max_lat = max(area[0].lat, area[1].lat)
     min_lat = min(area[0].lat, area[1].lat)
