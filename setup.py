@@ -5,12 +5,14 @@ with open('requirements.txt') as file:
 
 setup(
     name='nautical',
-    version='0.0.1',
+    version='1.0.0',
+    license='MIT',
     packages=find_packages(),
+    url='https://barbacbd@bitbucket.org/barbacbd/nautical',
+    download_url='https://barbacbd@bitbucket.org/barbacbd/nautical/archive/v_100.tar.gz',
     description='The nautical package is able to lookup NOAA buoy data including swell and wave information.',
     author='Brent Barbachem',
     author_email='barbacbd@dukes.jmu.edu',
-    license='Proprietary',
     include_package_data=True,
     install_requires=reqs,
     zip_safe=False
