@@ -7,11 +7,12 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='nautical',
-    version='1.0.2',
+    version='1.1.0',
     license='MIT',
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=find_packages(),
+    python_requires='>=3.6, <4',
     install_requires=[
         'bs4',
         'pykml'
