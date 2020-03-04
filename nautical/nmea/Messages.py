@@ -61,7 +61,13 @@ def gga(lat_deg: float,
         altitude_m: float,
         geoid_height: float) -> str:
     """
-
+    @param lat_deg: latitude in degrees
+    @param lon_deg: Longitude in degrees
+    @param fix_quality: Fix qulaity Enumeration
+    @param num_satellites: number of satellites in the fix
+    @param horizontal: Horizontal dilution of position
+    @param altitude_m: meters above sea level
+    @param geoid_height: Height of geoid (mean sea level) above WGS84 ellipsoid
     """
     pre_cksm = "GP{},{},{},{},{},{},{},{},{},{},M,{},M,,".format(
         NMEAMessageType.GGA.name,
