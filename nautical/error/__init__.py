@@ -3,9 +3,9 @@ class NauticalError(Exception):
     Exception to be raised during any new error that has occurred in this package.
     """
 
-    def __init__(self, info) -> None:
+    def __init__(self, message) -> None:
         """
-        :param info: String data passed by the user for more information about the reason
+        :param message: String data passed by the user for more information about the reason
         that this error occurred
         """
-        self.info = info
+        super(NauticalError, self).__init__(message)
