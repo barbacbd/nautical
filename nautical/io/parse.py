@@ -5,8 +5,8 @@ from pykml import parser
 from ..noaa.NOAAData import NOAAData, CombinedNOAAData
 from ..location.point import Point
 from re import sub
-from enum import IntEnum
 from ..error import NauticalError
+from . import _BuoyDataPositions, _BuoyHeaderPositions
 
 
 def get_buoys_information(only_wave_data: bool = False):
@@ -161,22 +161,6 @@ def get_url_source(url_name):
         return soup
     except (ValueError, HTTPError):
         raise NauticalError("failed to create beautiful soup object")
-
-
-class _BuoyHeaderPositions(IntEnum):
-    """
-    Enumeration to allow the user to know where the buoy header fields exist
-    """
-    KEY = 1
-    VALUE = 2
-
-
-class _BuoyDataPositions(IntEnum):
-    """
-    Enumeration to allow the user to know where the buoy data fields exist
-    """
-    VALUE = 0
-    UNITS = 1
 
 
 def get_current_data(soup, search: str):
