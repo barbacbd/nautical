@@ -11,9 +11,9 @@ class Point:
         """
         A 3D point containing latitude, longitude and altitude coordinates
         """
-        self._latitude = None
-        self._longitude = None
-        self._altitude = None
+        self._latitude = 0.0
+        self._longitude = 0.0
+        self._altitude = 0.0
 
         # use the protected setters
         self.latitude = lat
