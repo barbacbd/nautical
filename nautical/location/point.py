@@ -34,20 +34,26 @@ class Point:
 
     @latitude.setter
     def latitude(self, latitude):
-        if isinstance(latitude, float):
+        try:
             if -90.0 <= float(latitude) <= 90.0:
                 self._latitude = latitude
+        except Exception:
+            pass
 
     @longitude.setter
     def longitude(self, longitude):
-        if isinstance(longitude, float):
+        try:
             if -180.0 <= float(longitude) <= 180.0:
                 self._longitude = longitude
+        except Exception:
+            pass
 
     @altitude.setter
     def altitude(self, altitude):
-        if isinstance(altitude, float):
-            self._altitude = altitude
+        try:
+            self._altitude = float(altitude)
+        except Exception:
+            pass
 
     def __str__(self) -> str:
         """
