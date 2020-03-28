@@ -88,27 +88,14 @@ class Point:
             """ Remove all whitespace and lower case the value"""
             data = data.lower()
             data = "".join(data.split())
-
             split_data = data.split(",")
-            if ":" in data:
 
-                for x in split_data:
-                    kv = x.split(":")
-
-                    if len(kv) == 2:
-                        if 'lat' in kv[0]:
-                            self.latitude = kv[1]
-                        elif 'lon' in kv[0]:
-                            self.longitude = kv[1]
-                        elif 'alt' in kv[0]:
-                            self.altitude = kv[1]
-            else:
-                if len(split_data) == 2:
-                    """" Latitude, Longitude """
-                    self.longitude = split_data[0]
-                    self.latitude = split_data[1]
-                elif len(split_data) == 3:
-                    """ Latitude, Longitude, Altitude"""
-                    self.longitude = split_data[0]
-                    self.latitude = split_data[1]
-                    self.altitude = split_data[2]
+            if len(split_data) == 2:
+                """" Latitude, Longitude """
+                self.longitude = split_data[0]
+                self.latitude = split_data[1]
+            elif len(split_data) == 3:
+                """ Latitude, Longitude, Altitude"""
+                self.longitude = split_data[0]
+                self.latitude = split_data[1]
+                self.altitude = split_data[2]

@@ -65,7 +65,7 @@ class TestNautical(unittest.TestCase):
         Test the parse function of the Point
         """
         p1 = Point()
-        p1.parse("Lat: 76.45, LONGITUDE: -110.123, AltitudE: 123.67")
+        p1.parse("-110.123, 76.45, 123.67")
 
         self.assertAlmostEqual(p1.latitude, 76.45, 2, "Latitude value is incorrect")
         self.assertAlmostEqual(p1.longitude, -110.123, 3, "Longitude value is incorrect")
