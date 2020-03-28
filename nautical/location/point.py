@@ -36,7 +36,7 @@ class Point:
     def latitude(self, latitude):
         try:
             if -90.0 <= float(latitude) <= 90.0:
-                self._latitude = latitude
+                self._latitude = float(latitude)
         except Exception:
             pass
 
@@ -44,7 +44,7 @@ class Point:
     def longitude(self, longitude):
         try:
             if -180.0 <= float(longitude) <= 180.0:
-                self._longitude = longitude
+                self._longitude = float(longitude)
         except Exception:
             pass
 
@@ -89,6 +89,8 @@ class Point:
             data = data.lower()
             data = "".join(data.split())
             split_data = data.split(",")
+
+            print(split_data)
 
             if len(split_data) == 2:
                 """" Latitude, Longitude """
