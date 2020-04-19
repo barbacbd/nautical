@@ -49,3 +49,4 @@ class DistanceUnits(Enum):
     METERS = 4
     KILOMETERS = 5
     MILES = 6
+    NAUTICAL_MILES = 7
