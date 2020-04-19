@@ -2,7 +2,7 @@ import unittest
 from ..location.point import Point
 from ..location.util import haversine
 from ..noaa.SeaState import get_sea_state
-from ..noaa.time import convert_noaa_time
+from nautical.time.nautical_time import convert_noaa_time
 from ..io.parse import get_noaa_forecast_url, get_url_source
 from bs4 import BeautifulSoup
 

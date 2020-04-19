@@ -221,6 +221,9 @@ def get_current_data(soup, search: str):
                                 units = " ".join(split_data[_BuoyDataPositions.UNITS:])
 
                     if key is not None and value is not None and value != "-":
+
+                        print("key = {}, value = {}".format(key, value))
+
                         setattr(nd, key, value)
 
                         # save the units if they existed

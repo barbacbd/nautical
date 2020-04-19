@@ -1,4 +1,6 @@
 """
+Author: barbacbd
+
 The following static dictionary contains all of the sea state upper limits where the
 value is in meters
 
