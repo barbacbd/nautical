@@ -3,7 +3,7 @@ Author: barbacbd
 """
 
 from nautical.error import NauticalError
-
+from nautical.time.conversion import convert_noaa_time
 
 class NOAAData(object):
 
@@ -12,30 +12,30 @@ class NOAAData(object):
     web page to the variable name inside of this class.
     """
     _lookup_table = {
-        "mm": "_month",
-        "dd": "_day",
-        "time": "_time",
-        "wdir": "_wind_direction",
-        "wspd": "_wind_speed",
-        "gst": "_gust",
-        "wvht": "_wave_height",
-        "dpd": "_dominant_wave_period",
-        "apd": "_average_wave_period",
-        "mwd": "_mean_wave_direction",
-        "pres": "_pressure",
-        "ptdy": "_pressure_tendency",
-        "atmp": "_air_temp",
-        "wtmp": "_water_temp",
-        "dewp": "_dew_point",
-        "sal": "_salinity",
-        "vis": "_visibility",
-        "tide": "_tide",
-        "swh": "_swell_height",
-        "swp": "_swell_period",
-        "swd": "_swell_direction",
-        "wwh": "_wind_wave_height",
-        "wwp": "_wind_wave_period",
-        "wwd": "_wind_wave_direction",
+        "mm":        "_month",
+        "dd":        "_day",
+        "time":      "_time",
+        "wdir":      "_wind_direction",
+        "wspd":      "_wind_speed",
+        "gst":       "_gust",
+        "wvht":      "_wave_height",
+        "dpd":       "_dominant_wave_period",
+        "apd":       "_average_wave_period",
+        "mwd":       "_mean_wave_direction",
+        "pres":      "_pressure",
+        "ptdy":      "_pressure_tendency",
+        "atmp":      "_air_temp",
+        "wtmp":      "_water_temp",
+        "dewp":      "_dew_point",
+        "sal":       "_salinity",
+        "vis":       "_visibility",
+        "tide":      "_tide",
+        "swh":       "_swell_height",
+        "swp":       "_swell_period",
+        "swd":       "_swell_direction",
+        "wwh":       "_wind_wave_height",
+        "wwp":       "_wind_wave_period",
+        "wwd":       "_wind_wave_direction",
         "steepness": "_steepness"
     }
 
@@ -105,7 +105,7 @@ class NOAAData(object):
     def __setattr__(self, key, value):
 
         if "_time" in key:
-            pass
+            self._time = convert_noaa_time(value)
         else:
             super(NOAAData, self).__setattr__(key, value)
 
