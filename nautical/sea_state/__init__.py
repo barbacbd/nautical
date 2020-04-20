@@ -1,4 +1,12 @@
 """
+Author: barbacbd
+Date:   4/19/2020
+"""
+
+from nautical.units.units import DistanceUnits
+from nautical.units.conversion import convert
+
+"""
 The following static dictionary contains all of the sea state upper limits where the
 value is in meters
 
@@ -24,15 +32,13 @@ _SeaStates = {
         7: 9.0,
         8: 14.0,
         9: float('inf')
-    }
+}
 
 
-def get_sea_state(wvht_m: float) -> int:
+def sea_state(wvht: float, units: DistanceUnits = DistanceUnits.METERS):
     """
-    The function wil take a wave height in meters and return the sea state
-    :param wvht_m: wave height in METERS
-    :return: integer value for the sea state
+    If the provided wave height is not in meters, convert the wave height to
+    meters and determine the minimum seastate that meets the requirements.
     """
-    for key, value in _SeaStates.items():
-        if wvht_m <= value:
-            return key
+    ht_m = wvht if units in (DistanceUnits.METERS,) else convert(wvht, units, DistanceUnits.METERS)
+    return min([k for k, v in _SeaStates.items() if ht_m <= v])

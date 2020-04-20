@@ -1,36 +1,135 @@
+"""
+Author: barbacbd
+"""
+
+from nautical.error import NauticalError
+
 
 class NOAAData(object):
 
-    def __str__(self) -> str:
+    """
+    Lookup table to associate the variable name from NOAA's table on each
+    web page to the variable name inside of this class.
+    """
+    _lookup_table = {
+        "mm": "_month",
+        "dd": "_day",
+        "time": "_time",
+        "wdir": "_wind_direction",
+        "wspd": "_wind_speed",
+        "gst": "_gust",
+        "wvht": "_wave_height",
+        "dpd": "_dominant_wave_period",
+        "apd": "_average_wave_period",
+        "mwd": "_mean_wave_direction",
+        "pres": "_pressure",
+        "ptdy": "_pressure_tendency",
+        "atmp": "_air_temp",
+        "wtmp": "_water_temp",
+        "dewp": "_dew_point",
+        "sal": "_salinity",
+        "vis": "_visibility",
+        "tide": "_tide",
+        "swh": "_swell_height",
+        "swp": "_swell_period",
+        "swd": "_swell_direction",
+        "wwh": "_wind_wave_height",
+        "wwp": "_wind_wave_period",
+        "wwd": "_wind_wave_direction",
+        "steepness": "_steepness"
+    }
+
+    def __init__(self,
+                 station=None
+                 ):
         """
-        It appears that all of the attributes that we added through setattr are stored in
-        a dictionary called self.__dict__ ... let's loop over that to print out the
-        attrivutes that we have stored.
-
-        NOTE: just in case, we can filter out some of our values here if we wanted to
-        by making sure that no private variables are displayed ... filter for the __
-        inside of the key (leaving this out for now though)
-
-        :return: string representation of this object
+        :param station: NOAA Station ID
         """
-        ret = ""
-        for k, v in self.__dict__.items():
+        try:
+            self._station = str(station)
+        except TypeError as e:
+            raise NauticalError(e)
 
-            if "units" in str(k):
-                continue
+        self._month = 0
+        self._day = 0
+        self._time = None
 
-            units = getattr(self, k+"_units")
-            if units is not None:
-                ret = ret + "{} = {} {}\n".format(k, v, units)
-            else:
-                ret = ret + "{} = {}\n".format(k, v)
+        self._wind_direction = None       # str
+        self._wind_speed = 0              # KTS
+        self._gust = 0                    # KTS
+        self._wave_height = 0             # Feet
+        self._dominant_wave_period = 0    # Seconds
+        self._average_wave_period = 0     # Seconds
+        self._mean_wave_direction = None  # str
+        self._pressure = 0                # Inches
+        self._pressure_tendency = 0       # Inches
+        self._air_temp = 0                # Degrees F
+        self._water_temp = 0              # Degrees F
+        self._dew_point = 0               # Degrees F
+        self._salinity = 0                # PSU
+        self._visibility = 0              # Nautical Miles
+        self._tide = 0                    # Feet
 
-        return ret
+        self._swell_height = 0            # Feet
+        self._swell_period = 0            # Seconds
+        self._swell_direction = None      # str
+        self._wind_wave_height = 0        # Feet
+        self._wind_wave_period = 0        # Seconds
+        self._wind_wave_direction = None  # str
+        self._steepness = None            # str
+
+    def __call__(self, *args, **kwargs):
+        """
+        Instead of using the setattr or specific getter and setter combinations,
+        the user can use the () function to pass in args to set the values.
+        Note: the units will always be assumed as the comments state in the
+        init function.
+
+        Args:
+            var: name of the variable that you wish to set. The Class
+                 prepares for data to be similar to the data coming
+                 directly from noaa. If you wish to set values other than
+                 those in the lookup table, please use setattr
+
+            value: value of the variable in question. None by default
+
+        """
+
+        var = kwargs.get("var", None)
+        if var:
+
+            internal_var = self._lookup_table.get(var.lower(), None)
+            if internal_var:
+                setattr(self, internal_var, kwargs.get("value", None))
+
+    def __setattr__(self, key, value):
+
+        if "_time" in key:
+            pass
+        else:
+            super(NOAAData, self).__setattr__(key, value)
+
+    @property
+    def station(self):
+        return self._station
+
+    def __str__(self):
+        """
+        Short description of the NOAA Data, the station id provides the
+        user with the required information for further lookup.
+        """
+        return "Station {}".format(self._station)
+
+    def __repr__(self):
+        """
+        The long description of the NOAA Data object
+        """
+        return None
 
 
 class CombinedNOAAData:
 
-    def  __init__(self) -> None:
+    def __init__(self) -> None:
         """
         This class is meant to serve as the combination of past and present NOAA
         data for a particular buoy location. This will will include:
