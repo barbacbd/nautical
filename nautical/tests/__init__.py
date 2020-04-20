@@ -1,8 +1,7 @@
 import unittest
 from ..location.point import Point
 from ..location.util import haversine
-from ..noaa.SeaState import get_sea_state
-from nautical.time.nautical_time import convert_noaa_time
+from nautical.time.conversion import convert_noaa_time
 from ..io.parse import get_noaa_forecast_url, get_url_source
 from bs4 import BeautifulSoup
 
@@ -88,39 +87,6 @@ class TestNautical(unittest.TestCase):
         self.assertAlmostEqual(dist, 27404.73, 2, "Distance between VB and Norfolk is incorrect.")
 
     """
-    NOAA sub module tests
-    """
-
-    def test_time_conversion(self):
-        """
-        Test valid and invalid time conversion values
-        """
-        valid_str = "2:30&nbsp;pm"
-        invalid_str = "nbsp;pm"
-
-        ret_valid = convert_noaa_time(valid_str)
-        self.assertEqual(ret_valid, "2:30 pm", "2:30&nbsp;pm failed to convert")
-
-        ret_invalid = convert_noaa_time(invalid_str)
-        self.assertEqual(ret_invalid, "", "Failed to fail to convert")
-
-    def test_sea_state(self):
-        """
-        Test that the proper sea state value was foudn
-        """
-        self.assertEqual(get_sea_state(0), 0, "Sea state is incorrect for 0 meters.")
-        self.assertEqual(get_sea_state(-121312), 0, "Sea state is incorrect for -121312 meters.")
-        self.assertEqual(get_sea_state(0.05), 1, "Sea state is incorrect for 0.05 meters.")
-        self.assertEqual(get_sea_state(0.49), 2, "Sea state is incorrect for 0.49 meters.")
-        self.assertEqual(get_sea_state(0.51), 3, "Sea state is incorrect for 0.51 meters.")
-        self.assertEqual(get_sea_state(2), 4, "Sea state is incorrect for 2 meters.")
-        self.assertEqual(get_sea_state(3.99), 5, "Sea state is incorrect for 3.99 meters.")
-        self.assertEqual(get_sea_state(4.001), 6, "Sea state is incorrect for 4.001 meters.")
-        self.assertEqual(get_sea_state(7.5), 7, "Sea state is incorrect for 7.5 meters.")
-        self.assertEqual(get_sea_state(12), 8, "Sea state is incorrect for 12 meters.")
-        self.assertEqual(get_sea_state(123123123), 9, "Sea state is incorrect for 123123123 meters.")
-
-    """
     IO sub module tests
     """
 
@@ -166,9 +132,6 @@ class TestNautical(unittest.TestCase):
         suite.addTest(TestNautical("test_altitude"))
         suite.addTest(TestNautical("test_parser"))
         suite.addTest(TestNautical("test_distance"))
-        """ NOAA TESTS """
-        suite.addTest(TestNautical("test_time_conversion"))
-        suite.addTest(TestNautical("test_sea_state"))
         """ IO TESTS """
         suite.addTest(TestNautical("test_beautiful_soup"))
         suite.addTest(TestNautical("test_forecast_url"))
