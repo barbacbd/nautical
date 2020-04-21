@@ -1,13 +1,16 @@
-from math import sin, cos, sqrt, radians, atan2
-from logging import getLogger
-
-
-log = getLogger(__name__)
+"""
+Author: barbacbd
+Date:   4/20/2020
+"""
 
 
 class Point:
 
-    def __init__(self, lat: float = 0.0, lon: float = 0.0, alt: float = 0.0) -> None:
+    def __init__(self,
+                 lat: float = 0.0,
+                 lon: float = 0.0,
+                 alt: float = 0.0
+                 ) -> None:
         """
         A 3D point containing latitude, longitude and altitude coordinates
         """
@@ -34,26 +37,23 @@ class Point:
 
     @latitude.setter
     def latitude(self, latitude):
-        try:
-            if -90.0 <= float(latitude) <= 90.0:
+        if isinstance(latitude, float):
+            if -90.0 <= latitude <= 90.0:
                 self._latitude = float(latitude)
-        except Exception:
-            pass
 
     @longitude.setter
     def longitude(self, longitude):
-        try:
-            if -180.0 <= float(longitude) <= 180.0:
-                self._longitude = float(longitude)
-        except Exception:
-            pass
+        if isinstance(longitude, float):
+            if -180.0 <= longitude <= 180.0:
+                self._longitude = longitude
 
     @altitude.setter
     def altitude(self, altitude):
-        try:
-            self._altitude = float(altitude)
-        except Exception:
-            pass
+        if isinstance(altitude, float):
+            self._altitude = altitude
+
+    def __repr__(self):
+        return "Point"
 
     def __str__(self) -> str:
         """
@@ -64,25 +64,14 @@ class Point:
 
     def parse(self, data: str) -> None:
         """
-        Read in a string contain lat, lon, altitude. Note, all whitespace is ignored but it is NOT a delimiter
+        :param data: A string containing (whitespace ignored and not a delimiter)
+            lat, lon, altitude.
 
         If data is comma separated it is parsed as lon, lat, alt [altitude is optional -> default to 0.0].
         NOTE: NOAA data is in the form LON, LAT
 
         Ex: -110.123, 76.45, 0.0
         Ex: -110.123, 76.45
-
-        If the data is colon separated with commas, a string identifier should be added to denote the field, AND the
-        arguments should be comma delimited
-
-        Ex: Lat: 76.45, LONGITUDE: -110.123, Altitude: 0.0
-
-        Note: the spelling does not matter
-
-        Values that can be parsed AND are valid will be set, Other values will REMAIN
-
-        :param data: String to be parsed
-        :return: None, the values are set internally
         """
         if data:
             """ Remove all whitespace and lower case the value"""
@@ -90,14 +79,9 @@ class Point:
             data = "".join(data.split())
             split_data = data.split(",")
 
-            print(split_data)
-
-            if len(split_data) == 2:
-                """" Latitude, Longitude """
-                self.longitude = split_data[0]
-                self.latitude = split_data[1]
-            elif len(split_data) == 3:
-                """ Latitude, Longitude, Altitude"""
-                self.longitude = split_data[0]
-                self.latitude = split_data[1]
-                self.altitude = split_data[2]
+            try:
+                self.longitude = float(split_data[0])  # should ALWAYS exist
+                self.latitude = float(split_data[1])   # should ALWAYS exist
+                self.altitude = float(split_data[2])   # may or may not exist
+            except Exception as e:
+                pass

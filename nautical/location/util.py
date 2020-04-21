@@ -1,3 +1,8 @@
+"""
+Author: barbacbd
+Date:   4/20/2020
+"""
+
 from ..error import NauticalError
 from math import radians, sin, cos, atan2, sqrt
 from .point import Point

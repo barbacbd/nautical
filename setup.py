@@ -17,6 +17,11 @@ setup(
         'bs4',
         'pykml'
     ],
+    entry_points={
+        'console_scripts': [
+            'NauticalTests=nautical.tests.nautical_tests:main'
+        ]
+    },
     url='https://barbacbd@bitbucket.org/barbacbd/nautical',
     download_url='https://barbacbd@bitbucket.org/barbacbd/nautical/archive/v_101.tar.gz',
     description='The nautical package is able to lookup NOAA buoy data including swell and wave information.',
