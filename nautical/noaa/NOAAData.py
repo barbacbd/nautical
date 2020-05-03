@@ -11,7 +11,7 @@ class NOAAData(object):
     Lookup table to associate the variable name from NOAA's table on each
     web page to the variable name inside of this class.
     """
-    _lookup_table = {
+    var_table = {
         "mm":        "_month",
         "dd":        "_day",
         "time":      "_time",
@@ -97,17 +97,15 @@ class NOAAData(object):
 
         var = kwargs.get("var", None)
         if var:
-
-            internal_var = self._lookup_table.get(var.lower(), None)
+            internal_var = self.var_table.get(var.lower(), None)
             if internal_var:
-                setattr(self, internal_var, kwargs.get("value", None))
 
-    def __setattr__(self, key, value):
+                value = kwargs.get("value", None)
 
-        if "_time" in key:
-            self._time = convert_noaa_time(value)
-        else:
-            super(NOAAData, self).__setattr__(key, value)
+                if "_time" in internal_var and isinstance(value, str):
+                    setattr(self, internal_var, convert_noaa_time(value))
+                else:
+                    setattr(self, internal_var, value)
 
     @property
     def station(self):
@@ -118,13 +116,38 @@ class NOAAData(object):
         Short description of the NOAA Data, the station id provides the
         user with the required information for further lookup.
         """
-        return "Station {}".format(self._station)
+        return "{}/{} : {}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n"\
+            .format(
+                self._month, self._day, self._time,
+                self._wind_direction,
+                self._wind_speed,
+                self._gust,
+                self._wave_height,
+                self._dominant_wave_period,
+                self._average_wave_period,
+                self._mean_wave_direction,
+                self._pressure,
+                self._pressure_tendency,
+                self._air_temp,
+                self._water_temp,
+                self._dew_point,
+                self._salinity,
+                self._visibility,
+                self._tide,
+                self._swell_height,
+                self._swell_period,
+                self._swell_direction,
+                self._wind_wave_height,
+                self._wind_wave_period,
+                self._wind_wave_direction,
+                self._steepness,
+            )
 
     def __repr__(self):
         """
         The long description of the NOAA Data object
         """
-        return None
+        return "Data for NOAA Buoy {}".format(self._station)
 
 
 class CombinedNOAAData:

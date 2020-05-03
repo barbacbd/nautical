@@ -6,7 +6,7 @@ from ..noaa.NOAAData import NOAAData, CombinedNOAAData
 from ..location.point import Point
 from re import sub
 from ..error import NauticalError
-from . import _BuoyDataPositions, _BuoyHeaderPositions
+from . import DEFAULT_BUOY_WAVE_TEXT_SEARCH, SWELL_DATA_TEXT_SEARCH, PREVIOUS_OBSERVATION_SEARCH
 
 
 def get_buoys_information(only_wave_data: bool = False):
@@ -102,11 +102,21 @@ def buoy_workup(buoy):
 
         data = CombinedNOAAData()
 
-        current_wave_search = "Conditions at {} as of".format(buoy)
-        data.present_wave_data = get_current_data(soup, current_wave_search)
+        current_buoy_data = NOAAData()
 
-        detailed_search = "Detailed Wave Summary"
-        data.present_swell_data = get_current_data(soup, detailed_search)
+        get_current_data(
+            soup,
+            search=DEFAULT_BUOY_WAVE_TEXT_SEARCH.format(buoy),
+            data=current_buoy_data
+        )
+
+        get_current_data(
+            soup,
+            search=SWELL_DATA_TEXT_SEARCH,
+            data=current_buoy_data
+        )
+
+        # print(current_buoy_data)
 
         data.past_data = get_past_data(soup)
 
@@ -163,7 +173,7 @@ def get_url_source(url_name):
         raise NauticalError("failed to create beautiful soup object")
 
 
-def get_current_data(soup, search: str):
+def get_current_data(soup, **kwargs):
     """
     Search the beautiful soup object for a TABLE containing the search string. The function will
     grab the data from the table and create a NOAAData object and return the data
@@ -172,65 +182,32 @@ def get_current_data(soup, search: str):
     a possible limitation of beautiful soup searching
     :return: NOAAData object if successful otherwise NONE
     """
+
+    search = kwargs.get("search", None)
+    data = kwargs.get("data", NOAAData())
+
+    if not search:
+        return
+
     if isinstance(soup, BeautifulSoup):
 
         try:
             table = soup.find(text=search).findParent("table")
 
-            nd = NOAAData()
+            for i, row in enumerate(table.findAll('tr')):
 
-            for row in table.findAll('tr'):
-                cells = row.findAll('td')
+                # the first table is another table and it is no use to use -- skipping
+                if i >= 1:
+                    cells = row.findAll('td')
 
-                """
-                I really don't like this way of doing the parsing but I believe that I am limited ...
-                cell[0] -> href data that we do not care about
-                cell[1] -> somewhere in here is the same abbreviation use for past data - parse that out
-                cell[2] -> this is the value that we want 
+                    if cells:
 
-                ... like I said I don't like this because it makes it less dynamic 
-                """
+                        key_data = cells[1].next.split()
+                        key = sub('[():]', '', key_data[len(key_data) - 1]).lower()
+                        value = cells[2].next.split()[0]
+                        # print("{} = {}".format(key, value))
 
-                if len(cells) > 0:
-
-                    key = None
-                    value = None
-                    units = None
-
-                    for i in range(1, len(cells)):
-
-                        split_data = cells[i].next.split()
-
-                        if i == _BuoyHeaderPositions.KEY and len(split_data) > 0:
-                            # The key is embedded so let's extract it.
-                            # Swell Direction (SwD): Split the data and strip off the (): from the last entry.
-                            key = sub('[():]', '', split_data[len(split_data) - 1]).lower()
-
-                        # The value is just the first entry in this split data
-                        elif i == _BuoyHeaderPositions.VALUE and len(split_data) > 0:
-
-                            num_entries = len(split_data)
-
-                            # Grab the value, if there is a unit associated with the data,
-                            # attempt to save the units to the NOAA Data too..
-
-                            if num_entries >= _BuoyDataPositions.VALUE:
-                                value = split_data[_BuoyDataPositions.VALUE]
-
-                            if num_entries >= _BuoyDataPositions.UNITS:
-                                units = " ".join(split_data[_BuoyDataPositions.UNITS:])
-
-                    if key is not None and value is not None and value != "-":
-
-                        print("key = {}, value = {}".format(key, value))
-
-                        setattr(nd, key, value)
-
-                        # save the units if they existed
-                        if units is not None:
-                            setattr(nd, key+"_units", units)
-
-            return nd
+                        data(var=key, value=value)
 
         except Exception:
             raise NauticalError("table lookup failed")
@@ -246,6 +223,49 @@ def get_past_data(soup):
     past_data = []
     if isinstance(soup, BeautifulSoup):
         try:
+
+            # Get a list of all tables of the type dataTable, we know that is what
+            # type of xml tag we need information from
+            tables = soup.findAll(
+                name="table",
+                attrs={"class": "dataTable"}
+            )
+
+            for table in tables:
+
+                # Let's only use the tables whose information is in a table
+                # call Previous Observations
+                if str(table.find(
+                    name="caption",
+                    attrs={"class": "dataHeader"}
+                ).next) in PREVIOUS_OBSERVATION_SEARCH:
+
+                    # find the variable names for each of the noaa data points
+                    header_info = table.findAll(
+                        name="th",
+                        attrs={"class": "dataHeader"}
+                    )
+                    noaa_var_names = [str(x.next).lower() for x in header_info]
+
+
+                    # find all of the rows of this table, then determine if the number
+                    # of cells in the row matches the number of variables we just set, if
+                    # so then this is the data set that we are looking for
+
+                    for table_row in table.findAll("tr"):
+
+                        cells = table_row.findAll("td")
+
+                        if len(cells) == len(noaa_var_names):
+
+                            for i, cell in enumerate(cells):
+                                print("{} = {}".format(noaa_var_names[i], "".join(str(cell.next).split())))
+                    #
+                    #
+                    # print(noaa_var_names)
+
+            return
+
             tables = soup.findAll("table", {"class": "dataTable"})
 
             for table in tables:
@@ -253,14 +273,26 @@ def get_past_data(soup):
                 # list of header information from the table
                 headers = []
 
+                print(table.findAll("th", {"class": "dataHeader"}))
+                return
+
+
                 for row in table.findAll("tr"):
+
+                    print("row = ", row)
 
                     # grab the header information so we can compare it to each row of the table
                     header_info = row.findAll("th", {"class": "dataHeader"})
 
-                    for info in header_info:
+                    # print(header_info)
 
-                        headers.append(str(info.next).lower())
+                    headers = [str(x.next).lower() for x in header_info]
+                    # print("Boom: ", headers)
+                    #
+                    # for info in header_info:
+                    #
+                    #     print(info.next)
+                    #     headers.append(str(info.next).lower())
 
                     # Get all of the information in the table that is NOT part of the header
                     cells = row.findAll("td")

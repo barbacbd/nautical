@@ -1,17 +1,6 @@
-from enum import IntEnum
 
+DEFAULT_BUOY_WAVE_TEXT_SEARCH = "Conditions at {} as of"
 
-class _BuoyHeaderPositions(IntEnum):
-    """
-    Enumeration to allow the user to know where the buoy header fields exist
-    """
-    KEY = 1
-    VALUE = 2
+SWELL_DATA_TEXT_SEARCH = "Detailed Wave Summary"
 
-
-class _BuoyDataPositions(IntEnum):
-    """
-    Enumeration to allow the user to know where the buoy data fields exist
-    """
-    VALUE = 0
-    UNITS = 1
+PREVIOUS_OBSERVATION_SEARCH = "Previous observations"
