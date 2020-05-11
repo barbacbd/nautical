@@ -2,10 +2,11 @@ from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
 from bs4 import BeautifulSoup
 from pykml import parser
-from ..noaa.NOAAData import NOAAData, CombinedNOAAData
-from ..location.point import Point
+from nautical.noaa.noaa_data import NOAAData
+from nautical.noaa.buoy_data import BuoyWorkup
+from nautical.location.point import Point
 from re import sub
-from ..error import NauticalError
+from nautical.error import NauticalError
 from . import DEFAULT_BUOY_WAVE_TEXT_SEARCH, SWELL_DATA_TEXT_SEARCH, PREVIOUS_OBSERVATION_SEARCH
 
 
@@ -93,34 +94,32 @@ def buoy_workup(buoy):
     CombinedNOAAData partially
 
     :param buoy: id of the buoy to do a workup on
-    :return: CombinedNOAAData if successful else None
+    :return: BuoyWorkup if successful else None
     """
     if buoy is not None:
         url = get_noaa_forecast_url(buoy)
 
         soup = get_url_source(url)
 
-        data = CombinedNOAAData()
-
         current_buoy_data = NOAAData()
-
         get_current_data(
             soup,
             search=DEFAULT_BUOY_WAVE_TEXT_SEARCH.format(buoy),
             data=current_buoy_data
         )
-
         get_current_data(
             soup,
             search=SWELL_DATA_TEXT_SEARCH,
             data=current_buoy_data
         )
 
-        # print(current_buoy_data)
+        past_data = get_past_data(soup, buoy)
 
-        data.past_data = get_past_data(soup)
+        buoy_data = BuoyWorkup(buoy)
+        buoy_data.present = current_buoy_data
+        buoy_data.past = past_data
 
-        return data
+        return buoy_data
 
     else:
         return None
@@ -179,7 +178,10 @@ def get_current_data(soup, **kwargs):
     grab the data from the table and create a NOAAData object and return the data
     :param soup: beautiful soup object generated from the get_url_source()
     :param search: text to search for in the soup object. The text MUST be an exact match as this is
-    a possible limitation of beautiful soup searching
+                   a possible limitation of beautiful soup searching
+    :param data: optional field that contains the previously initialized [and possibly filled] NOAA Data.
+                 If the data exists, the new data found from this function will be added to the appropriate
+                 fields. If this value is not passed, a new NOAA data object is created.
     :return: NOAAData object if successful otherwise NONE
     """
 
@@ -207,20 +209,20 @@ def get_current_data(soup, **kwargs):
                         value = cells[2].next.split()[0]
                         # print("{} = {}".format(key, value))
 
-                        data(var=key, value=value)
+                        data.update(var=key, value=value)
 
         except Exception:
             raise NauticalError("table lookup failed")
 
 
-def get_past_data(soup):
+def get_past_data(soup, buoy):
     """
     Get a list of all swell data from the past.
     :param soup: beautiful soup object generated from the get_url_source()
     :return: list of swell data
     """
 
-    past_data = []
+    past_data = {}
     if isinstance(soup, BeautifulSoup):
         try:
 
@@ -247,72 +249,27 @@ def get_past_data(soup):
                     )
                     noaa_var_names = [str(x.next).lower() for x in header_info]
 
-
                     # find all of the rows of this table, then determine if the number
                     # of cells in the row matches the number of variables we just set, if
                     # so then this is the data set that we are looking for
 
                     for table_row in table.findAll("tr"):
-
                         cells = table_row.findAll("td")
 
                         if len(cells) == len(noaa_var_names):
 
-                            for i, cell in enumerate(cells):
-                                print("{} = {}".format(noaa_var_names[i], "".join(str(cell.next).split())))
-                    #
-                    #
-                    # print(noaa_var_names)
+                            data = {
+                                noaa_var_names[i]: "".join(str(cell.next).split())
+                                for i, cell in enumerate(cells)
+                            }
 
-            return
+                            if "time" in data:
+                                nd = past_data.get(data["time"], NOAAData(buoy))
+                                nd.from_dict(data)
 
-            tables = soup.findAll("table", {"class": "dataTable"})
-
-            for table in tables:
-
-                # list of header information from the table
-                headers = []
-
-                print(table.findAll("th", {"class": "dataHeader"}))
-                return
-
-
-                for row in table.findAll("tr"):
-
-                    print("row = ", row)
-
-                    # grab the header information so we can compare it to each row of the table
-                    header_info = row.findAll("th", {"class": "dataHeader"})
-
-                    # print(header_info)
-
-                    headers = [str(x.next).lower() for x in header_info]
-                    # print("Boom: ", headers)
-                    #
-                    # for info in header_info:
-                    #
-                    #     print(info.next)
-                    #     headers.append(str(info.next).lower())
-
-                    # Get all of the information in the table that is NOT part of the header
-                    cells = row.findAll("td")
-
-                    if len(cells) == len(headers) and len(cells) > 0:
-
-                        # Header and length of the rows matched - we have a proper amount of data to store
-
-                        nd = NOAAData()
-
-                        for i in range(0, len(cells)):
-
-                            value = "".join(str(cells[i].next).split())
-
-                            # for some reason NOAA has added - for data without entries
-                            if value is not None and value != "-":
-                                setattr(nd, headers[i], value)
-
-                        past_data.append(nd)
+                                # update the dictionary even if this one already existed
+                                past_data[data["time"]] = nd
         except Exception:
-            raise NauticalError("table lookup failed")
-
-    return past_data
+            pass
+        finally:
+            return past_data.values()

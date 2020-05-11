@@ -4,6 +4,10 @@ Author: barbacbd
 
 from nautical.error import NauticalError
 from nautical.time.conversion import convert_noaa_time
+from . import UNAVAILABLE_NOAA_DATA
+from time import mktime, strptime
+from datetime import datetime
+
 
 class NOAAData(object):
 
@@ -50,6 +54,11 @@ class NOAAData(object):
         except TypeError as e:
             raise NauticalError(e)
 
+        self._reverse_lookup = {v: k for k, v in self.var_table.items()}
+
+        # save the year when you initialize the instance
+        self._year = int(datetime.now().year)
+
         self._month = 0
         self._day = 0
         self._time = None
@@ -78,7 +87,40 @@ class NOAAData(object):
         self._wind_wave_direction = None  # str
         self._steepness = None            # str
 
-    def __call__(self, *args, **kwargs):
+    @property
+    def epoch_time(self):
+        if self._year and self._month and self._day and self._time:
+            date = '{}-{}-{} {}'.format(self._year, self._month, self._day, str(self._time))
+            pattern = '%Y-%m-%d %H:%M:%S'
+            return int(mktime(strptime(date, pattern)))
+        else:
+            return 0
+
+    def __iter__(self):
+        """
+        Provide a user friendly mapping of variable names to values stored in this
+        NOAA Data Object
+        """
+        for k, v in self.var_table.items():
+            yield ' '.join(list(filter(None, v.split('_')))), getattr(self, k)
+
+    def descriptors(self):
+        """
+        Return the descriptors for all users to all of the public variable
+        representations of this object
+        """
+        return {
+            k: ' '.join(list(filter(None, v.split('_'))))
+            for k, v in self.var_table.items()
+        }
+
+    def from_dict(self, d: {}):
+        """
+        Fill this structure from a dictionary
+        """
+        [self.update(var=k, value=v) for k, v in d.items()]
+
+    def update(self, *args, **kwargs):
         """
         Instead of using the setattr or specific getter and setter combinations,
         the user can use the () function to pass in args to set the values.
@@ -94,18 +136,33 @@ class NOAAData(object):
             value: value of the variable in question. None by default
 
         """
-
         var = kwargs.get("var", None)
-        if var:
-            internal_var = self.var_table.get(var.lower(), None)
-            if internal_var:
+        if var and var.lower() in self.var_table:
 
-                value = kwargs.get("value", None)
+            i_var = self.var_table[var.lower()]
+            value = kwargs.get("value", UNAVAILABLE_NOAA_DATA)
 
-                if "_time" in internal_var and isinstance(value, str):
-                    setattr(self, internal_var, convert_noaa_time(value))
+            if value != UNAVAILABLE_NOAA_DATA:
+
+                if "time" in i_var:
+                    setattr(self, i_var, convert_noaa_time(value))
                 else:
-                    setattr(self, internal_var, value)
+                    setattr(self, i_var, value)
+
+    def __getattr__(self, item):
+        """
+        Provide the user with the ability to find the public names of internal variables
+
+        Ex:
+            a = NOAAData()
+            ... fill object ...
+            time = getattr(a, "time") find the variable _time inside of this object
+        """
+        item_lower = item.lower()
+        if item_lower in self.var_table:
+            return getattr(self, self.var_table[item_lower])
+        else:
+            return super(NOAAData, self).__getattribute__(item)
 
     @property
     def station(self):
@@ -113,58 +170,6 @@ class NOAAData(object):
 
     def __str__(self):
         """
-        Short description of the NOAA Data, the station id provides the
-        user with the required information for further lookup.
-        """
-        return "{}/{} : {}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n"\
-            .format(
-                self._month, self._day, self._time,
-                self._wind_direction,
-                self._wind_speed,
-                self._gust,
-                self._wave_height,
-                self._dominant_wave_period,
-                self._average_wave_period,
-                self._mean_wave_direction,
-                self._pressure,
-                self._pressure_tendency,
-                self._air_temp,
-                self._water_temp,
-                self._dew_point,
-                self._salinity,
-                self._visibility,
-                self._tide,
-                self._swell_height,
-                self._swell_period,
-                self._swell_direction,
-                self._wind_wave_height,
-                self._wind_wave_period,
-                self._wind_wave_direction,
-                self._steepness,
-            )
-
-    def __repr__(self):
-        """
         The long description of the NOAA Data object
         """
         return "Data for NOAA Buoy {}".format(self._station)
-
-
-class CombinedNOAAData:
-
-    def __init__(self) -> None:
-        """
-        This class is meant to serve as the combination of past and present NOAA
-        data for a particular buoy location. This will will include:
-
-        present wave data
-        present swell data
-        past data [currently wave data and swell data]
-        """
-        self.present_wave_data = None
-        self.present_swell_data = None
-        self.past_data = None
-
-
-
-
