@@ -52,15 +52,12 @@ class Point:
         if isinstance(altitude, float):
             self._altitude = altitude
 
-    def __repr__(self):
-        return "Point"
-
     def __str__(self) -> str:
         """
         Python version of the to string function. Turn this object into a string
         :return: string representation of this object
         """
-        return "[{}, {}, {}]".format(self._latitude, self._longitude, self.altitude)
+        return "{}, {}, {}".format(self._latitude, self._longitude, self.altitude)
 
     def parse(self, data: str) -> None:
         """

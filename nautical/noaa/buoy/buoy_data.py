@@ -4,12 +4,12 @@ Author: barbacbd
 
 from nautical.error import NauticalError
 from nautical.time.conversion import convert_noaa_time
-from . import UNAVAILABLE_NOAA_DATA
+from nautical.noaa import UNAVAILABLE_NOAA_DATA
 from time import mktime, strptime
 from datetime import datetime
 
 
-class NOAAData(object):
+class BuoyData(object):
 
     """
     Lookup table to associate the variable name from NOAA's table on each
@@ -43,16 +43,10 @@ class NOAAData(object):
         "steepness": "_steepness"
     }
 
-    def __init__(self,
-                 station=None
-                 ):
+    def __init__(self):
         """
-        :param station: NOAA Station ID
+
         """
-        try:
-            self._station = str(station)
-        except TypeError as e:
-            raise NauticalError(e)
 
         self._reverse_lookup = {v: k for k, v in self.var_table.items()}
 
@@ -162,14 +156,4 @@ class NOAAData(object):
         if item_lower in self.var_table:
             return getattr(self, self.var_table[item_lower])
         else:
-            return super(NOAAData, self).__getattribute__(item)
-
-    @property
-    def station(self):
-        return self._station
-
-    def __str__(self):
-        """
-        The long description of the NOAA Data object
-        """
-        return "Data for NOAA Buoy {}".format(self._station)
+            return super(BuoyData, self).__getattribute__(item)
