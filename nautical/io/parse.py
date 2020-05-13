@@ -162,7 +162,7 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
                 key = sub('[():]', '', key_data[len(key_data) - 1]).lower()
                 value = cells[2].next.split()[0]
 
-                buoy.update(var=key, value=value)
+                buoy.set(var=key, value=value)
 
 
 def get_past_data(soup: BeautifulSoup):

@@ -1,8 +1,6 @@
 """
 Author: barbacbd
 """
-
-from nautical.error import NauticalError
 from nautical.time.conversion import convert_noaa_time
 from nautical.noaa import UNAVAILABLE_NOAA_DATA
 from time import mktime, strptime
@@ -112,23 +110,17 @@ class BuoyData(object):
         """
         Fill this structure from a dictionary
         """
-        [self.update(var=k, value=v) for k, v in d.items()]
+        [self.set(var=k, value=v) for k, v in d.items()]
 
-    def update(self, *args, **kwargs):
+    def set(self, *args, **kwargs):
         """
-        Instead of using the setattr or specific getter and setter combinations,
-        the user can use the () function to pass in args to set the values.
-        Note: the units will always be assumed as the comments state in the
-        init function.
-
-        Args:
+        :param kwargs:
             var: name of the variable that you wish to set. The Class
                  prepares for data to be similar to the data coming
                  directly from noaa. If you wish to set values other than
                  those in the lookup table, please use setattr
 
             value: value of the variable in question. None by default
-
         """
         var = kwargs.get("var", None)
         if var and var.lower() in self.var_table:
@@ -148,7 +140,7 @@ class BuoyData(object):
         Provide the user with the ability to find the public names of internal variables
 
         Ex:
-            a = NOAAData()
+            a = BuoyData()
             ... fill object ...
             time = getattr(a, "time") find the variable _time inside of this object
         """
