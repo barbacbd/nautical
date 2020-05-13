@@ -162,7 +162,7 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
                 key = sub('[():]', '', key_data[len(key_data) - 1]).lower()
                 value = cells[2].next.split()[0]
 
-                buoy.set(var=key, value=value)
+                buoy.set(key, value)
 
 
 def get_past_data(soup: BeautifulSoup):
@@ -219,4 +219,4 @@ def get_past_data(soup: BeautifulSoup):
                         # update the dictionary even if this one already existed
                         past_data[data["time"]] = nd
 
-    return past_data.values()
+    return [x for x in past_data.values()]

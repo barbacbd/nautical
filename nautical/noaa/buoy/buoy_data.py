@@ -2,7 +2,7 @@
 Author: barbacbd
 """
 from nautical.time.conversion import convert_noaa_time
-from nautical.noaa import UNAVAILABLE_NOAA_DATA
+from nautical.time.nautical_time import nTime
 from time import mktime, strptime
 from datetime import datetime
 
@@ -10,79 +10,83 @@ from datetime import datetime
 class BuoyData(object):
 
     """
-    Lookup table to associate the variable name from NOAA's table on each
-    web page to the variable name inside of this class.
+    mm        : month                : int
+    dd        : day                  : int
+    time      : time                 : nautical.time.nautical_time.nTime
+    wdir      : wind direction       : string
+    wspd      : wind speed           : kts
+    gst       : gust                 : kts
+    wvht      : wave height          : feet
+    dpd       : dominant wave period : seconds
+    apd       : average wave period  : seconds
+    mwd       : mean wave direction  : string
+    pres      : pressure             : inches
+    ptdy      : pressure tendency    : inches
+    atmp      : air temp             : Degrees F
+    wtmp      : water temp           : Degrees F
+    dewp      : dew point            : Degrees F
+    sal       : salinity             : PSU
+    vis       : visibility           : NM
+    tide      : tide                 : feet
+    swh       : swell height         : feet
+    swp       : swell period         : seconds
+    swd       : swell direction      : string
+    wwh       : wind wave height     : feet
+    wwp       : wind wave period     : seconds
+    wwd       : wind wave direction  : string
+    steepness : steepness            : string
     """
-    var_table = {
-        "mm":        "_month",
-        "dd":        "_day",
-        "time":      "_time",
-        "wdir":      "_wind_direction",
-        "wspd":      "_wind_speed",
-        "gst":       "_gust",
-        "wvht":      "_wave_height",
-        "dpd":       "_dominant_wave_period",
-        "apd":       "_average_wave_period",
-        "mwd":       "_mean_wave_direction",
-        "pres":      "_pressure",
-        "ptdy":      "_pressure_tendency",
-        "atmp":      "_air_temp",
-        "wtmp":      "_water_temp",
-        "dewp":      "_dew_point",
-        "sal":       "_salinity",
-        "vis":       "_visibility",
-        "tide":      "_tide",
-        "swh":       "_swell_height",
-        "swp":       "_swell_period",
-        "swd":       "_swell_direction",
-        "wwh":       "_wind_wave_height",
-        "wwp":       "_wind_wave_period",
-        "wwd":       "_wind_wave_direction",
-        "steepness": "_steepness"
-    }
 
     def __init__(self):
         """
 
         """
+        # split the docstring into something a bit more readable for later
+        # (variable name, description, units)
+        self._lookup = []
+        if self.__doc__:
+            for line in self.__doc__.split("\n"):
+                if line:
+                    _split = [str(x.strip()) for x in line.split(":")]
 
-        self._reverse_lookup = {v: k for k, v in self.var_table.items()}
+                    if len(_split) == 3:
+                        self._lookup.append(_split)
 
         # save the year when you initialize the instance
-        self._year = int(datetime.now().year)
+        self.year = int(datetime.now().year)
 
-        self._month = 0
-        self._day = 0
-        self._time = None
+        self.mm = 0
+        self.dd = 0
+        self.time = None
 
-        self._wind_direction = None       # str
-        self._wind_speed = 0              # KTS
-        self._gust = 0                    # KTS
-        self._wave_height = 0             # Feet
-        self._dominant_wave_period = 0    # Seconds
-        self._average_wave_period = 0     # Seconds
-        self._mean_wave_direction = None  # str
-        self._pressure = 0                # Inches
-        self._pressure_tendency = 0       # Inches
-        self._air_temp = 0                # Degrees F
-        self._water_temp = 0              # Degrees F
-        self._dew_point = 0               # Degrees F
-        self._salinity = 0                # PSU
-        self._visibility = 0              # Nautical Miles
-        self._tide = 0                    # Feet
+        self.wdir = None       # str
+        self.wspd = 0          # KTS
+        self.gst = 0           # KTS
+        self.wvht = 0          # Feet
+        self.dpd = 0           # Seconds
+        self.apd = 0           # Seconds
+        self.mwd = None        # str
+        self.pres = 0          # Inches
+        self.ptdy = 0          # Inches
+        self.atmp = 0          # Degrees F
+        self.wtmp = 0          # Degrees F
+        self.dewp = 0          # Degrees F
+        self.sal = 0           # PSU
+        self.vis = 0           # Nautical Miles
+        self.tide = 0          # Feet
 
-        self._swell_height = 0            # Feet
-        self._swell_period = 0            # Seconds
-        self._swell_direction = None      # str
-        self._wind_wave_height = 0        # Feet
-        self._wind_wave_period = 0        # Seconds
-        self._wind_wave_direction = None  # str
-        self._steepness = None            # str
+        self.swh = 0           # Feet
+        self.swp = 0           # Seconds
+        self.swd = None        # str
+        self.wwh = 0           # Feet
+        self.wwp = 0           # Seconds
+        self.wwd = None        # str
+        self.steepness = None  # str
 
     @property
     def epoch_time(self):
-        if self._year and self._month and self._day and self._time:
-            date = '{}-{}-{} {}'.format(self._year, self._month, self._day, str(self._time))
+        if self.year and self.mm and self.dd and self.time:
+            date = '{}-{}-{} {}'.format(self.year, self.mm, self.dd, str(self.time))
             pattern = '%Y-%m-%d %H:%M:%S'
             return int(mktime(strptime(date, pattern)))
         else:
@@ -93,59 +97,31 @@ class BuoyData(object):
         Provide a user friendly mapping of variable names to values stored in this
         NOAA Data Object
         """
-        for k, v in self.var_table.items():
-            yield ' '.join(list(filter(None, v.split('_')))), getattr(self, k)
-
-    def descriptors(self):
-        """
-        Return the descriptors for all users to all of the public variable
-        representations of this object
-        """
-        return {
-            k: ' '.join(list(filter(None, v.split('_'))))
-            for k, v in self.var_table.items()
-        }
+        for entry in self._lookup:
+            yield "{} ({})".format(entry[1], entry[2]), getattr(self, entry[0])
 
     def from_dict(self, d: {}):
         """
         Fill this structure from a dictionary
         """
-        [self.set(var=k, value=v) for k, v in d.items()]
+        [self.set(k, v) for k, v in d.items()]
 
-    def set(self, *args, **kwargs):
+    def set(self, key, value):
         """
-        :param kwargs:
-            var: name of the variable that you wish to set. The Class
-                 prepares for data to be similar to the data coming
-                 directly from noaa. If you wish to set values other than
-                 those in the lookup table, please use setattr
-
-            value: value of the variable in question. None by default
+        :param key: the internal variable name
+        :param value: the value we wish to set the variable to
         """
-        var = kwargs.get("var", None)
-        if var and var.lower() in self.var_table:
-
-            i_var = self.var_table[var.lower()]
-            value = kwargs.get("value", UNAVAILABLE_NOAA_DATA)
-
-            if value != UNAVAILABLE_NOAA_DATA:
-
-                if "time" in i_var:
-                    setattr(self, i_var, convert_noaa_time(value))
-                else:
-                    setattr(self, i_var, value)
+        if hasattr(self, key):
+            if "time" == key:
+                if isinstance(value, str):
+                    setattr(self, key, convert_noaa_time(value))
+                elif isinstance(value, nTime):
+                    setattr(self, key, value)
+            else:
+                setattr(self, key, value)
 
     def __getattr__(self, item):
         """
-        Provide the user with the ability to find the public names of internal variables
-
-        Ex:
-            a = BuoyData()
-            ... fill object ...
-            time = getattr(a, "time") find the variable _time inside of this object
+        Not currently overriding
         """
-        item_lower = item.lower()
-        if item_lower in self.var_table:
-            return getattr(self, self.var_table[item_lower])
-        else:
-            return super(BuoyData, self).__getattribute__(item)
+        return super(BuoyData, self).__getattribute__(item)

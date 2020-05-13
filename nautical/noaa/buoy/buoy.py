@@ -67,9 +67,10 @@ class Buoy:
             if self._present:
                 if p.epoch_time > self._present.epoch_time:
                     self._update_past(self._present)
-                    self._present = p
                 else:
                     raise NauticalError("Failed to set present data, time is in the past.")
+
+            self._present = p
 
     @property
     def past(self):
@@ -91,7 +92,11 @@ class Buoy:
         Attempt to update the past data, but make sure that this particular
         NOAA data does not already have a time entry that matches.
         """
+        print("here")
         data = next((x for x in self._past if x.epoch_time == p.epoch_time), None)
+
+        print(p.epoch_time)
+        print(data)
 
         if not data:
             self._past.append(data)
