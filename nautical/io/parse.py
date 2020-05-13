@@ -161,7 +161,6 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
                 key_data = cells[1].next.split()
                 key = sub('[():]', '', key_data[len(key_data) - 1]).lower()
                 value = cells[2].next.split()[0]
-                # print("{} = {}".format(key, value))
 
                 buoy.update(var=key, value=value)
 

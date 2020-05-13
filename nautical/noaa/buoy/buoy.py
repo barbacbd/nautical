@@ -107,31 +107,34 @@ class Buoy:
             return "{} at {}".format(self._station, str(self._location))
 
     def __eq__(self, other):
-        return self._station == other.station
+        return type(self) == type(other) and self._station == other.station
 
     def __ne__(self, other):
         return not self.__eq__(other)
 
     def __copy__(self):
         """
-        :return: shallow copy of this buoy
+        A shallow copy constructs a new compound object and then (to the extent possible)
+        inserts references into it to the objects found in the original. (from the copy docs)
         """
         new_buoy = type(self)()
         new_buoy.__dict__.update(self.__dict__)
         return new_buoy
 
-    def __deepcopy__(self, memodict={}):
+    def __deepcopy__(self, memo):
         """
         This class contains mutables so we really need to be careful
-        a deep copy will allow us to alter these mutables while the copy remains
-        :param memodict:
-        :return:
+        a deep copy will allow us to alter these mutables while the copy remains.
+        A deep copy constructs a new compound object and then, recursively,
+        inserts copies into it of the objects found in the original. (from the copy docs)
         """
         cls = self.__class__
         new_buoy = cls.__new__(cls)
-        memodict[id(self)] = new_buoy
+
+        # Not defined as classmethod to ensure that the ID is unique to this instance
+        memo[id(self)] = new_buoy
 
         for k, v in self.__dict__.items():
-            setattr(new_buoy, k, deepcopy(v, memo=memodict))
+            setattr(new_buoy, k, deepcopy(v, memo))
 
         return new_buoy
