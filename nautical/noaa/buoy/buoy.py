@@ -92,14 +92,10 @@ class Buoy:
         Attempt to update the past data, but make sure that this particular
         NOAA data does not already have a time entry that matches.
         """
-        print("here")
         data = next((x for x in self._past if x.epoch_time == p.epoch_time), None)
 
-        print(p.epoch_time)
-        print(data)
-
         if not data:
-            self._past.append(data)
+            self._past.append(p)
 
     def __str__(self):
         """

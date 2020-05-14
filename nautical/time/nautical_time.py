@@ -64,7 +64,8 @@ class nTime(object):
 
     def __str__(self):
         if self._format in (TimeFormat.HOUR_12, ):
-            h = self.hours + 12 if self._midday in (Midday.PM, ) else self.hours
+            hours, midday = self.hours
+            h = hours + 12 if midday in (Midday.PM, ) else hours
             return "{:02d}:{:02d}:00".format(h, self.minutes)
         else:
             return "{:02d}:{:02d}:00".format(self.hours, self.minutes)
