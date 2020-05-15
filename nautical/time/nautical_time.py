@@ -64,16 +64,10 @@ class nTime(object):
 
     def __str__(self):
         if self._format in (TimeFormat.HOUR_12, ):
-
-            # in 12-hour time we always format midnight and noon as 12 not 0
-            h = self.hours if self._hours > 0 else 12
-
-            return "{}:{} {}".format(
-                h,
-                self.minutes,
-                Midday.AM.name if self._hours < 12 else Midday.PM.name
-            )
+            hours, midday = self.hours
+            h = hours + 12 if midday in (Midday.PM, ) else hours
+            return "{:02d}:{:02d}:00".format(h, self.minutes)
         else:
-            return "{}:{}".format(self.hours, self.minutes)
+            return "{:02d}:{:02d}:00".format(self.hours, self.minutes)
 
 
