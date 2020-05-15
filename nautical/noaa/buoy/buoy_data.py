@@ -5,21 +5,23 @@ from nautical.time.conversion import convert_noaa_time
 from nautical.time.nautical_time import nTime
 from time import mktime, strptime
 from datetime import datetime
+from . import UNAVAILABLE_NOAA_DATA
 
 
 class BuoyData(object):
 
     """
-    mm        : month                : int
-    dd        : day                  : int
-    time      : time                 : nautical.time.nautical_time.nTime
-    wdir      : wind direction       : string
+    mm        : month
+    dd        : day
+    year      : year
+    time      : time
+    wdir      : wind direction
     wspd      : wind speed           : kts
     gst       : gust                 : kts
     wvht      : wave height          : feet
     dpd       : dominant wave period : seconds
     apd       : average wave period  : seconds
-    mwd       : mean wave direction  : string
+    mwd       : mean wave direction
     pres      : pressure             : inches
     ptdy      : pressure tendency    : inches
     atmp      : air temp             : Degrees F
@@ -30,12 +32,23 @@ class BuoyData(object):
     tide      : tide                 : feet
     swh       : swell height         : feet
     swp       : swell period         : seconds
-    swd       : swell direction      : string
+    swd       : swell direction
     wwh       : wind wave height     : feet
     wwp       : wind wave period     : seconds
-    wwd       : wind wave direction  : string
-    steepness : steepness            : string
+    wwd       : wind wave direction
+    steepness : steepness
     """
+
+    __slots__ = [
+        '_lookup',
+        # time/date data
+        'year', 'mm', 'dd', 'time',
+        # detailed wave summary data
+        'wdir', 'wspd', 'gst', 'wvht', 'dpd', 'apd', 'mwd', 'pres',
+        'ptdy', 'atmp', 'wtmp', 'dewp', 'sal', 'vis', 'tide',
+        # swell data
+        'swh', 'swp', 'swd', 'wwh', 'wwp', 'wwd', 'steepness'
+    ]
 
     def __init__(self):
         """
@@ -47,39 +60,34 @@ class BuoyData(object):
         if self.__doc__:
             for line in self.__doc__.split("\n"):
                 if line:
-                    _split = [str(x.strip()) for x in line.split(":")]
+                    self._lookup.append([str(x.strip()) for x in line.split(":")])
 
-                    if len(_split) == 3:
-                        self._lookup.append(_split)
-
-        # save the year when you initialize the instance
         self.year = int(datetime.now().year)
-
-        self.mm = 0
-        self.dd = 0
+        self.mm = int(datetime.now().month)
+        self.dd = int(datetime.now().day)
         self.time = None
 
         self.wdir = None       # str
-        self.wspd = 0          # KTS
-        self.gst = 0           # KTS
-        self.wvht = 0          # Feet
-        self.dpd = 0           # Seconds
-        self.apd = 0           # Seconds
+        self.wspd = None       # KTS
+        self.gst = None        # KTS
+        self.wvht = None       # Feet
+        self.dpd = None        # Seconds
+        self.apd = None        # Seconds
         self.mwd = None        # str
-        self.pres = 0          # Inches
-        self.ptdy = 0          # Inches
-        self.atmp = 0          # Degrees F
-        self.wtmp = 0          # Degrees F
-        self.dewp = 0          # Degrees F
-        self.sal = 0           # PSU
-        self.vis = 0           # Nautical Miles
-        self.tide = 0          # Feet
+        self.pres = None       # Inches
+        self.ptdy = None       # Inches
+        self.atmp = None       # Degrees F
+        self.wtmp = None       # Degrees F
+        self.dewp = None       # Degrees F
+        self.sal = None        # PSU
+        self.vis = None        # Nautical Miles
+        self.tide = None       # Feet
 
-        self.swh = 0           # Feet
-        self.swp = 0           # Seconds
+        self.swh = None        # Feet
+        self.swp = None        # Seconds
         self.swd = None        # str
-        self.wwh = 0           # Feet
-        self.wwp = 0           # Seconds
+        self.wwh = None        # Feet
+        self.wwp = None        # Seconds
         self.wwd = None        # str
         self.steepness = None  # str
 
@@ -98,7 +106,13 @@ class BuoyData(object):
         NOAA Data Object
         """
         for entry in self._lookup:
-            yield "{} ({})".format(entry[1], entry[2]), getattr(self, entry[0])
+            if not getattr(self, entry[0], None):
+                continue
+
+            if len(entry) == 2:
+                yield "{}: {}".format(entry[1], getattr(self, entry[0]))
+            elif len(entry) == 3:
+                yield "{}: {} {}".format(entry[1], getattr(self, entry[0]), entry[2])
 
     def from_dict(self, d: {}):
         """
@@ -111,6 +125,9 @@ class BuoyData(object):
         :param key: the internal variable name
         :param value: the value we wish to set the variable to
         """
+        if isinstance(value, str) and UNAVAILABLE_NOAA_DATA == value.strip():
+            return
+
         if hasattr(self, key):
             if "time" == key:
                 if isinstance(value, str):

@@ -6,6 +6,8 @@ Date:   5/12/2020
 
 class Source:
 
+    __slots__ = ['_name', '_description', '_buoys']
+
     def __init__(self, name: str, description: str = None):
         """
         The source is a grouping or categorization of buoy sources.
@@ -29,6 +31,10 @@ class Source:
 
     def __contains__(self, item):
         return item in self._buoys
+
+    def __iter__(self):
+        for k, v in self._buoys.items():
+            yield v
 
     @property
     def name(self):

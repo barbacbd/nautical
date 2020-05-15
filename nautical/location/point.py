@@ -6,11 +6,9 @@ Date:   4/20/2020
 
 class Point:
 
-    def __init__(self,
-                 lat: float = 0.0,
-                 lon: float = 0.0,
-                 alt: float = 0.0
-                 ) -> None:
+    __slots__ = ['_latitude', '_longitude', '_altitude']
+
+    def __init__(self, lat: float = 0.0, lon: float = 0.0, alt: float = 0.0) -> None:
         """
         A 3D point containing latitude, longitude and altitude coordinates
         """
@@ -80,5 +78,5 @@ class Point:
                 self.longitude = float(split_data[0])  # should ALWAYS exist
                 self.latitude = float(split_data[1])   # should ALWAYS exist
                 self.altitude = float(split_data[2])   # may or may not exist
-            except Exception as e:
+            except (IndexError, TypeError) as e:
                 pass
