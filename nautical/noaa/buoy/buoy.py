@@ -4,7 +4,6 @@ Author: barbacbd
 from nautical.noaa.buoy.buoy_data import BuoyData
 from nautical.error import NauticalError
 from nautical.location.point import Point
-from copy import deepcopy
 
 
 class Buoy:
@@ -113,29 +112,8 @@ class Buoy:
     def __ne__(self, other):
         return not self.__eq__(other)
 
-    def __copy__(self):
+    def __hash__(self):
         """
-        A shallow copy constructs a new compound object and then (to the extent possible)
-        inserts references into it to the objects found in the original. (from the copy docs)
+        Customize the hash
         """
-        new_buoy = type(self)()
-        new_buoy.__dict__.update(self.__dict__)
-        return new_buoy
-
-    def __deepcopy__(self, memo):
-        """
-        This class contains mutables so we really need to be careful
-        a deep copy will allow us to alter these mutables while the copy remains.
-        A deep copy constructs a new compound object and then, recursively,
-        inserts copies into it of the objects found in the original. (from the copy docs)
-        """
-        cls = self.__class__
-        new_buoy = cls.__new__(cls)
-
-        # Not defined as classmethod to ensure that the ID is unique to this instance
-        memo[id(self)] = new_buoy
-
-        for k, v in self.__dict__.items():
-            setattr(new_buoy, k, deepcopy(v, memo))
-
-        return new_buoy
+        return hash(self._station) * hash(id(self))

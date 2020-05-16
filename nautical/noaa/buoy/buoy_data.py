@@ -52,7 +52,8 @@ class BuoyData(object):
 
     def __init__(self):
         """
-
+        Class to contain all information included in a NOAA data point for
+        a buoy. A buoy can also include weather stations.
         """
         # split the docstring into something a bit more readable for later
         # (variable name, description, units)
@@ -93,6 +94,9 @@ class BuoyData(object):
 
     @property
     def epoch_time(self):
+        """
+        :return: epoch time if all pieces of the time object exist, otherwise None
+        """
         if self.year and self.mm and self.dd and self.time:
             date = '{}-{}-{} {}'.format(self.year, self.mm, self.dd, str(self.time))
             pattern = '%Y-%m-%d %H:%M:%S'
@@ -103,7 +107,7 @@ class BuoyData(object):
     def __iter__(self):
         """
         Provide a user friendly mapping of variable names to values stored in this
-        NOAA Data Object
+        Buoy Data Object
         """
         for entry in self._lookup:
             if not getattr(self, entry[0], None):
@@ -118,7 +122,8 @@ class BuoyData(object):
         """
         Fill this structure from a dictionary
         """
-        [self.set(k, v) for k, v in d.items()]
+        for k, v in d.items():
+            self.set(k, v)
 
     def set(self, key, value):
         """
@@ -128,17 +133,10 @@ class BuoyData(object):
         if isinstance(value, str) and UNAVAILABLE_NOAA_DATA == value.strip():
             return
 
-        if hasattr(self, key):
-            if "time" == key:
-                if isinstance(value, str):
-                    setattr(self, key, convert_noaa_time(value))
-                elif isinstance(value, nTime):
-                    setattr(self, key, value)
-            else:
+        if "time" == key:
+            if isinstance(value, str):
+                setattr(self, key, convert_noaa_time(value))
+            elif isinstance(value, nTime):
                 setattr(self, key, value)
-
-    def __getattr__(self, item):
-        """
-        Not currently overriding
-        """
-        return super(BuoyData, self).__getattribute__(item)
+        else:
+            setattr(self, key, value)

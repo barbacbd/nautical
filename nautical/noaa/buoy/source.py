@@ -2,6 +2,7 @@
 Author: barbacbd
 Date:   5/12/2020
 """
+from .buoy import Buoy
 
 
 class Source:
@@ -30,11 +31,38 @@ class Source:
         return str(self._name)
 
     def __contains__(self, item):
-        return item in self._buoys
+        """
+        determine if the item buoy exists in our dictionary.
+
+        :param item: should be a Buoy, String or int
+            :Buoy: check if the hash of the item is in the dict
+            :int: assume this is the hash and check
+            :str: assume this is the station name check if its in the list
+        """
+        if isinstance(item, Buoy):
+            return hash(item) in self._buoys
+        elif isinstance(item, int):
+            return item in self._buoys
+        elif isinstance(item, str):
+            return next((True for k, v in self._buoys.items() if item == v.station), False)
+
+        return False
 
     def __iter__(self):
+        """
+        Override iterate to provide the user with the buoys in this instance
+        """
         for k, v in self._buoys.items():
             yield v
+
+    def __eq__(self, other):
+        """
+        The name and description should match
+        """
+        return type(self) == type(other) and self.name == other.name and self.description == other.description
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     @property
     def name(self):
@@ -54,8 +82,8 @@ class Source:
         If the buoy exists nothing is run and False is returned, otherwise True is returned.
         All buoy names are considered unique meaning the buoy name is CASE SENSITIVE
         """
-        if buoy.station not in self._buoys:
-            self._buoys[buoy.station] = buoy
+        if buoy not in self:
+            self._buoys[hash(buoy)] = buoy
             return True
         else:
             return False
@@ -66,4 +94,4 @@ class Source:
         be returned. Otherwise NONE is returned. All buoy names are considered
         unique meaning that this search is CASE SENSITIVE
         """
-        return self._buoys.get(station, None)
+        return next((v for k, v in self._buoys.items() if v.station == station), None)

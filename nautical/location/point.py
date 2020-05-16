@@ -57,6 +57,12 @@ class Point:
         """
         return "{}, {}, {}".format(self._latitude, self._longitude, self.altitude)
 
+    def __hash__(self):
+        """
+        Each 3D point should be unique
+        """
+        return hash(self.latitude * self.longitude * self.altitude)
+
     def parse(self, data: str) -> None:
         """
         :param data: A string containing (whitespace ignored and not a delimiter)
