@@ -10,8 +10,7 @@ from nautical.time.tests.time_test import TimeTest
 from nautical.units.tests.units_test import UnitsTest
 
 
-if __name__ == '__main__':
-
+def main():
     # Create the runner to run each suite
     runner = TextTestRunner()
 
@@ -20,3 +19,7 @@ if __name__ == '__main__':
     runner.run(SeaStateTests().suite())
     runner.run(TimeTest().suite())
     runner.run(UnitsTest().suite())
+
+
+if __name__ == '__main__':
+    main()
