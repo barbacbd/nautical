@@ -4,7 +4,7 @@ Date:   4/20/2020
 """
 
 import unittest
-from ..parse import get_noaa_forecast_url, get_url_source
+from ..web import get_noaa_forecast_url, get_url_source
 from bs4 import BeautifulSoup
 
 

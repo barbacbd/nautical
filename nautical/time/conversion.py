@@ -2,7 +2,7 @@
 Author: barbacbd
 Date:   4/18/2020
 """
-from . import Midday
+from .enums import Midday
 from .nautical_time import nTime
 
 
