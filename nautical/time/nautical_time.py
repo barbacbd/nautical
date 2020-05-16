@@ -2,7 +2,7 @@
 Author: barbacbd
 Date:   4/18/2020
 """
-from . import TimeFormat, Midday
+from .enums import TimeFormat, Midday
 
 
 class nTime(object):

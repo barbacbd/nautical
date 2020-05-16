@@ -59,7 +59,7 @@ NOAA categorizes all buoys by a source. We can obtain all sources and the buoys 
 source with one function.
 
 ```python
-from nautical.io.parse import get_buoy_sources
+from nautical.io.sources import get_buoy_sources
 
 sources = get_buoy_sources()
 ```
@@ -108,7 +108,7 @@ user finds a buoy of interest. If we want to retrieve all of the information for
 past recordings, we can utilize the tools below. 
 
 ```python
-from nautical.io.parse import create_buoy
+from nautical.io.sources import create_buoy
 
 buoy = create_buoy(buoy_id)
 ```

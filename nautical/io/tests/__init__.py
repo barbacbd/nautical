@@ -1,7 +1,4 @@
 """
-© 2012 Spatial Integrated Systems, Inc. Unpublished-rights reserved under the
-copyright laws of the United States
-
-Author: Brent
+Author: barbacbd
 Date:   4/20/2020
 """
