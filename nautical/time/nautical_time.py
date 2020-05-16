@@ -7,15 +7,13 @@ from . import TimeFormat, Midday
 
 class nTime(object):
 
-    """
-    Nautical Time (nTime) is a class to Keep Track of Time read in from
-    NOAA data. The time can be converted to 24 or 12 hour time formats.
-    """
+    __slots__ = ['_format', '_midday', '_minutes', '_hours']
 
-    def __init__(self,
-                 fmt: TimeFormat = TimeFormat.HOUR_12
-                 ):
-
+    def __init__(self, fmt: TimeFormat = TimeFormat.HOUR_12):
+        """
+        Nautical Time (nTime) is a class to Keep Track of Time read in from
+        NOAA data. The time can be converted to 24 or 12 hour time formats.
+        """
         self._format = fmt
         self._midday = None
         self._minutes = 0
@@ -43,9 +41,11 @@ class nTime(object):
 
     @hours.setter
     def hours(self, data):
-        # make sure that the hours are valid. If the time is afternoon
-        # but the hours are less than 12 in a 12-hour format add 12 to
-        # convert to the 24 hour format, all other values are considered valid
+        """
+        Make sure that the hours are valid. If the time is afternoon
+        but the hours are less than 12 in a 12-hour format add 12 to
+        convert to the 24 hour format, all other values are considered valid
+        """
         try:
             hours, m = data
         except TypeError as e:
@@ -63,6 +63,10 @@ class nTime(object):
                 self._hours = hours
 
     def __str__(self):
+        """
+        Return the 24 hour version of the hour and minutes. This class does not
+        deal in seconds as the seconds are not provided by NOAA.
+        """
         if self._format in (TimeFormat.HOUR_12, ):
             hours, midday = self.hours
             h = hours + 12 if midday in (Midday.PM, ) else hours
