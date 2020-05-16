@@ -33,6 +33,9 @@ html output, and grab some of the specific data from the tables that we are look
 The module contains a 3D Point class that can be used to store locations as well as determine distance
 to and from other points.
 
+The module also provides the user with a simple distance function to provide distance between two points and
+a function to determine if the point is located within a specified area. 
+
 ### [noaa](./noaa/buoy) 
 The module contains classes to store/utilize/manipulate swell and wave data read in from NOAA's website. 
 There are also some extra functions such as getting the sea state based on the current wave height.
@@ -40,15 +43,80 @@ There are also some extra functions such as getting the sea state based on the c
 ### [sea_state](./sea_state)
 Module to allow the user to estimate the current sea state based on wave heights.
 
+|Sea State|Wave Height (meters)|
+|---------|----------------|
+|0|0 - 0|
+|1|0 - 0.1|
+|2|0.1 - 0.5|
+|3|0.5 - 1.25|
+|4|1.25 - 2.5|
+|5|2.5 - 4.0|
+|6|4.0 - 6.0|
+|7|6.0 - 9.0|
+|8|9.0 - 14.0|
+|9|14.0+|
+
+
 ### [tests](./tests)
 The module contains the unit tests for the Nautical package.
 
+The module contains the link to the executable to run all tests for the package with 
+ the executable named `NauticalTests`.
 
 ### [time](./time) 
 Time module to parse and store the time as it is represented from NOAA's webpages.
 
 ### [units](./units) 
 Utility package to provide the user with the easy ability to alter the units for the data.
+
+The following display the supported unit types for each category:
+
+|Time|
+|----|
+|Seconds|
+|Minutes|
+|Hours|
+|Days|
+
+
+|Temperature|
+|-----------|
+|Fahrenheit|
+|Celsius|
+
+
+|Speed|
+|-----|
+|Knots|
+|Meters per second|
+|Miles per hour|
+|Kilometers per hour|
+|Feet per second|
+
+
+|Distance|
+|--------|
+|Centimeters|
+|Feet|
+|Yards|
+|Meters|
+|Milometers|
+|Miles|
+|Nautical Miles|
+
+
+The user can convert values to a different unit IFF the units are in the same class. 
+
+```python
+from nautical.units.conversion import convert
+
+def convert(value, init_units, final_units):
+    """
+    Convert the value given the current units to the new units. If the
+    units are not in the same set of units then the value cannot be converted,
+    and None will be returned.
+    """
+```
 
 ## Examples
 
@@ -70,10 +138,10 @@ If this action was successful, sources will be a dictionary mapping the name of 
 We can also obtain the information about each buoy contained in the source.
 
 ```python
-for source in sources:
-    print(str(source))
+for _, source in sources.items():
+    print(source)
 
-    for buoy in source.buoys:
+    for buoy in source:
         print("\t{}".format(str(buoy)))
 ```
 
@@ -83,23 +151,13 @@ In the [previous example](###Sources) we were able to find all sources and their
 search through this list to find a buoy near or at a location we can.
 
 ```python
-for source in sources:
-    print(str(source))
-
-    for buoy in source.buoys:
-        print("\t{}".format(str(buoy)))
-```
-
-will print the location if it exists along with the station/buoy ID. In order to get the location as an object simply 
-access the property of the buoy:
-
-```python
-for source in sources:
-    for buoy in source.buoys:
+for _, source in sources.items():
+    for buoy in source
         location = buoy.location
-```
 
-If the location exists it will be a `nautical.location.point.Point`.
+        if location:
+            # determine if the location meets criteria
+```
 
 ### Buoy Information
 
@@ -108,7 +166,9 @@ user finds a buoy of interest. If we want to retrieve all of the information for
 past recordings, we can utilize the tools below. 
 
 ```python
-from nautical.io.sources import create_buoy
+from nautical.io.buoy import create_buoy
+
+buoy_id = "example_buoy_id"
 
 buoy = create_buoy(buoy_id)
 ```
