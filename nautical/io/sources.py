@@ -51,7 +51,7 @@ def get_buoy_sources():
 
                 p = Point()
                 p.parse(str(pm.Point.coordinates))
-                b = Buoy(pm.name, location=p)
+                b = Buoy(pm.name, description=pm.Snippet, location=p)
 
                 s.add_buoy(b)
 

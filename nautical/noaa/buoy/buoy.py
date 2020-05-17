@@ -8,7 +8,7 @@ from nautical.location.point import Point
 
 class Buoy:
 
-    def __init__(self, station, location=None) -> None:
+    def __init__(self, station, description: str = None, location=None) -> None:
         """
         This class is meant to serve as the combination of past and present NOAA
         data for a particular buoy location. This will will include:
@@ -18,10 +18,13 @@ class Buoy:
         past data [currently wave data and swell data]
 
         :param station: ID of the station
+        :param description: snippet of information to describe this station
         :param location: nautical.location.point.Point [optional]
 
         """
         self._station = station
+
+        self._description = description
 
         self._location = None
         if location:
@@ -37,6 +40,14 @@ class Buoy:
         the station once it is created.
         """
         return self._station
+
+    @property
+    def description(self):
+        """
+        Don't provide the user with public means of altering
+        the description once it is created.
+        """
+        return self._description
 
     @property
     def location(self):
@@ -115,5 +126,8 @@ class Buoy:
     def __hash__(self):
         """
         Customize the hash
+
+        The reason behind a private station and description is that they are used for the
+        hash function. The hash shouldn't be able to change during execution.
         """
-        return hash(self._station) * hash(id(self))
+        return hash(self._station) * hash(self._description) if self._description else hash(self._station)
