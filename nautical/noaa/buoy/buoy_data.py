@@ -3,6 +3,7 @@ Author: barbacbd
 """
 from nautical.time.conversion import convert_noaa_time
 from nautical.time.nautical_time import nTime
+from nautical.time.enums import TimeFormat
 from time import mktime, strptime
 from datetime import datetime
 from . import UNAVAILABLE_NOAA_DATA
@@ -40,7 +41,6 @@ class BuoyData(object):
     """
 
     __slots__ = [
-        '_lookup',
         # time/date data
         'year', 'mm', 'dd', 'time',
         # detailed wave summary data
@@ -55,18 +55,14 @@ class BuoyData(object):
         Class to contain all information included in a NOAA data point for
         a buoy. A buoy can also include weather stations.
         """
-        # split the docstring into something a bit more readable for later
-        # (variable name, description, units)
-        self._lookup = []
-        if self.__doc__:
-            for line in self.__doc__.split("\n"):
-                if line:
-                    self._lookup.append([str(x.strip()) for x in line.split(":")])
-
         self.year = int(datetime.now().year)
         self.mm = int(datetime.now().month)
         self.dd = int(datetime.now().day)
-        self.time = None
+
+        # initialize the time in the case of Present data, we can always correct this later
+        self.time = nTime(fmt=TimeFormat.HOUR_24)
+        self.time.minutes = int(datetime.now().minute)
+        self.time.hours = int(datetime.now().hour)
 
         self.wdir = None       # str
         self.wspd = None       # KTS
@@ -109,14 +105,29 @@ class BuoyData(object):
         Provide a user friendly mapping of variable names to values stored in this
         Buoy Data Object
         """
-        for entry in self._lookup:
-            if not getattr(self, entry[0], None):
-                continue
+        for entry in self.__slots__:
+            val = getattr(self, entry, None)
 
-            if len(entry) == 2:
-                yield "{}: {}".format(entry[1], getattr(self, entry[0]))
-            elif len(entry) == 3:
-                yield "{}: {} {}".format(entry[1], getattr(self, entry[0]), entry[2])
+            if val:
+                yield entry, val
+
+    def units(self, key):
+        """
+        Current Docstring for this class contains:
+        internal variable name : real world meaning : units
+
+        :param key: The key must be a variable that is a part of this class
+        :return: units if they exist otherwise None
+        """
+        if self.__doc__:
+            for line in self.__doc__.split("\n"):
+                if line and key in line:
+
+                    sp = line.split(":")
+                    if len(sp) == 3:
+                        return sp[len(sp) - 1].strip()
+
+                    return None
 
     def from_dict(self, d: {}):
         """
