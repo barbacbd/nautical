@@ -61,7 +61,7 @@ class BuoyData(object):
 
         # initialize the time in the case of Present data, we can always correct this later
         self.time = nTime(fmt=TimeFormat.HOUR_24)
-        self.time.minutes = int(datetime.now().minute)
+        self.time.minutes = 30 if int(datetime.now().minute) > 30 else 0
         self.time.hours = int(datetime.now().hour)
 
         self.wdir = None       # str
