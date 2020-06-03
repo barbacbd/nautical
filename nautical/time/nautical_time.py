@@ -34,6 +34,24 @@ class nTime(object):
     def fmt(self):
         return self._format
 
+    @fmt.setter
+    def fmt(self, val):
+        """
+        :param val: TimeFormat that should be different that the current format.
+        Adjust the hours and the midday (meridian) value accordingly
+        """
+        if isinstance(val, TimeFormat) and val != self._format:
+            if val == TimeFormat.HOUR_12:
+                if self._hours >= 12:
+                    self._hours -= 12
+                    self._midday = Midday.PM
+                else:
+                    self._midday = Midday.AM
+
+            elif val == TimeFormat.HOUR_24:
+                self._hours = self._hours + 12 if self._midday == Midday.PM else self._hours
+                self._midday = None
+
     @minutes.setter
     def minutes(self, minutes):
         if 0 <= minutes <= 59:
@@ -51,9 +69,9 @@ class nTime(object):
         except TypeError as e:
             hours = data
             # provide a default value
-            m = Midday.AM
+            m = Midday.AM if hours < 12 else Midday.PM
 
-        if 0 <= hours <= 24:
+        if 0 <= hours < 24:
             if self._format in (TimeFormat.HOUR_12, ):
                 self._midday = m
 
