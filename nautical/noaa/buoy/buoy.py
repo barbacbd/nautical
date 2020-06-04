@@ -130,4 +130,4 @@ class Buoy:
         The reason behind a private station and description is that they are used for the
         hash function. The hash shouldn't be able to change during execution.
         """
-        return hash(self._station) * hash(self._description) if self._description else hash(self._station)
+        return hash(str(self._station)) * hash(self._description) if self._description else hash(str(self._station))
