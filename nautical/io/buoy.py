@@ -58,7 +58,13 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
     :param search: text to search for in the soup object. The text MUST be an exact match as this is
                    a possible limitation of beautiful soup searching
     """
-    table = soup.find(text=search).findParent("table")
+    txt_search = soup.find(text=search)
+    if not txt_search:
+        return
+
+    table = txt_search.findParent("table")
+    if not table:
+        return
 
     for i, row in enumerate(table.findAll('tr')):
 
@@ -67,12 +73,15 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
             cells = row.findAll('td')
 
             if cells:
+                try:
+                    key_data = cells[1].next.split()
+                    key = sub('[():]', '', key_data[len(key_data) - 1]).lower()
+                    value = cells[2].next.split()[0]
 
-                key_data = cells[1].next.split()
-                key = sub('[():]', '', key_data[len(key_data) - 1]).lower()
-                value = cells[2].next.split()[0]
-
-                buoy.set(key, value)
+                    buoy.set(key, value)
+                except Exception:
+                    # catch anything odd that may have been laying around
+                    pass
 
 
 def get_past_data(soup: BeautifulSoup):
