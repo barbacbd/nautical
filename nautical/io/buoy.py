@@ -1,7 +1,3 @@
-"""
-Author: barbacbd
-Date:   5/16/2020
-"""
 from nautical.io.web import get_noaa_forecast_url, get_url_source
 from nautical.noaa.buoy.buoy_data import BuoyData
 from nautical.noaa.buoy.buoy import Buoy
@@ -27,6 +23,7 @@ def create_buoy(buoy):
     """
     Provide a full workup for a specific buoy. If the buoy is None or it cannot be found
     then the data returned will be considered invalid as None
+
     :param buoy: id of the buoy to do a workup on
     :return: BuoyWorkup if successful else None
     """
@@ -53,6 +50,7 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
     """
     Search the beautiful soup object for a TABLE containing the search string. The function will
     grab the data from the table and create a NOAAData object and return the data
+
     :param soup: beautiful soup object generated from the get_url_source()
     :param buoy: BuoyData object that should be filled with data as this function parses the data.
     :param search: text to search for in the soup object. The text MUST be an exact match as this is
@@ -87,6 +85,7 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
 def get_past_data(soup: BeautifulSoup):
     """
     Find all Previous Observations or Past Data.
+
     :param soup: beautiful soup object generated from the get_url_source()
     :return: list of all previous observations from the url. The buoy data returned in the list
              may be a comprehension of swell and wave data.

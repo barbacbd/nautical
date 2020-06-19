@@ -1,8 +1,3 @@
-"""
-Author: barbacbd
-Date:   4/18/2020
-"""
-
 from .units import (
     TimeUnits,
     TemperatureUnits,
@@ -46,6 +41,11 @@ def convert(value, init_units, final_units):
     Convert the value given the current units to the new units. If the
     units are not in the same set of units then the value cannot be converted,
     and None will be returned.
+
+    :param value: Value provided in the units (init_units)
+    :param init_units: initial units of the value (must match final units type)
+    :param final_units: final units of the value (must match initial units type)
+    :return: The value converted to the final units. If the units did not match None is returned
     """
     # value and units need to exist, units should also be the same type
     if value and init_units and final_units and type(init_units) == type(final_units):
@@ -60,6 +60,14 @@ def convert(value, init_units, final_units):
 
 
 def convert_temperature(value, init_units, final_units):
+    """
+    Convert the temperature value from the initial units to the final units
+
+    :param value: initial value for temperature
+    :param init_units: initial units for temperature
+    :param final_units: desired temperature units
+    :return: value converted from the initial units to the final units
+    """
     try:
         _temp = value if init_units in (TemperatureUnits.DEG_F,) else (9.0/5.0 * value) + 32.0
         return _temp if final_units in (TemperatureUnits.DEG_F,) else (_temp-32) * 5.0/9.0
@@ -68,6 +76,14 @@ def convert_temperature(value, init_units, final_units):
 
 
 def convert_time(value, init_units, final_units):
+    """
+    Convert the time value from the initial units to the final units
+
+    :param value: initial value for time
+    :param init_units: initial units for time
+    :param final_units: desired time units
+    :return: value converted from the initial units to the final units
+    """
     try:
         return value * TimeLookup[init_units] / TimeLookup[final_units]
     except KeyError as e:
@@ -75,6 +91,14 @@ def convert_time(value, init_units, final_units):
 
 
 def convert_distance(value, init_units, final_units):
+    """
+    Convert the distance value from the initial units to the final units
+
+    :param value: initial value for distance
+    :param init_units: initial units for distance
+    :param final_units: desired distance units
+    :return: value converted from the initial units to the final units
+    """
     try:
         return value * DistanceLookup[init_units] / DistanceLookup[final_units]
     except KeyError as e:
@@ -82,9 +106,17 @@ def convert_distance(value, init_units, final_units):
 
 
 def convert_speed(value, init_units, final_units):
-    # speed works a bit the opposite we want to divide then multiply
-    # instead of the normal multiplication then division
+    """
+    Convert the speed value from the initial units to the final units
+
+    :param value: initial value for speed
+    :param init_units: initial units for speed
+    :param final_units: desired speed units
+    :return: value converted from the initial units to the final units
+    """
     try:
+        # speed works a bit the opposite we want to divide then multiply
+        # instead of the normal multiplication then division
         return value / SpeedLookup[init_units] * SpeedLookup[final_units]
     except KeyError as e:
         pass

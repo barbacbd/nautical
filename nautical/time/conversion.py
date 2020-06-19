@@ -1,7 +1,3 @@
-"""
-Author: barbacbd
-Date:   4/18/2020
-"""
 from .enums import Midday
 from .nautical_time import nTime
 
@@ -16,6 +12,7 @@ def convert_noaa_time(orig: str):
     The time string is formatted/encoded with HTML data. We need to remove that data
     then split the time up.
 
+    :param orig: original string representation of time
     :return: nTime object if it could be created, otherwise None will be returned
     """
     sp = orig.strip().split(NON_BREAKING_SPACE)

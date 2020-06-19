@@ -1,8 +1,3 @@
-"""
-Author: barbacbd
-Date:   4/18/2020
-"""
-
 from enum import Enum
 
 
@@ -40,7 +35,7 @@ class SpeedUnits(Enum):
 
 class DistanceUnits(Enum):
     """
-    Various units of distnace to provide to the user in the event
+    Various units of distance to provide to the user in the event
     that they do not wish to use the base units from NOAA
     """
     CENTIMETERS = 1

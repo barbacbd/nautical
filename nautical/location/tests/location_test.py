@@ -1,7 +1,3 @@
-"""
-Author: barbacbd
-Date:   4/20/2020
-"""
 import unittest
 from ..point import Point
 from ..util import haversine

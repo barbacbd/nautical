@@ -1,8 +1,3 @@
-"""
-Author: barbacbd
-Date:   4/19/2020
-"""
-
 from nautical.units.units import DistanceUnits
 from nautical.units.conversion import convert
 
@@ -39,6 +34,10 @@ def sea_state(wvht: float, units: DistanceUnits = DistanceUnits.METERS):
     """
     If the provided wave height is not in meters, convert the wave height to
     meters and determine the minimum seastate that meets the requirements.
+
+    :param wvht: current height of the waves
+    :param units: units of the wvht variable (defualt DistanceUnits.METERS)
+    :return: the seastate (int) that the wae height falls in.
     """
     ht_m = wvht if units in (DistanceUnits.METERS,) else convert(wvht, units, DistanceUnits.METERS)
     return min([k for k, v in _SeaStates.items() if ht_m <= v])

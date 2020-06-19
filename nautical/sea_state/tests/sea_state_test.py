@@ -1,7 +1,3 @@
-"""
-Author: barbacbd
-Date:   4/19/2020
-"""
 import unittest
 from .. import sea_state
 from nautical.units.units import DistanceUnits

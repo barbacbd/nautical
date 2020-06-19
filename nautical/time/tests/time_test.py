@@ -1,7 +1,3 @@
-"""
-Author: barbacbd
-Date:   4/18/2020
-"""
 import unittest
 from ..nautical_time import nTime
 from ..conversion import convert_noaa_time

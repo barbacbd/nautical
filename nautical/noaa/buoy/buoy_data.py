@@ -1,6 +1,3 @@
-"""
-Author: barbacbd
-"""
 from nautical.time.conversion import convert_noaa_time
 from nautical.time.nautical_time import nTime
 from nautical.time.enums import TimeFormat
@@ -12,32 +9,32 @@ from . import UNAVAILABLE_NOAA_DATA
 class BuoyData(object):
 
     """
-    mm        : month
-    dd        : day
-    year      : year
-    time      : time
-    wdir      : wind direction
-    wspd      : wind speed           : kts
-    gst       : gust                 : kts
-    wvht      : wave height          : feet
-    dpd       : dominant wave period : seconds
-    apd       : average wave period  : seconds
-    mwd       : mean wave direction
-    pres      : pressure             : inches
-    ptdy      : pressure tendency    : inches
-    atmp      : air temp             : Degrees F
-    wtmp      : water temp           : Degrees F
-    dewp      : dew point            : Degrees F
-    sal       : salinity             : PSU
-    vis       : visibility           : NM
-    tide      : tide                 : feet
-    swh       : swell height         : feet
-    swp       : swell period         : seconds
-    swd       : swell direction
-    wwh       : wind wave height     : feet
-    wwp       : wind wave period     : seconds
-    wwd       : wind wave direction
-    steepness : steepness
+    :param mm: month
+    :param dd: day
+    :param year: year
+    :param time: time
+    :param wdir: wind direction
+    :param wspd: wind speed, kts
+    :param gst: gust, kts
+    :param wvht: wave height, feet
+    :param dpd: dominant wave period, seconds
+    :param apd: average wave period, seconds
+    :param mwd: mean wave direction
+    :param pres: pressure, inches
+    :param ptdy: pressure tendency, inches
+    :param atmp: air temp, Degrees F
+    :param wtmp: water temp, Degrees F
+    :param dewp: dew point, Degrees F
+    :param sal: salinity, PSU
+    :param vis: visibility, NM
+    :param tide: tide, feet
+    :param swh: swell height, feet
+    :param swp: swell period, seconds
+    :param swd: swell direction
+    :param wwh: wind wave height, feet
+    :param wwp: wind wave period, seconds
+    :param wwd: wind wave direction
+    :param steepness: steepness
     """
 
     __slots__ = [
@@ -111,27 +108,25 @@ class BuoyData(object):
             if val:
                 yield entry, val
 
-    def units(self, key):
+    @classmethod
+    def units(cls, key):
         """
-        Current Docstring for this class contains:
-        internal variable name : real world meaning : units
-
-        :param key: The key must be a variable that is a part of this class
-        :return: units if they exist otherwise None
+        :param key: internal variable name of this class.
+        :return: Units (str) for the variable read from the class docstring. None is returned when units do not exist.
         """
-        if self.__doc__:
-            for line in self.__doc__.split("\n"):
+        if cls.__doc__:
+            for line in cls.__doc__.split("\n"):
                 if line and key in line:
 
-                    sp = line.split(":")
-                    if len(sp) == 3:
+                    sp = line.split(",")
+                    if len(sp) > 1:
                         return sp[len(sp) - 1].strip()
 
                     return None
 
     def from_dict(self, d: {}):
         """
-        Fill this structure from a dictionary
+        :param d: Fill this object from this dictionary
         """
         for k, v in d.items():
             self.set(k, v)

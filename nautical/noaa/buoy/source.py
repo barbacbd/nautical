@@ -1,18 +1,16 @@
-"""
-Author: barbacbd
-Date:   5/12/2020
-"""
 from .buoy import Buoy
 
 
 class Source:
 
+    """
+    The source is a grouping or categorization of buoy sources.
+    """
+
     __slots__ = ['_name', '_description', '_buoys']
 
     def __init__(self, name: str, description: str = None):
         """
-        The source is a grouping or categorization of buoy sources.
-
         :param name: Name of the data source or grouping of data
         :param description: Description tag of the data source
         """
@@ -28,6 +26,9 @@ class Source:
         self._buoys = {}
 
     def __str__(self):
+        """
+        :return: string representation of the source
+        """
         return str(self._name)
 
     def __contains__(self, item):
@@ -57,11 +58,14 @@ class Source:
 
     def __eq__(self, other):
         """
-        The name and description should match
+        :return: True if name and description match
         """
         return type(self) == type(other) and self.name == other.name and self.description == other.description
 
     def __ne__(self, other):
+        """
+        :return: True if the name or description do not match
+        """
         return not self.__eq__(other)
 
     @property
@@ -78,9 +82,12 @@ class Source:
 
     def add_buoy(self, buoy):
         """
-        The buoy will be added to the dictionary of buoys if the buoy does NOT exist.
-        If the buoy exists nothing is run and False is returned, otherwise True is returned.
-        All buoy names are considered unique meaning the buoy name is CASE SENSITIVE
+        :param buoy: buoy to be added to the list of buoys.
+
+        .. note::
+            All buoy names are considered unique meaning the buoy name is CASE SENSITIVE
+
+        :return: True if the buoy was added to the list of buoys
         """
         if buoy not in self:
             self._buoys[hash(buoy)] = buoy
@@ -90,8 +97,10 @@ class Source:
 
     def get_buoy(self, station):
         """
-        If the buoy with the name that matches name exists, then the buoy will
-        be returned. Otherwise NONE is returned. All buoy names are considered
-        unique meaning that this search is CASE SENSITIVE
+        :param station: name of the buoy station
+        :return: Buoy with a matching station, None if one was not found.
+
+        .. note::
+            All buoy names are considered unique meaning the search is CASE SENSITIVE
         """
         return next((v for k, v in self._buoys.items() if v.station == station), None)

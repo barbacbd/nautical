@@ -1,7 +1,3 @@
-"""
-Author: barbacbd
-Date:   4/20/2020
-"""
 from unittest import TextTestRunner
 from nautical.io.tests.io_tests import IOTests
 from nautical.location.tests.location_test import LocationTests

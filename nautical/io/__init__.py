@@ -1,8 +1,6 @@
 """
-Author: barbacbd
-
-Description: This file contains constants that will be used through
-out the IO module.
+The io module consists of the functions utilized to search for information about buoys
+and their sources on NOAA's website.
 """
 
 from .web import get_url_source, get_noaa_forecast_url

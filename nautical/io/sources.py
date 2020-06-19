@@ -1,6 +1,3 @@
-"""
-Author: barbacbd
-"""
 from urllib.request import urlopen
 from urllib.error import URLError
 from pykml import parser
@@ -16,14 +13,14 @@ _KML_LINK = "https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml"
 def get_buoy_sources():
     """
     NOAA is kind enough to provide all of names, ids, and other information about ALL of their known buoys
-    in a kml document hosted at the link provided.
-
-    https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml
-
-    Let's read through this document and parse the buoy information to determine their id and location.
+    in a kml document hosted at the link provided (https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml).
+    Read through this document and parse the buoy information to determine their id and location.
     The ID can be used to provide to get_noaa_forecast_url(). Then we can find even more information about the
-    buoys. NOTE: the SHIP ID may not be able to be looked up. The coordinates are used aas general information
-    to determine distance from other points, or for display purposes.
+    buoys.
+
+    .. note::
+
+        The SHIP ID is not available for lookup since there are multiple IDs with the same name.
 
     :return: dictionary all source names mapped to their respective source.
     """

@@ -1,7 +1,3 @@
-"""
-Author: barbacbd
-Date:   4/18/2020
-"""
 import unittest
 from ..conversion import convert
 from ..units import (

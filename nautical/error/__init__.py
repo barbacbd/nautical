@@ -1,11 +1,10 @@
 class NauticalError(Exception):
     """
-    Exception to be raised during any new error that has occurred in this package.
+    Exception raised as errors occur in the nautical package.
     """
 
     def __init__(self, message) -> None:
         """
-        :param message: String data passed by the user for more information about the reason
-        that this error occurred
+        :param message: Message (string) to the user when the exception is raised.
         """
         super(NauticalError, self).__init__(message)
