@@ -2,7 +2,7 @@
 
 1. Download sphinx and the rinohtype extension
 
-    `pip install Sphinx rinohtype`
+    `pip install Sphinx rinohtype sphinx-rtd-theme`
 
 2. Make a directory for the documentation. You can use docs here, but you may wish to create a new folder.
 
@@ -19,7 +19,7 @@
 5. You may wish to use the configuration file provided or you may write your own. If you are writing you own add 
 the following line to the configuration.py
 
-    `extensions = ['sphinx.ext.autodoc', 'rinoh.frontend.sphinx']`
+    `extensions = ['sphinx.ext.autodoc', 'rinoh.frontend.sphinx', 'sphinx_rtd_theme']`
 
 6. Uncomment the following lines 
 
@@ -35,19 +35,23 @@ the following line to the configuration.py
 
     `sys.setrecursionlimit(1500)`
 
-9. You may also wish to change the documentation style. The `index.rst` file provides a basic documentation setup. 
+9. Add the html_theme by replacing/adding the line below to the configuration file:
+
+    `html_theme = "sphinx_rtd_theme"`
+
+10. You may also wish to change the documentation style. The `index.rst` file provides a basic documentation setup. 
 You may use the file or generate your own.
 
-10. Make the html page.
+11. Make the html page.
 
     `make html`
 
-11. Run the build with rinohtype
+12. Run the build with rinohtype
 
     `sphinx-build -b rinoh source _build/rinoh`
 
-12. You can find the html page inside of `example-docs/build/html/index.html`
+13. You can find the html page inside of `example-docs/build/html/index.html`
 
-13. You can find a pdf inside of `example-docs/_build/rinoh/{project}.pdf`
+14. You can find a pdf inside of `example-docs/_build/rinoh/{project}.pdf`
 
 *If your python > 3.7 the latex generator for rinoh will fail*

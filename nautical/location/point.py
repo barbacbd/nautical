@@ -86,7 +86,13 @@ class Point:
 
         :return: hash of the latitude * longitude * altitude
         """
-        return hash(self.latitude * self.longitude * self.altitude)
+        _h = [x for x in (self.latitude, self.longitude, self.altitude) if x != 0.0]
+
+        _prod = 1.0
+        for _i in _h:
+            _prod *= _i
+
+        return hash(str(_prod))
 
     def parse(self, data: str) -> None:
         """
