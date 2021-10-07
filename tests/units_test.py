@@ -1,6 +1,10 @@
 import unittest
-from ..conversion import convert
-from ..units import (
+from nautical.units import (
+    convert,
+    convert_time,
+    convert_temperature,
+    convert_speed,
+    convert_distance,
     TimeUnits,
     SpeedUnits,
     DistanceUnits,
@@ -10,7 +14,43 @@ from ..units import (
 
 class UnitsTest(unittest.TestCase):
 
-    def test_good_time_conversion(self):
+    def test_convert_raise_no_value(self):
+        self.assertRaises(TypeError, convert, None, TimeUnits.MINUTES, TimeUnits.MINUTES)
+
+    def test_convert_raise_no_init_unit(self):
+        self.assertRaises(TypeError, convert, 10.45, None, TimeUnits.MINUTES)
+
+    def test_convert_raise_no_final_unit(self):
+        self.assertRaises(TypeError, convert, 10.45, TimeUnits.MINUTES, None)
+
+    def test_convert_raise_mismatch(self):
+        self.assertRaises(TypeError, convert, 10.45, TimeUnits.MINUTES, SpeedUnits.KPH)
+
+    def test_convert_dist_raises_init(self):
+        self.assertRaises(KeyError, convert_distance, 10.45, TimeUnits.MINUTES, DistanceUnits.MILES)
+
+    def test_convert_dist_raises_final(self):
+        self.assertRaises(KeyError, convert_distance, 10.45, DistanceUnits.MILES, TimeUnits.MINUTES)
+
+    def test_convert_speed_raises_init(self):
+        self.assertRaises(KeyError, convert_speed, 10.45, TimeUnits.MINUTES, SpeedUnits.MPH)
+
+    def test_convert_speed_raises_final(self):
+        self.assertRaises(KeyError, convert_speed, 10.45, SpeedUnits.MPH, TimeUnits.MINUTES)
+
+    def test_convert_temp_raises_init(self):
+        self.assertRaises(KeyError, convert_temperature, 10.45, TimeUnits.MINUTES, TemperatureUnits.DEG_F)
+
+    def test_convert_temp_raises_final(self):
+        self.assertRaises(KeyError, convert_temperature, 10.45, TemperatureUnits.DEG_C, TimeUnits.MINUTES)
+
+    def test_convert_time_raises_init(self):
+        self.assertRaises(KeyError, convert_time, 10.45, SpeedUnits.MPH, TimeUnits.MINUTES)
+
+    def test_convert_time_raises_final(self):
+        self.assertRaises(KeyError, convert_time, 10.45, TimeUnits.MINUTES, SpeedUnits.MPH)
+        
+    def test_good_tc_min_to_sec(self):
         """
         Start with a minutes value and see if that can be converted to all of the other
         values possible.
@@ -23,46 +63,14 @@ class UnitsTest(unittest.TestCase):
             Days = 3.773
         """
         init_time = 5432.45  # minutes
-
-        self.assertAlmostEqual(
-            convert(
-                init_time,
-                TimeUnits.MINUTES,
-                TimeUnits.SECONDS
-            ),
-            325947.0,
-            3
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_time,
-                TimeUnits.MINUTES,
-                TimeUnits.MINUTES
-            ),
-            5432.45,
-            3
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_time,
-                TimeUnits.MINUTES,
-                TimeUnits.HOURS
-            ),
-            90.541,
-            3
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_time,
-                TimeUnits.MINUTES,
-                TimeUnits.DAYS
-            ),
-            3.773,
-            3
-        )
+        time_test_data  = [
+            (TimeUnits.SECONDS, 325947.0),
+            (TimeUnits.MINUTES, 5432.45),
+            (TimeUnits.HOURS, 90.541),
+            (TimeUnits.DAYS, 3.773)
+        ]
+        for x in time_test_data:
+            self.assertAlmostEqual(convert(init_time, TimeUnits.MINUTES, x[0]), x[1], 3)
 
     def test_good_speed_conversion(self):
         """
@@ -79,55 +87,15 @@ class UnitsTest(unittest.TestCase):
         """
         init_speed = 5.34  # KTS
 
-        self.assertAlmostEqual(
-            convert(
-                init_speed,
-                SpeedUnits.KNOTS,
-                SpeedUnits.KNOTS
-            ),
-            5.34,
-            3
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_speed,
-                SpeedUnits.KNOTS,
-                SpeedUnits.MPS
-            ),
-            2.747,
-            3
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_speed,
-                SpeedUnits.KNOTS,
-                SpeedUnits.MPH
-            ),
-            6.145,
-            3
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_speed,
-                SpeedUnits.KNOTS,
-                SpeedUnits.KPH
-            ),
-            9.890,
-            3
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_speed,
-                SpeedUnits.KNOTS,
-                SpeedUnits.FPS
-            ),
-            9.013,
-            3
-        )
+        speed_test_data  = [
+            (SpeedUnits.KNOTS, 5.34),
+            (SpeedUnits.MPS, 2.747),
+            (SpeedUnits.MPH, 6.145),
+            (SpeedUnits.KPH, 9.890),
+            (SpeedUnits.FPS, 9.013)
+        ]
+        for x in speed_test_data:
+            self.assertAlmostEqual(convert(init_speed, SpeedUnits.KNOTS, x[0]), x[1], 3)
 
     def test_good_distance_conversion(self):
         """
@@ -138,83 +106,25 @@ class UnitsTest(unittest.TestCase):
 
         Expect:
             cm = 337961.4
-            ft = 11088.0
-            yd = 3696.0
-            mt = 3379.620
+            ft = 11087.972
+            yd = 3695.991
+            mt = 3379.614
             km = 3.380
             nm = 1.825
         """
         init_distance = 2.10  # miles
 
-        self.assertAlmostEqual(
-            convert(
-                init_distance,
-                DistanceUnits.MILES,
-                DistanceUnits.CENTIMETERS
-            ),
-            337961.4,
-            1
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_distance,
-                DistanceUnits.MILES,
-                DistanceUnits.FEET
-            ),
-            11088.0,
-            1
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_distance,
-                DistanceUnits.MILES,
-                DistanceUnits.YARDS
-            ),
-            3696.0,
-            1
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_distance,
-                DistanceUnits.MILES,
-                DistanceUnits.METERS
-            ),
-            3379.6,
-            1
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_distance,
-                DistanceUnits.MILES,
-                DistanceUnits.MILES
-            ),
-            2.1,
-            1
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_distance,
-                DistanceUnits.MILES,
-                DistanceUnits.KILOMETERS
-            ),
-            3.4,
-            1
-        )
-
-        self.assertAlmostEqual(
-            convert(
-                init_distance,
-                DistanceUnits.MILES,
-                DistanceUnits.NAUTICAL_MILES
-            ),
-            1.8,
-            1
-        )
+        dist_test_data  = [
+            (DistanceUnits.MILES, 2.10),
+            (DistanceUnits.CENTIMETERS, 337961.4),
+            (DistanceUnits.FEET, 11087.972),
+            (DistanceUnits.YARDS, 3695.991),
+            (DistanceUnits.METERS, 3379.614),
+            (DistanceUnits.KILOMETERS, 3.380),
+            (DistanceUnits.NAUTICAL_MILES, 1.825)
+        ]
+        for x in dist_test_data:
+            self.assertAlmostEqual(convert(init_distance, DistanceUnits.MILES, x[0]), x[1], 3)
 
     def test_good_temperature_conversion(self):
         """
@@ -241,13 +151,3 @@ class UnitsTest(unittest.TestCase):
             69.008,
             3
         )
-
-    @staticmethod
-    def suite() -> unittest.TestSuite:
-        suite = unittest.TestSuite()
-        suite.addTest(UnitsTest("test_good_time_conversion"))
-        suite.addTest(UnitsTest("test_good_speed_conversion"))
-        suite.addTest(UnitsTest("test_good_distance_conversion"))
-        suite.addTest(UnitsTest("test_good_temperature_conversion"))
-
-        return suite

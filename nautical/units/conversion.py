@@ -1,4 +1,4 @@
-from .units import (
+from . import (
     TimeUnits,
     TemperatureUnits,
     SpeedUnits,
@@ -42,35 +42,6 @@ SpeedLookup = {
 }
 
 
-ConversionLookup = {
-    TimeUnits: convert_time,
-    TemperatureUnits: convert_temperature,
-    DistanceUnits: convert_distance,
-    SpeedUnits: convert_speed
-}
-
-
-def convert(value, init_units, final_units):
-    """
-    Convert the value given the current units to the new units. If the
-    units are not in the same set of units then the value cannot be converted,
-    and None will be returned.
-
-    :param value: Value provided in the units (init_units)
-    :param init_units: initial units of the value (must match final units type)
-    :param final_units: final units of the value (must match initial units type)
-    :return: The value converted to the final units. If the units did not match None is returned
-    :raises TypeError: when the two types do not match, or when any of the parameters are None
-    """
-
-    if None not in (value, init_units, final_units) and type(init_units) == type(final_units):
-        func = ConversionLookup.get(type(init_units), None)
-        if callable(func):
-            return func(value, init_units, final_units)
-        
-    raise TypeError  # two types did not match 
-
-
 def convert_temperature(value, init_units, final_units):
     """
     Convert the temperature value from the initial units to the final units
@@ -80,13 +51,10 @@ def convert_temperature(value, init_units, final_units):
     :param final_units: desired temperature units
     :return: value converted from the initial units to the final units
     """
-    try:
-        _temp = value if init_units in (TemperatureUnits.DEG_F,) else (9.0/5.0 * value) + 32.0
-        return _temp if final_units in (TemperatureUnits.DEG_F,) else (_temp-32) * 5.0/9.0
-    # TODO figure out what exceptions
-    except Exception as e:
-        log.error(e)
-        raise
+    if not isinstance(init_units, TemperatureUnits) or not isinstance(final_units, TemperatureUnits):
+        raise KeyError
+    _temp = value if init_units in (TemperatureUnits.DEG_F,) else (9.0/5.0 * value) + 32.0
+    return _temp if final_units in (TemperatureUnits.DEG_F,) else (_temp-32) * 5.0/9.0
 
 
 def convert_time(value, init_units, final_units):
@@ -138,3 +106,32 @@ def convert_speed(value, init_units, final_units):
     except KeyError as e:
         log.error(e)
         raise 
+
+# saved for quicker lookup
+ConversionLookup = {
+    TimeUnits: convert_time,
+    TemperatureUnits: convert_temperature,
+    DistanceUnits: convert_distance,
+    SpeedUnits: convert_speed
+}
+
+
+def convert(value, init_units, final_units):
+    """
+    Convert the value given the current units to the new units. If the
+    units are not in the same set of units then the value cannot be converted,
+    and None will be returned.
+
+    :param value: Value provided in the units (init_units)
+    :param init_units: initial units of the value (must match final units type)
+    :param final_units: final units of the value (must match initial units type)
+    :return: The value converted to the final units. If the units did not match None is returned
+    :raises TypeError: when the two types do not match, or when any of the parameters are None
+    """
+
+    if None not in (value, init_units, final_units) and type(init_units) == type(final_units):
+        func = ConversionLookup.get(type(init_units), None)
+        if callable(func):
+            return func(value, init_units, final_units)
+        
+    raise TypeError  # two types did not match 
