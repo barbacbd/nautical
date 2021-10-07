@@ -34,4 +34,4 @@ jobs:
 #        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Tests
       run: |
-        python -m pytest run_test_suite.py
+        "ls -la" &&  python -m pytest run_test_suite.py
