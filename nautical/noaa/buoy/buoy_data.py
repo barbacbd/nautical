@@ -3,7 +3,11 @@ from nautical.time.nautical_time import nTime
 from nautical.time.enums import TimeFormat
 from time import mktime, strptime
 from datetime import datetime
-from . import UNAVAILABLE_NOAA_DATA
+
+
+# Not sure why but this is the default value for NOAA data that is not present.
+# There may be times where we check against this value for validity/availability
+UNAVAILABLE_NOAA_DATA = "-"
 
 
 class BuoyData(object):

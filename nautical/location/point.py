@@ -64,10 +64,7 @@ class Point:
     @altitude.setter
     def altitude(self, altitude):
         """
-        :param altitude: any floating point value is accepted
-
-        ..note::
-            All negative values are considered depth
+        :param altitude: any floating point value is accepted, but all negative values are considered depth
         """
         if isinstance(altitude, float):
             self._altitude = altitude
@@ -113,6 +110,7 @@ class Point:
             try:
                 self.longitude = float(split_data[0])  # should ALWAYS exist
                 self.latitude = float(split_data[1])   # should ALWAYS exist
-                self.altitude = float(split_data[2])   # may or may not exist
+                if len(split_data) > 2:
+                    self.altitude = float(split_data[2])   # may or may not exist
             except (IndexError, TypeError) as e:
-                pass
+                raise # save stack information
