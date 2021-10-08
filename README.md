@@ -1,6 +1,6 @@
 # Nautical
 
-![example workflow](https://github.com/barbacbd/actions/workflows/python-app.yml/badge.svg)
+![example workflow](https://github.com/barbacbd/nautical/actions/workflows/python-app.yml/badge.svg)
 
 
 Author: Brent Barbachem  
