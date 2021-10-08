@@ -53,4 +53,4 @@ jobs:
         run: |
           pip install coverage
           coverage run -m unittest test_nautical.py
-	  coverage report
+          coverage report
