@@ -21,11 +21,9 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-
     - name: Local install
       run: |
       	python -m pip install . --upgrade
-      
     - name: Tests
       run: |
         python -m unittest test_nautical.py
