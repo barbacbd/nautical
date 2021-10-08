@@ -1,12 +1,10 @@
 import unittest
-from .conversion import (
+from nautical.units import (
     convert,
     convert_time,
     convert_temperature,
     convert_speed,
-    convert_distance
-)
-from .units import (
+    convert_distance,
     TimeUnits,
     SpeedUnits,
     DistanceUnits,
