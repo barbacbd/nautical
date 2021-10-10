@@ -1,7 +1,6 @@
 # Nautical
 
 ![build workflow](https://github.com/barbacbd/nautical/actions/workflows/python-app.yml/badge.svg)
-![codecov.io Code Coverage](https://img.shields.io/codecov/c/github/barbacbd/hapi-auth-jwt2.svg?maxAge=2592000)
 
 
 Author: Brent Barbachem  
