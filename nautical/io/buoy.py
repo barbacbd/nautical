@@ -27,23 +27,22 @@ def create_buoy(buoy):
     :param buoy: id of the buoy to do a workup on
     :return: BuoyWorkup if successful else None
     """
-    if buoy is not None:
-        url = get_noaa_forecast_url(buoy)
-        soup = get_url_source(url)
-
-        current_buoy_data = BuoyData()
-        get_current_data(soup, current_buoy_data, _DEFAULT_BUOY_WAVE_TEXT_SEARCH.format(buoy))
-        get_current_data(soup, current_buoy_data, _SWELL_DATA_TEXT_SEARCH)
-        past_data = get_past_data(soup)
-
-        buoy_data = Buoy(buoy)
-        buoy_data.present = current_buoy_data
-        buoy_data.past = past_data
-
-        return buoy_data
-
-    else:
+    if not buoy:
         return None
+    
+    url = get_noaa_forecast_url(buoy)
+    soup = get_url_source(url)
+    
+    current_buoy_data = BuoyData()
+    get_current_data(soup, current_buoy_data, _DEFAULT_BUOY_WAVE_TEXT_SEARCH.format(buoy))
+    get_current_data(soup, current_buoy_data, _SWELL_DATA_TEXT_SEARCH)
+    past_data = get_past_data(soup)
+    
+    buoy_data = Buoy(buoy)
+    buoy_data.present = current_buoy_data
+    buoy_data.past = past_data
+    
+    return buoy_data
 
 
 def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
@@ -77,7 +76,9 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
                     value = cells[2].next.split()[0]
 
                     buoy.set(key, value)
-                except Exception:
+                except Exception as e:
+                    # hack to be fixed
+                    log.error(e)
                     # catch anything odd that may have been laying around
                     pass
 

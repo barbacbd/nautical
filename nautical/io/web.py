@@ -2,7 +2,10 @@ from nautical.error import NauticalError
 from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
 from bs4 import BeautifulSoup
+from logging import getLogger
 
+
+log = getLogger()
 
 # The same format is used to find all stations online
 _STATION_LINK = "https://www.ndbc.noaa.gov/station_page.php?station={}"
@@ -24,7 +27,7 @@ def get_noaa_forecast_url(buoy):
     if buoy:
         return _STATION_LINK.format(buoy)
     else:
-        raise NauticalError("no buoy id provided")
+        log.warning("No buoy ID provided to get_noaa_forecast_url")
 
 
 def get_url_source(url_name):
@@ -44,5 +47,6 @@ def get_url_source(url_name):
         soup = BeautifulSoup(open_url.read(), features="lxml")
         return soup
     except (ValueError, HTTPError) as e:
-        raise NauticalError("failed to get the url source: {}".format(e))
+        log.error(e)
+        raise 
 

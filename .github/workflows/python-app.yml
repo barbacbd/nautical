@@ -36,7 +36,8 @@ jobs:
         python -m pip install . --upgrade
     - name: Tests
       run: |
-        python -m unittest test_nautical.py
+      	python -m pip install pytest coverage pytest-cov
+        pytest 
 
 
   codecov:
@@ -52,5 +53,5 @@ jobs:
       - name: Generate coverage report
         run: |
           pip install coverage
-          coverage run -m unittest test_nautical.py
+          pytest --cov=. /tests
           coverage report

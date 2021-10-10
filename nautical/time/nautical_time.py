@@ -79,9 +79,14 @@ class nTime(object):
 
         :param data: tuple or single value containing (hours, midday enumeration)
         """
-        try:
-            hours, m = data
-        except TypeError as e:
+        hours = None
+        m = None
+        print(type(data))
+        if isinstance(data, (tuple, list)):
+            if len(data) == 2:
+                hours, m = data
+
+        if None in (hours, m):
             hours = data
             # provide a default value
             m = Midday.AM if hours < 12 else Midday.PM
