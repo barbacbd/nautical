@@ -1,7 +1,7 @@
 # Nautical
 
 ![build workflow](https://github.com/barbacbd/nautical/actions/workflows/python-app.yml/badge.svg)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/barbacbd/nautical/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/barbacbd/nautical/pulse/commit-activity)
 [![GitHub latest commit](https://badgen.net/github/last-commit/Naereen/nautical)](https://github.com/barbacbd/nautical/commit/)
 
 
