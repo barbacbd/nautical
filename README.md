@@ -13,9 +13,6 @@
 [![macOS](https://svgshare.com/i/ZjP.svg)](https://svgshare.com/i/ZjP.svg)
 [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
 
-[![ForTheBadge built-by-developers](http://ForTheBadge.com/images/badges/built-by-developers.svg)](https://GitHub.com/barbacbd/)
-[![OriginalDate](https://img.shields.io/badge/Origin%20Date-May %2018 %20 2019-blue.svg)
-
 Author: Brent Barbachem  
 Alias: barbacbd  
 Date: May 18, 2019
