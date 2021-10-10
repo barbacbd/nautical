@@ -2,7 +2,7 @@
 
 ![build workflow](https://github.com/barbacbd/nautical/actions/workflows/python-app.yml/badge.svg)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/barbacbd/nautical/pulse/commit-activity)
-[![GitHub latest commit](https://badgen.net/github/last-commit/Naereen/nautical)](https://github.com/barbacbd/nautical/commit/)
+[![GitHub latest commit](https://badgen.net/github/last-commit/barbacbd/nautical)](https://github.com/barbacbd/nautical/commit/)
 
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
