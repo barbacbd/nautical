@@ -13,7 +13,6 @@
 [![macOS](https://svgshare.com/i/ZjP.svg)](https://svgshare.com/i/ZjP.svg)
 [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
 
-
 Author: Brent Barbachem  
 Alias: barbacbd  
 Date: May 18, 2019
