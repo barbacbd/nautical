@@ -1,4 +1,4 @@
-# Nautical
+![project_logo](.images/nautical_logo.png)
 
 ![build workflow](https://github.com/barbacbd/nautical/actions/workflows/python-app.yml/badge.svg)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/barbacbd/nautical/pulse/commit-activity)
