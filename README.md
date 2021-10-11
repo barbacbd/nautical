@@ -1,7 +1,6 @@
 <p align="center">
-  <img src="https://github.com/barbacbd/nautical/master/.images/nautical_logo.png?raw=true" alt="Nautical Logo" width="600" height="100"/>
+  <img src="https://github.com/barbacbd/nautical/tree/master/.images/nautical_logo.png?raw=true" alt="Nautical Logo" width="600" height="100"/>
 </p>
-
 
 ![build workflow](https://github.com/barbacbd/nautical/actions/workflows/python-app.yml/badge.svg)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/barbacbd/nautical/pulse/commit-activity)
