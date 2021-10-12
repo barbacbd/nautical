@@ -77,11 +77,8 @@ Utility package to provide the user with the easy ability to alter the units for
 
 The following display the supported unit types for each category:
 
-<table>
-<tr><th>Units</th></tr>
-<tr><td>
-|Time|Temperature|Speed|Distance|
-|----|-----|------|-------|
+|Time   |Temperature|Speed|Distance|
+|-------|----------|-------------------|--------------|
 |Seconds|Fahrenheit|knots              |Centimeters   |
 |Minutes|Celsius   |Meters per second  |Feet          |
 |Hours  |          |Miles per hour     |Yards         |
@@ -89,9 +86,6 @@ The following display the supported unit types for each category:
 |       |          |Feet per second    |Kilometers    |
 |       |          |                   |Miles         |
 |       |          |                   |Nautical Miles|
-
-</td></tr> </table>
-
 
 The user can convert values to a different unit if and only if the units are in the same class. 
 
