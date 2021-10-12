@@ -77,19 +77,24 @@ Utility package to provide the user with the easy ability to alter the units for
 
 The following display the supported unit types for each category:
 
+<table>
+<tr><th>Units</th></tr>
+<tr><td>
 |Time|
-|----|
+|--|
 |Seconds|
 |Minutes|
 |Hours|
 |Days|
 
+</td><td>
 
 |Temperature|
 |-----------|
 |Fahrenheit|
 |Celsius|
 
+</td><td>
 
 |Speed|
 |-----|
@@ -99,6 +104,7 @@ The following display the supported unit types for each category:
 |Kilometers per hour|
 |Feet per second|
 
+</td><td>
 
 |Distance|
 |--------|
@@ -110,8 +116,10 @@ The following display the supported unit types for each category:
 |Miles|
 |Nautical Miles|
 
+</td></tr> </table>
 
-The user can convert values to a different unit IFF the units are in the same class. 
+
+The user can convert values to a different unit if and only if the units are in the same class. 
 
 ```python
 from nautical.units.conversion import convert
