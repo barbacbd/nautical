@@ -80,41 +80,15 @@ The following display the supported unit types for each category:
 <table>
 <tr><th>Units</th></tr>
 <tr><td>
-|Time|
-|--|
-|Seconds|
-|Minutes|
-|Hours|
-|Days|
-
-</td><td>
-
-|Temperature|
-|-----------|
-|Fahrenheit|
-|Celsius|
-
-</td><td>
-
-|Speed|
-|-----|
-|Knots|
-|Meters per second|
-|Miles per hour|
-|Kilometers per hour|
-|Feet per second|
-
-</td><td>
-
-|Distance|
-|--------|
-|Centimeters|
-|Feet|
-|Yards|
-|Meters|
-|Milometers|
-|Miles|
-|Nautical Miles|
+|Time|Temperature|Speed|Distance|
+|----|-----|------|-------|
+|Seconds|Fahrenheit|knots              |Centimeters   |
+|Minutes|Celsius   |Meters per second  |Feet          |
+|Hours  |          |Miles per hour     |Yards         |
+|Days   |          |Kilometers per hour|Meters        |
+|       |          |Feet per second    |Kilometers    |
+|       |          |                   |Miles         |
+|       |          |                   |Nautical Miles|
 
 </td></tr> </table>
 
