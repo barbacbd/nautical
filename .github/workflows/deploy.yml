@@ -14,14 +14,12 @@ jobs:
         python-version: 3.9
     - name: Install pypa/build
       run: >-
-        echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/} >> VERSION && 
         python -m
         pip install
         build
         --user
     - name: Build a binary wheel and a source tarball
       run: >-
-        echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/} >> VERSION && 
         python -m
         build
         --sdist

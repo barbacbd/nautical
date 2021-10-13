@@ -1,28 +1,14 @@
 from setuptools import setup, find_packages
-from os import path, stat
+from os import path
 
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
-
-    
-version="LOCAL"
-if stat("VERSION").st_size > 0:
-    with open(path.join(this_directory, "VERSION"), encoding='utf-8') as v:
-        for line in v:
-            # make some assumptions that its not all bad data in the file
-            # since my CI _should_ be the one adding this data
-            if line.startswith("version:"):
-                version_info = "".join(line.split()).split(":")
-                if len(version_info) >= 2:
-                    version = version_info[1]
-            break  # exit early, don't care what else was there
-
     
 setup(
     name='nautical',
-    version=version,
+    version="2.2.4",
     license='MIT',
     long_description=long_description,
     long_description_content_type='text/markdown',
