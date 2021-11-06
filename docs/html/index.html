@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to nautical’s documentation! &mdash; nautical 2.2.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> nautical
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to nautical’s documentation!</a></li>
+<li><a class="reference internal" href="#module-nautical.error.__init__">error</a></li>
+<li><a class="reference internal" href="#module-nautical.io">io</a><ul>
+<li><a class="reference internal" href="#module-nautical.io.buoy">buoy</a></li>
+<li><a class="reference internal" href="#module-nautical.io.sources">sources</a></li>
+<li><a class="reference internal" href="#module-nautical.io.web">web</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-nautical.location">location</a><ul>
+<li><a class="reference internal" href="#module-nautical.location.point">point</a></li>
+<li><a class="reference internal" href="#module-nautical.location.util">utility</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-nautical.noaa.buoy">noaa</a><ul>
+<li><a class="reference internal" href="#id1">buoy</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.buoy.buoy_data">buoy_data</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.buoy.source">source</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-nautical.sea_state.__init__">sea_state</a></li>
+<li><a class="reference internal" href="#time">time</a><ul>
+<li><a class="reference internal" href="#module-nautical.time.conversion">conversion</a></li>
+<li><a class="reference internal" href="#module-nautical.time.enums">enumerations</a></li>
+<li><a class="reference internal" href="#module-nautical.time.nautical_time">nautical time</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-nautical.units.units">units</a><ul>
+<li><a class="reference internal" href="#id2">conversion</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">nautical</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>Welcome to nautical’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-nautical-s-documentation">
+<h1>Welcome to nautical’s documentation!<a class="headerlink" href="#welcome-to-nautical-s-documentation" title="Permalink to this headline"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="module-nautical.error.__init__">
+<span id="error"></span><h1>error<a class="headerlink" href="#module-nautical.error.__init__" title="Permalink to this headline"></a></h1>
+<dl class="py exception">
+<dt class="sig sig-object py" id="nautical.error.__init__.NauticalError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.error.__init__.</span></span><span class="sig-name descname"><span class="pre">NauticalError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.error.__init__.NauticalError" title="Permalink to this definition"></a></dt>
+<dd><p>Exception raised as errors occur in the nautical package.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.error.__init__.NauticalError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#nautical.error.__init__.NauticalError.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – Message (string) to the user when the exception is raised.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.error.__init__.NauticalError.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#nautical.error.__init__.NauticalError.__weakref__" title="Permalink to this definition"></a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.io">
+<span id="io"></span><h1>io<a class="headerlink" href="#module-nautical.io" title="Permalink to this headline"></a></h1>
+<p>The io module consists of the functions utilized to search for information about buoys
+and their sources on NOAA’s website.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.create_buoy">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.</span></span><span class="sig-name descname"><span class="pre">create_buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buoy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.create_buoy" title="Permalink to this definition"></a></dt>
+<dd><p>Provide a full workup for a specific buoy. If the buoy is None or it cannot be found
+then the data returned will be considered invalid as None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>buoy</strong> – id of the buoy to do a workup on</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>BuoyWorkup if successful else None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.get_buoy_sources">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.</span></span><span class="sig-name descname"><span class="pre">get_buoy_sources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.get_buoy_sources" title="Permalink to this definition"></a></dt>
+<dd><p>NOAA is kind enough to provide all of names, ids, and other information about ALL of their known buoys
+in a kml document hosted at the link provided (<a class="reference external" href="https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml">https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml</a>).
+Read through this document and parse the buoy information to determine their id and location.
+The ID can be used to provide to get_noaa_forecast_url(). Then we can find even more information about the
+buoys.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The SHIP ID is not available for lookup since there are multiple IDs with the same name.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dictionary all source names mapped to their respective source.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.get_current_data">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.</span></span><span class="sig-name descname"><span class="pre">get_current_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buoy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#nautical.noaa.buoy.buoy_data.BuoyData" title="nautical.noaa.buoy.buoy_data.BuoyData"><span class="pre">nautical.noaa.buoy.buoy_data.BuoyData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">search</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.get_current_data" title="Permalink to this definition"></a></dt>
+<dd><p>Search the beautiful soup object for a TABLE containing the search string. The function will
+grab the data from the table and create a NOAAData object and return the data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>soup</strong> – beautiful soup object generated from the get_url_source()</p></li>
+<li><p><strong>buoy</strong> – BuoyData object that should be filled with data as this function parses the data.</p></li>
+<li><p><strong>search</strong> – text to search for in the soup object. The text MUST be an exact match as this is
+a possible limitation of beautiful soup searching</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.get_noaa_forecast_url">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.</span></span><span class="sig-name descname"><span class="pre">get_noaa_forecast_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buoy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.get_noaa_forecast_url" title="Permalink to this definition"></a></dt>
+<dd><p>NOAA is kind enough to post all of their data from their buoys at the same url ONLY requiring
+the id of buoy to change at the end of the link (<a class="reference external" href="https://www.ndbc.noaa.gov/station_page.php?station=">https://www.ndbc.noaa.gov/station_page.php?station=</a>).
+This function will simply take in the buoy from the user and append the data to the
+end of the url, IFF the data exists.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is no check that the provided url is correct/valid.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>buoy</strong> – id of the buoy</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>if buoy is not empty , return the full url, otherwise return nothing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.get_past_data">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.</span></span><span class="sig-name descname"><span class="pre">get_past_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.get_past_data" title="Permalink to this definition"></a></dt>
+<dd><p>Find all Previous Observations or Past Data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>soup</strong> – beautiful soup object generated from the get_url_source()</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of all previous observations from the url. The buoy data returned in the list
+may be a comprehension of swell and wave data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.get_url_source">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.</span></span><span class="sig-name descname"><span class="pre">get_url_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.get_url_source" title="Permalink to this definition"></a></dt>
+<dd><p>If you already know the url_name or if you have run through the get_noaa_forecast_url(), then you can
+send in the url here. Get the source information for the url and place the information into a BeautifulSoup
+object, so that we can do any lookups of the data that we need.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The function makes no assumptions about the validity of the url.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url_name</strong> – name of the url to search for</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>BeautifulSoup Object on success otherwise none</p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="module-nautical.io.buoy">
+<span id="buoy"></span><h2>buoy<a class="headerlink" href="#module-nautical.io.buoy" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.buoy.create_buoy">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.buoy.</span></span><span class="sig-name descname"><span class="pre">create_buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buoy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.buoy.create_buoy" title="Permalink to this definition"></a></dt>
+<dd><p>Provide a full workup for a specific buoy. If the buoy is None or it cannot be found
+then the data returned will be considered invalid as None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>buoy</strong> – id of the buoy to do a workup on</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>BuoyWorkup if successful else None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.buoy.get_current_data">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.buoy.</span></span><span class="sig-name descname"><span class="pre">get_current_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buoy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#nautical.noaa.buoy.buoy_data.BuoyData" title="nautical.noaa.buoy.buoy_data.BuoyData"><span class="pre">nautical.noaa.buoy.buoy_data.BuoyData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">search</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.buoy.get_current_data" title="Permalink to this definition"></a></dt>
+<dd><p>Search the beautiful soup object for a TABLE containing the search string. The function will
+grab the data from the table and create a NOAAData object and return the data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>soup</strong> – beautiful soup object generated from the get_url_source()</p></li>
+<li><p><strong>buoy</strong> – BuoyData object that should be filled with data as this function parses the data.</p></li>
+<li><p><strong>search</strong> – text to search for in the soup object. The text MUST be an exact match as this is
+a possible limitation of beautiful soup searching</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.buoy.get_past_data">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.buoy.</span></span><span class="sig-name descname"><span class="pre">get_past_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.buoy.get_past_data" title="Permalink to this definition"></a></dt>
+<dd><p>Find all Previous Observations or Past Data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>soup</strong> – beautiful soup object generated from the get_url_source()</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of all previous observations from the url. The buoy data returned in the list
+may be a comprehension of swell and wave data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-nautical.io.sources">
+<span id="sources"></span><h2>sources<a class="headerlink" href="#module-nautical.io.sources" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.sources.get_buoy_sources">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.sources.</span></span><span class="sig-name descname"><span class="pre">get_buoy_sources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.sources.get_buoy_sources" title="Permalink to this definition"></a></dt>
+<dd><p>NOAA is kind enough to provide all of names, ids, and other information about ALL of their known buoys
+in a kml document hosted at the link provided (<a class="reference external" href="https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml">https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml</a>).
+Read through this document and parse the buoy information to determine their id and location.
+The ID can be used to provide to get_noaa_forecast_url(). Then we can find even more information about the
+buoys.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The SHIP ID is not available for lookup since there are multiple IDs with the same name.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dictionary all source names mapped to their respective source.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-nautical.io.web">
+<span id="web"></span><h2>web<a class="headerlink" href="#module-nautical.io.web" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.web.get_noaa_forecast_url">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.web.</span></span><span class="sig-name descname"><span class="pre">get_noaa_forecast_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buoy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.web.get_noaa_forecast_url" title="Permalink to this definition"></a></dt>
+<dd><p>NOAA is kind enough to post all of their data from their buoys at the same url ONLY requiring
+the id of buoy to change at the end of the link (<a class="reference external" href="https://www.ndbc.noaa.gov/station_page.php?station=">https://www.ndbc.noaa.gov/station_page.php?station=</a>).
+This function will simply take in the buoy from the user and append the data to the
+end of the url, IFF the data exists.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is no check that the provided url is correct/valid.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>buoy</strong> – id of the buoy</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>if buoy is not empty , return the full url, otherwise return nothing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.web.get_url_source">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.web.</span></span><span class="sig-name descname"><span class="pre">get_url_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.web.get_url_source" title="Permalink to this definition"></a></dt>
+<dd><p>If you already know the url_name or if you have run through the get_noaa_forecast_url(), then you can
+send in the url here. Get the source information for the url and place the information into a BeautifulSoup
+object, so that we can do any lookups of the data that we need.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The function makes no assumptions about the validity of the url.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url_name</strong> – name of the url to search for</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>BeautifulSoup Object on success otherwise none</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="module-nautical.location">
+<span id="location"></span><h1>location<a class="headerlink" href="#module-nautical.location" title="Permalink to this headline"></a></h1>
+<p>The module contains data to create and manage 3D points. The points can be generated from
+the data contained inside of NOAA’s kml and html data.</p>
+<section id="module-nautical.location.point">
+<span id="point"></span><h2>point<a class="headerlink" href="#module-nautical.location.point" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.location.point.Point">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.location.point.</span></span><span class="sig-name descname"><span class="pre">Point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.location.point.Point" title="Permalink to this definition"></a></dt>
+<dd><p>A 3D point containing latitude, longitude and altitude coordinates</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.location.point.Point.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.location.point.Point.__hash__" title="Permalink to this definition"></a></dt>
+<dd><p>Each 3D point should be unique and there can only be one 3D point in the world that matches lat, lon, alt</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>hash of the latitude * longitude * altitude</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.location.point.Point.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#nautical.location.point.Point.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat</strong> – latitude degrees</p></li>
+<li><p><strong>lon</strong> – Longitude degrees</p></li>
+<li><p><strong>alt</strong> – Altitude meters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.location.point.Point.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#nautical.location.point.Point.__str__" title="Permalink to this definition"></a></dt>
+<dd><p>Python version of the to string function. Turn this object into a string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>string representation of this object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.location.point.Point.altitude">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">altitude</span></span><a class="headerlink" href="#nautical.location.point.Point.altitude" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>altitude (meters)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.location.point.Point.latitude">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">latitude</span></span><a class="headerlink" href="#nautical.location.point.Point.latitude" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>latitude (degrees)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.location.point.Point.longitude">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">longitude</span></span><a class="headerlink" href="#nautical.location.point.Point.longitude" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>longitude (degrees)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.location.point.Point.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#nautical.location.point.Point.parse" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – A string containing (whitespace ignored and not a delimiter) lat, lon, altitude.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If data is comma separated it is parsed as lon, lat, alt [altitude is optional -&gt; default to 0.0].</p>
+</div>
+<p>Ex: -110.123, 76.45, 0.0
+Ex: -110.123, 76.45</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.location.util">
+<span id="utility"></span><h2>utility<a class="headerlink" href="#module-nautical.location.util" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.location.util.area_converter">
+<span class="sig-prename descclassname"><span class="pre">nautical.location.util.</span></span><span class="sig-name descname"><span class="pre">area_converter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.location.util.area_converter" title="Permalink to this definition"></a></dt>
+<dd><p>Pass in a list of points, determine the maximum and minimum latitude and longitude
+values, create a square (4 points) from the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>area</strong> – original list of points</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of Points</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.location.util.haversine">
+<span class="sig-prename descclassname"><span class="pre">nautical.location.util.</span></span><span class="sig-name descname"><span class="pre">haversine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#nautical.location.point.Point" title="nautical.location.point.Point"><span class="pre">nautical.location.point.Point</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#nautical.location.point.Point" title="nautical.location.point.Point"><span class="pre">nautical.location.point.Point</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="headerlink" href="#nautical.location.util.haversine" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Find the distance between two points using the Haversine methodology</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.location.util.in_area">
+<span class="sig-prename descclassname"><span class="pre">nautical.location.util.</span></span><span class="sig-name descname"><span class="pre">in_area</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.location.util.in_area" title="Permalink to this definition"></a></dt>
+<dd><p>Determine if point p is in the area. NOTE: the user should pass the original
+list of points through the area_converter. This will provide an approximate area.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> – Point to determine if it is in the area</p></li>
+<li><p><strong>area</strong> – 2 point area min, min -&gt; max, max</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>true if it is in the area false otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.location.util.in_range">
+<span class="sig-prename descclassname"><span class="pre">nautical.location.util.</span></span><span class="sig-name descname"><span class="pre">in_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#nautical.location.point.Point" title="nautical.location.point.Point"><span class="pre">nautical.location.point.Point</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#nautical.location.point.Point" title="nautical.location.point.Point"><span class="pre">nautical.location.point.Point</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_m</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#nautical.location.util.in_range" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>whether or not these two points are within a range of each other</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.location.util.in_range_ll">
+<span class="sig-prename descclassname"><span class="pre">nautical.location.util.</span></span><span class="sig-name descname"><span class="pre">in_range_ll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat1_deg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon1_deg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat2_deg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon2_deg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_m</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#nautical.location.util.in_range_ll" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>whether or on the lat, lon points are within a range of each other</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="module-nautical.noaa.buoy">
+<span id="noaa"></span><h1>noaa<a class="headerlink" href="#module-nautical.noaa.buoy" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.Buoy">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.</span></span><span class="sig-name descname"><span class="pre">Buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.Buoy" title="Permalink to this definition"></a></dt>
+<dd><p>This class is meant to serve as the combination of past and present NOAA
+data for a particular buoy location. This will will include:</p>
+<p>present wave data
+present swell data
+past data [currently wave data and swell data]</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.Buoy.description">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.description" title="Permalink to this definition"></a></dt>
+<dd><p>Don’t provide the user with public means of altering
+the description once it is created.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.Buoy.location">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.location" title="Permalink to this definition"></a></dt>
+<dd><p>Location (nuatical.location.point) of the buoy</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.Buoy.station">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">station</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.station" title="Permalink to this definition"></a></dt>
+<dd><p>Don’t provide the user with public means of altering
+the station once it is created.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.</span></span><span class="sig-name descname"><span class="pre">BuoyData</span></span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mm</strong> – month</p></li>
+<li><p><strong>dd</strong> – day</p></li>
+<li><p><strong>year</strong> – year</p></li>
+<li><p><strong>time</strong> – time</p></li>
+<li><p><strong>wdir</strong> – wind direction</p></li>
+<li><p><strong>wspd</strong> – wind speed, kts</p></li>
+<li><p><strong>gst</strong> – gust, kts</p></li>
+<li><p><strong>wvht</strong> – wave height, feet</p></li>
+<li><p><strong>dpd</strong> – dominant wave period, seconds</p></li>
+<li><p><strong>apd</strong> – average wave period, seconds</p></li>
+<li><p><strong>mwd</strong> – mean wave direction</p></li>
+<li><p><strong>pres</strong> – pressure, inches</p></li>
+<li><p><strong>ptdy</strong> – pressure tendency, inches</p></li>
+<li><p><strong>atmp</strong> – air temp, Degrees F</p></li>
+<li><p><strong>wtmp</strong> – water temp, Degrees F</p></li>
+<li><p><strong>dewp</strong> – dew point, Degrees F</p></li>
+<li><p><strong>sal</strong> – salinity, PSU</p></li>
+<li><p><strong>vis</strong> – visibility, NM</p></li>
+<li><p><strong>tide</strong> – tide, feet</p></li>
+<li><p><strong>swh</strong> – swell height, feet</p></li>
+<li><p><strong>swp</strong> – swell period, seconds</p></li>
+<li><p><strong>swd</strong> – swell direction</p></li>
+<li><p><strong>wwh</strong> – wind wave height, feet</p></li>
+<li><p><strong>wwp</strong> – wind wave period, seconds</p></li>
+<li><p><strong>wwd</strong> – wind wave direction</p></li>
+<li><p><strong>steepness</strong> – steepness</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData.epoch_time">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">epoch_time</span></span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.epoch_time" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>epoch time if all pieces of the time object exist, otherwise None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData.from_dict">
+<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.from_dict" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>d</strong> – Fill this object from this dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.set" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – the internal variable name</p></li>
+<li><p><strong>value</strong> – the value we wish to set the variable to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData.units">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.units" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> – internal variable name of this class.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Units (str) for the variable read from the class docstring. None is returned when units do not exist.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.Source">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.</span></span><span class="sig-name descname"><span class="pre">Source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.Source" title="Permalink to this definition"></a></dt>
+<dd><p>The source is a grouping or categorization of buoy sources.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.Source.add_buoy">
+<span class="sig-name descname"><span class="pre">add_buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buoy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.Source.add_buoy" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>buoy</strong> – buoy to be added to the list of buoys.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All buoy names are considered unique meaning the buoy name is CASE SENSITIVE</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if the buoy was added to the list of buoys</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.Source.get_buoy">
+<span class="sig-name descname"><span class="pre">get_buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.Source.get_buoy" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>station</strong> – name of the buoy station</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Buoy with a matching station, None if one was not found.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All buoy names are considered unique meaning the search is CASE SENSITIVE</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<section id="id1">
+<h2>buoy<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-nautical.noaa.buoy.buoy"></span><dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.buoy.</span></span><span class="sig-name descname"><span class="pre">Buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy" title="Permalink to this definition"></a></dt>
+<dd><p>This class is meant to serve as the combination of past and present NOAA
+data for a particular buoy location. This will will include:</p>
+<p>present wave data
+present swell data
+past data [currently wave data and swell data]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.__eq__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>station id is the same</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.__hash__" title="Permalink to this definition"></a></dt>
+<dd><p>The reason behind a private station and description is that they are used for the
+hash function. The hash shouldn’t be able to change during execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>hash of the station combined with the hash of the description.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>station</strong> – ID of the station</p></li>
+<li><p><strong>description</strong> – snippet of information to describe this station</p></li>
+<li><p><strong>location</strong> – nautical.location.point.Point [optional]</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.__ne__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>station ids are not the same</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.__str__" title="Permalink to this definition"></a></dt>
+<dd><p>If the location of this buoy is known return the location and the name,
+otherwise just return the name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>string representation of this Buoy</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.__weakref__" title="Permalink to this definition"></a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.description">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.description" title="Permalink to this definition"></a></dt>
+<dd><p>Don’t provide the user with public means of altering
+the description once it is created.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.location">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.location" title="Permalink to this definition"></a></dt>
+<dd><p>Location (nuatical.location.point) of the buoy</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.station">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">station</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.station" title="Permalink to this definition"></a></dt>
+<dd><p>Don’t provide the user with public means of altering
+the station once it is created.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.noaa.buoy.buoy_data">
+<span id="buoy-data"></span><h2>buoy_data<a class="headerlink" href="#module-nautical.noaa.buoy.buoy_data" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.buoy_data.</span></span><span class="sig-name descname"><span class="pre">BuoyData</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mm</strong> – month</p></li>
+<li><p><strong>dd</strong> – day</p></li>
+<li><p><strong>year</strong> – year</p></li>
+<li><p><strong>time</strong> – time</p></li>
+<li><p><strong>wdir</strong> – wind direction</p></li>
+<li><p><strong>wspd</strong> – wind speed, kts</p></li>
+<li><p><strong>gst</strong> – gust, kts</p></li>
+<li><p><strong>wvht</strong> – wave height, feet</p></li>
+<li><p><strong>dpd</strong> – dominant wave period, seconds</p></li>
+<li><p><strong>apd</strong> – average wave period, seconds</p></li>
+<li><p><strong>mwd</strong> – mean wave direction</p></li>
+<li><p><strong>pres</strong> – pressure, inches</p></li>
+<li><p><strong>ptdy</strong> – pressure tendency, inches</p></li>
+<li><p><strong>atmp</strong> – air temp, Degrees F</p></li>
+<li><p><strong>wtmp</strong> – water temp, Degrees F</p></li>
+<li><p><strong>dewp</strong> – dew point, Degrees F</p></li>
+<li><p><strong>sal</strong> – salinity, PSU</p></li>
+<li><p><strong>vis</strong> – visibility, NM</p></li>
+<li><p><strong>tide</strong> – tide, feet</p></li>
+<li><p><strong>swh</strong> – swell height, feet</p></li>
+<li><p><strong>swp</strong> – swell period, seconds</p></li>
+<li><p><strong>swd</strong> – swell direction</p></li>
+<li><p><strong>wwh</strong> – wind wave height, feet</p></li>
+<li><p><strong>wwp</strong> – wind wave period, seconds</p></li>
+<li><p><strong>wwd</strong> – wind wave direction</p></li>
+<li><p><strong>steepness</strong> – steepness</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Class to contain all information included in a NOAA data point for
+a buoy. A buoy can also include weather stations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.__iter__" title="Permalink to this definition"></a></dt>
+<dd><p>Provide a user friendly mapping of variable names to values stored in this
+Buoy Data Object</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.epoch_time">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">epoch_time</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.epoch_time" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>epoch time if all pieces of the time object exist, otherwise None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.from_dict">
+<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.from_dict" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>d</strong> – Fill this object from this dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.set" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – the internal variable name</p></li>
+<li><p><strong>value</strong> – the value we wish to set the variable to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.units">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.units" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> – internal variable name of this class.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Units (str) for the variable read from the class docstring. None is returned when units do not exist.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.noaa.buoy.source">
+<span id="source"></span><h2>source<a class="headerlink" href="#module-nautical.noaa.buoy.source" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.source.</span></span><span class="sig-name descname"><span class="pre">Source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.source.Source" title="Permalink to this definition"></a></dt>
+<dd><p>The source is a grouping or categorization of buoy sources.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source.__contains__">
+<span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.__contains__" title="Permalink to this definition"></a></dt>
+<dd><p>determine if the item buoy exists in our dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>item</strong> – should be a Buoy, String or int
+:Buoy: check if the hash of the item is in the dict
+:int: assume this is the hash and check
+:str: assume this is the station name check if its in the list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.__eq__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if name and description match</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the data source or grouping of data</p></li>
+<li><p><strong>description</strong> – Description tag of the data source</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.__iter__" title="Permalink to this definition"></a></dt>
+<dd><p>Override iterate to provide the user with the buoys in this instance</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.__ne__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if the name or description do not match</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.__str__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>string representation of the source</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source.add_buoy">
+<span class="sig-name descname"><span class="pre">add_buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buoy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.add_buoy" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>buoy</strong> – buoy to be added to the list of buoys.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All buoy names are considered unique meaning the buoy name is CASE SENSITIVE</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if the buoy was added to the list of buoys</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source.get_buoy">
+<span class="sig-name descname"><span class="pre">get_buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.get_buoy" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>station</strong> – name of the buoy station</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Buoy with a matching station, None if one was not found.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All buoy names are considered unique meaning the search is CASE SENSITIVE</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="module-nautical.sea_state.__init__">
+<span id="sea-state"></span><h1>sea_state<a class="headerlink" href="#module-nautical.sea_state.__init__" title="Permalink to this headline"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.sea_state.__init__.sea_state">
+<span class="sig-prename descclassname"><span class="pre">nautical.sea_state.__init__.</span></span><span class="sig-name descname"><span class="pre">sea_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">wvht:</span> <span class="pre">float</span></em>, <em class="sig-param"><span class="pre">units:</span> <span class="pre">nautical.units.units.DistanceUnits</span> <span class="pre">=</span> <span class="pre">&lt;DistanceUnits.METERS:</span> <span class="pre">4&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.sea_state.__init__.sea_state" title="Permalink to this definition"></a></dt>
+<dd><p>If the provided wave height is not in meters, convert the wave height to
+meters and determine the minimum seastate that meets the requirements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wvht</strong> – current height of the waves</p></li>
+<li><p><strong>units</strong> – units of the wvht variable (defualt DistanceUnits.METERS)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the seastate (int) that the wae height falls in.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="time">
+<h1>time<a class="headerlink" href="#time" title="Permalink to this headline"></a></h1>
+<section id="module-nautical.time.conversion">
+<span id="conversion"></span><h2>conversion<a class="headerlink" href="#module-nautical.time.conversion" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.time.conversion.convert_noaa_time">
+<span class="sig-prename descclassname"><span class="pre">nautical.time.conversion.</span></span><span class="sig-name descname"><span class="pre">convert_noaa_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.time.conversion.convert_noaa_time" title="Permalink to this definition"></a></dt>
+<dd><p>Convert the time value read in from the table that NOAA has hosted.
+The time string is formatted/encoded with HTML data. We need to remove that data
+then split the time up.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>orig</strong> – original string representation of time</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>nTime object if it could be created, otherwise None will be returned</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-nautical.time.enums">
+<span id="enumerations"></span><h2>enumerations<a class="headerlink" href="#module-nautical.time.enums" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.time.enums.Midday">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.time.enums.</span></span><span class="sig-name descname"><span class="pre">Midday</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.time.enums.Midday" title="Permalink to this definition"></a></dt>
+<dd><p>simple enumeration to provide which side of midday the time is associated with</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.time.enums.TimeFormat">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.time.enums.</span></span><span class="sig-name descname"><span class="pre">TimeFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.time.enums.TimeFormat" title="Permalink to this definition"></a></dt>
+<dd><p>Time Format Enumeration to indicate 12-24 hour times</p>
+</dd></dl>
+
+</section>
+<section id="module-nautical.time.nautical_time">
+<span id="nautical-time"></span><h2>nautical time<a class="headerlink" href="#module-nautical.time.nautical_time" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.nTime">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.time.nautical_time.</span></span><span class="sig-name descname"><span class="pre">nTime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">fmt:</span> <span class="pre">nautical.time.enums.TimeFormat</span> <span class="pre">=</span> <span class="pre">&lt;TimeFormat.HOUR_12:</span> <span class="pre">12&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.time.nautical_time.nTime" title="Permalink to this definition"></a></dt>
+<dd><p>Nautical Time (nTime) is a class to Keep Track of Time read in from
+NOAA data. The time can be converted to 24 or 12 hour time formats.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.nTime.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">fmt:</span> <span class="pre">nautical.time.enums.TimeFormat</span> <span class="pre">=</span> <span class="pre">&lt;TimeFormat.HOUR_12:</span> <span class="pre">12&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.time.nautical_time.nTime.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fmt</strong> – format for the time 12 vs 24 hour (default is TimeFormat.HOUR_12)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.nTime.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.time.nautical_time.nTime.__str__" title="Permalink to this definition"></a></dt>
+<dd><p>Return the 24 hour version of the hour and minutes. This class does not
+deal in seconds as the seconds are not provided by NOAA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>string representation of the time</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.nTime.fmt">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">fmt</span></span><a class="headerlink" href="#nautical.time.nautical_time.nTime.fmt" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>current format (12 vs 24 hour)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.nTime.hours">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">hours</span></span><a class="headerlink" href="#nautical.time.nautical_time.nTime.hours" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>current hour (am/pm if exists)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.nTime.minutes">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">minutes</span></span><a class="headerlink" href="#nautical.time.nautical_time.nTime.minutes" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>current minutes</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="module-nautical.units.units">
+<span id="units"></span><h1>units<a class="headerlink" href="#module-nautical.units.units" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.units.units.DistanceUnits">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.units.units.</span></span><span class="sig-name descname"><span class="pre">DistanceUnits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.units.units.DistanceUnits" title="Permalink to this definition"></a></dt>
+<dd><p>Various units of distance to provide to the user in the event
+that they do not wish to use the base units from NOAA</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.units.units.SpeedUnits">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.units.units.</span></span><span class="sig-name descname"><span class="pre">SpeedUnits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.units.units.SpeedUnits" title="Permalink to this definition"></a></dt>
+<dd><p>Various units of speed to provide to the user in the event
+that they do not wish to use the base units from NOAA</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.units.units.TemperatureUnits">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.units.units.</span></span><span class="sig-name descname"><span class="pre">TemperatureUnits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.units.units.TemperatureUnits" title="Permalink to this definition"></a></dt>
+<dd><p>Various units of temperature to provide to the user in the event
+that they do not wish to use the base units from NOAA</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.units.units.TimeUnits">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.units.units.</span></span><span class="sig-name descname"><span class="pre">TimeUnits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.units.units.TimeUnits" title="Permalink to this definition"></a></dt>
+<dd><p>Various units of time to provide to the user in the event
+that they do not wish to use the base units from NOAA</p>
+</dd></dl>
+
+<section id="id2">
+<h2>conversion<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h2>
+<span class="target" id="module-nautical.units.conversion"></span><dl class="py function">
+<dt class="sig sig-object py" id="nautical.units.conversion.convert">
+<span class="sig-prename descclassname"><span class="pre">nautical.units.conversion.</span></span><span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.units.conversion.convert" title="Permalink to this definition"></a></dt>
+<dd><p>Convert the value given the current units to the new units. If the
+units are not in the same set of units then the value cannot be converted,
+and None will be returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – Value provided in the units (init_units)</p></li>
+<li><p><strong>init_units</strong> – initial units of the value (must match final units type)</p></li>
+<li><p><strong>final_units</strong> – final units of the value (must match initial units type)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value converted to the final units. If the units did not match None is returned</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – when the two types do not match, or when any of the parameters are None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.units.conversion.convert_distance">
+<span class="sig-prename descclassname"><span class="pre">nautical.units.conversion.</span></span><span class="sig-name descname"><span class="pre">convert_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.units.conversion.convert_distance" title="Permalink to this definition"></a></dt>
+<dd><p>Convert the distance value from the initial units to the final units</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – initial value for distance</p></li>
+<li><p><strong>init_units</strong> – initial units for distance</p></li>
+<li><p><strong>final_units</strong> – desired distance units</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>value converted from the initial units to the final units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.units.conversion.convert_speed">
+<span class="sig-prename descclassname"><span class="pre">nautical.units.conversion.</span></span><span class="sig-name descname"><span class="pre">convert_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.units.conversion.convert_speed" title="Permalink to this definition"></a></dt>
+<dd><p>Convert the speed value from the initial units to the final units</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – initial value for speed</p></li>
+<li><p><strong>init_units</strong> – initial units for speed</p></li>
+<li><p><strong>final_units</strong> – desired speed units</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>value converted from the initial units to the final units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.units.conversion.convert_temperature">
+<span class="sig-prename descclassname"><span class="pre">nautical.units.conversion.</span></span><span class="sig-name descname"><span class="pre">convert_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.units.conversion.convert_temperature" title="Permalink to this definition"></a></dt>
+<dd><p>Convert the temperature value from the initial units to the final units</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – initial value for temperature</p></li>
+<li><p><strong>init_units</strong> – initial units for temperature</p></li>
+<li><p><strong>final_units</strong> – desired temperature units</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>value converted from the initial units to the final units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.units.conversion.convert_time">
+<span class="sig-prename descclassname"><span class="pre">nautical.units.conversion.</span></span><span class="sig-name descname"><span class="pre">convert_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.units.conversion.convert_time" title="Permalink to this definition"></a></dt>
+<dd><p>Convert the time value from the initial units to the final units</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – initial value for time</p></li>
+<li><p><strong>init_units</strong> – initial units for time</p></li>
+<li><p><strong>final_units</strong> – desired time units</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>value converted from the initial units to the final units</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>KeyError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="nautical.units.conversion.log">
+<span class="sig-prename descclassname"><span class="pre">nautical.units.conversion.</span></span><span class="sig-name descname"><span class="pre">log</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;RootLogger</span> <span class="pre">root</span> <span class="pre">(WARNING)&gt;</span></em><a class="headerlink" href="#nautical.units.conversion.log" title="Permalink to this definition"></a></dt>
+<dd><p>Lookup Tables to convert to a base unit then back to the
+final unit</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Brent Barbachem.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
