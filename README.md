@@ -18,6 +18,8 @@ data very easily using the same url with the id of the buoy at the end of the ur
 the id to the url, and get several tables of output from the url. All of the data stored in the tables is updated in 30 minute
 increments.
 
+For more information about the package please see the [documentation](https://barbacbd.github.io/nautical/html/index.html).
+
 ## Structure
 
 ### [error](./error) 
