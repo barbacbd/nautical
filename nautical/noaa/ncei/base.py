@@ -1,8 +1,9 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from time import time
+from time import time, sleep
 import requests
 from logging import getLogger
 import json
+from copy import deepcopy
 
 
 # access the base logging object
@@ -96,6 +97,15 @@ def create_offset_lookups(count):
     return lookup_offsets
 
 
+def _query(endpoint, token, limit=1, offset=1):
+    return json.loads(
+        json.dumps(
+            requests.get(
+                endpoint, params={'limit': limit, 'offset': offset}, headers={"Token": token}
+            ).json()
+        )
+    )
+
 def get_num_results(endpoint, token):
     """
     Query the API provided with the correct endpoint and authentication token to 
@@ -107,7 +117,7 @@ def get_num_results(endpoint, token):
     :return: Number of expected results
     """    
     count = 0
-    data = query_base(endpoint, token)
+    data = _query(endpoint, token)
     if 'metadata' in data:
         if 'resultset' in data['metadata']:
             if 'count' in data['metadata']['resultset']:
@@ -129,14 +139,7 @@ def query_base(endpoint, token, obj_type=NCEIBase, limit=1, offset=1):
     
     :return: Json encoded result of the query
     """
-    headers = {"Token": token}
-    json_data = json.loads(
-        json.dumps(
-            requests.get(
-                endpoint, params={'limit': limit, 'offset': offset}, headers=headers
-            ).json()
-        )
-    )
+    json_data = _query(endpoint, token, limit, offset)
     
     results = []
     
@@ -149,10 +152,8 @@ def query_base(endpoint, token, obj_type=NCEIBase, limit=1, offset=1):
         results.append(json_data)
     
     try:
-        converted_results = []
         for result in results:
-            converted_results.append(obj_type(result))
-        
+            converted_results = [obj_type(result) for result in results]
         return converted_results
     except (ValueError, TypeError) as e:
         log.error(e)
@@ -173,7 +174,7 @@ def query_all(endpoint, token, parameters=None, obj_type=NCEIBase):
     mutated_endpoint = deepcopy(endpoint)
     
     if parameters is not None:
-        if isinstance(parameteres, list):
+        if isinstance(parameters, list):
             mutated_endpoint += "?" + "&".join([str(p) for p in parameters])
         else:
             mutated_endpoint += "?" + str(parameters)
@@ -186,7 +187,14 @@ def query_all(endpoint, token, parameters=None, obj_type=NCEIBase):
     with ThreadPoolExecutor(max_workers=5) as executor:
         start_time = time()
         futr_dists = {
-            executor.submit(query_base, endpoint, token, obj_type, lookup_offsets[k], k): k for k in lookup_offsets
+            executor.submit(
+                query_base, 
+                endpoint, 
+                token, 
+                obj_type, 
+                limit=lookup_offsets[k], 
+                offset= k
+            ): k for k in lookup_offsets
         }
         
         for futr in as_completed(futr_dists):
@@ -197,5 +205,5 @@ def query_all(endpoint, token, parameters=None, obj_type=NCEIBase):
             # break up the execution so that we don't timeout on requests
             sleep(1.0-run_time)
     
-    return results
+    return query_results
     
