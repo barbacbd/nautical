@@ -23,6 +23,7 @@ setup(
     description='The nautical package is able to lookup NOAA buoy data including swell and wave information.',
     author='Brent Barbachem',
     author_email='barbacbd@dukes.jmu.edu',
+    package_data={'': ['*.yaml']},
     include_package_data=True,
     zip_safe=False
 )

@@ -1,4 +1,5 @@
 from yaml import safe_load
+from os.path import abspath, dirname
 
 
 def get_default_token():
@@ -13,7 +14,9 @@ def get_default_token():
     and other users access to the site.
     It is suggested that a new token is generated for each user.
     """
-    with open("token.yaml", "r") as token_file:
+    _filename = dirname(abspath(__file__)) + "/token.yaml"
+    
+    with open(_filename, "r") as token_file:
         yaml_data = safe_load(token_file)
 
         if "token" in yaml_data:
