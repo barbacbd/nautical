@@ -10,9 +10,6 @@ from copy import deepcopy
 log = getLogger()
 
 
-BASE_ENDPOINT = "https://www.ncdc.noaa.gov/cdo-web/api/v2/"
-
-INIT_OFFSET = 1
 MAX_RESULT_LIMIT = 1000
 
 
@@ -24,6 +21,7 @@ class Parameter:
     
     datatypeid=EMNT
     """
+    __slots__ = ['param', 'data']
 
     def __init__(self, param: str, data: str):
         self.param = param
@@ -33,44 +31,35 @@ class Parameter:
         return "%s=%s" % (self.param, self.data)
 
 
-class Endpoint:
-
-    """
-    Similar to PATH, look at using PATH
-    """
-
-    def __init__(self, endpoint=BASE_ENDPOINT):
-        self.endpoint = endpoint
-
-    def __iadd__(self, other):
-        if self.endpoint.endswith("/"):
-            return Endpoint(self.endpoint + other)
-        else:
-            return Endpoint(self.endpoint + "/" + other)        
-    
-    def format_parameters(self, parameters):
-        if isinstance(parameters, list):
-            return self.endpoint + "?" + "&".join([str(p) for p in parameters])
-        elif isinstance(parameters, Parameter):
-            return self.endpoint + "?" + str(parameters)
-        else:
-            return self.endpoint
-    
-    def __str__(self):
-        return self.endpoint
-
-
 class NCEIBase:
 
+    parameters = None
+    endpoint = "https://www.ncdc.noaa.gov/cdo-web/api/v2/"
+
     def __init__(self, json_data=None):
-        # only works for single json object, not embedded objects
-        if isinstance(json_data, dict):
-            for k, v in json_data.items():
-                setattr(self, k, v)
     
+        if hasattr(self, "__slots__"):
+            if isinstance(json_data, dict):
+                for x in self.__slots__:
+                    if x in json_data:
+                        setattr(self, x, json_data[x])
+        else:
+            if isinstance(json_data, dict):
+                for x, y in json_data.items():
+                    setattr(self, x, y)
+            elif json_data is not None:
+                setattr(self, "data", json_data)
+        
     def __str__(self):
-        return json.dumps(vars(self), indent=4)
-            
+    
+        if hasattr(self, "__slots__"):
+            json_data = {}
+            for x in self.__slots__:
+                if getattr(self, x, None) is not None:
+                    json_data[x] = getattr(self, x)
+            return json.dumps(json_data, indent=4)
+        else:
+            return json.dumps(vars(self), indent=4)            
 
 
 def create_offset_lookups(count):
@@ -81,7 +70,7 @@ def create_offset_lookups(count):
     :return: Dictionary of offsets and the number to search
     """
     lookup_offsets = {}
-    offset = INIT_OFFSET
+    offset = 1. # Initial offset 
     
     if count > 0:
         num_full = int(count/MAX_RESULT_LIMIT)
@@ -98,6 +87,16 @@ def create_offset_lookups(count):
 
 
 def _query(endpoint, token, limit=1, offset=1):
+    """
+    Execute the POST request/query
+    
+    :param endpoint: Endpoint to query 
+    :param token: Authentication token 
+    :param limit: Number of results to accept. Max of 1000
+    :param offset: Entry offset used to determine which results to accept
+    
+    :return: JSON object representing the result of the query
+    """
     return json.loads(
         json.dumps(
             requests.get(
@@ -160,26 +159,57 @@ def query_base(endpoint, token, obj_type=NCEIBase, limit=1, offset=1):
         raise
 
 
-def query_all(endpoint, token, parameters=None, obj_type=NCEIBase):
+def _check_parameters(parameters):
+    """
+    Check that the type(s) of the parameters are all of the type `Parameter` 
+    from this module.
+    
+    :param parameters: List of Parameters or Parameter object
+    :return: True when all parameters are of type `Parameter`
+    """
+    if isinstance(parameters, list):
+        return False not in [isinstance(p, Parameter) for p in parameters]
+    else:
+        return isinstance(paramaters, Parameter)
+
+
+def query_all(token, obj_type=NCEIBase, parameters=None):
     """
     Run the common query all for an end node
     
-    :param extension: Extension that will be added to the end of the `BASE_ENDPOINT`
-    :param token: Token for authentication
-    :param parameters:
-    :param obj_type:
+    Usage: 
+    ```
+    stations = query_all(some_example_token, obj_type=Station, parameters=Parameter('datatypeid', 'EMNT'))
+    ```
     
+    :param token: Token for authentication
+    :param obj_type: Class for the type of data to be returned.
+    :param parameters: List or single `Parameter` object(s) that will be used for the query.
+        
     :return: unordered list of json strings containing the individual results from each query. 
+    :raises:
+        AttributeError when the endpoint of the class type is not set
+        AttributeError when the class type does not have a variable parameters
+        TypeError when the parameters does not contain only type `Parameter`
     """
-    mutated_endpoint = deepcopy(endpoint)
+    endpoint = obj_type.endpoint
+    
+    if endpoint is None:
+        raise AttributeError("Invalid endpoint")
+    if not hasattr(obj_type, 'parameters'):
+        raise AttributeError("%s has no attribute parameters" % str(obj_type))
     
     if parameters is not None:
-        if isinstance(parameters, list):
-            mutated_endpoint += "?" + "&".join([str(p) for p in parameters])
-        else:
-            mutated_endpoint += "?" + str(parameters)
+        if not _check_parameters(parameters):
+            raise TypeError("parameters must be type Parameter or List[Parameter]")
     
-    count = get_num_results(mutated_endpoint, token)
+        if isinstance(parameters, list):
+            endpoint += "?" + "&".join([str(p) for p in parameters if p.param in obj_type.parameters])
+        else:
+            if parameters.param in obj_type.parameters:
+                endpoint += "?" + str(parameters)
+    
+    count = get_num_results(endpoint, token)
     lookup_offsets = create_offset_lookups(count)
     
     query_results = []

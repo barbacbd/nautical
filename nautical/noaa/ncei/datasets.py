@@ -1,90 +1,50 @@
-import requests
-from uuid import uuid4
-import json
-from time import time, sleep
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from .base import NCEIBase
 
 
-class Dataset:
+class Dataset(NCEIBase):
 
-    uid = None
-    mindate = None
-    maxdate = None
-    name = None
-    datacoverage = None
-    id = None
-
-    def __init__(self, json_obj): 
-        for k, v in json_obj.items():
-            if hasattr(self, k):
-                setattr(self, k, v)
-
-    def __str__(self):
-        return json.dumps(vars(self), indent=4)
-
-
-def dataset_lookup(token, limit, offset):
-    endpoint = "https://www.ncdc.noaa.gov/cdo-web/api/v2/datasets"
-    headers = {"Token": token}
-    return json.loads(json.dumps(requests.get(endpoint, params={'limit': limit, 'offset': offset}, headers=headers).json()))
+    """
+    All of the CDO data are in datasets. The containing dataset must be known before attempting to 
+    access its data.
     
-def fetch_all_available_datasets(token):
-    """
-    Each token can only be used 5 times per second OR 10,000 times per day.
-    Find the number of times that are required to grab all data knowing the max
-    limit is 1000. 
-
-    :param token:
-    """
-    MAX_LIMIT = 1000
-    offset = 1
-    count = 0
-
-    data = station_lookup(token, 1, 1)
-    if 'metadata' in data:
-        if 'resultset' in data['metadata']:
-            if 'count' in data['metadata']['resultset']:
-                count = data['metadata']['resultset']['count']
-
-    lookup_offsets = {}
-    if count > 0:
-        num_full = int(count/MAX_LIMIT)
-        num_left = count % MAX_LIMIT
-        for i in range(num_full):
-            lookup_offsets[offset] = MAX_LIMIT
-            offset += MAX_LIMIT
-
-        if num_left > 0:
-            lookup_offsets[offset] = num_left
+    Additional Parameters
     
-    sleep(1.0)  # Ensure that we start fresh on our number of queries per second
+        datatypeid [Optional]
+            Accepts a valid data type id or a chain of data type ids separated by ampersands. Datasets 
+            returned will contain all of the data type(s) specified
+        locationid [Optional]
+            Accepts a valid location id or a chain of location ids separated by ampersands. Datasets 
+            returned will contain data for the location(s) specified
+        stationid [Optional]
+            Accepts a valid station id or a chain of of station ids separated by ampersands. Datasets 
+            returned will contain data for the station(s) specified
+        startdate [Optional] 
+            Accepts valid ISO formated date (yyyy-mm-dd). Datasets returned will have data after the 
+            specified date. Paramater can be use independently of enddate
+        enddate [Optional] 
+            Accepts valid ISO formated date (yyyy-mm-dd). Datasets returned will have data before the 
+            specified date. Paramater can be use independently of startdate
+        sortfield [Optional]
+            The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields
+        sortorder [	Optional]
+            Which order to sort by, asc or desc. Defaults to asc
+        limit [Optional]
+            Defaults to 25, limits the number of results in the response. Maximum is 1000
+        offset [Optional]
+            Defaults to 0, used to offset the resultlist. The example would begin with record 24
+    """
+    parameters = (
+        "datatypeid",
+        "locationid",
+        "stationid",
+        "startdate",
+        "enddate",
+        "sortfield",
+        "sortorder",
+        "limit",
+        "offset"
+    )
     
-    query_results = []
-    with ThreadPoolExecutor(max_workers=5) as executor:
-        start_time = time()
-        futr_dists = {executor.submit(dataset_lookup, token, lookup_offsets[k], k): k for k in lookup_offsets}
-        for futr in as_completed(futr_dists):
-            query_results.append(futr.result())
+    endpoint = NCEIBase.endpoint + "datasets"
 
-        run_time = time()-start_time
-        if run_time < 1.0:
-            # break up the execution so that we don't timeout on requests
-            sleep(1.0-run_time)
-
-    print(len(query_results))
-
-
-def fetch_specific_dataset(token, dataset_id):
-    """
-    :param token:
-    :param dataset_id:
-    """
-    pass
-
-
-def fetch_datasets_by_data_types(token, data_types):
-    """
-    :param token: 
-    :param data_types: list of tuples(str, str)
-    """
-    pass
+    __slots__ = ['uid', 'mindate', 'maxdate', 'name', 'datacoverage', 'id']
