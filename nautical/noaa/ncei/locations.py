@@ -1,6 +1,4 @@
-from time import time, sleep
-from .base import query_all, Endpoint, BASE_ENDPOINT, query_base, NCEIBase
-from copy import deepcopy
+from .base import NCEIBase
 
 
 class Location(NCEIBase):
@@ -49,4 +47,4 @@ class Location(NCEIBase):
     
     endpoint = NCEIBase.endpoint + "locations"
 
-   __slots__ = ['mindate', 'maxdate', 'name', 'datacoverage', 'id']
+    __slots__ = ['mindate', 'maxdate', 'name', 'datacoverage', 'id']

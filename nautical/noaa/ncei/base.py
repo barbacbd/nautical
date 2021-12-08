@@ -192,7 +192,7 @@ def query_all(token, obj_type=NCEIBase, parameters=None):
         AttributeError when the class type does not have a variable parameters
         TypeError when the parameters does not contain only type `Parameter`
     """
-    endpoint = obj_type.endpoint
+    endpoint = obj_type.endpoint if hasattr(obj_type, "endpoint") else None
     
     if endpoint is None:
         raise AttributeError("Invalid endpoint")
