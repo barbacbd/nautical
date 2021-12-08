@@ -2,40 +2,6 @@ import pytest
 from nautical.noaa.ncei import *
 from uuid import uuid4
 
-"""
-Query All
-
-4. Bad object type, base type, endpoint exists but none, endpoint not exist, 
-5. Parameters Good, Parameters Bad, Parameters that are allowed, Parameters that are not allowed
-
-
-Query Base
-
-1. Good query
-2. Bad query
-3. limit more than 1
-4. limit greater than 2 (same query but different results)
-
-
-Get num results
-
-1. Query with large numbers
-2. Query with no results
-
-
-Create offset lookups
-1. positive little count
-2. positive large count
-3. negative amount
-
-NCEIBase
-1. Extend
-2. Fill Extent and get json data
-
-
-"""
-
-
 def test_query_good_token():
     """
     Query All:
@@ -51,7 +17,7 @@ def test_query_bad_token():
     Token is Bad
     """
     results = query_all(str(uuid4()), obj_type=DataType)
-    assert len(results) > 0
+    assert len(results) == 0
 
 def test_query_obj_type_bad_base():
     """
@@ -59,7 +25,7 @@ def test_query_obj_type_bad_base():
     Send in object type of base
     """
     results = query_all(get_default_token())
-    assert len(results) > 0
+    assert len(results) == 0
 
 def test_query_obj_type_bad_type():
     """
@@ -98,30 +64,65 @@ def test_query_bad_no_endpoint():
 
 def test_query_base_good():
     """
-    
+    Find the first result in the query
     """
-    pass
+    results = query_base(get_default_token(), DataType.endpoint, obj_type=DataType)
+    assert len(results) == 1
 
 def test_query_base_bad():
-    pass
+    """
+    Test that the endpoint is bad 
+    """
+    results = query_base(get_default_token(), NCEIBase.endpoint+"bad_data", obj_type=DataType)
+    assert len(results) == 0
 
 def test_query_limit_more_than_one():
-    pass
+    """ 
+    Find the first 1000 results in the datatypes endpoint
+    """
+    results = query_base(get_default_token(), DataType.endpoint, obj_type=DataType, limit=1000, offset=1)
+    assert len(results) == 1000
 
 def test_query_offset_different():
-    pass
+    """
+    Get the first and second results but use two different queries and compare the data
+    """
+    results_one = query_base(get_default_token(), DataType.endpoint, obj_type=DataType)
+    results_two = query_base(get_default_token(), DataType.endpoint, obj_type=DataType, offset=2)
+
+    assert len(results_one) == len(results_two)
+    assert len(results_one) == 1
+    assert len(results_two) == 1
+    assert type(results_one[0]) == type(results_two[0])
+    assert results_one[0] != results_two[0]
 
 def test_offset_positive_small():
-    pass
+    """
+    Small number that does not exceed the 1000 limit
+    """
+    lookup_offsets = create_offset_lookups(500)
+    assert len(lookup_offsets) == 1
+    assert lookup_offsets[1] == 500
 
 def test_offset_positive_large():
-    pass
+    """
+    Test a large number that should create quite a few chunks 15034
+    16 chunks - 15 full size and 1 of 34
+    """
+    lookup_offsets = create_offset_lookups(15034)
+    assert len(lookup_offsets) == 16
 
 def test_offset_negative():
-    pass
+    """
+    Test a negative number which will throw an error
+    """
+    with pytest.raises(ValueError):
+        create_offset_lookups(-1)
 
-def test_ncei_base_extend():
-    pass
+def test_zero_offset():
+    """
+    Test a zero number. This will be an empty 
+    """
+    lookup_offsets = create_offset_lookups(0)
+    assert len(lookup_offsets) == 0
 
-def test_ncei_base_fill_and_json():
-    pass

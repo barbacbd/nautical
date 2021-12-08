@@ -61,6 +61,19 @@ class NCEIBase:
         else:
             return json.dumps(vars(self), indent=4)            
 
+    def __eq__(self, other):
+
+        if type(self) == type(other):
+            if hasattr(self, '__slots__'):
+                for x in self.__slots__:
+                    if getattr(self, x) != getattr(other, x):
+                        return False
+                return True
+        return False
+
+    def __neq__(self, other):
+        return not self.__eq__(other)
+        
 
 def create_offset_lookups(count):
     """
@@ -69,68 +82,70 @@ def create_offset_lookups(count):
     :param count: Number returned from a query. See `get_num_results`
     :return: Dictionary of offsets and the number to search
     """
-    lookup_offsets = {}
-    offset = 1. # Initial offset 
+    if count < 0:
+        raise ValueError("Cannot create offsets for negative numbers")
     
-    if count > 0:
-        num_full = int(count/MAX_RESULT_LIMIT)
-        num_left = count % MAX_RESULT_LIMIT
+    lookup_offsets = {}
+    offset = 1  # Initial offset 
+    
+    num_full = int(count/MAX_RESULT_LIMIT)
+    num_left = int(count % MAX_RESULT_LIMIT)
         
-        for i in range(num_full):
-            lookup_offsets[offset] = MAX_RESULT_LIMIT
-            offset += MAX_RESULT_LIMIT
+    for i in range(num_full):
+        lookup_offsets[offset] = MAX_RESULT_LIMIT
+        offset += MAX_RESULT_LIMIT
         
-        if num_left > 0:
-            lookup_offsets[offset] = num_left
+    if num_left > 0:
+        lookup_offsets[offset] = num_left
     
     return lookup_offsets
 
 
-def _query(endpoint, token, limit=1, offset=1):
+def _query(token, endpoint, limit=1, offset=1):
     """
     Execute the POST request/query
     
-    :param endpoint: Endpoint to query 
     :param token: Authentication token 
+    :param endpoint: Endpoint to query 
     :param limit: Number of results to accept. Max of 1000
     :param offset: Entry offset used to determine which results to accept
     
     :return: JSON object representing the result of the query
     """
-    return json.loads(
-        json.dumps(
-            requests.get(
-                endpoint, params={'limit': limit, 'offset': offset}, headers={"Token": token}
-            ).json()
-        )
-    )
+    try:
+        result = requests.get(endpoint, params={'limit': limit, 'offset': offset}, headers={"Token": token}).json()
+        return json.loads(json.dumps(result))
+    except (TypeError, json.decoder.JSONDecodeError) as e:
+        return None
 
-def get_num_results(endpoint, token):
+def get_num_results(token, endpoint):
     """
     Query the API provided with the correct endpoint and authentication token to 
     find the number of possible results from a query.
     
-    :param endpoint: Full http endpoint where the `get` request will fetch information from.
     :param token: HTTP athentication token
+    :param endpoint: Full http endpoint where the `get` request will fetch information from.
     
     :return: Number of expected results
     """    
     count = 0
-    data = _query(endpoint, token)
-    if 'metadata' in data:
-        if 'resultset' in data['metadata']:
-            if 'count' in data['metadata']['resultset']:
-                count = data['metadata']['resultset']['count']
+    data = _query(token, endpoint)
+
+    if data is not None:
+        if 'metadata' in data:
+            if 'resultset' in data['metadata']:
+                if 'count' in data['metadata']['resultset']:
+                    count = data['metadata']['resultset']['count']
 
     return count
 
 
-def query_base(endpoint, token, obj_type=NCEIBase, limit=1, offset=1):
+def query_base(token, endpoint, obj_type=NCEIBase, limit=1, offset=1):
     """
     Query the API provided with the correct endpoint and authentication token. 
     
-    :param endpoint: Full http endpoint where the `get` request will fetch information from.
     :param token: HTTP athentication token
+    :param endpoint: Full http endpoint where the `get` request will fetch information from.
     :param obj_type:
     :param limit: Number of results to yield. The API only allows for a max value of 1000
     :param offset: The location offset where the results will begin. For instance 1001 with a 
@@ -138,8 +153,7 @@ def query_base(endpoint, token, obj_type=NCEIBase, limit=1, offset=1):
     
     :return: Json encoded result of the query
     """
-    json_data = _query(endpoint, token, limit, offset)
-    
+    json_data = _query(token, endpoint, limit, offset)
     results = []
     
     if isinstance(json_data, dict):
@@ -151,8 +165,7 @@ def query_base(endpoint, token, obj_type=NCEIBase, limit=1, offset=1):
         results.append(json_data)
     
     try:
-        for result in results:
-            converted_results = [obj_type(result) for result in results]
+        converted_results = [obj_type(result) for result in results if result is not None]
         return converted_results
     except (ValueError, TypeError) as e:
         log.error(e)
@@ -209,7 +222,7 @@ def query_all(token, obj_type=NCEIBase, parameters=None):
             if parameters.param in obj_type.parameters:
                 endpoint += "?" + str(parameters)
     
-    count = get_num_results(endpoint, token)
+    count = get_num_results(token, endpoint)
     lookup_offsets = create_offset_lookups(count)
     
     query_results = []
@@ -218,10 +231,10 @@ def query_all(token, obj_type=NCEIBase, parameters=None):
         start_time = time()
         futr_dists = {
             executor.submit(
-                query_base, 
+                query_base,
+                token,
                 endpoint, 
-                token, 
-                obj_type, 
+                obj_type=obj_type, 
                 limit=lookup_offsets[k], 
                 offset= k
             ): k for k in lookup_offsets
