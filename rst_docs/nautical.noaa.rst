@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    nautical.noaa.buoy
+   nautical.noaa.ncei
 
 Module contents
 ---------------

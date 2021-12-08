@@ -8,7 +8,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     
 setup(
     name='nautical',
-    version="2.2.4",
+    version="2.3.0",
     license='MIT',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -16,10 +16,11 @@ setup(
     python_requires='>=3.6, <4',
     install_requires=[
         'bs4',
-        'pykml'
+        'pykml',
+        'pyYAML'
     ],
-    url='https://barbacbd@bitbucket.org/barbacbd/nautical',
-    download_url='https://barbacbd@bitbucket.org/barbacbd/nautical/archive/v_233.tar.gz',
+    url='https://github.com/barbacbd/nautical',
+    download_url='https://github.com/barbacbd/nautical/archive/v_230.tar.gz',
     description='The nautical package is able to lookup NOAA buoy data including swell and wave information.',
     author='Brent Barbachem',
     author_email='barbacbd@dukes.jmu.edu',
