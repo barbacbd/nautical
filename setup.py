@@ -17,7 +17,8 @@ setup(
     install_requires=[
         'bs4',
         'pykml',
-        'pyYAML'
+        'pyYAML',
+        'requests'
     ],
     url='https://github.com/barbacbd/nautical',
     download_url='https://github.com/barbacbd/nautical/archive/v_230.tar.gz',
