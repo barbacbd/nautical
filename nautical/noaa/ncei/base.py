@@ -146,7 +146,7 @@ def query_base(token, endpoint, obj_type=NCEIBase, limit=1, offset=1):
     
     :param token: HTTP athentication token
     :param endpoint: Full http endpoint where the `get` request will fetch information from.
-    :param obj_type:
+    :param obj_type: Class type that will be used to make the objects
     :param limit: Number of results to yield. The API only allows for a max value of 1000
     :param offset: The location offset where the results will begin. For instance 1001 with a 
     limit of 1000 will return the results for 1001-2000 (if the results exist).
