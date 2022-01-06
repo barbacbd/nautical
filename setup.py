@@ -8,7 +8,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     
 setup(
     name='nautical',
-    version="2.3.0",
+    version="2.4.0",
     license='MIT',
     long_description=long_description,
     long_description_content_type='text/markdown',
