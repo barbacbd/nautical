@@ -150,7 +150,7 @@ user finds a buoy of interest. If we want to retrieve all of the information for
 past recordings, we can utilize the tools below. 
 
 ```python
-from nautical.io.buoy import create_buoy
+from nautical.io import create_buoy
 
 buoy_id = "example_buoy_id"
 
@@ -159,6 +159,7 @@ buoy = create_buoy(buoy_id)
 
 This will return a `nautical.noaa.buoy.buoy.Buoy` object. 
 
+_The `past` variable of Buoy objects are considered deprecated in versions >2.3.0._
 
 # NOAA National Centers for Environmental Information
 

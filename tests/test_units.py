@@ -5,10 +5,12 @@ from nautical.units import (
     convert_temperature,
     convert_speed,
     convert_distance,
+    convert_pressure,
     TimeUnits,
     SpeedUnits,
     DistanceUnits,
-    TemperatureUnits
+    TemperatureUnits,
+    PressureUnits
 )
 from math import fabs
 import pytest

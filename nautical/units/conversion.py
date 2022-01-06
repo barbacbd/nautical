@@ -2,7 +2,8 @@ from . import (
     TimeUnits,
     TemperatureUnits,
     SpeedUnits,
-    DistanceUnits
+    DistanceUnits,
+    PressureUnits
 )
 from logging import getLogger
 
@@ -39,6 +40,18 @@ SpeedLookup = {
     SpeedUnits.MPH: 2.23694,    # MPS to Miles Per Hour
     SpeedUnits.KPH: 3.6,        # MPS to Kilometers Per Hour
     SpeedUnits.FPS: 3.28084     # MPS to Feet Per Second
+}
+
+
+PressureLookup = {
+    PressureUnits.PA: 1.0,
+    PressureUnits.TORR: 7.5*(10**-3),
+    PressureUnits.BARR: 10**-5,
+    PressureUnits.ATM: 9.869*(10**-6),
+    PressureUnits.AT: 1.02*(10**-5),
+    PressureUnits.BA: 10,
+    PressureUnits.PSI: 1.45*(10**-4),
+    PressureUnits.HG: 7.5*(10**-3)
 }
 
 
@@ -107,12 +120,32 @@ def convert_speed(value, init_units, final_units):
         log.error(e)
         raise 
 
+
+def convert_pressure(value, init_units, final_units):
+    """
+    Convert the pressure value from the initial units to the final units
+
+    :param value: initial value for pressure
+    :param init_units: initial units for pressure
+    :param final_units: desired pressure units
+    :return: value converted from the initial units to the final units
+    """
+    try:
+        # speed works a bit the opposite we want to divide then multiply
+        # instead of the normal multiplication then division
+        return value / PressureLookup[init_units] * PressureUnits[final_units]
+    except KeyError as e:
+        log.error(e)
+        raise 
+
+
 # saved for quicker lookup
 ConversionLookup = {
     TimeUnits: convert_time,
     TemperatureUnits: convert_temperature,
     DistanceUnits: convert_distance,
-    SpeedUnits: convert_speed
+    SpeedUnits: convert_speed,
+    PressureUnits: convert_pressure
 }
 
 

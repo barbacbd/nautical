@@ -81,7 +81,6 @@ class nTime(object):
         """
         hours = None
         m = None
-        print(type(data))
         if isinstance(data, (tuple, list)):
             if len(data) == 2:
                 hours, m = data

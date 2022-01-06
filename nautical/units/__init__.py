@@ -10,5 +10,8 @@ __all__ = [
     "TimeUnits",
     "TemperatureUnits",
     "SpeedUnits",
-    "DistanceUnits"
+    "DistanceUnits",
+    "PressureUnits",
+    "convert_pressure",
+    "SalinityUnits"
 ]

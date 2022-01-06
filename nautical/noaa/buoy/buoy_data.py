@@ -3,6 +3,8 @@ from nautical.time.nautical_time import nTime
 from nautical.time.enums import TimeFormat
 from time import mktime, strptime
 from datetime import datetime
+from nautical.units import *
+from typing import Dict, Any
 
 
 # Not sure why but this is the default value for NOAA data that is not present.
@@ -10,36 +12,38 @@ from datetime import datetime
 UNAVAILABLE_NOAA_DATA = "-"
 
 
-class BuoyData(object):
+def _find_parameter_units(key: str) -> str:
+    """
+    Function that will attempt to find the units associated with the key. If 
+    no units are found, None is returned.
 
+    :param key: Name of the parameter
+
+    :return: string of the type of units if there are units associated with the 
+    parameter.
     """
-    :param mm: month
-    :param dd: day
-    :param year: year
-    :param time: time
-    :param wdir: wind direction
-    :param wspd: wind speed, kts
-    :param gst: gust, kts
-    :param wvht: wave height, feet
-    :param dpd: dominant wave period, seconds
-    :param apd: average wave period, seconds
-    :param mwd: mean wave direction
-    :param pres: pressure, inches
-    :param ptdy: pressure tendency, inches
-    :param atmp: air temp, Degrees F
-    :param wtmp: water temp, Degrees F
-    :param dewp: dew point, Degrees F
-    :param sal: salinity, PSU
-    :param vis: visibility, NM
-    :param tide: tide, feet
-    :param swh: swell height, feet
-    :param swp: swell period, seconds
-    :param swd: swell direction
-    :param wwh: wind wave height, feet
-    :param wwp: wind wave period, seconds
-    :param wwd: wind wave direction
-    :param steepness: steepness
-    """
+    return {
+        "wspd": SpeedUnits.KNOTS,
+        "gst": SpeedUnits.KNOTS,
+        "wvht": DistanceUnits.FEET,
+        "dpd": TimeUnits.SECONDS,
+        "apd": TimeUnits.SECONDS,
+        "pres": PressureUnits.PSI,
+        "ptdy": PressureUnits.PSI,
+        "atmp": TemperatureUnits.DEG_F,
+        "wtmp": TemperatureUnits.DEG_F,
+        "dewp": TemperatureUnits.DEG_F,
+        "sal": SalinityUnits.PSU,
+        "vis": DistanceUnits.NAUTICAL_MILES,
+        "tide": DistanceUnits.FEET,
+        "swh": DistanceUnits.FEET,
+        "swp": TimeUnits.SECONDS,
+        "wwh": DistanceUnits.FEET,
+        "wwp": TimeUnits.SECONDS
+    }.get(key, None)
+
+
+class BuoyData(object):
 
     __slots__ = [
         # time/date data
@@ -48,7 +52,9 @@ class BuoyData(object):
         'wdir', 'wspd', 'gst', 'wvht', 'dpd', 'apd', 'mwd', 'pres',
         'ptdy', 'atmp', 'wtmp', 'dewp', 'sal', 'vis', 'tide',
         # swell data
-        'swh', 'swp', 'swd', 'wwh', 'wwp', 'wwd', 'steepness'
+        'swh', 'swp', 'swd', 'wwh', 'wwp', 'wwd', 'steepness', 
+        # new support
+        'chill'
     ]
 
     def __init__(self):
@@ -56,6 +62,11 @@ class BuoyData(object):
         Class to contain all information included in a NOAA data point for
         a buoy. A buoy can also include weather stations.
         """
+        # initialize all slots to None
+        for x in self.__slots__:
+            setattr(self, x, None)
+
+        # set the time for this buoy data to NOW
         self.year = int(datetime.now().year)
         self.mm = int(datetime.now().month)
         self.dd = int(datetime.now().day)
@@ -64,30 +75,6 @@ class BuoyData(object):
         self.time = nTime(fmt=TimeFormat.HOUR_24)
         self.time.minutes = 30 if int(datetime.now().minute) > 30 else 0
         self.time.hours = int(datetime.now().hour)
-
-        self.wdir = None       # str
-        self.wspd = None       # KTS
-        self.gst = None        # KTS
-        self.wvht = None       # Feet
-        self.dpd = None        # Seconds
-        self.apd = None        # Seconds
-        self.mwd = None        # str
-        self.pres = None       # Inches
-        self.ptdy = None       # Inches
-        self.atmp = None       # Degrees F
-        self.wtmp = None       # Degrees F
-        self.dewp = None       # Degrees F
-        self.sal = None        # PSU
-        self.vis = None        # Nautical Miles
-        self.tide = None       # Feet
-
-        self.swh = None        # Feet
-        self.swp = None        # Seconds
-        self.swd = None        # str
-        self.wwh = None        # Feet
-        self.wwp = None        # Seconds
-        self.wwd = None        # str
-        self.steepness = None  # str
 
     @property
     def epoch_time(self):
@@ -112,25 +99,12 @@ class BuoyData(object):
             if val:
                 yield entry, val
 
-    @classmethod
-    def units(cls, key):
+    def from_dict(self, d: Dict[str, Any]):
         """
-        :param key: internal variable name of this class.
-        :return: Units (str) for the variable read from the class docstring. None is returned when units do not exist.
-        """
-        if cls.__doc__:
-            for line in cls.__doc__.split("\n"):
-                if line and key in line:
+        Fill this object from the data stored in a dictionary where 
+        the key should match a slot or object variable
 
-                    sp = line.split(",")
-                    if len(sp) > 1:
-                        return sp[len(sp) - 1].strip()
-
-                    return None
-
-    def from_dict(self, d: {}):
-        """
-        :param d: Fill this object from this dictionary
+        :param d: Dictionary containing the data about this buoy
         """
         for k, v in d.items():
             self.set(k, v)

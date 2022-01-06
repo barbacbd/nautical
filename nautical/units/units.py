@@ -45,3 +45,24 @@ class DistanceUnits(Enum):
     KILOMETERS = 5
     MILES = 6
     NAUTICAL_MILES = 7
+
+
+class PressureUnits(Enum):
+    """
+    Various units of pressure to provide to the user in the event
+    that they do not wish to use the base units from NOAA
+    """
+    PA = 1    # Pascals
+    TORR = 2  # ~1mm Hg
+    BARR = 3  # Metric unit  100,000 Pa
+    ATM = 4   # Standard Atmospheres
+    AT = 5    # Technical Atmosphere
+    BA = 6    # Barad 
+    PSI = 7   # Pound per square inch (American) - Default
+    HG = 8    # Mercury - manometric units (water influence)
+
+
+class SalinityUnits(Enum):
+    
+    PSU = 1  # Practical Salinity Unit
+

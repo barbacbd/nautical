@@ -1,18 +1,12 @@
 from nautical.noaa.buoy.buoy_data import BuoyData
 from nautical.error import NauticalError
 from nautical.location.point import Point
+from typing import List
+from warnings import warn
+from copy import copy
 
 
 class Buoy:
-
-    """
-    This class is meant to serve as the combination of past and present NOAA
-    data for a particular buoy location. This will will include:
-
-    present wave data
-    present swell data
-    past data [currently wave data and swell data]
-    """
 
     def __init__(self, station, description: str = None, location=None) -> None:
         """
@@ -20,53 +14,35 @@ class Buoy:
         :param description: snippet of information to describe this station
         :param location: nautical.location.point.Point [optional]
         """
-        self._station = station
+        self.station = station
+        self.description = description
+        self._location: Point = None
+        self._present: BuoyData = None
+        self._past: List[BuoyData] = []
 
-        self._description = description
-
-        self._location = None
-        if location:
+        if location is not None:
             self.location = location
-
-        self._present = None
-        self._past = []
-
-    @property
-    def station(self):
-        """
-        Don't provide the user with public means of altering
-        the station once it is created.
-        """
-        return self._station
-
-    @property
-    def description(self):
-        """
-        Don't provide the user with public means of altering
-        the description once it is created.
-        """
-        return self._description
 
     @property
     def location(self):
-        """
-        Location (nuatical.location.point) of the buoy
-        """
-        return self._location
-
+        return copy(self._location)
+    
     @location.setter
     def location(self, l):
-        """
-        Force the user to add a location as a Point object
-
-        :param l: location of this buoy/station
-        """
         if isinstance(l, Point):
             self._location = l
 
     @property
+    def data(self):
+        return self.present
+
+    @property
     def present(self):
-        return self._present
+        return copy(self._present)
+
+    @data.setter
+    def data(self, p):
+        self.present = p
 
     @present.setter
     def present(self, p):
@@ -88,7 +64,8 @@ class Buoy:
 
     @property
     def past(self):
-        return self._past
+        warn("%s past is deprecated" % str(self.__class__.__name__), DeprecationWarning, stacklevel=2)
+        return self._past[:]
 
     @past.setter
     def past(self, p):
@@ -98,6 +75,7 @@ class Buoy:
 
         :param p: list or since instance of BuoyData that is used to fill in the past
         """
+        warn("%s past is deprecated" % str(self.__class__.__name__), DeprecationWarning, stacklevel=2)
         if isinstance(p, BuoyData):
             self._update_past(p)
         elif isinstance(p, list):
@@ -129,14 +107,12 @@ class Buoy:
 
     def __eq__(self, other):
         """
-        :return: station id is the same
+        The stations are considered equal if their station ID is the same as the
+        station IDs are meant to be unique. The special case is `SHIP`.
         """
         return type(self) == type(other) and self._station == other.station
 
     def __ne__(self, other):
-        """
-        :return: station ids are not the same
-        """
         return not self.__eq__(other)
 
     def __hash__(self):

@@ -3,11 +3,15 @@ from nautical.noaa.buoy.buoy_data import BuoyData
 from nautical.noaa.buoy.buoy import Buoy
 from bs4 import BeautifulSoup
 from re import sub
+from logging import getLogger
+
+
+log = getLogger()
 
 
 # Default text to use as a search parameter for obtaining buoy
 # information from a table
-_DEFAULT_BUOY_WAVE_TEXT_SEARCH = "Conditions at {} as of"
+_DEFAULT_BUOY_WAVE_TEXT_SEARCH = "Conditions at {}"
 
 # Default text to use as a search parameter for obtaining swell
 # information from a table
@@ -40,6 +44,8 @@ def create_buoy(buoy):
     
     buoy_data = Buoy(buoy)
     buoy_data.present = current_buoy_data
+    # Leaving for backwards use, but not going to be used in the future.
+    log.warning("Setting past data is deprecated for %s" % str(buoy_data.__class__.__name__))
     buoy_data.past = past_data
     
     return buoy_data
@@ -74,10 +80,9 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
                     key_data = cells[1].next.split()
                     key = sub('[():]', '', key_data[len(key_data) - 1]).lower()
                     value = cells[2].next.split()[0]
-
+                    
                     buoy.set(key, value)
                 except Exception as e:
-                    # hack to be fixed
                     log.error(e)
                     # catch anything odd that may have been laying around
                     pass

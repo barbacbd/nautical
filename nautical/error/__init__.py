@@ -8,3 +8,4 @@ class NauticalError(Exception):
         :param message: Message (string) to the user when the exception is raised.
         """
         super(NauticalError, self).__init__(message)
+
