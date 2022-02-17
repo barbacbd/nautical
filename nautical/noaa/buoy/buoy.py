@@ -101,16 +101,16 @@ class Buoy:
         :return: string representation of this Buoy
         """
         if not self._location:
-            return str(self._station)
+            return str(self.station)
         else:
-            return "{} at {}".format(self._station, str(self._location))
+            return "{} at {}".format(self.station, str(self._location))
 
     def __eq__(self, other):
         """
         The stations are considered equal if their station ID is the same as the
         station IDs are meant to be unique. The special case is `SHIP`.
         """
-        return type(self) == type(other) and self._station == other.station
+        return type(self) == type(other) and self.station == other.station
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -122,4 +122,4 @@ class Buoy:
 
         :return: hash of the station combined with the hash of the description.
         """
-        return hash(str(self._station)) * hash(self._description) if self._description else hash(str(self._station))
+        return hash(str(self.station)) * hash(self.description) if self.description else hash(str(self.station))

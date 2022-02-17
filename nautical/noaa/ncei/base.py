@@ -3,7 +3,6 @@ from time import time, sleep
 import requests
 from logging import getLogger
 import json
-from copy import deepcopy
 
 
 # access the base logging object
@@ -118,6 +117,7 @@ def _query(token, endpoint, limit=1, offset=1):
     except (TypeError, json.decoder.JSONDecodeError) as e:
         return None
 
+
 def get_num_results(token, endpoint):
     """
     Query the API provided with the correct endpoint and authentication token to 
@@ -183,7 +183,7 @@ def _check_parameters(parameters):
     if isinstance(parameters, list):
         return False not in [isinstance(p, Parameter) for p in parameters]
     else:
-        return isinstance(paramaters, Parameter)
+        return isinstance(parameters, Parameter)
 
 
 def query_all(token, obj_type=NCEIBase, parameters=None):
@@ -249,4 +249,3 @@ def query_all(token, obj_type=NCEIBase, parameters=None):
             sleep(1.0-run_time)
     
     return query_results
-    
