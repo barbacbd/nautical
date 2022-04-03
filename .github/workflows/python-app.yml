@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 jobs:
-  tests:
+  tests-python39-linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -16,6 +16,133 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
+    - name: Local install
+      run: |
+        python -m pip install . --upgrade
+    - name: Install Test Deps
+      run: |
+        python -m pip install pytest coverage pytest-cov
+    - name: Tests
+      run: |
+        pytest --cov=tests
+
+  tests-python38-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Local install
+      run: |
+        python -m pip install . --upgrade
+    - name: Install Test Deps
+      run: |
+        python -m pip install pytest coverage pytest-cov
+    - name: Tests
+      run: |
+        pytest --cov=tests
+
+  tests-python37-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Local install
+      run: |
+        python -m pip install . --upgrade
+    - name: Install Test Deps
+      run: |
+        python -m pip install pytest coverage pytest-cov
+    - name: Tests
+      run: |
+        pytest --cov=tests
+
+  tests-python36-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+    - name: Local install
+      run: |
+        python -m pip install . --upgrade
+    - name: Install Test Deps
+      run: |
+        python -m pip install pytest coverage pytest-cov
+    - name: Tests
+      run: |
+        pytest --cov=tests
+
+
+  tests-python39-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Local install
+      run: |
+        python -m pip install . --upgrade
+    - name: Install Test Deps
+      run: |
+        python -m pip install pytest coverage pytest-cov
+    - name: Tests
+      run: |
+        pytest --cov=tests
+
+  tests-python38-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Local install
+      run: |
+        python -m pip install . --upgrade
+    - name: Install Test Deps
+      run: |
+        python -m pip install pytest coverage pytest-cov
+    - name: Tests
+      run: |
+        pytest --cov=tests
+
+  tests-python37-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Local install
+      run: |
+        python -m pip install . --upgrade
+    - name: Install Test Deps
+      run: |
+        python -m pip install pytest coverage pytest-cov
+    - name: Tests
+      run: |
+        pytest --cov=tests
+
+  tests-python36-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
     - name: Local install
       run: |
         python -m pip install . --upgrade
