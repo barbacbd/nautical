@@ -65,6 +65,9 @@ class NCEIBase:
         if type(self) == type(other):
             if hasattr(self, '__slots__'):
                 for x in self.__slots__:
+                    if not (hasattr(self, x) and hasattr(other, x)):
+                        return False
+                    
                     if getattr(self, x) != getattr(other, x):
                         return False
                 return True
