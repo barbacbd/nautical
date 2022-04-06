@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nautical.noaa.buoy package &mdash; nautical 2.2.3 documentation</title>
+  <title>nautical.noaa.buoy package &mdash; nautical 2.5.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,7 +18,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="nautical.sea_state package" href="nautical.sea_state.html" />
+    <link rel="next" title="nautical.noaa.ncei package" href="nautical.noaa.ncei.html" />
     <link rel="prev" title="nautical.noaa package" href="nautical.noaa.html" /> 
 </head>
 
@@ -37,7 +37,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">nautical</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="nautical.html">nautical package</a><ul class="current">
@@ -94,42 +94,27 @@
 <span id="nautical-noaa-buoy-buoy-module"></span><h2>nautical.noaa.buoy.buoy module<a class="headerlink" href="#module-nautical.noaa.buoy.buoy" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.buoy.</span></span><span class="sig-name descname"><span class="pre">Buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.buoy.</span></span><span class="sig-name descname"><span class="pre">Buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class is meant to serve as the combination of past and present NOAA
-data for a particular buoy location. This will will include:</p>
-<p>present wave data
-present swell data
-past data [currently wave data and swell data]</p>
 <dl class="py property">
-<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.description">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.description" title="Permalink to this definition"></a></dt>
-<dd><p>Don’t provide the user with public means of altering
-the description once it is created.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.location">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.location" title="Permalink to this definition"></a></dt>
-<dd><p>Location (nuatical.location.point) of the buoy</p>
-</dd></dl>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.location" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.past">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">past</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.past" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">past</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.past" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.present">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">present</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.present" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">present</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.present" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy.Buoy.station">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">station</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy.Buoy.station" title="Permalink to this definition"></a></dt>
-<dd><p>Don’t provide the user with public means of altering
-the station once it is created.</p>
-</dd></dl>
 
 </dd></dl>
 
@@ -138,40 +123,8 @@ the station once it is created.</p>
 <span id="nautical-noaa-buoy-buoy-data-module"></span><h2>nautical.noaa.buoy.buoy_data module<a class="headerlink" href="#module-nautical.noaa.buoy.buoy_data" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.buoy_data.</span></span><span class="sig-name descname"><span class="pre">BuoyData</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.buoy_data.</span></span><span class="sig-name descname"><span class="pre">BuoyData</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mm</strong> – month</p></li>
-<li><p><strong>dd</strong> – day</p></li>
-<li><p><strong>year</strong> – year</p></li>
-<li><p><strong>time</strong> – time</p></li>
-<li><p><strong>wdir</strong> – wind direction</p></li>
-<li><p><strong>wspd</strong> – wind speed, kts</p></li>
-<li><p><strong>gst</strong> – gust, kts</p></li>
-<li><p><strong>wvht</strong> – wave height, feet</p></li>
-<li><p><strong>dpd</strong> – dominant wave period, seconds</p></li>
-<li><p><strong>apd</strong> – average wave period, seconds</p></li>
-<li><p><strong>mwd</strong> – mean wave direction</p></li>
-<li><p><strong>pres</strong> – pressure, inches</p></li>
-<li><p><strong>ptdy</strong> – pressure tendency, inches</p></li>
-<li><p><strong>atmp</strong> – air temp, Degrees F</p></li>
-<li><p><strong>wtmp</strong> – water temp, Degrees F</p></li>
-<li><p><strong>dewp</strong> – dew point, Degrees F</p></li>
-<li><p><strong>sal</strong> – salinity, PSU</p></li>
-<li><p><strong>vis</strong> – visibility, NM</p></li>
-<li><p><strong>tide</strong> – tide, feet</p></li>
-<li><p><strong>swh</strong> – swell height, feet</p></li>
-<li><p><strong>swp</strong> – swell period, seconds</p></li>
-<li><p><strong>swd</strong> – swell direction</p></li>
-<li><p><strong>wwh</strong> – wind wave height, feet</p></li>
-<li><p><strong>wwp</strong> – wind wave period, seconds</p></li>
-<li><p><strong>wwd</strong> – wind wave direction</p></li>
-<li><p><strong>steepness</strong> – steepness</p></li>
-</ul>
-</dd>
-</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.apd">
 <span class="sig-name descname"><span class="pre">apd</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.apd" title="Permalink to this definition"></a></dt>
@@ -180,6 +133,11 @@ the station once it is created.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.atmp">
 <span class="sig-name descname"><span class="pre">atmp</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.atmp" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.chill">
+<span class="sig-name descname"><span class="pre">chill</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.chill" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -199,7 +157,7 @@ the station once it is created.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.epoch_time">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">epoch_time</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.epoch_time" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">epoch_time</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.epoch_time" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>epoch time if all pieces of the time object exist, otherwise None</p>
@@ -209,10 +167,12 @@ the station once it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.from_dict">
-<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.from_dict" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.from_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Fill this object from the data stored in a dictionary where 
+the key should match a slot or object variable</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>d</strong> – Fill this object from this dictionary</p>
+<dd class="field-odd"><p><strong>d</strong> – Dictionary containing the data about this buoy</p>
 </dd>
 </dl>
 </dd></dl>
@@ -290,19 +250,6 @@ the station once it is created.</p>
 <span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.time" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.units">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.units" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>key</strong> – internal variable name of this class.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Units (str) for the variable read from the class docstring. None is returned when units do not exist.</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.buoy_data.BuoyData.vis">
 <span class="sig-name descname"><span class="pre">vis</span></span><a class="headerlink" href="#nautical.noaa.buoy.buoy_data.BuoyData.vis" title="Permalink to this definition"></a></dt>
@@ -355,7 +302,7 @@ the station once it is created.</p>
 <span id="nautical-noaa-buoy-source-module"></span><h2>nautical.noaa.buoy.source module<a class="headerlink" href="#module-nautical.noaa.buoy.source" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.source.</span></span><span class="sig-name descname"><span class="pre">Source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.source.Source" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.source.</span></span><span class="sig-name descname"><span class="pre">Source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.source.Source" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The source is a grouping or categorization of buoy sources.</p>
 <dl class="py method">
@@ -379,12 +326,12 @@ the station once it is created.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source.buoys">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">buoys</span></span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.buoys" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">buoys</span></span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.buoys" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source.description">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.description" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.description" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -406,7 +353,7 @@ the station once it is created.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.source.Source.name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.name" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#nautical.noaa.buoy.source.Source.name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -416,81 +363,34 @@ the station once it is created.</p>
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nautical.noaa.buoy" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.Buoy">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.</span></span><span class="sig-name descname"><span class="pre">Buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.Buoy" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.</span></span><span class="sig-name descname"><span class="pre">Buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.Buoy" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class is meant to serve as the combination of past and present NOAA
-data for a particular buoy location. This will will include:</p>
-<p>present wave data
-present swell data
-past data [currently wave data and swell data]</p>
 <dl class="py property">
-<dt class="sig sig-object py" id="nautical.noaa.buoy.Buoy.description">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.description" title="Permalink to this definition"></a></dt>
-<dd><p>Don’t provide the user with public means of altering
-the description once it is created.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="nautical.noaa.buoy.Buoy.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.Buoy.location">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.location" title="Permalink to this definition"></a></dt>
-<dd><p>Location (nuatical.location.point) of the buoy</p>
-</dd></dl>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.location" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.Buoy.past">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">past</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.past" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">past</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.past" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.Buoy.present">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">present</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.present" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">present</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.present" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="nautical.noaa.buoy.Buoy.station">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">station</span></span><a class="headerlink" href="#nautical.noaa.buoy.Buoy.station" title="Permalink to this definition"></a></dt>
-<dd><p>Don’t provide the user with public means of altering
-the station once it is created.</p>
-</dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.</span></span><span class="sig-name descname"><span class="pre">BuoyData</span></span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.</span></span><span class="sig-name descname"><span class="pre">BuoyData</span></span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mm</strong> – month</p></li>
-<li><p><strong>dd</strong> – day</p></li>
-<li><p><strong>year</strong> – year</p></li>
-<li><p><strong>time</strong> – time</p></li>
-<li><p><strong>wdir</strong> – wind direction</p></li>
-<li><p><strong>wspd</strong> – wind speed, kts</p></li>
-<li><p><strong>gst</strong> – gust, kts</p></li>
-<li><p><strong>wvht</strong> – wave height, feet</p></li>
-<li><p><strong>dpd</strong> – dominant wave period, seconds</p></li>
-<li><p><strong>apd</strong> – average wave period, seconds</p></li>
-<li><p><strong>mwd</strong> – mean wave direction</p></li>
-<li><p><strong>pres</strong> – pressure, inches</p></li>
-<li><p><strong>ptdy</strong> – pressure tendency, inches</p></li>
-<li><p><strong>atmp</strong> – air temp, Degrees F</p></li>
-<li><p><strong>wtmp</strong> – water temp, Degrees F</p></li>
-<li><p><strong>dewp</strong> – dew point, Degrees F</p></li>
-<li><p><strong>sal</strong> – salinity, PSU</p></li>
-<li><p><strong>vis</strong> – visibility, NM</p></li>
-<li><p><strong>tide</strong> – tide, feet</p></li>
-<li><p><strong>swh</strong> – swell height, feet</p></li>
-<li><p><strong>swp</strong> – swell period, seconds</p></li>
-<li><p><strong>swd</strong> – swell direction</p></li>
-<li><p><strong>wwh</strong> – wind wave height, feet</p></li>
-<li><p><strong>wwp</strong> – wind wave period, seconds</p></li>
-<li><p><strong>wwd</strong> – wind wave direction</p></li>
-<li><p><strong>steepness</strong> – steepness</p></li>
-</ul>
-</dd>
-</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData.apd">
 <span class="sig-name descname"><span class="pre">apd</span></span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.apd" title="Permalink to this definition"></a></dt>
@@ -499,6 +399,11 @@ the station once it is created.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData.atmp">
 <span class="sig-name descname"><span class="pre">atmp</span></span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.atmp" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData.chill">
+<span class="sig-name descname"><span class="pre">chill</span></span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.chill" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -518,7 +423,7 @@ the station once it is created.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData.epoch_time">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">epoch_time</span></span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.epoch_time" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">epoch_time</span></span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.epoch_time" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>epoch time if all pieces of the time object exist, otherwise None</p>
@@ -528,10 +433,12 @@ the station once it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData.from_dict">
-<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.from_dict" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.from_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Fill this object from the data stored in a dictionary where 
+the key should match a slot or object variable</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>d</strong> – Fill this object from this dictionary</p>
+<dd class="field-odd"><p><strong>d</strong> – Dictionary containing the data about this buoy</p>
 </dd>
 </dl>
 </dd></dl>
@@ -609,19 +516,6 @@ the station once it is created.</p>
 <span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.time" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData.units">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.units" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>key</strong> – internal variable name of this class.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Units (str) for the variable read from the class docstring. None is returned when units do not exist.</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.BuoyData.vis">
 <span class="sig-name descname"><span class="pre">vis</span></span><a class="headerlink" href="#nautical.noaa.buoy.BuoyData.vis" title="Permalink to this definition"></a></dt>
@@ -671,7 +565,7 @@ the station once it is created.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.Source">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.</span></span><span class="sig-name descname"><span class="pre">Source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.Source" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.buoy.</span></span><span class="sig-name descname"><span class="pre">Source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.noaa.buoy.Source" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The source is a grouping or categorization of buoy sources.</p>
 <dl class="py method">
@@ -695,12 +589,12 @@ the station once it is created.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.Source.buoys">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">buoys</span></span><a class="headerlink" href="#nautical.noaa.buoy.Source.buoys" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">buoys</span></span><a class="headerlink" href="#nautical.noaa.buoy.Source.buoys" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.Source.description">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#nautical.noaa.buoy.Source.description" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#nautical.noaa.buoy.Source.description" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -722,7 +616,7 @@ the station once it is created.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="nautical.noaa.buoy.Source.name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#nautical.noaa.buoy.Source.name" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#nautical.noaa.buoy.Source.name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -735,13 +629,13 @@ the station once it is created.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="nautical.noaa.html" class="btn btn-neutral float-left" title="nautical.noaa package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="nautical.sea_state.html" class="btn btn-neutral float-right" title="nautical.sea_state package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="nautical.noaa.ncei.html" class="btn btn-neutral float-right" title="nautical.noaa.ncei package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, Brent Barbachem.</p>
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

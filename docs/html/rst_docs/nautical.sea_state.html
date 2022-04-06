@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nautical.sea_state package &mdash; nautical 2.2.3 documentation</title>
+  <title>nautical.sea_state package &mdash; nautical 2.5.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="nautical.time package" href="nautical.time.html" />
-    <link rel="prev" title="nautical.noaa.buoy package" href="nautical.noaa.buoy.html" /> 
+    <link rel="prev" title="nautical.noaa.ncei package" href="nautical.noaa.ncei.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,7 +37,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">nautical</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="nautical.html">nautical package</a><ul class="current">
@@ -90,7 +90,7 @@
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nautical.sea_state" title="Permalink to this headline"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="nautical.sea_state.sea_state">
-<span class="sig-prename descclassname"><span class="pre">nautical.sea_state.</span></span><span class="sig-name descname"><span class="pre">sea_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">wvht:</span> <span class="pre">float</span></em>, <em class="sig-param"><span class="pre">units:</span> <span class="pre">nautical.units.units.DistanceUnits</span> <span class="pre">=</span> <span class="pre">&lt;DistanceUnits.METERS:</span> <span class="pre">4&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.sea_state.sea_state" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nautical.sea_state.</span></span><span class="sig-name descname"><span class="pre">sea_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wvht</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nautical.units.html#nautical.units.units.DistanceUnits" title="nautical.units.units.DistanceUnits"><span class="pre">nautical.units.units.DistanceUnits</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DistanceUnits.METERS</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.sea_state.sea_state" title="Permalink to this definition"></a></dt>
 <dd><p>If the provided wave height is not in meters, convert the wave height to
 meters and determine the minimum seastate that meets the requirements.</p>
 <dl class="field-list simple">
@@ -113,14 +113,14 @@ meters and determine the minimum seastate that meets the requirements.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="nautical.noaa.buoy.html" class="btn btn-neutral float-left" title="nautical.noaa.buoy package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nautical.noaa.ncei.html" class="btn btn-neutral float-left" title="nautical.noaa.ncei package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="nautical.time.html" class="btn btn-neutral float-right" title="nautical.time package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, Brent Barbachem.</p>
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

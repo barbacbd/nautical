@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nautical.io package &mdash; nautical 2.2.3 documentation</title>
+  <title>nautical.io package &mdash; nautical 2.5.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -37,7 +37,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">nautical</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="nautical.html">nautical package</a><ul class="current">
@@ -108,7 +108,7 @@ then the data returned will be considered invalid as None</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nautical.io.buoy.get_current_data">
-<span class="sig-prename descclassname"><span class="pre">nautical.io.buoy.</span></span><span class="sig-name descname"><span class="pre">get_current_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buoy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData" title="nautical.noaa.buoy.buoy_data.BuoyData"><span class="pre">nautical.noaa.buoy.buoy_data.BuoyData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">search</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.buoy.get_current_data" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nautical.io.buoy.</span></span><span class="sig-name descname"><span class="pre">get_current_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buoy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData" title="nautical.noaa.buoy.buoy_data.BuoyData"><span class="pre">nautical.noaa.buoy.buoy_data.BuoyData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">search</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.buoy.get_current_data" title="Permalink to this definition"></a></dt>
 <dd><p>Search the beautiful soup object for a TABLE containing the search string. The function will
 grab the data from the table and create a NOAAData object and return the data</p>
 <dl class="field-list simple">
@@ -125,7 +125,7 @@ a possible limitation of beautiful soup searching</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nautical.io.buoy.get_past_data">
-<span class="sig-prename descclassname"><span class="pre">nautical.io.buoy.</span></span><span class="sig-name descname"><span class="pre">get_past_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.buoy.get_past_data" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nautical.io.buoy.</span></span><span class="sig-name descname"><span class="pre">get_past_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.buoy.get_past_data" title="Permalink to this definition"></a></dt>
 <dd><p>Find all Previous Observations or Past Data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -245,7 +245,7 @@ buoys.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nautical.io.get_current_data">
-<span class="sig-prename descclassname"><span class="pre">nautical.io.</span></span><span class="sig-name descname"><span class="pre">get_current_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buoy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData" title="nautical.noaa.buoy.buoy_data.BuoyData"><span class="pre">nautical.noaa.buoy.buoy_data.BuoyData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">search</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.get_current_data" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nautical.io.</span></span><span class="sig-name descname"><span class="pre">get_current_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buoy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData" title="nautical.noaa.buoy.buoy_data.BuoyData"><span class="pre">nautical.noaa.buoy.buoy_data.BuoyData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">search</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.get_current_data" title="Permalink to this definition"></a></dt>
 <dd><p>Search the beautiful soup object for a TABLE containing the search string. The function will
 grab the data from the table and create a NOAAData object and return the data</p>
 <dl class="field-list simple">
@@ -283,7 +283,7 @@ end of the url, IFF the data exists.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nautical.io.get_past_data">
-<span class="sig-prename descclassname"><span class="pre">nautical.io.</span></span><span class="sig-name descname"><span class="pre">get_past_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.get_past_data" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nautical.io.</span></span><span class="sig-name descname"><span class="pre">get_past_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.get_past_data" title="Permalink to this definition"></a></dt>
 <dd><p>Find all Previous Observations or Past Data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -330,7 +330,7 @@ object, so that we can do any lookups of the data that we need.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020, Brent Barbachem.</p>
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

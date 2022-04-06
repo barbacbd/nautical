@@ -12,17 +12,18 @@
 #
 import os
 import sys
+from json import loads
 sys.path.insert(0, os.path.abspath('.'))
 sys.setrecursionlimit(1500)
 
+with open("about.json") as about:
+    json_data = loads(about.read())
+
 # -- Project information -----------------------------------------------------
-
-project = 'nautical'
-copyright = '2020, Brent Barbachem'
-author = 'Brent Barbachem'
-
-# The full version, including alpha/beta/rc tags
-release = '2.5.0'
+project = json_data["project"]
+copyright = '{}, {}'.format(json_data["copyright"], json_data["author"])
+author = json_data["author"]
+release = json_data["version"]
 
 
 # -- General configuration ---------------------------------------------------
@@ -30,7 +31,10 @@ release = '2.5.0'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc', 'rinoh.frontend.sphinx']
+
+# Removing 'rinoh.frontend.sphinx' until it can be used without
+# executable issues
+extensions = ['sphinx.ext.autodoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
