@@ -20,7 +20,7 @@ sys.setrecursionlimit(1500)
 project = "nautical"
 copyright = '2022, Brent Barbachem'
 author = "Brent Barbachem"
-release = "2.5.1"
+release = "2.5.2"
 
 
 # -- General configuration ---------------------------------------------------
