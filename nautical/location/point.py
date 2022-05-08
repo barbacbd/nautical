@@ -8,7 +8,6 @@ class Point:
 
     def __init__(self, lat: float = 0.0, lon: float = 0.0, alt: float = 0.0) -> None:
         """
-
         :param lat: latitude degrees
         :param lon: Longitude degrees
         :param alt: Altitude meters
@@ -24,28 +23,28 @@ class Point:
 
     @property
     def latitude(self):
-        """
+        """Latitude Property (degrees)
         :return: latitude (degrees)
         """
         return self._latitude
 
     @property
     def longitude(self):
-        """
+        """Longitude Property (degrees)
         :return: longitude (degrees)
         """
         return self._longitude
 
     @property
     def altitude(self):
-        """
+        """Altitude Property (meters)
         :return: altitude (meters)
         """
         return self._altitude
 
     @latitude.setter
     def latitude(self, latitude):
-        """
+        """Setter/Validity check for latitude
         :param latitude: latitude (degrees) that must fall between -90 and 90
         """
         if isinstance(latitude, float):
@@ -54,7 +53,7 @@ class Point:
 
     @longitude.setter
     def longitude(self, longitude):
-        """
+        """Setter/Validity check for longitude
         :param longitude: longitude (degrees) that must fall between -180 and 80
         """
         if isinstance(longitude, float):
@@ -63,8 +62,10 @@ class Point:
 
     @altitude.setter
     def altitude(self, altitude):
-        """
-        :param altitude: any floating point value is accepted, but all negative values are considered depth
+        """Setter/Validity check for meters. Negative values are considered
+        depth, but are placed in the same class variable.
+
+        :param altitude: any floating point value is accepted
         """
         if isinstance(altitude, float):
             self._altitude = altitude
@@ -92,14 +93,11 @@ class Point:
         return hash(str(_prod))
 
     def parse(self, data: str) -> None:
-        """
+        """Parse the string containing lat, lon, alt [optional] 
+
+        .. note:: Comma separated data is parsed as lon, lat, alt [optional]
+
         :param data: A string containing (whitespace ignored and not a delimiter) lat, lon, altitude.
-
-        .. note::
-            If data is comma separated it is parsed as lon, lat, alt [altitude is optional -> default to 0.0].
-
-        Ex: -110.123, 76.45, 0.0
-        Ex: -110.123, 76.45
         """
         if data:
             """ Remove all whitespace and lower case the value"""

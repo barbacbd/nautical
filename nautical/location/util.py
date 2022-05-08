@@ -6,7 +6,10 @@ _EARTH_RADIUS_METERS = 6372800
 
 
 def haversine(p1: Point, p2: Point) -> float:
-    """
+    """Haversine method for determining distance between two points.
+
+    :param p1: Point 1
+    :param p2: Point 2
     :return: Find the distance between two points using the Haversine methodology
     """
     lat1 = radians(p1.latitude)
@@ -21,15 +24,26 @@ def haversine(p1: Point, p2: Point) -> float:
 
 
 def in_range_ll(lat1_deg: float, lon1_deg: float, lat2_deg: float, lon2_deg: float, distance_m) -> bool:
-    """
-    :return: whether or on the lat, lon points are within a range of each other
+    """Determine if points are within a distance of each other provided
+    with the latitude, longitude of each point
+
+    :param lat1_deg: Latitude of point 1 in degrees
+    :param lon1_deg: Longitude of point 1 in degrees
+    :param lat2_deg: Latitude of point 2 in degrees
+    :param lon2_deg: Longitude of point 2 in degrees
+    :param distance_m: Max allowed distance between points to return true (meters).
+    :return: True when the distance between P1 and P2 is less than (or equal to) distance_m
     """
     return in_range(Point(lat1_deg, lon1_deg), Point(lat2_deg, lon2_deg), distance_m)
 
 
 def in_range(p1: Point, p2: Point, distance_m) -> bool:
-    """
-    :return: whether or not these two points are within a range of each other
+    """Determine if the points are within a distance of each other.
+    
+    :param p1: Point 1
+    :param p2: Point 2
+    :param distance_m: Max allowed distance between points to return true (meters).
+    :return: True when the distance between P1 and P2 is less than (or equal to) distance_m
     """
     return haversine(p1, p2) <= distance_m
 

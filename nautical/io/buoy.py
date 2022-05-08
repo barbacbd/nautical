@@ -58,8 +58,7 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
 
     :param soup: beautiful soup object generated from the get_url_source()
     :param buoy: BuoyData object that should be filled with data as this function parses the data.
-    :param search: text to search for in the soup object. The text MUST be an exact match as this is
-                   a possible limitation of beautiful soup searching
+    :param search: text to search for in the soup object. 
     """
     txt_search = soup.find(text=search)
     if not txt_search:
@@ -93,8 +92,7 @@ def get_past_data(soup: BeautifulSoup):
     Find all Previous Observations or Past Data.
 
     :param soup: beautiful soup object generated from the get_url_source()
-    :return: list of all previous observations from the url. The buoy data returned in the list
-             may be a comprehension of swell and wave data.
+    :return: list of all previous observations from the url. 
     """
 
     past_data = {}

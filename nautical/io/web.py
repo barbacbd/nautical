@@ -18,11 +18,8 @@ def get_noaa_forecast_url(buoy):
     This function will simply take in the buoy from the user and append the data to the
     end of the url, IFF the data exists.
 
-    .. note::
-        There is no check that the provided url is correct/valid.
-
     :param buoy: id of the buoy
-    :return: if buoy is not empty , return the full url, otherwise return nothing
+    :return: full url if buoy is not empty, otherwise None
     """
     if buoy:
         return _STATION_LINK.format(buoy)
@@ -35,9 +32,6 @@ def get_url_source(url_name):
     If you already know the url_name or if you have run through the get_noaa_forecast_url(), then you can
     send in the url here. Get the source information for the url and place the information into a BeautifulSoup
     object, so that we can do any lookups of the data that we need.
-
-    .. note::
-        The function makes no assumptions about the validity of the url.
 
     :param url_name: name of the url to search for
     :return: BeautifulSoup Object on success otherwise none

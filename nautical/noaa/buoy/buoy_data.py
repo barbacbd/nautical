@@ -18,9 +18,7 @@ def _find_parameter_units(key: str) -> str:
     no units are found, None is returned.
 
     :param key: Name of the parameter
-
-    :return: string of the type of units if there are units associated with the 
-    parameter.
+    :return: string of the type of units if there are units associated with the parameter.
     """
     return {
         "wspd": SpeedUnits.KNOTS,
@@ -45,6 +43,11 @@ def _find_parameter_units(key: str) -> str:
 
 class BuoyData(object):
 
+    """
+    Class to contain all information included in a NOAA data point for
+    a buoy. A buoy can also include weather stations.
+    """
+    
     __slots__ = [
         # time/date data
         'year', 'mm', 'dd', 'time',
@@ -58,10 +61,6 @@ class BuoyData(object):
     ]
 
     def __init__(self):
-        """
-        Class to contain all information included in a NOAA data point for
-        a buoy. A buoy can also include weather stations.
-        """
         # initialize all slots to None
         for x in self.__slots__:
             setattr(self, x, None)
@@ -78,7 +77,8 @@ class BuoyData(object):
 
     @property
     def epoch_time(self):
-        """
+        """Epoch time property. Converts the nautical time to the epoch time.
+
         :return: epoch time if all pieces of the time object exist, otherwise None
         """
         if self.year and self.mm and self.dd and self.time:
@@ -110,7 +110,10 @@ class BuoyData(object):
             self.set(k, v)
 
     def set(self, key, value):
-        """
+        """Set a key, value pair. This function is intended to replace
+        `__setattr__` for simplcity. The function will also attempt to convert
+        the noaa time to a formatted time that is readable.
+
         :param key: the internal variable name
         :param value: the value we wish to set the variable to
         """

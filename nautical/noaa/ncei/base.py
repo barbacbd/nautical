@@ -32,6 +32,8 @@ class Parameter:
 
 class NCEIBase:
 
+    """Base class for all NCEI types"""
+    
     parameters = None
     endpoint = "https://www.ncdc.noaa.gov/cdo-web/api/v2/"
 
@@ -50,6 +52,10 @@ class NCEIBase:
                 setattr(self, "data", json_data)
         
     def __str__(self):
+        """String override for this instance
+
+        :return: String representation of this instance, formatted as json.
+        """
     
         if hasattr(self, "__slots__"):
             json_data = {}
@@ -61,6 +67,11 @@ class NCEIBase:
             return json.dumps(vars(self), indent=4)            
 
     def __eq__(self, other):
+        """Determine if this instance is the same as the other passed in.
+
+        :param other: Other object to compare to this one.
+        :return: True when the instances are the same.
+        """
 
         if type(self) == type(other):
             if hasattr(self, '__slots__'):
@@ -73,7 +84,11 @@ class NCEIBase:
                 return True
         return False
 
-    def __neq__(self, other):
+    def __ne__(self, other):
+        """See __eq__ for more information
+
+        :return: The opposite of __eq__
+        """
         return not self.__eq__(other)
         
 
@@ -111,7 +126,6 @@ def _query(token, endpoint, limit=1, offset=1):
     :param endpoint: Endpoint to query 
     :param limit: Number of results to accept. Max of 1000
     :param offset: Entry offset used to determine which results to accept
-    
     :return: JSON object representing the result of the query
     """
     try:
@@ -128,7 +142,6 @@ def get_num_results(token, endpoint):
     
     :param token: HTTP athentication token
     :param endpoint: Full http endpoint where the `get` request will fetch information from.
-    
     :return: Number of expected results
     """    
     count = 0
@@ -151,9 +164,7 @@ def query_base(token, endpoint, obj_type=NCEIBase, limit=1, offset=1):
     :param endpoint: Full http endpoint where the `get` request will fetch information from.
     :param obj_type: Class type that will be used to make the objects
     :param limit: Number of results to yield. The API only allows for a max value of 1000
-    :param offset: The location offset where the results will begin. For instance 1001 with a 
-    limit of 1000 will return the results for 1001-2000 (if the results exist).
-    
+    :param offset: The location offset where the results will begin. 
     :return: Json encoded result of the query
     """
     json_data = _query(token, endpoint, limit, offset)
@@ -193,20 +204,13 @@ def query_all(token, obj_type=NCEIBase, parameters=None):
     """
     Run the common query all for an end node
     
-    Usage: 
-    ```
-    stations = query_all(some_example_token, obj_type=Station, parameters=Parameter('datatypeid', 'EMNT'))
-    ```
-    
     :param token: Token for authentication
     :param obj_type: Class for the type of data to be returned.
     :param parameters: List or single `Parameter` object(s) that will be used for the query.
-        
     :return: unordered list of json strings containing the individual results from each query. 
-    :raises:
-        AttributeError when the endpoint of the class type is not set
-        AttributeError when the class type does not have a variable parameters
-        TypeError when the parameters does not contain only type `Parameter`
+    :raises AttributeError: If endpoint of the class type is not set
+    :raises AttributeError: If class type does not have a variable parameters
+    :raises TypeError: If parameters does not contain only type `Parameter`
     """
     endpoint = obj_type.endpoint if hasattr(obj_type, "endpoint") else None
     

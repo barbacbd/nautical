@@ -21,14 +21,16 @@ class nTime(object):
 
     @property
     def minutes(self):
-        """
+        """Minutes Property
+
         :return: current minutes
         """
         return self._minutes
 
     @property
     def hours(self):
-        """
+        """Hours Property with instance format applied
+
         :return: current hour (am/pm if exists)
         """
         if self._midday:
@@ -38,7 +40,8 @@ class nTime(object):
 
     @property
     def fmt(self):
-        """
+        """Format Property, see `enums.TimeFormat` for more information.
+
         :return: current format (12 vs 24 hour)
         """
         return self._format
@@ -64,7 +67,8 @@ class nTime(object):
 
     @minutes.setter
     def minutes(self, minutes):
-        """
+        """Minutes setter/validity checker.
+
         :param minutes: minutes provided should be no less than 0 and no greater than 59
         """
         if 0 <= minutes <= 59:

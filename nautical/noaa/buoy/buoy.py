@@ -25,28 +25,47 @@ class Buoy:
 
     @property
     def location(self):
+        """Location Property
+        
+        :return: Copy of the location (Point)
+        """
         return copy(self._location)
     
     @location.setter
     def location(self, l):
+        """Location setter/validity checker
+        
+        :param l: Location or Point object to be set for the location of this instance
+        """
         if isinstance(l, Point):
             self._location = l
 
     @property
     def data(self):
+        """Copy of `present` Property. This is an expansion function
+        for use when the `past` was deprecated.
+
+        :return: Copy of the `present` data stored in this instance
+        """
         return self.present
 
     @property
     def present(self):
+        """Present Property, the present data stored in this instance. 
+        This is the most recent set of buoy data that was retrieved.
+
+        :return: Copy of the `present` data stored in this instance
+        """
         return copy(self._present)
 
     @data.setter
     def data(self, p):
+        """Data Setter/validity checker. See `present` setter for more information."""
         self.present = p
 
     @present.setter
     def present(self, p):
-        """
+        """Present Property Setter/validity Checker.
         If this instance of present data is a BuoyData object and the time is
         more recent that the previous present data, then the old present data
         is moved to the past data and the new instance is kept as the present data.
@@ -64,6 +83,10 @@ class Buoy:
 
     @property
     def past(self):
+        """Past Property.
+
+        :return: all past instances of Buoy Data objects stored in this instance.
+        """
         warn("%s past is deprecated" % str(self.__class__.__name__), DeprecationWarning, stacklevel=2)
         return self._past[:]
 
@@ -109,10 +132,18 @@ class Buoy:
         """
         The stations are considered equal if their station ID is the same as the
         station IDs are meant to be unique. The special case is `SHIP`.
+
+        :param other: Buoy object to compare to this instance.
+        :return: True when the two objects are the same
         """
         return type(self) == type(other) and self.station == other.station
 
     def __ne__(self, other):
+        """
+        See __eq__ for more information.
+
+        :return: The opposite of __eq__ (==)
+        """
         return not self.__eq__(other)
 
     def __hash__(self):

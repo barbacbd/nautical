@@ -63,6 +63,8 @@ class PressureUnits(Enum):
 
 
 class SalinityUnits(Enum):
-    
+    """
+    Units of salinity
+    """
     PSU = 1  # Practical Salinity Unit
 

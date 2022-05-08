@@ -18,9 +18,7 @@ def get_buoy_sources():
     The ID can be used to provide to get_noaa_forecast_url(). Then we can find even more information about the
     buoys.
 
-    .. note::
-
-        The SHIP ID is not available for lookup since there are multiple IDs with the same name.
+    .. note:: The SHIP ID is not available for lookup.
 
     :return: dictionary all source names mapped to their respective source.
     """
