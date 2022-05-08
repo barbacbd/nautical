@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nautical.location package &mdash; nautical 2.5.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="nautical.noaa package" href="nautical.noaa.html" />
+    <link rel="prev" title="nautical.io package" href="nautical.io.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> nautical
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">nautical</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nautical.html">nautical package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="nautical.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="nautical.error.html">nautical.error package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.io.html">nautical.io package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">nautical.location package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.html">nautical.noaa package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.sea_state.html">nautical.sea_state package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html">nautical.time package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html">nautical.units package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.html#module-nautical">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">nautical</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">nautical</a> &raquo;</li>
+          <li><a href="nautical.html">nautical package</a> &raquo;</li>
+      <li>nautical.location package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/rst_docs/nautical.location.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nautical-location-package">
+<h1>nautical.location package<a class="headerlink" href="#nautical-location-package" title="Permalink to this headline"></a></h1>
+<section id="module-nautical.location">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nautical.location" title="Permalink to this headline"></a></h2>
+<p>The module contains data to create and manage 3D points. The points can be generated from
+the data contained inside of NOAA’s kml and html data.</p>
+<span class="target" id="module-nautical.location.point"></span><dl class="py class">
+<dt class="sig sig-object py" id="nautical.location.point.Point">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.location.point.</span></span><span class="sig-name descname"><span class="pre">Point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.location.point.Point" title="Permalink to this definition"></a></dt>
+<dd><p>A 3D point containing latitude, longitude and altitude coordinates</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.location.point.Point.altitude">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">altitude</span></span><a class="headerlink" href="#nautical.location.point.Point.altitude" title="Permalink to this definition"></a></dt>
+<dd><p>Altitude Property (meters)
+:return: altitude (meters)</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.location.point.Point.latitude">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">latitude</span></span><a class="headerlink" href="#nautical.location.point.Point.latitude" title="Permalink to this definition"></a></dt>
+<dd><p>Latitude Property (degrees)
+:return: latitude (degrees)</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.location.point.Point.longitude">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">longitude</span></span><a class="headerlink" href="#nautical.location.point.Point.longitude" title="Permalink to this definition"></a></dt>
+<dd><p>Longitude Property (degrees)
+:return: longitude (degrees)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.location.point.Point.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#nautical.location.point.Point.parse" title="Permalink to this definition"></a></dt>
+<dd><p>Parse the string containing lat, lon, alt [optional]</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Comma separated data is parsed as lon, lat, alt [optional]</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – A string containing (whitespace ignored and not a delimiter) lat, lon, altitude.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-nautical.location.util"></span><dl class="py function">
+<dt class="sig sig-object py" id="nautical.location.util.area_converter">
+<span class="sig-prename descclassname"><span class="pre">nautical.location.util.</span></span><span class="sig-name descname"><span class="pre">area_converter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">area:</span> <span class="pre">[&lt;class</span> <span class="pre">'nautical.location.point.Point'&gt;]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">[&lt;class</span> <span class="pre">'nautical.location.point.Point'&gt;]</span></span></span><a class="headerlink" href="#nautical.location.util.area_converter" title="Permalink to this definition"></a></dt>
+<dd><p>Pass in a list of points, determine the maximum and minimum latitude and longitude
+values, create a square (4 points) from the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>area</strong> – original list of points</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of Points</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.location.util.haversine">
+<span class="sig-prename descclassname"><span class="pre">nautical.location.util.</span></span><span class="sig-name descname"><span class="pre">haversine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nautical.location.point.Point" title="nautical.location.point.Point"><span class="pre">nautical.location.point.Point</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nautical.location.point.Point" title="nautical.location.point.Point"><span class="pre">nautical.location.point.Point</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#nautical.location.util.haversine" title="Permalink to this definition"></a></dt>
+<dd><p>Haversine method for determining distance between two points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p1</strong> – Point 1</p></li>
+<li><p><strong>p2</strong> – Point 2</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Find the distance between two points using the Haversine methodology</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.location.util.in_area">
+<span class="sig-prename descclassname"><span class="pre">nautical.location.util.</span></span><span class="sig-name descname"><span class="pre">in_area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">p:</span> <span class="pre">nautical.location.point.Point,</span> <span class="pre">area:</span> <span class="pre">[&lt;class</span> <span class="pre">'nautical.location.point.Point'&gt;]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#nautical.location.util.in_area" title="Permalink to this definition"></a></dt>
+<dd><p>Determine if point p is in the area. NOTE: the user should pass the original
+list of points through the area_converter. This will provide an approximate area.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> – Point to determine if it is in the area</p></li>
+<li><p><strong>area</strong> – 2 point area min, min -&gt; max, max</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>true if it is in the area false otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.location.util.in_range">
+<span class="sig-prename descclassname"><span class="pre">nautical.location.util.</span></span><span class="sig-name descname"><span class="pre">in_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nautical.location.point.Point" title="nautical.location.point.Point"><span class="pre">nautical.location.point.Point</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nautical.location.point.Point" title="nautical.location.point.Point"><span class="pre">nautical.location.point.Point</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_m</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#nautical.location.util.in_range" title="Permalink to this definition"></a></dt>
+<dd><p>Determine if the points are within a distance of each other.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p1</strong> – Point 1</p></li>
+<li><p><strong>p2</strong> – Point 2</p></li>
+<li><p><strong>distance_m</strong> – Max allowed distance between points to return true (meters).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True when the distance between P1 and P2 is less than (or equal to) distance_m</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.location.util.in_range_ll">
+<span class="sig-prename descclassname"><span class="pre">nautical.location.util.</span></span><span class="sig-name descname"><span class="pre">in_range_ll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat1_deg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon1_deg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat2_deg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon2_deg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_m</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#nautical.location.util.in_range_ll" title="Permalink to this definition"></a></dt>
+<dd><p>Determine if points are within a distance of each other provided
+with the latitude, longitude of each point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat1_deg</strong> – Latitude of point 1 in degrees</p></li>
+<li><p><strong>lon1_deg</strong> – Longitude of point 1 in degrees</p></li>
+<li><p><strong>lat2_deg</strong> – Latitude of point 2 in degrees</p></li>
+<li><p><strong>lon2_deg</strong> – Longitude of point 2 in degrees</p></li>
+<li><p><strong>distance_m</strong> – Max allowed distance between points to return true (meters).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True when the distance between P1 and P2 is less than (or equal to) distance_m</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nautical.io.html" class="btn btn-neutral float-left" title="nautical.io package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nautical.noaa.html" class="btn btn-neutral float-right" title="nautical.noaa package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
