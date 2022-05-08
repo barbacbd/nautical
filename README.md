@@ -186,17 +186,3 @@ The module contains a class called `Parameter` which is essnetially a tuple. The
 As endpoints change, the user can alter the extension via the classes that extend `NCEIBase`. These classes define the allowed parameters (when querying the endpoint), the endpoint, and the variables that are returned from the queries.
 
 As endpoints are added, the user can add new classes that extend the `NCEIBase` class.
-
-## Generating Documentation
-
-Sphinx is used to generate the documentation for this project. Only documentation on the `master` branch will be published to the [github pages](https://barbacbd.github.io/nautical/html/index.html).
-
-To generate documentation ensure that there is a `Makefile`, `make.bat`, `conf.py`, and `index.rst` file in the base project directory. The `conf.py` file should be updated each time that a project version changes. The `index.rst` will _NOT_ change, but the rst files in rst_docs _should_ be (re)generated each time that new functionality or documentation change. Run the following command from the project home directory.
-
-```bash
-sphinx-apidoc -f -o rst_docs nautical
-```
-
-If the documentation is already generated, then the generator must be careful not to remove the extra files in `./docs`. There is a `.nojekyll` file (empty) that exists, please be sure that this file remains when performing a `make clean`. Similarly there is an extra `index.html` in the same directory. If these files are removed, revert or reset the change so that they persist.
-
-From the project home run the command `make html` and the required html files will be generated in `docs`. Add the changes and commit them to provide the updated documentation.
