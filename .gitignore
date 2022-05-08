@@ -1,3 +1,5 @@
 .idea/
 *.pyo
 *.pyc
+autodoc_ext_artifacts.yaml
+.autodoc_ext_artifacts.yaml
