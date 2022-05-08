@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nautical.io package &mdash; nautical 2.5.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="nautical.location package" href="nautical.location.html" />
+    <link rel="prev" title="nautical.error package" href="nautical.error.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> nautical
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">nautical</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nautical.html">nautical package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="nautical.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="nautical.error.html">nautical.error package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">nautical.io package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html">nautical.location package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.html">nautical.noaa package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.sea_state.html">nautical.sea_state package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html">nautical.time package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html">nautical.units package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.html#module-nautical">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">nautical</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">nautical</a> &raquo;</li>
+          <li><a href="nautical.html">nautical package</a> &raquo;</li>
+      <li>nautical.io package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/rst_docs/nautical.io.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nautical-io-package">
+<h1>nautical.io package<a class="headerlink" href="#nautical-io-package" title="Permalink to this headline"></a></h1>
+<section id="module-nautical.io">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nautical.io" title="Permalink to this headline"></a></h2>
+<p>The io module consists of the functions utilized to search for information about buoys
+and their sources on NOAA’s website.</p>
+<span class="target" id="module-nautical.io.buoy"></span><dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.buoy.create_buoy">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.buoy.</span></span><span class="sig-name descname"><span class="pre">create_buoy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buoy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.buoy.create_buoy" title="Permalink to this definition"></a></dt>
+<dd><p>Provide a full workup for a specific buoy. If the buoy is None or it cannot be found
+then the data returned will be considered invalid as None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>buoy</strong> – id of the buoy to do a workup on</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>BuoyWorkup if successful else None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.buoy.get_current_data">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.buoy.</span></span><span class="sig-name descname"><span class="pre">get_current_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buoy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData" title="nautical.noaa.buoy.buoy_data.BuoyData"><span class="pre">nautical.noaa.buoy.buoy_data.BuoyData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">search</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.buoy.get_current_data" title="Permalink to this definition"></a></dt>
+<dd><p>Search the beautiful soup object for a TABLE containing the search string. The function will
+grab the data from the table and create a NOAAData object and return the data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>soup</strong> – beautiful soup object generated from the get_url_source()</p></li>
+<li><p><strong>buoy</strong> – BuoyData object that should be filled with data as this function parses the data.</p></li>
+<li><p><strong>search</strong> – text to search for in the soup object.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.buoy.get_past_data">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.buoy.</span></span><span class="sig-name descname"><span class="pre">get_past_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.buoy.get_past_data" title="Permalink to this definition"></a></dt>
+<dd><p>Find all Previous Observations or Past Data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>soup</strong> – beautiful soup object generated from the get_url_source()</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of all previous observations from the url.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-nautical.io.sources"></span><dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.sources.get_buoy_sources">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.sources.</span></span><span class="sig-name descname"><span class="pre">get_buoy_sources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.sources.get_buoy_sources" title="Permalink to this definition"></a></dt>
+<dd><p>NOAA is kind enough to provide all of names, ids, and other information about ALL of their known buoys
+in a kml document hosted at the link provided (<a class="reference external" href="https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml">https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml</a>).
+Read through this document and parse the buoy information to determine their id and location.
+The ID can be used to provide to get_noaa_forecast_url(). Then we can find even more information about the
+buoys.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The SHIP ID is not available for lookup.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dictionary all source names mapped to their respective source.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-nautical.io.web"></span><dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.web.get_noaa_forecast_url">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.web.</span></span><span class="sig-name descname"><span class="pre">get_noaa_forecast_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buoy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.web.get_noaa_forecast_url" title="Permalink to this definition"></a></dt>
+<dd><p>NOAA is kind enough to post all of their data from their buoys at the same url ONLY requiring
+the id of buoy to change at the end of the link (<a class="reference external" href="https://www.ndbc.noaa.gov/station_page.php?station=">https://www.ndbc.noaa.gov/station_page.php?station=</a>).
+This function will simply take in the buoy from the user and append the data to the
+end of the url, IFF the data exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>buoy</strong> – id of the buoy</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>full url if buoy is not empty, otherwise None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.io.web.get_url_source">
+<span class="sig-prename descclassname"><span class="pre">nautical.io.web.</span></span><span class="sig-name descname"><span class="pre">get_url_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nautical.io.web.get_url_source" title="Permalink to this definition"></a></dt>
+<dd><p>If you already know the url_name or if you have run through the get_noaa_forecast_url(), then you can
+send in the url here. Get the source information for the url and place the information into a BeautifulSoup
+object, so that we can do any lookups of the data that we need.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url_name</strong> – name of the url to search for</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>BeautifulSoup Object on success otherwise none</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nautical.error.html" class="btn btn-neutral float-left" title="nautical.error package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nautical.location.html" class="btn btn-neutral float-right" title="nautical.location package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
