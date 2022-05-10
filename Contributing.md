@@ -6,11 +6,12 @@ resources to make it easier to get your contribution accepted.
 ## Getting Started
 
 - Fork the repository on GitHub
-- Install the build dependencies (see setup.py).
-- Read the [README](README.md) for test instructions
+- Read the [README](README.md) for test instructions.
+- Create a virtual environment [Optional].
+- Install the build dependencies, see [building and testing](./README.md).
 - Play with the project, submit bugs, submit patches!
 
-### Contribution Flow
+## Contribution Flow
 
 Anyone may submit [issues](https://github.com/barbacbd/nautical/issues)..
 For contributors who want to work up pull requests, the workflow is roughly:
@@ -29,3 +30,17 @@ A rough convention for commit messages that is designed to answer two
 questions: what changed and why. The subject line should feature the what and
 the body of the commit should describe the why.
 
+Example:
+
+```
+
+noaa: Added XXX functionality to XXXX
+
+** Added the XXX function to XXX to satisfy the need/
+requirement for XXX.
+
+** Additional information followed in other bullet points.
+
+```
+
+_It is suggested (but not required to add the Issue number to the commit message._
