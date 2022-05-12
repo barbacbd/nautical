@@ -14,20 +14,19 @@
 
 # Description
 
-A python based web scraper (extension) that grabs the buoy data from [NOAA](https://www.ndbc.noaa.gov/). The scraper utilizes kml parsing
-and [BeautifulSoup](https://pypi.org/project/BeautifulSoup/) to parse through data found online. NOAA provides a single endpoint that can be
-formatted with the bupy name/id for easy information retrieval.
+Ahoy! Whether you've got your sea legs under yeh', or you're just looking to get those toes wet, you have discovered Nautical. Nautical contains an extension to a python based web scraper that
+allows users to retrieve [NOAA](https://www.ndbc.noaa.gov/) buoy information. Nautical also provides users with a simple interface to the [NOAA NCEI](https://www.ncei.noaa.gov/) web api.
 
-To view the [documentation](https://barbacbd.github.io/nautical/html/index.html) for the source code please visit this [site](https://barbacbd.github.io/nautical/html/index.html).
+Peer into that spyglass and review the [nautical documentation](https://barbacbd.github.io/nautical/html/index.html) for more information.
 
 
 # Documentation
 
-View the [documentation](./Documentation.md) page for more information.
+View the [documentation](user/docs/Documentation.md) page for more information.
 
 # Contributing
 
-View the [contirbution](./Contributing.md) for more information.
+View the [contirbution](user/docs/Contributing.md) for more information.
 
 
 # Building and Testing
@@ -67,7 +66,7 @@ pip install . --upgrade
 If you wish to view the results with a bit more information, run the following commmand:
 
 ```
-pip install pytest coverage pytest-cov
+pip install pytest coverage pytest-cov mock
 ```
 
 All tests for the project are located in the [tests](./tests)  directory.

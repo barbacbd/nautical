@@ -1,20 +1,22 @@
-# How to Contribute
+# Contributing Guidelines
 
-This document outlines some of the conventions on development workflow and other
-resources to make it easier to get your contribution accepted.
+Whether you are aiming to become the first mate, second mate ... Deck cadet, engineer, or just walk the plank you have found your
+way to the contributions documentation. Please continue reading if you would like to contribute or just follow along with the
+development progress of the package.
 
-## Getting Started
+## Casting off
 
 - Fork the repository on GitHub
-- Read the [README](README.md) for test instructions.
+- Read the [README](../../README.md) for test instructions.
 - Create a virtual environment [Optional].
-- Install the build dependencies, see [building and testing](./README.md).
+- Install the build dependencies, see [building and testing](../../README.md).
 - Play with the project, submit bugs, submit patches!
 
 ## Contribution Flow
 
-Anyone may submit [issues](https://github.com/barbacbd/nautical/issues)..
-For contributors who want to work up pull requests, the workflow is roughly:
+Anyone may submit [issues](https://github.com/barbacbd/nautical/issues). The issues will be reviewed by
+the captain, and those that are deemed _valuable changes_ to the project will be accepted. Shipmates that
+would like to work on pull requests, the workflow is roughly:
 
 1. Create a topic branch from where you want to base your work (usually master).
 2. Make commits of logical units.
