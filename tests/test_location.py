@@ -5,40 +5,52 @@ import pytest
 
 
 def test_latitude_valid_positive():
+    """Test a valid latitude point -90.0 <= lat >= 90.0"""
     p = Point(67.23, 0, 0)
     assert p.latitude == 67.23
 
 
 def test_latitude_valid_negative():
+    """Test a valid latitude point -90.0 <= lat >= 90.0"""
     p = Point(-67.23, 0, 0)
     assert p.latitude == -67.23
 
 
 def test_latitude_invalid_string():
+    """Test a invalid latitude point -90.0 <= lat >= 90.0
+    The value can be a string if it can be converted
+    """
     p = Point()
     p.latitude = "abgsdf"
     assert p.latitude == 0
 
 
 def test_latitude_oob():
+    """Test a valid latitude point -90.0 <= lat >= 90.0"""
     p3 = Point(-90.23, 0, 0)
     assert p3.latitude == 0
 
 
 def test_longitude_valid_positive():
+    """Test a valid longitude point -180.0 <= lon >= 180.0"""
     p1 = Point(0, 0.23, 0)
     assert p1.longitude == 0.23
 
 def test_longitude_valid_negative():
+    """Test a valid longitude point -180.0 <= lon >= 180.0"""
     p2 = Point(0, -167.23, 0)
     assert p2.longitude == -167.23
 
 def test_longitude_invalid_string():
+    """Test a invalid longitude point -180.0 <= lon >= 180.0
+    The value can be a string if it can be converted
+    """
     p2 = Point()
     p2.longitude = "dasdf"
     assert p2.longitude == 0
 
 def test_longitude_invalid_oob():
+    """Test a valid longitude point -180.0 <= lon >= 180.0"""
     p3 = Point(0, 180.23, 0)
     assert p3.longitude == 0.0
     
