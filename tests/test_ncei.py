@@ -33,6 +33,16 @@ class MockResponse:
         return self.json_data
 
 
+def confirm_types(data, data_type):
+    '''Confirm that the data in `data` is of type `data_type`.
+    This will check the list if one is provided as `data`
+    '''
+    if isinstance(data, list):
+        return False not in [isinstance(d, data_type) for d in data]
+    else:
+        return isinstance(data, data_type)
+    
+
 def format_json(original_json, count, limit, offset):
     '''Format the json as an expected result from the NCEI api.
     The `original_json` will be copied `count` times
@@ -85,6 +95,7 @@ def test_query_all_large_good_token():
             results = query_all("test-token", obj_type=DataType)
             assert len(results) == v
             total += len(results)
+            assert confirm_types(results, DataType)
 
     assert total == num_results
 
@@ -110,6 +121,7 @@ def test_query_all_good_token():
 
         results = query_all("test-token", obj_type=DataType)
         assert len(results) == num_results
+        assert confirm_types(results, DataType)
 
         
 def test_query_all_bad_token():
@@ -128,6 +140,7 @@ def test_query_all_bad_token():
     results = query_all("bad-token", obj_type=DataType)
     assert len(results) == 0
 
+    
 def test_query_obj_type_bad_base():
     '''Query All:
     Send in object type of base. this will 'fail' because the base
@@ -208,6 +221,7 @@ def test_query_base_good():
 
         results = query_base("test-token", DataType.endpoint, obj_type=DataType)
         assert len(results) == num_results
+        assert confirm_types(results, DataType)
 
 
 def test_query_base_bad():
@@ -242,6 +256,7 @@ def test_query_limit_more_than_one():
 
         results = query_base("test-token", DataType.endpoint, obj_type=DataType, limit=1000, offset=1)
         assert len(results) == num_results
+        assert confirm_types(results, DataType)
 
     
 def test_query_offset_different():
@@ -344,6 +359,7 @@ def test_query_all_valid_single_param():
 
         results = query_all("test-token", obj_type=DataType, parameters=param)
         assert len(results) == num_results
+        assert confirm_types(results, DataType)
 
 
 def test_query_all_valid_multiple_params():
@@ -370,6 +386,7 @@ def test_query_all_valid_multiple_params():
 
         results = query_all("test-token", obj_type=DataType, parameters=params)
         assert len(results) == num_results
+        assert confirm_types(results, DataType)
 
 
 def test_query_all_invalid_single_param():
