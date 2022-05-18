@@ -323,3 +323,101 @@ def test_zero_offset():
     lookup_offsets = create_offset_lookups(0)
     assert len(lookup_offsets) == 0
 
+
+def test_query_all_valid_single_param():
+    '''Test utilizing a single parameter that is valid
+    '''
+    num_results = 25
+    param = Parameter("test-parameter", "value")
+
+    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+        get_patch.return_value = MockResponse(
+            format_json(
+                {
+                    "mindate": "1994-04-02",
+                    "maxdate": "1996-05-28",
+                    "name": "Average cloudiness midnight to midnight from 30-second ceilometer data",
+                    "datacoverage": 1,
+                    "id": "ACMC"
+                }, num_results, 1000, 1
+            ), 200 )
+
+        results = query_all("test-token", obj_type=DataType, parameters=param)
+        assert len(results) == num_results
+
+
+def test_query_all_valid_multiple_params():
+    '''Test utilizing a multiple parameters that is valid
+    '''
+    num_results = 25
+    params = [
+        Parameter("test-parameter1", "value1"),
+        Parameter("test-parameter2", "value2"),
+        Parameter("test-parameter3", "value3")
+    ]
+
+    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+        get_patch.return_value = MockResponse(
+            format_json(
+                {
+                    "mindate": "1994-04-02",
+                    "maxdate": "1996-05-28",
+                    "name": "Average cloudiness midnight to midnight from 30-second ceilometer data",
+                    "datacoverage": 1,
+                    "id": "ACMC"
+                }, num_results, 1000, 1
+            ), 200 )
+
+        results = query_all("test-token", obj_type=DataType, parameters=params)
+        assert len(results) == num_results
+
+
+def test_query_all_invalid_single_param():
+    '''Test utilizing a single parameter that is invalid,
+    Not of the type `Parameter`
+    '''
+    num_results = 25
+    param = "Some-bad-parameter"
+
+    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+        get_patch.return_value = MockResponse(
+            format_json(
+                {
+                    "mindate": "1994-04-02",
+                    "maxdate": "1996-05-28",
+                    "name": "Average cloudiness midnight to midnight from 30-second ceilometer data",
+                    "datacoverage": 1,
+                    "id": "ACMC"
+                }, num_results, 1000, 1
+            ), 200 )
+
+        with pytest.raises(TypeError):
+            results = query_all("test-token", obj_type=DataType, parameters=param)
+
+
+def test_query_all_invalid_multiple_params():
+    '''Test utilizing a multiple parameters where at least one
+    of the parameters is invalid, not of the type `Parameter`.
+    '''
+    num_results = 25
+    params = [
+        Parameter("test-parameter1", "value1"),
+        "some-random-data-thrown-here",
+        Parameter("test-parameter2", "value2"),
+        Parameter("test-parameter3", "value3")
+    ]
+
+    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+        get_patch.return_value = MockResponse(
+            format_json(
+                {
+                    "mindate": "1994-04-02",
+                    "maxdate": "1996-05-28",
+                    "name": "Average cloudiness midnight to midnight from 30-second ceilometer data",
+                    "datacoverage": 1,
+                    "id": "ACMC"
+                }, num_results, 1000, 1
+            ), 200 )
+
+        with pytest.raises(TypeError):
+            results = query_all("test-token", obj_type=DataType, parameters=params)

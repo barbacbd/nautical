@@ -35,7 +35,7 @@ class NCEIBase:
     """Base class for all NCEI types"""
     
     parameters = None
-    endpoint = "https://www.ncdc.noaa.gov/cdo-web/api/v2/"
+    endpoint = "https://www.ncei.noaa.gov/cdo-web/api/v2/"
 
     def __init__(self, json_data=None):
     
@@ -228,7 +228,7 @@ def query_all(token, obj_type=NCEIBase, parameters=None):
         else:
             if parameters.param in obj_type.parameters:
                 endpoint += "?" + str(parameters)
-    
+
     count = get_num_results(token, endpoint)
     lookup_offsets = create_offset_lookups(count)
     
