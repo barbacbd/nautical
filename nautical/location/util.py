@@ -1,30 +1,31 @@
 from ..error import NauticalError
 from math import radians, sin, cos, atan2, sqrt
 from .point import Point
-
-_EARTH_RADIUS_METERS = 6372800
-
-
-def haversine(p1: Point, p2: Point) -> float:
-    """Haversine method for determining distance between two points.
-
-    :param p1: Point 1
-    :param p2: Point 2
-    :return: Find the distance between two points using the Haversine methodology
-    """
-    lat1 = radians(p1.latitude)
-    lat2 = radians(p2.latitude)
-
-    diff1 = radians(p1.latitude - p2.latitude)
-    diff2 = radians(p1.longitude - p2.longitude)
-
-    a = sin(diff1 / 2.0) ** 2 + cos(lat1) * cos(lat2) * sin(diff2 / 2.0) ** 2
-
-    return 2.0 * _EARTH_RADIUS_METERS * atan2(sqrt(a), sqrt(1 - a))
+from nautical.units import DistanceUnits
 
 
-def in_range_ll(lat1_deg: float, lon1_deg: float, lat2_deg: float, lon2_deg: float, distance_m) -> bool:
-    """Determine if points are within a distance of each other provided
+def haversine(p1, p2, units = DistanceUnits.METERS) -> float:
+    '''Wrapper for the Haversine for the `Point` class in this module
+    
+    :param p1: `Point` 1
+    :param p2: `Point` 2
+    :param units: nautical.units.DistanceUnits
+    :return: Distance between the points, in units
+    '''
+    if not isinstance(p1, Point):
+        raise TypeError("The first parameter must be a Point object")
+    return p1.distance(p2, units)
+
+
+def in_range_ll(
+        lat1_deg,
+        lon1_deg,
+        lat2_deg,
+        lon2_deg,
+        distance,
+        units = DistanceUnits.METERS
+):
+    '''Determine if points are within a distance of each other provided
     with the latitude, longitude of each point
 
     :param lat1_deg: Latitude of point 1 in degrees
@@ -33,60 +34,75 @@ def in_range_ll(lat1_deg: float, lon1_deg: float, lat2_deg: float, lon2_deg: flo
     :param lon2_deg: Longitude of point 2 in degrees
     :param distance_m: Max allowed distance between points to return true (meters).
     :return: True when the distance between P1 and P2 is less than (or equal to) distance_m
-    """
-    return in_range(Point(lat1_deg, lon1_deg), Point(lat2_deg, lon2_deg), distance_m)
+    '''
+    return in_range(Point(lat1_deg, lon1_deg), Point(lat2_deg, lon2_deg), distance, units)
 
 
-def in_range(p1: Point, p2: Point, distance_m) -> bool:
-    """Determine if the points are within a distance of each other.
+def in_range(p1, p2, distance, units = DistanceUnits.METERS):
+    '''Determine if the points are within a distance of each other.
     
     :param p1: Point 1
     :param p2: Point 2
-    :param distance_m: Max allowed distance between points to return true (meters).
+    :param distance: Max allowed distance between points to return true.
+    :param units: Units of measurement [default=METERS]
     :return: True when the distance between P1 and P2 is less than (or equal to) distance_m
-    """
-    return haversine(p1, p2) <= distance_m
+    '''
+    if not isinstance(p1, Point):
+        raise TypeError("The first parameter must be a Point object")
+    elif not isinstance(p2, Point):
+        raise TypeError("The second parameter must be a Point object")
+    return p1.in_range(p2, distance, units)
 
 
-def area_converter(area: [Point]) -> [Point]:
-    """
-    Pass in a list of points, determine the maximum and minimum latitude and longitude
-    values, create a square (4 points) from the list.
+def in_area(geometry, point):
+    '''Determine if a point exists within a geometry of points. The algorithm
+    can be found here:
+    https://www.eecs.umich.edu/courses/eecs380/HANDOUTS/PROJ2/InsidePoly.html
+    
+    :param geometry: Ordered list of `Point` objects
+    :param point: `Point` that should be checked if exists in the geometry
+    :return: True when the value lies in the geometry, false otherwise
+    '''
+    if not isinstance(point, Point):
+        raise TypeError("The second parameter must be a Point object")
 
-    :param area: original list of points
-    :return: list of Points
-    """
-    max_lat = -float("inf")
-    min_lat = float("inf")
-    max_lon = -float("inf")
-    min_lon = float("inf")
+    if len(geometry) < 2:
+        raise TypeError("Geometry must be a set of points with a length of 2 or more")
+    elif len(geometry) == 2:
+        min_lat = min(geometry[0].latitude, geometry[1].latitude)
+        max_lat = max(geometry[0].latitude, geometry[1].latitude)
+        min_lon = min(geometry[0].longitude, geometry[1].longitude)
+        max_lon = max(geometry[0].longitude, geometry[1].longitude)
 
-    for point in area:
-        if isinstance(point, Point):
-            max_lat = point.latitude if point.latitude > max_lat else max_lat
-            min_lat = point.latitude if point.latitude < min_lat else min_lat
-            max_lon = point.longitude if point.longitude > max_lon else max_lon
-            min_lon = point.longitude if point.longitude < min_lon else min_lon
+        geo_points = [
+            Point(min_lat, min_lon),
+            Point(min_lat, max_lon),
+            Point(max_lat, max_lon),
+            Point(max_lat, min_lon)
+        ]
+    else:
+        for p in geometry:
+            if not isinstance(p, Point):
+                raise TypeError("All values of geometry must be Point objects")
+        
+        geo_points = geometry
 
-    return [Point(min_lat, min_lon), Point(max_lat, max_lon)]
 
+    # number of times hit an edge
+    intersected = 0
+    for i in range(len(geo_points)):
+        curr = geo_points[i]
+        next = geo_points[(i+1) % len(geo_points)]
 
-def in_area(p: Point, area: [Point]) -> bool:
-    """
-    Determine if point p is in the area. NOTE: the user should pass the original
-    list of points through the area_converter. This will provide an approximate area.
+        if curr.y == next.y:
+            continue
+        
+        if max(curr.y, next.y) >= point.y > min(curr.y, next.y):
+            if point.x <= max(curr.x, next.x):
+                xinters = (point.y - curr.y)*(next.x-curr.x)/(next.y-curr.y)+curr.x
+                if curr.x == next.x or point.x <= xinters:
+                    intersected += 1
 
-    :param p: Point to determine if it is in the area
-    :param area: 2 point area min, min -> max, max
-    :return: true if it is in the area false otherwise
-    """
-    if len(area) != 2:
-        raise NauticalError("area should be 2 points (min, min) -> (max, max).")
-
-    max_lat = max(area[0].lat, area[1].lat)
-    min_lat = min(area[0].lat, area[1].lat)
-
-    max_lon = max(area[0].lon, area[1].lon)
-    min_lon = min(area[0].lon, area[1].lon)
-
-    return max_lat >= p.latitude >= min_lat and max_lon >= p.longitude >= min_lon
+    # There will be an odd number for points in a geometry, even for those that
+    # do not reside in the geometry
+    return intersected % 2 == 1
