@@ -1,4 +1,4 @@
-from .token import get_default_token
+from .token import get_default_token, get_token
 from .base import *
 from .data import Data
 from .datacategories import DataCategory
@@ -19,6 +19,7 @@ and per day.
 all = [
     # Token module information
     'get_default_token',
+    'get_token',
     # Base Module Information
     'Parameter',
     'NCEIBase',

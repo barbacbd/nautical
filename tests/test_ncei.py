@@ -1,8 +1,10 @@
 import pytest
 from nautical.noaa.ncei import *
 from uuid import uuid4
-from os import environ
+from os import environ, remove
 from unittest.mock import Mock, patch
+from json import dump as jdump
+from yaml import dump as ydump
 
 
 class MockResponse:
@@ -438,3 +440,73 @@ def test_query_all_invalid_multiple_params():
 
         with pytest.raises(TypeError):
             results = query_all("test-token", obj_type=DataType, parameters=params)
+
+
+
+def test_default_token():
+    '''Test the default token'''
+    assert get_default_token() is not None
+
+
+def test_yaml_file_valid():
+    '''Test valid token file that is valid as yaml'''
+    with open("test.yaml", "w+") as f:
+        ydump({"token": "random_data"}, f)
+        
+    assert len(get_token("test.yaml")) > 0 
+    remove("test.yaml")
+
+    
+def test_create_json_file_valid():
+    '''Test valid json token file'''
+    with open("test.json", "w+") as f:
+        jdump({"token": "random_data"}, f)
+
+    assert len(get_token("test.json")) > 0
+    remove("test.json")
+    
+
+def test_create_txt_file_valid():
+    '''Valid txt file valid'''
+    with open("test.txt", "w+") as f:
+        f.write("random_data")
+
+    assert len(get_token("test.txt")) > 0
+    remove("test.txt")
+    
+
+def test_unknown_file_valid():
+    '''Valid unknown file treated as txt.
+    '''
+    with open("test", "w+") as f:
+        f.write("random_data")
+
+    assert len(get_token("test")) > 0
+    remove("test")
+
+
+def test_txt_file_invalid():
+    '''Blank txt file'''
+    with open("test.txt", "w+") as f:
+        f.write("")
+
+    assert len(get_token("test.txt")) == 0
+    remove("test.txt")
+
+    
+def test_yaml_file_invalid():
+    '''Test valid token file that is valid as yaml'''
+    with open("test.yaml", "w+") as f:
+        ydump({"bad": "random_data"}, f)
+        
+    assert get_token("test.yaml") is None
+    remove("test.yaml")
+
+    
+def test_create_json_file_invalid():
+    '''Test valid json token file'''
+    with open("test.json", "w+") as f:
+        jdump({"bad": "random_data"}, f)
+
+    assert get_token("test.json") is None
+    remove("test.json")
