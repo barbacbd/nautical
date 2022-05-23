@@ -1,5 +1,5 @@
 from nautical.time.conversion import convert_noaa_time
-from nautical.time.nautical_time import nTime
+from nautical.time.nautical_time import NauticalTime
 from nautical.time.enums import TimeFormat
 from time import mktime, strptime
 from datetime import datetime
@@ -71,7 +71,7 @@ class BuoyData(object):
         self.dd = int(datetime.now().day)
 
         # initialize the time in the case of Present data, we can always correct this later
-        self.time = nTime(fmt=TimeFormat.HOUR_24)
+        self.time = NauticalTime(fmt=TimeFormat.HOUR_24)
         self.time.minutes = 30 if int(datetime.now().minute) > 30 else 0
         self.time.hours = int(datetime.now().hour)
 
@@ -123,7 +123,7 @@ class BuoyData(object):
         if "time" == key:
             if isinstance(value, str):
                 setattr(self, key, convert_noaa_time(value))
-            elif isinstance(value, nTime):
+            elif isinstance(value, NauticalTime):
                 setattr(self, key, value)
         else:
             setattr(self, key, value)

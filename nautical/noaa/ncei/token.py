@@ -1,7 +1,7 @@
-from yaml import safe_load
 from json import load
-from os.path import abspath, dirname, join, exists
 from logging import getLogger
+from os.path import abspath, dirname, join, exists
+from yaml import safe_load
 
 
 log = getLogger()
@@ -11,7 +11,7 @@ _default_token_file = join(dirname(abspath(__file__)), "token.yaml")
 def _load_from_yaml(filename):
     '''Search for the token in the yaml file
     '''
-    with open(filename, "r") as token_file:
+    with open(filename, "r", encoding="utf-8") as token_file:
         yaml_data = safe_load(token_file)
 
     return yaml_data.get("token", None)
@@ -20,7 +20,7 @@ def _load_from_yaml(filename):
 def _load_from_json(filename):
     '''Search for the token in the json file
     '''
-    with open(filename, "r") as token_file:
+    with open(filename, "r", encoding="utf-8") as token_file:
         json_data = load(token_file)
 
     return json_data.get("token", None)
@@ -54,21 +54,21 @@ def get_token(filename=_default_token_file):
     :param filename: file containing the token data
     :return: token contained in the file if exists, otherwise None
     '''
-
     if not exists(filename):
-        log.error("Failed to find {}".format(filename))
-        return
-    
+        log.error("Failed to find %s", filename)
+        return None
+
     if filename.endswith(".yaml"):
         if filename == _default_token_file:
             return get_default_token()
         return _load_from_yaml(filename)
-    elif filename.endswith(".json"):
-        return _load_from_json(filename)
-    else:
-        if not filename.endswith(".txt"):
-            log.warning("assuming {} is a txt file".format(filename))
 
-        with open(filename, "r") as token_file:
-            data = token_file.read()
-        return data
+    if filename.endswith(".json"):
+        return _load_from_json(filename)
+
+    if not filename.endswith(".txt"):
+        log.warning("assuming %s is a txt file", filename)
+
+    with open(filename, "r", encoding="utf-8") as token_file:
+        data = token_file.read()
+    return data

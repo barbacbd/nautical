@@ -1,5 +1,19 @@
-from .units import *
-from .conversion import *
+from .units import (
+    TimeUnits,
+    TemperatureUnits,
+    SpeedUnits,
+    DistanceUnits,
+    PressureUnits,
+    SalinityUnits
+)
+from .conversion import (
+    convert,
+    convert_temperature,
+    convert_time,
+    convert_distance,
+    convert_speed,
+    convert_pressure
+)
 
 __all__ = [
     "convert",
