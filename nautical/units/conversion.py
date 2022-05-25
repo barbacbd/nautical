@@ -139,8 +139,7 @@ ConversionLookup = {
 
 
 def convert(value, init_units, final_units):
-    """
-    Convert the value given the current units to the new units. If the
+    '''Convert the value given the current units to the new units. If the
     units are not in the same set of units then the value cannot be converted,
     and None will be returned.
 
@@ -149,7 +148,7 @@ def convert(value, init_units, final_units):
     :param final_units: final units of the value (must match initial units type)
     :return: The value converted to the final units. If the units did not match None is returned
     :raises TypeError: when the two types do not match, or when any of the parameters are None
-    """
+    '''
 
     if None not in (value, init_units, final_units) and isinstance(final_units, type(init_units)):
         func = ConversionLookup.get(type(init_units), None)
