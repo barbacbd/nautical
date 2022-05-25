@@ -1,44 +1,29 @@
-from .token import get_default_token, get_token
-from .base import *
-from .data import Data
-from .datacategories import DataCategory
-from .datasets import Dataset
-from .datatypes import DataType
-from .location_categories import LocationCategory
-from .locations import Location
-from .stations import Station
+from .token import get_default_token, get_token    # noqa # pylint: disable=unused-import
+from .base import Parameter, NCEIBase              # noqa # pylint: disable=unused-import
+from .base import create_offset_lookups, get_num_results, query_base, query_all  # noqa # pylint: disable=unused-import
+from .data import Data                             # noqa # pylint: disable=unused-import
+from .datacategories import DataCategory           # noqa # pylint: disable=unused-import
+from .datasets import Dataset                      # noqa # pylint: disable=unused-import
+from .datatypes import DataType                    # noqa # pylint: disable=unused-import
+from .location_categories import LocationCategory  # noqa # pylint: disable=unused-import
+from .locations import Location                    # noqa # pylint: disable=unused-import
+from .stations import Station                      # noqa # pylint: disable=unused-import
 
-
-"""
-Base token is included in the `token.ymal` file. Remember that other users _may_
-be using the same token, and there is a limited number of queries per second
-and per day. 
-"""
-
-
+# pylint: disable=redefined-builtin
 all = [
-    # Token module information
-    'get_default_token',
-    'get_token',
-    # Base Module Information
-    'Parameter',
-    'NCEIBase',
-    'create_offset_lookups',
-    'get_num_results',
-    'query_base',
-    'query_all',
-    # Data class
-    'Data',
-    # Data Category Class
-    'DataCategory',
-    # Dataset Class
-    'Dataset',
-    # DataTypes class
-    'DataType',
-    # Location Category Class
-    'LocationCategory',
-    # Location Class
-    'Location',
-    # Station Class
-    'Station'
+    "get_default_token",
+    "get_token",
+    "Parameter",
+    "NCEIBase",
+    "create_offset_lookups",
+    "get_num_results",
+    "query_base",
+    "query_all",
+    "Data",
+    "DataCategory",
+    "Dataset",
+    "DataType",
+    "LocationCategory",
+    "Location",
+    "Station"
 ]

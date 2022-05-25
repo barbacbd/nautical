@@ -1,4 +1,4 @@
-from .log import getLogger
+from .log import get_logger
 
 
-__all__ = ['getLogger']
+__all__ = ['get_logger']

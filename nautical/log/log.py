@@ -11,14 +11,14 @@ class NauticalLogFormatter(logging.Formatter):
     red = "\x1b[31;20m"
     purple = "\x1b[35;20m"
     reset = "\x1b[0m"
-    format = "[🌊 %(levelname)s]: %(message)s"
+    fmt = "[🌊 %(levelname)s]: %(message)s"
 
     FORMATS = {
-        logging.DEBUG: blue + format + reset,
-        logging.INFO: green + format + reset,
-        logging.WARNING: yellow + format + reset,
-        logging.ERROR: red + format + reset,
-        logging.CRITICAL: purple + format + reset
+        logging.DEBUG: blue + fmt + reset,
+        logging.INFO: green + fmt + reset,
+        logging.WARNING: yellow + fmt + reset,
+        logging.ERROR: red + fmt + reset,
+        logging.CRITICAL: purple + fmt + reset
     }
 
     def format(self, record):
@@ -27,7 +27,7 @@ class NauticalLogFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def getLogger(name='nautical', verbosity=logging.CRITICAL):
+def get_logger(name='nautical', verbosity=logging.CRITICAL):
     '''Wrap the logging.getLogger functionality to apply nautical 
     based logging information.
 
@@ -35,7 +35,7 @@ def getLogger(name='nautical', verbosity=logging.CRITICAL):
     :param verbosity: Level of verbosity for the logger
     :return: logging.log formatted with the NauticalLogFormatter
     '''
-    log = logging.getLogger()
+    log = logging.getLogger(name)
     log.setLevel(verbosity)
 
     handler = logging.StreamHandler()

@@ -3,3 +3,6 @@
 *.pyc
 autodoc_ext_artifacts.yaml
 .autodoc_ext_artifacts.yaml
+venv/*
+nautical_venv/*
+*.pylintrc

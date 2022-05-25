@@ -1,30 +1,22 @@
-from ..error import NauticalError
-from math import radians, sin, cos, atan2, sqrt
-from .point import Point
 from nautical.units import DistanceUnits
+from .point import Point
 
 
-def haversine(p1, p2, units = DistanceUnits.METERS) -> float:
+def haversine(point_one, point_two, units=DistanceUnits.METERS) -> float:
     '''Wrapper for the Haversine for the `Point` class in this module
-    
+
     :param p1: `Point` 1
-    :param p2: `Point` 2
+    :param point_two: `Point` 2
     :param units: nautical.units.DistanceUnits
     :return: Distance between the points, in units
     '''
-    if not isinstance(p1, Point):
+    if not isinstance(point_one, Point):
         raise TypeError("The first parameter must be a Point object")
-    return p1.distance(p2, units)
+    return point_one.distance(point_two, units)
 
 
-def in_range_ll(
-        lat1_deg,
-        lon1_deg,
-        lat2_deg,
-        lon2_deg,
-        distance,
-        units = DistanceUnits.METERS
-):
+# pylint: disable=too-many-arguments
+def in_range_ll(lat1_deg, lon1_deg, lat2_deg, lon2_deg, distance, units=DistanceUnits.METERS):
     '''Determine if points are within a distance of each other provided
     with the latitude, longitude of each point
 
@@ -38,27 +30,74 @@ def in_range_ll(
     return in_range(Point(lat1_deg, lon1_deg), Point(lat2_deg, lon2_deg), distance, units)
 
 
-def in_range(p1, p2, distance, units = DistanceUnits.METERS):
+def in_range(point_one, point_two, distance, units=DistanceUnits.METERS):
     '''Determine if the points are within a distance of each other.
-    
-    :param p1: Point 1
-    :param p2: Point 2
+
+    :param point_one: Point 1
+    :param point_two: Point 2
     :param distance: Max allowed distance between points to return true.
     :param units: Units of measurement [default=METERS]
     :return: True when the distance between P1 and P2 is less than (or equal to) distance_m
     '''
-    if not isinstance(p1, Point):
+    if not isinstance(point_one, Point):
         raise TypeError("The first parameter must be a Point object")
-    elif not isinstance(p2, Point):
+    if not isinstance(point_two, Point):
         raise TypeError("The second parameter must be a Point object")
-    return p1.in_range(p2, distance, units)
+    return point_one.in_range(point_two, distance, units)
+
+
+def _create_square(geometry):
+    '''When there are only two points in a geometry, instead of using a 
+    line, create a square/rectangle out of the max/mins
+
+    :param geometry: Ordered list of `Point` objects
+    :return: 4 point geometry
+    '''
+    min_lat = min(geometry[0].latitude, geometry[1].latitude)
+    max_lat = max(geometry[0].latitude, geometry[1].latitude)
+    min_lon = min(geometry[0].longitude, geometry[1].longitude)
+    max_lon = max(geometry[0].longitude, geometry[1].longitude)
+
+    return [
+        Point(min_lat, min_lon), 
+        Point(min_lat, max_lon),
+        Point(max_lat, max_lon),
+        Point(max_lat, min_lon)
+    ]
+
+
+def _find_intersections(geometry, point):
+    '''Find the number of times that the point intesects with 
+    the edges of the geometry when extending a ray towards the 
+    edges of the geometry.
+
+    :param geometry: Ordered list of `Point` objects
+    :param point: `Point` to calculate the intersections
+    :return: Number of times the ray instersects with the geometry
+    '''
+    # number of times hit an edge
+    intersected = 0
+    for i, geo_point in enumerate(geometry):
+        curr = geo_point
+        nxt = geometry[(i + 1) % len(geometry)]
+
+        if curr.y == nxt.y:
+            continue
+
+        if max(curr.y, nxt.y) >= point.y > min(curr.y, nxt.y):
+            if point.x <= max(curr.x, nxt.x):
+                xinters = (point.y - curr.y) * (nxt.x - curr.x) / (nxt.y - curr.y) + curr.x
+                if curr.x == nxt.x or point.x <= xinters:
+                    intersected += 1
+
+    return intersected
 
 
 def in_area(geometry, point):
     '''Determine if a point exists within a geometry of points. The algorithm
     can be found here:
     https://www.eecs.umich.edu/courses/eecs380/HANDOUTS/PROJ2/InsidePoly.html
-    
+
     :param geometry: Ordered list of `Point` objects
     :param point: `Point` that should be checked if exists in the geometry
     :return: True when the value lies in the geometry, false otherwise
@@ -68,40 +107,17 @@ def in_area(geometry, point):
 
     if len(geometry) < 2:
         raise TypeError("Geometry must be a set of points with a length of 2 or more")
-    elif len(geometry) == 2:
-        min_lat = min(geometry[0].latitude, geometry[1].latitude)
-        max_lat = max(geometry[0].latitude, geometry[1].latitude)
-        min_lon = min(geometry[0].longitude, geometry[1].longitude)
-        max_lon = max(geometry[0].longitude, geometry[1].longitude)
 
-        geo_points = [
-            Point(min_lat, min_lon),
-            Point(min_lat, max_lon),
-            Point(max_lat, max_lon),
-            Point(max_lat, min_lon)
-        ]
+    if len(geometry) == 2:
+        geo_points = _create_square(geometry)
     else:
-        for p in geometry:
-            if not isinstance(p, Point):
+        for pnt in geometry:
+            if not isinstance(pnt, Point):
                 raise TypeError("All values of geometry must be Point objects")
-        
+
         geo_points = geometry
 
-
-    # number of times hit an edge
-    intersected = 0
-    for i in range(len(geo_points)):
-        curr = geo_points[i]
-        next = geo_points[(i+1) % len(geo_points)]
-
-        if curr.y == next.y:
-            continue
-        
-        if max(curr.y, next.y) >= point.y > min(curr.y, next.y):
-            if point.x <= max(curr.x, next.x):
-                xinters = (point.y - curr.y)*(next.x-curr.x)/(next.y-curr.y)+curr.x
-                if curr.x == next.x or point.x <= xinters:
-                    intersected += 1
+    intersected = _find_intersections(geo_points, point)
 
     # There will be an odd number for points in a geometry, even for those that
     # do not reside in the geometry

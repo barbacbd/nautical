@@ -1,10 +1,17 @@
+from datetime import datetime
+from time import mktime, strptime
+from typing import Dict, Any
 from nautical.time.conversion import convert_noaa_time
 from nautical.time.nautical_time import NauticalTime
 from nautical.time.enums import TimeFormat
-from time import mktime, strptime
-from datetime import datetime
-from nautical.units import *
-from typing import Dict, Any
+from nautical.units import (
+    SpeedUnits,
+    DistanceUnits,
+    TimeUnits,
+    PressureUnits,
+    TemperatureUnits, 
+    SalinityUnits
+)
 
 
 # Not sure why but this is the default value for NOAA data that is not present.
@@ -13,13 +20,12 @@ UNAVAILABLE_NOAA_DATA = "-"
 
 
 def _find_parameter_units(key: str) -> str:
-    """
-    Function that will attempt to find the units associated with the key. If 
-    no units are found, None is returned.
+    '''Function that will attempt to find the units associated 
+    with the key. If no units are found, None is returned.
 
     :param key: Name of the parameter
     :return: string of the type of units if there are units associated with the parameter.
-    """
+    '''
     return {
         "wspd": SpeedUnits.KNOTS,
         "gst": SpeedUnits.KNOTS,
@@ -41,13 +47,12 @@ def _find_parameter_units(key: str) -> str:
     }.get(key, None)
 
 
-class BuoyData(object):
+class BuoyData:
 
-    """
-    Class to contain all information included in a NOAA data point for
-    a buoy. A buoy can also include weather stations.
-    """
-    
+    '''Class to contain all information included in a NOAA data
+    point for a buoy. A buoy can also include weather stations.
+    '''
+
     __slots__ = [
         # time/date data
         'year', 'mm', 'dd', 'time',
@@ -62,12 +67,14 @@ class BuoyData(object):
 
     def __init__(self):
         # initialize all slots to None
-        for x in self.__slots__:
-            setattr(self, x, None)
+        for slot in self.__slots__:
+            setattr(self, slot, None)
 
         # set the time for this buoy data to NOW
         self.year = int(datetime.now().year)
+        # pylint: disable=invalid-name
         self.mm = int(datetime.now().month)
+        # pylint: disable=invalid-name
         self.dd = int(datetime.now().day)
 
         # initialize the time in the case of Present data, we can always correct this later
@@ -77,46 +84,43 @@ class BuoyData(object):
 
     @property
     def epoch_time(self):
-        """Epoch time property. Converts the nautical time to the epoch time.
+        '''Epoch time property. Converts the nautical time to the epoch time.
 
         :return: epoch time if all pieces of the time object exist, otherwise None
-        """
+        '''
         if self.year and self.mm and self.dd and self.time:
-            date = '{}-{}-{} {}'.format(self.year, self.mm, self.dd, str(self.time))
+            date = f"{self.year}-{self.mm}-{self.dd} {str(self.time)}"
             pattern = '%Y-%m-%d %H:%M:%S'
             return int(mktime(strptime(date, pattern)))
-        else:
-            return 0
+        return 0
 
     def __iter__(self):
-        """
-        Provide a user friendly mapping of variable names to values stored in this
-        Buoy Data Object
-        """
-        for entry in self.__slots__:
-            val = getattr(self, entry, None)
+        '''Provide a user friendly mapping of variable names to values stored 
+        in this Buoy Data Object
+        '''
+        for slot in self.__slots__:
+            val = getattr(self, slot, None)
 
             if val:
-                yield entry, val
+                yield slot, val
 
-    def from_dict(self, d: Dict[str, Any]):
-        """
-        Fill this object from the data stored in a dictionary where 
+    def from_dict(self, buoy_data_dict: Dict[str, Any]):
+        '''Fill this object from the data stored in a dictionary where 
         the key should match a slot or object variable
 
-        :param d: Dictionary containing the data about this buoy
-        """
-        for k, v in d.items():
-            self.set(k, v)
+        :param buoy_data_dict: Dictionary containing the data about this buoy
+        '''
+        for key, value in buoy_data_dict.items():
+            self.set(key, value)
 
     def set(self, key, value):
-        """Set a key, value pair. This function is intended to replace
+        '''Set a key, value pair. This function is intended to replace
         `__setattr__` for simplcity. The function will also attempt to convert
         the noaa time to a formatted time that is readable.
 
         :param key: the internal variable name
         :param value: the value we wish to set the variable to
-        """
+        '''
         if isinstance(value, str) and UNAVAILABLE_NOAA_DATA == value.strip():
             return
 

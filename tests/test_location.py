@@ -95,7 +95,8 @@ def test_haversine_invalid_units():
 
 def test_haversine_centimeters():
     '''Centimeters is not supported and should return None'''
-    assert haversine(Point(36, -75), Point(37, -76), DistanceUnits.CENTIMETERS) is None
+    with pytest.raises(AttributeError):
+        assert haversine(Point(36, -75), Point(37, -76), DistanceUnits.CENTIMETERS) is None
 
     
 def test_haversine_p2_incorrect():

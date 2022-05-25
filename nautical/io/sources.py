@@ -12,10 +12,11 @@ _KML_LINK = "https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml"
 
 def get_buoy_sources():
     """
-    NOAA is kind enough to provide all of names, ids, and other information about ALL of their known buoys
-    in a kml document hosted at the link provided (https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml).
-    Read through this document and parse the buoy information to determine their id and location.
-    The ID can be used to provide to get_noaa_forecast_url(). Then we can find even more information about the
+    NOAA is kind enough to provide all of names, ids, and other information about ALL
+    of their known buoys in a kml document hosted at the link provided 
+    (https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml). Read through this document and 
+    parse the buoy information to determine their id and location. The ID can be used to 
+    provide to get_noaa_forecast_url(). Then we can find even more information about the
     buoys.
 
     .. note:: The SHIP ID is not available for lookup.
@@ -40,19 +41,16 @@ def get_buoy_sources():
 
         for category in real_root.Document.Folder.Folder:
 
-            s = Source(category.name, category.description)
+            source = Source(category.name, category.description)
 
-            for pm in category.Placemark:
+            for placemark in category.Placemark:
 
-                p = Point()
-                p.parse(str(pm.Point.coordinates))
-                b = Buoy(pm.name, description=pm.Snippet, location=p)
+                pnt = Point()
+                pnt.parse(str(placemark.Point.coordinates))
+                buoy = Buoy(placemark.name, description=placemark.Snippet, location=pnt)
 
-                s.add_buoy(b)
+                source.add_buoy(buoy)
 
-            sources[s.name] = s
+            sources[source.name] = source
 
     return sources
-
-
-

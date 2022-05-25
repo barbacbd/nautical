@@ -41,9 +41,8 @@ def confirm_types(data, data_type):
     '''
     if isinstance(data, list):
         return False not in [isinstance(d, data_type) for d in data]
-    else:
-        return isinstance(data, data_type)
-    
+    return isinstance(data, data_type)
+
 
 def format_json(original_json, count, limit, offset):
     '''Format the json as an expected result from the NCEI api.
@@ -82,7 +81,7 @@ def test_query_all_large_good_token():
     
     # check for perfect blocks, except the last
     for k, v in lookup_offsets.items():
-        with patch("nautical.noaa.ncei.requests.get") as get_patch:
+        with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
             get_patch.return_value = MockResponse(
                 format_json(
                     {
@@ -101,7 +100,7 @@ def test_query_all_large_good_token():
 
     assert total == num_results
 
-    
+
 def test_query_all_good_token():
     '''Query All:
     Token is good
@@ -109,7 +108,7 @@ def test_query_all_good_token():
     '''
     num_results = 25
     
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json(
                 {
@@ -132,7 +131,7 @@ def test_query_all_bad_token():
     '''
     num_results = 0
     
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json({}, num_results, 1000, 1), 404 )
 
@@ -177,7 +176,7 @@ def test_query_bad_endpoint_exists():
 
     num_results = 0
     
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json({}, num_results, 1000, 1), 404 )
     
@@ -209,7 +208,7 @@ def test_query_base_good():
     '''
     num_results = 1
     
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json(
                 {
@@ -231,7 +230,7 @@ def test_query_base_bad():
     '''
     num_results = 0
     
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json({}, num_results, 1000, 1), 404 )
 
@@ -244,7 +243,7 @@ def test_query_limit_more_than_one():
     '''
     num_results = 1000
     
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json(
                 {
@@ -266,7 +265,7 @@ def test_query_offset_different():
     '''
     num_results = 1
     
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json(
                 {
@@ -281,7 +280,7 @@ def test_query_offset_different():
     
         results_one = query_base("test-token", DataType.endpoint, obj_type=DataType)
 
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json(
                 {
@@ -347,7 +346,7 @@ def test_query_all_valid_single_param():
     num_results = 25
     param = Parameter("test-parameter", "value")
 
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json(
                 {
@@ -374,7 +373,7 @@ def test_query_all_valid_multiple_params():
         Parameter("test-parameter3", "value3")
     ]
 
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json(
                 {
@@ -398,7 +397,7 @@ def test_query_all_invalid_single_param():
     num_results = 25
     param = "Some-bad-parameter"
 
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json(
                 {
@@ -426,7 +425,7 @@ def test_query_all_invalid_multiple_params():
         Parameter("test-parameter3", "value3")
     ]
 
-    with patch("nautical.noaa.ncei.requests.get") as get_patch:
+    with patch("nautical.noaa.ncei.base.requests.get") as get_patch:
         get_patch.return_value = MockResponse(
             format_json(
                 {

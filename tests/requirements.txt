@@ -2,4 +2,4 @@ pytest
 coverage
 pytest-cov
 mock
-prospector
+pylint

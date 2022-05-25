@@ -1,19 +1,20 @@
-from nautical.noaa.buoy.buoy_data import BuoyData
-from nautical.error import NauticalError
-from nautical.location.point import Point
+from copy import copy
 from typing import List
 from warnings import warn
-from copy import copy
+from nautical.noaa.buoy.buoy_data import BuoyData
+from nautical.location.point import Point
 
 
 class Buoy:
 
+    # pylint: disable=too-many-instance-attributes
+
     def __init__(self, station, description: str = None, location=None) -> None:
-        """
+        '''
         :param station: ID of the station
         :param description: snippet of information to describe this station
         :param location: nautical.location.point.Point [optional]
-        """
+        '''        
         self.station = station
         self.description = description
         self._location: Point = None
@@ -25,132 +26,128 @@ class Buoy:
 
     @property
     def location(self):
-        """Location Property
-        
+        '''Location Property
+
         :return: Copy of the location (Point)
-        """
+        '''
         return copy(self._location)
-    
+
     @location.setter
-    def location(self, l):
-        """Location setter/validity checker
-        
-        :param l: Location or Point object to be set for the location of this instance
-        """
-        if isinstance(l, Point):
-            self._location = l
+    def location(self, loc):
+        '''Location setter/validity checker
+
+        :param loc: Location or Point object to be set for the location of this instance
+        '''
+        if isinstance(loc, Point):
+            self._location = loc
 
     @property
     def data(self):
-        """Copy of `present` Property. This is an expansion function
+        '''Copy of `present` Property. This is an expansion function
         for use when the `past` was deprecated.
 
         :return: Copy of the `present` data stored in this instance
-        """
+        '''
         return self.present
 
     @property
     def present(self):
-        """Present Property, the present data stored in this instance. 
+        '''Present Property, the present data stored in this instance. 
         This is the most recent set of buoy data that was retrieved.
 
         :return: Copy of the `present` data stored in this instance
-        """
+        '''
         return copy(self._present)
 
     @data.setter
-    def data(self, p):
-        """Data Setter/validity checker. See `present` setter for more information."""
-        self.present = p
+    def data(self, present_data):
+        '''Data Setter/validity checker. See `present` setter for more information.'''
+        self.present = present_data
 
     @present.setter
-    def present(self, p):
-        """Present Property Setter/validity Checker.
+    def present(self, present_data):
+        '''Present Property Setter/validity Checker.
         If this instance of present data is a BuoyData object and the time is
         more recent that the previous present data, then the old present data
         is moved to the past data and the new instance is kept as the present data.
 
-        :param p: instance or candidate for present data (BuoyData)
-        """
-        if isinstance(p, BuoyData):
+        :param present_data: instance or candidate for present data (BuoyData)
+        '''
+        if isinstance(present_data, BuoyData):
             if self._present:
-                if p.epoch_time > self._present.epoch_time:
+                if present_data.epoch_time > self._present.epoch_time:
                     self._update_past(self._present)
                 else:
-                    raise NauticalError("Failed to set present data, time is in the past.")
+                    raise ValueError("Failed to set present data, time is in the past.")
 
-            self._present = p
+            self._present = present_data
 
     @property
     def past(self):
-        """Past Property.
+        '''Past Property.
 
         :return: all past instances of Buoy Data objects stored in this instance.
-        """
-        warn("%s past is deprecated" % str(self.__class__.__name__), DeprecationWarning, stacklevel=2)
+        '''
+        warn(f"{self.__class__.__name__} past is deprecated", DeprecationWarning, stacklevel=2)
         return self._past[:]
 
     @past.setter
-    def past(self, p):
-        """
-        The user may pass in a single instance of NOAAData or a list of these
+    def past(self, past_data):
+        '''The user may pass in a single instance of NOAAData or a list of these
         objects to fill in the past data with.
 
-        :param p: list or since instance of BuoyData that is used to fill in the past
-        """
-        warn("%s past is deprecated" % str(self.__class__.__name__), DeprecationWarning, stacklevel=2)
-        if isinstance(p, BuoyData):
-            self._update_past(p)
-        elif isinstance(p, list):
-            [self._update_past(x) for x in p if isinstance(x, BuoyData)]
+        :param past_data: list or since instance of BuoyData that is used to fill in the past
+        '''
+        warn(f"{self.__class__.__name__} past is deprecated", DeprecationWarning, stacklevel=2)
+        if isinstance(past_data, BuoyData):
+            self._update_past(past_data)
+        elif isinstance(past_data, list):
+            for data in past_data:
+                if isinstance(data, BuoyData):
+                    self._update_past(data)
 
-    def _update_past(self, p):
-        """
-        Attempt to update the past data, but make sure that this particular
+    def _update_past(self, past_data):
+        '''Attempt to update the past data, but make sure that this particular
         NOAA data does not already have a time entry that matches.
 
         :param p: Buoy Data attempting to be added to the past information.
-        """
-        data = next((x for x in self._past if x.epoch_time == p.epoch_time), None)
+        '''
+        data = next((x for x in self._past if x.epoch_time == past_data.epoch_time), None)
 
         if not data:
-            self._past.append(p)
+            self._past.append(past_data)
 
     def __str__(self):
-        """
-        If the location of this buoy is known return the location and the name,
+        '''If the location of this buoy is known return the location and the name,
         otherwise just return the name
 
         :return: string representation of this Buoy
-        """
+        '''
         if not self._location:
             return str(self.station)
-        else:
-            return "{} at {}".format(self.station, str(self._location))
+        return f"{self.station} at {str(self._location)}"
 
     def __eq__(self, other):
-        """
-        The stations are considered equal if their station ID is the same as the
+        '''The stations are considered equal if their station ID is the same as the
         station IDs are meant to be unique. The special case is `SHIP`.
 
         :param other: Buoy object to compare to this instance.
         :return: True when the two objects are the same
-        """
-        return type(self) == type(other) and self.station == other.station
+        '''
+        return isinstance(other, type(self)) and self.station == other.station
 
     def __ne__(self, other):
-        """
-        See __eq__ for more information.
+        '''See __eq__ for more information.
 
         :return: The opposite of __eq__ (==)
-        """
+        '''
         return not self.__eq__(other)
 
     def __hash__(self):
-        """
-        The reason behind a private station and description is that they are used for the
+        '''The reason behind a private station and description is that they are used for the
         hash function. The hash shouldn't be able to change during execution.
 
         :return: hash of the station combined with the hash of the description.
-        """
-        return hash(str(self.station)) * hash(self.description) if self.description else hash(str(self.station))
+        '''
+        return hash(str(self.station)) * hash(self.description) \
+            if self.description else hash(str(self.station))

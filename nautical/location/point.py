@@ -18,11 +18,13 @@ class Point:
         self._longitude = lon
         self._altitude = alt
 
-        # aliases
+        # pylint: disable=invalid-name
         self.x = self.latitude
+        # pylint: disable=invalid-name
         self.y = self.longitude
+        # pylint: disable=invalid-name
         self.z = self.altitude
-        
+
     @property
     def latitude(self):
         '''Latitude Property (degrees)
@@ -52,40 +54,38 @@ class Point:
         :return: Tuple of lat, lon
         '''
         return self.latitude, self.longitude
-    
+
     def __str__(self) -> str:
-        '''
-        Python version of the to string function. Turn this object into a string
+        '''Python version of the to string function. Turn this object into a string
 
         :return: string representation of this object
         '''
-        return "{}, {}, {}".format(self.latitude, self.longitude, self.altitude)
+        return f"{self.x}, {self.y}, {self.z}"
 
-    def distance(self, other, units = DistanceUnits.METERS):
+    def distance(self, other, units=DistanceUnits.METERS):
         '''Get the distance using the Haversine function. The function will
         determine the distance between this instance and another `Point`.
-        
+
         :param other: The other `Point`
         :param units: Units used for measurement
         :return: Distance between the points in units specified
         '''
         if not isinstance(units, DistanceUnits):
-            raise TypeError("DistanceUnits not found: {}".format(str(type(units))))
-        elif not isinstance(other, Point):
+            raise TypeError(f"DistanceUnits not found: {str(type(units))}")
+        if not isinstance(other, Point):
             raise TypeError("Distance should be calculated between two points")
-        
+
         if units == DistanceUnits.CENTIMETERS:
-            log.error("haversine does not support units: {}".format(units.name))
-            return
-        
+            raise AttributeError("Centimeters not accepted")
+
         hav_units = getattr(Unit, str(units.name), Unit.METERS)
-        log.debug("haversine executed with units: {}".format(hav_units))
-        
+        log.debug("haversine executed with units: %s", hav_units.name)
+
         return haversine(self.as_tuple(), other.as_tuple(), hav_units)
 
-    def in_range(self, other, distance, units = DistanceUnits.METERS):
+    def in_range(self, other, distance, units=DistanceUnits.METERS):
         '''Deteremine if the points are within a specific distance of eachother.
-        
+
         :param other: The other `Point`
         :param distance: Max distance between the points
         :param units: Units used for measurement
@@ -93,10 +93,10 @@ class Point:
         '''
         try:
             return self.distance(other, units) <= distance
-        except TypeError as e:
-            log.error(e)
+        except TypeError as error:
+            log.error(error)
             return False
-        
+
     @staticmethod
     def parse(data):
         '''Parse the string containing lon, lat, alt [optional] values respectively.
@@ -107,18 +107,18 @@ class Point:
         try:
             data = data.lower()
             split_data = data.split(",")
-            
+
             # flip positions to lat, lon
             args = [float(split_data[1].strip()), float(split_data[0].strip())]
             if len(split_data) > 2:
                 # add altitude if exists
                 args.append(float(split_data[2].strip()))
-                
+
             return Point(*args)
-                    
-        except (IndexError, TypeError) as e:
-            log.error(e)
-            raise # save stack information
+
+        except (IndexError, TypeError) as error:
+            log.error(error)
+            raise  # save stack information
 
     @staticmethod
     def parse_noaa_kml_format(data):

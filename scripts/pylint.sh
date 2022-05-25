@@ -38,8 +38,19 @@ pip install . --upgrade;
 # install the python requirements for testing.
 pip install -r tests/requirements.txt;
 
+[ -f ".pylintrc" ] && created_pylintrc=0 ||  created_pylintrc=1 
+if [ ! -f ".pylintrc" ]; then
+    echo "Pulling pylintrc file ...";
+    wget https://raw.githubusercontent.com/barbacbd/tools/main/lint/python/.pylintrc;
+fi
+
 # Run the linter over this code base
-prospector nautical/ --strictness high
+pylint nautical/* --rcfile=.pylintrc
+
+if [[ $created_pylintrc == 1 ]]; then
+    echo "Removing the pylintrc file ...";
+    rm -rf .pylintrc;
+fi
 
 # deactivate the venv
 deactivate;
@@ -49,3 +60,7 @@ if [[ $created == 1 ]]; then
     echo "Removing venv ...";
     rm -rf venv
 fi
+
+
+
+
