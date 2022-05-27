@@ -1,12 +1,12 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
-from logging import getLogger
 from time import time, sleep
 import requests
+from nautical.log import get_logger
 
 
 # access the base logging object
-log = getLogger()
+log = get_logger()
 MAX_RESULT_LIMIT = 1000
 
 

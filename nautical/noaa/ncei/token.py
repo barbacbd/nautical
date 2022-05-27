@@ -1,10 +1,10 @@
 from json import load
-from logging import getLogger
 from os.path import abspath, dirname, join, exists
 from yaml import safe_load
+from nautical.log import get_logger
 
 
-log = getLogger()
+log = get_logger()
 _default_token_file = join(dirname(abspath(__file__)), "token.yaml")
 
 

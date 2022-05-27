@@ -1,9 +1,9 @@
-from logging import getLogger
 from haversine import haversine, Unit
+from nautical.log import get_logger
 from nautical.units import DistanceUnits
 
 
-log = getLogger()
+log = get_logger()
 
 
 class Point:

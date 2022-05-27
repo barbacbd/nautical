@@ -27,7 +27,7 @@ class NauticalLogFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def get_logger(name='nautical', verbosity=logging.CRITICAL):
+def get_logger(name='nautical', verbosity=logging.DEBUG):
     '''Wrap the logging.getLogger functionality to apply nautical 
     based logging information.
 
@@ -38,8 +38,9 @@ def get_logger(name='nautical', verbosity=logging.CRITICAL):
     log = logging.getLogger(name)
     log.setLevel(verbosity)
 
-    handler = logging.StreamHandler()
-    handler.setFormatter(NauticalLogFormatter())
-    log.addHandler(handler)
+    if not log.handlers:
+        handler = logging.StreamHandler()
+        handler.setFormatter(NauticalLogFormatter())
+        log.addHandler(handler)
 
     return log

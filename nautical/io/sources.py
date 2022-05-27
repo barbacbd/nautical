@@ -4,6 +4,7 @@ from pykml import parser
 from nautical.noaa.buoy.buoy import Buoy
 from nautical.noaa.buoy.source import Source
 from nautical.location.point import Point
+from .cdata import fill_buoy_with_cdata
 
 
 # The known public link to all NOAA Buoys
@@ -17,8 +18,6 @@ def get_buoy_sources():
     parse the buoy information to determine their id and location. The ID can be used to 
     provide to get_noaa_forecast_url(). Then we can find even more information about the
     buoys.
-
-    .. note:: The SHIP ID is not available for lookup.
 
     :return: dictionary all source names mapped to their respective source.
     '''
@@ -47,6 +46,10 @@ def get_buoy_sources():
                 pnt = Point()
                 pnt.parse(str(placemark.Point.coordinates))
                 buoy = Buoy(placemark.name.text, description=placemark.Snippet, location=pnt)
+
+                # These two sources contain buoys with information embedded in CDATA
+                if source.name in ("Ships", ):
+                    fill_buoy_with_cdata(buoy, placemark.description.text)
 
                 source.add_buoy(buoy)
 

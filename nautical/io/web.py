@@ -1,10 +1,10 @@
-from logging import getLogger
 from urllib.request import urlopen
 from urllib.error import HTTPError
 from bs4 import BeautifulSoup
+from nautical.log import get_logger
 
 
-log = getLogger()
+log = get_logger()
 
 # The same format is used to find all stations online
 _STATION_LINK = "https://www.ndbc.noaa.gov/station_page.php?station={}"

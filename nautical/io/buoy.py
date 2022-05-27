@@ -1,12 +1,12 @@
-from logging import getLogger
 from re import sub
 from bs4 import BeautifulSoup
+from nautical.log import get_logger
 from nautical.io.web import get_noaa_forecast_url, get_url_source
 from nautical.noaa.buoy.buoy_data import BuoyData
 from nautical.noaa.buoy.buoy import Buoy
 
 
-log = getLogger()
+log = get_logger()
 
 
 # Default text to use as a search parameter for obtaining buoy

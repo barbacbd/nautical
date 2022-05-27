@@ -1,9 +1,9 @@
-from logging import getLogger
+from nautical.log import get_logger
 from .enums import Midday
 from .nautical_time import NauticalTime
 
 
-log = getLogger()
+log = get_logger()
 # constant value from HTML to create a non-breaking space value
 NON_BREAKING_SPACE = "&nbsp;"
 

@@ -1,4 +1,4 @@
-from logging import getLogger
+from nautical.log import get_logger
 from . import (
     TimeUnits,
     TemperatureUnits,
@@ -8,7 +8,7 @@ from . import (
 )
 
 
-log = getLogger()
+log = get_logger()
 
 TimeLookup = {
     TimeUnits.SECONDS: 1.0,
