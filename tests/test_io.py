@@ -1,4 +1,5 @@
 from nautical.io.web import get_noaa_forecast_url, get_url_source
+from nautical.io.buoy import create_buoy
 from nautical.io.cdata import (
     parse_winds,
     parse_location,
@@ -38,13 +39,14 @@ class MockResponse:
         return self.data
 
 
-def create_good_response():
+def create_good_response(file_to_read):
     '''Create a mock response with good data'''
-    with open(join(abspath(dirname(__file__)), "GoodWebpage.html"), "r") as good_data:
+    with open(join(abspath(dirname(__file__)), file_to_read), "rb") as good_data:
         mock_resp = MockResponse(good_data.read(), 200)
 
     return mock_resp
-    
+
+
 def create_bad_response(data, code):
     '''Create a mock response with bad data'''
     mock_resp = MockResponse(data, code)
@@ -61,7 +63,7 @@ def test_beautiful_soup_good():
     off of the coast of Virginia.
     '''
     with patch("nautical.io.web.urlopen") as get_patch:
-        get_patch.return_value = create_good_response()
+        get_patch.return_value = create_good_response("ValidBuoy.html")
         url = get_noaa_forecast_url(44099)
         soup = get_url_source(url)
         assert isinstance(soup, BeautifulSoup)
@@ -507,3 +509,34 @@ Some Random Bad Data"""
             values[k] = v
         
     assert not values
+
+
+def test_valid_create_buoy():
+    '''Create a valid buoy workup from the webpage data that was pulled
+    for a specific known valid buoy
+    '''
+    with patch("nautical.io.web.urlopen") as get_patch:
+        get_patch.return_value = create_good_response("ValidBuoy.html")
+        assert create_buoy("valid-buoy") is not None
+
+        
+def test_invalid_create_buoy_none_type():
+    '''When a none type value is provided then
+    the buoy cannot be created
+    '''
+    invalid_value = None
+    
+    assert create_buoy(invalid_value) is None
+    
+
+def test_invalid_create_buoy():
+    '''The validity of a buoy is determined by whether or not
+    the web scraper could pull/parse data from the tables in the
+    webpage representing the buoy data. This test provides data 
+    that cannot be parsed - No Recent Values
+    '''
+    # Do NOT get confused as the response is good, a valid page is
+    # used, but the data on the page cannot be parsed
+    with patch("nautical.io.web.urlopen") as get_patch:
+        get_patch.return_value = create_good_response("InvalidBuoy.html")
+        assert create_buoy("invalid-buoy") is None

@@ -1,0 +1,583 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" class="dj_gecko dj_ff91 dj_contentbox" lang="en"><head>
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="DC.title" content="NDBC Station Page">
+<meta name="DC.description" content="National Data Buoy Center - Recent observations from buoy 13009 (8.000N 38.000W) - Lambada.">
+<meta name="description" content="National Data Buoy Center - Recent observations from buoy 13009 (8.000N 38.000W) - Lambada.">
+<meta name="DC.subject" content="weather, buoy, weather buoy, marine, forecast, hurricane, wind, wave, offshore, surfing, temperature, meteorology, climate, ocean">
+<meta name="DC.creator" content="US Department of Commerce, National Oceanic and Atmospheric Administration, National Weather Service, National Data Buoy Center">
+<meta name="DC.language" scheme="DCTERMS.RFC1766" content="EN-US">
+<meta name="DC.format" content="text/html;charset=iso-8859-1">
+<meta name="DC.date.created" scheme="ISO8601" content="1996-11-08">
+<meta http-equiv="Refresh" content="900">
+<title>NDBC - Station 13009 Recent Data</title>
+
+<link rel="canonical" href="http://www.ndbc.noaa.gov/station_page.php?station=13009">
+<link rel="alternate" type="application/rss+xml" title="NDBC - Station Observations near 8.000N 38.000W" href="https://www.ndbc.noaa.gov/rss/ndbc_obs_search.php?lat=8.000N&amp;lon=38.000W">
+<link rel="stylesheet" href="InvalidBuoy_files/ndbc2017a.css" type="text/css">
+
+  <link rel="stylesheet" href="InvalidBuoy_files/claro.css" type="text/css">
+  <link rel="stylesheet" href="InvalidBuoy_files/esri.css" type="text/css">
+  <style type="text/css">
+	#stnmap {
+      height:175px;
+      width:250px;
+      border:1px solid #ccc;
+      margin:2px 0px;
+	  text-align:left;
+    }
+	.esriSimpleSlider div {
+	    width: 18px;
+    	height: 18px;
+    	font-size: 12px;
+    	font-family: verdana,helvetica;
+    	font-weight: bold;
+    	text-align: center;
+    	line-height: 18px;
+    	-moz-user-select: none;
+    	cursor: pointer;
+	}
+	.esriSimpleSliderTL {
+	    top: 10px;
+    	left: 10px;
+	}
+  </style>
+  <script async="" src="InvalidBuoy_files/analytics.js"></script><script type="text/javascript" charset="utf-8" src="InvalidBuoy_files/jsapi_en-us.js"></script><script type="text/javascript" charset="utf-8" src="InvalidBuoy_files/svg.js"></script><script type="text/javascript" charset="utf-8" src="InvalidBuoy_files/cookie.js"></script><script type="text/javascript" charset="utf-8" src="InvalidBuoy_files/filters.js"></script><script type="text/javascript" charset="utf-8" src="InvalidBuoy_files/svgext.js"></script><script src="InvalidBuoy_files/a.js" type="text/javascript"></script>
+  <script type="text/javascript"><!--
+//<![CDATA[
+  	var currentstnid = '';
+  	var currentstnlat = 8;
+  	var currentstnlng = -38;
+  	var currentstnname = '';
+  	var currentstndata = 'n';
+    require([
+			"esri/map", 
+			"dojo/dom", 
+			"dojo/on", 
+			"dojo/dom-class", 
+			"dijit/TooltipDialog",
+			"dijit/popup",
+			"esri/config",
+			"esri/graphic",
+			"esri/lang",
+			"esri/layers/FeatureLayer",
+			"esri/layers/ArcGISTiledMapServiceLayer",
+			"esri/geometry/Point",
+			"esri/request",
+			"dojo/dom-style",
+			"dojo/_base/array",
+			"dojo/cookie",
+			"dojo/has",
+			"dojo/domReady!"], 
+			function(Map,dom,on,domClass,TooltipDialog,dijitPopup,Config,Graphic,esriLang,FeatureLayer,ArcGISTiledMapServiceLayer,Point,esriRequest,domStyle,array,cookie,has) {
+    	var touchscreen = false;
+    	if (has("touch")) { touchscreen = true; }
+    	Config.defaults.map.slider = { left:"10px", top:"10px" };
+        dom.byId("stnmap").innerHTML = '';
+    	map = new Map("stnmap", {
+    		center: [currentstnlng, currentstnlat],
+    		zoom: 8,
+    		minZoom: 5,
+    		sliderStyle: "small"
+    	});
+    	var currentBasemap = [];
+    	var topoBasemap = new ArcGISTiledMapServiceLayer("https://server.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer?appid=1ad64ec9-3608-40af-b061-2def30eb7a31");
+	    var streetsBasemap = new ArcGISTiledMapServiceLayer("https://server.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer?appid=1ad64ec9-3608-40af-b061-2def30eb7a31");
+		var satelliteBasemap = new ArcGISTiledMapServiceLayer("https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer?appid=1ad64ec9-3608-40af-b061-2def30eb7a31");
+		var oceanBasemap = new ArcGISTiledMapServiceLayer("https://server.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Base/MapServer?appid=1ad64ec9-3608-40af-b061-2def30eb7a31");
+		//The following associative array allows you to map the dropdown values with an object reference to the tiled service layers created above
+		var bmList = ({
+    		  "topo": topoBasemap,
+    		  "satellite": satelliteBasemap,
+    		  "streets": streetsBasemap,
+    		  "oceans": oceanBasemap
+    		  });
+		var mt = cookie('maptype');
+		var layer = null;
+		for (var x in bmList) {
+			if (x === mt) {changeLayer(bmList[x],x); layer = mt; break;}
+		}
+		if (layer == null) {
+			changeLayer(topoBasemap,'oceans');
+		}
+
+		function setSelectedValue(selectObj, valueToSet) {
+		    for (var i = 0; i < selectObj.options.length; i++) {
+		        if (selectObj.options[i].value== valueToSet) {
+		            selectObj.options[i].selected = true;
+		            return;
+		        }
+		    }
+		}
+		
+        function changeLayer(layerChosen,layerName) {
+        	setSelectedValue(dom.byId("basemap-selected"),layerName);
+        	var satellite_ref_layer = "";
+			var ocean_ref_layer = "";
+    	     if (currentBasemap.length > 0) { map.removeLayer(currentBasemap[0]) }
+    	     currentBasemap.length = 0;
+    	     currentBasemap.push(layerChosen)
+    	     map.addLayer(layerChosen)
+    	     if(layerName == "satellite") {
+    	    	 satellite_ref_layer = new ArcGISTiledMapServiceLayer("https://server.arcgisonline.com/arcgis/rest/services/Reference/World_Boundaries_and_Places/MapServer?appid=1ad64ec9-3608-40af-b061-2def30eb7a31");
+    	    	 map.addLayer(satellite_ref_layer);
+    	     }
+    	     if(layerName == "oceans") {
+    	    	 ocean_ref_layer = new ArcGISTiledMapServiceLayer("https://server.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Reference/MapServer?appid=1ad64ec9-3608-40af-b061-2def30eb7a31");
+    	    	 map.addLayer(ocean_ref_layer);
+    	   	 }
+    	     cookie("maptype", layerName, { expires: 30, path: '/' });
+		}
+
+        var bmselect = dom.byId("basemap-selected");
+		on(bmselect,'change',function(evt){
+			var newBasemap = evt.target.options[evt.target.selectedIndex].value;
+			if (newBasemap === "none" || newBasemap == null) {
+				changeLayer(oceanBasemap,'oceans')
+			} else {
+		    	  //Find the selected basemap in the array above and use the associated object to add the selected theme layer to the map
+		    	  for (var x in bmList) {
+		    		  if (x === newBasemap) {
+		    			  changeLayer(bmList[x],x)
+		    		  }
+		    	  }
+		      }      
+		});
+		var featureCollection = {
+  				"layerDefinition": null,
+  					"featureSet": {
+    					"features": [],
+    					"geometryType": "esriGeometryPoint"
+  					}
+					};
+					featureCollection.layerDefinition = {
+  					"geometryType": "esriGeometryPoint",
+  					"objectIdField": "ObjectID",
+  					"drawingInfo": {
+    					"renderer": {
+    						"type": "uniqueValue",
+  							"field1": "data",
+  							"field2": "current",
+  							"fieldDelimiter": ":",
+  							"defaultSymbol": {
+  								"type" : "esriSMS",
+									"style" : "esriSMSDiamond",
+									"color" : [ 222, 222, 222, 255 ],
+									"size" : 11,
+									"outline": {
+						        		"color": [30,30,30,255],
+        								"width": 1,
+       									"type": "esriSLS",
+        								"style": "esriSLSSolid"
+								 	}
+      						},
+      						"uniqueValueInfos": [{
+    							"value": "y:y",
+    							"symbol": {
+ 									"type" : "esriSMS",
+									"style" : "esriSMSDiamond",
+									"color" : [ 255, 255, 0, 255 ],
+									"size" : 17,
+									"outline": {
+						        		"color": [30,30,30,255],
+	       								"width": 1,
+	     								"type": "esriSLS",
+	       								"style": "esriSLSSolid"
+								 	}
+    	  						}
+							}, {
+    							"value": "n:y",
+    							"symbol": {
+ 									"type" : "esriSMS",
+									"style" : "esriSMSDiamond",
+									"color" : [ 255, 0, 0, 255 ],
+									"size" : 17,
+									"outline": {
+						        		"color": [30,30,30,255],
+	       								"width": 1,
+	     								"type": "esriSLS",
+	       								"style": "esriSLSSolid"
+									}
+								 }
+							},{
+    							"value": "y:n",
+    							"symbol": {
+ 									"type" : "esriSMS",
+									"style" : "esriSMSDiamond",
+									"color" : [ 255, 255, 0, 255 ],
+									"size" : 11,
+									"outline": {
+						        		"color": [30,30,30,255],
+	       								"width": 1,
+	     								"type": "esriSLS",
+	       								"style": "esriSLSSolid"
+								 	}
+    	  						}
+							}, {
+    							"value": "n:n",
+    							"symbol": {
+ 									"type" : "esriSMS",
+									"style" : "esriSMSDiamond",
+									"color" : [ 255, 0, 0, 255 ],
+									"size" : 11,
+									"outline": {
+						        		"color": [30,30,30,255],
+	       								"width": 1,
+	     								"type": "esriSLS",
+	       								"style": "esriSLSSolid"
+									}
+								 }
+							}
+    				]}},
+  					"fields": [{
+      					"name": "ObjectID",
+      					"alias": "ObjectID",
+      					"type": "esriFieldTypeOID"
+    					}, {
+      					"name": "id",
+      					"alias": "id",
+      					"type": "esriFieldTypeString"
+    					}, {
+      					"name": "name",
+      					"alias": "name",
+      					"type": "esriFieldTypeString"
+    					}, {
+      					"name": "data",
+      					"alias": "data",
+      					"type": "esriFieldTypeString"
+    					}, {
+          				"name": "current",
+          				"alias": "current",
+          				"type": "esriFieldTypeString"
+    					}, {
+    						"name": "seq",
+    						"alias": "seq",
+    						"type": "esriFieldTypeInteger"
+    					}
+  					]
+					};
+					var featureLayer = new FeatureLayer(featureCollection, {
+  					id: 'myFeatureLayer',
+  					mode: FeatureLayer.MODE_SNAPSHOT
+					});
+					 map.on("layers-add-result", function(results) {
+          	requestStations();
+        	});
+					map.addLayers([featureLayer]);	
+
+          dialog = new TooltipDialog({
+						id: "tooltipDialog",
+						style: "position: absolute; width: 250px; font: normal normal normal 10pt Helvetica;z-index:100"
+					});
+					dialog.startup();
+          map.on("load", function(){
+	          map.graphics.enableMouseEvents();
+	        });
+          
+          if (!touchscreen) {
+	       	  featureLayer.on("mouse-over", function(evt){
+	        	  if (evt.graphic.attributes.id != currentstnid) { map.setMapCursor('pointer'); }
+	        	  var t = "<b>Station ${id}<\/b> - ${name}";
+	        	  var content = esriLang.substitute(evt.graphic.attributes,t);
+	        	  dialog.setContent(content);
+	        	  domStyle.set(dialog.domNode, "opacity", 0.85);
+	        	  dijitPopup.open({
+	        		  popup: dialog, 
+	        		  x: evt.pageX,
+	        		  y: evt.pageY
+	        	  });
+	          });
+			featureLayer.on("mouse-out",function(evt) {
+				closeDialog();
+				map.setMapCursor('default');
+			});
+          }
+				
+	featureLayer.on("click",function(evt) {
+		if (evt.graphic.attributes.seq == null) {
+			if (evt.graphic.attributes.id == currentstnid) { return; }
+			location.href = "/station_page.php?station="+evt.graphic.attributes.id.toLowerCase();
+		} else {
+			location.href = "http://tao.ndbc.noaa.gov/refreshed/site.php?site="+evt.graphic.attributes.seq;
+		}
+	});
+					
+        function closeDialog() {
+	          map.graphics.clear();
+  	        dijitPopup.close(dialog);
+   	    }
+
+		function requestStations() {
+    			var stations = esriRequest({
+        			url: "/ndbcmapstations.json",
+        			handleAs: "json"
+      			});
+     		stations.then(requestSucceeded, requestFailed);
+      	}
+
+		function requestSucceeded(response, io){
+			var features = [];
+			var cs = currentstnid.toLowerCase();
+			array.forEach(response.station, function(stn) {
+				if (stn.status == 'E') {
+					var attr = {};
+					attr["id"] = stn.id.toUpperCase();
+					attr["name"] = stn.name;
+					attr["data"] = stn.data;
+					attr["seq"] = parseInt(stn.seq);
+					if (isNaN(attr["seq"])) { attr["seq"] = null; }
+					var geometry = new Point(stn.lon, stn.lat);
+					var graphic = new Graphic(geometry);
+					graphic.setAttributes(attr);
+					features.push(graphic);
+					if (stn.id == cs) {
+						attr["current"] = 'y';
+						if (stn.lat != currentstnlat && stn.lon != currentstnlng) {
+							map.centerAt(geometry);
+						}
+						cs = null;
+					} else {
+						attr["current"] = 'n';
+					}
+				}
+			});
+			if (cs != null) { // If current station not in JSON, add it to map.
+				var attr = {};
+				attr["id"] = currentstnid.toUpperCase();
+				attr["name"] = currentstnname;
+				attr["data"] = currentstndata;
+				attr["seq"] = null;  // Not called for TAO stations.
+				attr["current"] = 'y';
+				var geometry = new Point(currentstnlng, currentstnlat);
+				var graphic = new Graphic(geometry);
+				graphic.setAttributes(attr);
+				features.push(graphic);
+			}
+			featureLayer.applyEdits(features, null, null);
+		}
+
+		function requestFailed(error, io){
+			alert("Unable to load map data at this time!");
+		}
+      
+	});
+//]]>
+//-->
+</script>
+</head>
+<!-- Start Top Navbar -->
+<body class="claro">
+
+<div id="topnav" class="noprint">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tbody><tr><td>
+<table style="background-image:url(/images/nws/topbanner.jpg)" width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tbody><tr>
+	<td height="19" align="right"><a href="#contents"><img src="InvalidBuoy_files/skipgraphic.gif" alt="Skip Navigation Links" width="1" height="1" border="0"></a> <a href="https://www.weather.gov/"><span class="nwslink">weather.gov</span></a>&nbsp;</td>
+	</tr>
+</tbody></table>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tbody><tr>
+		<td><a href="https://www.noaa.gov/"><img src="InvalidBuoy_files/noaaleft.jpg" alt="NOAA logo-Select to go to the NOAA homepage" width="85" height="78" border="0"></a></td>
+		<td width="500" nowrap="nowrap" height="78" align="center"><img src="InvalidBuoy_files/ndbc_title.jpg" alt="NDBC Title Graphic" usemap="#NDBCLinkMap" width="500" height="78" border="0"><map id="NDBCLinkMap" name="NDBCLinkMap"><area shape="rect" coords="62,20,452,56" href="https://www.ndbc.noaa.gov/" alt="Click to go to NDBC home page"></map></td>
+		<td style="background-image:url(/images/nws/wfo_bkgrnd.jpg)" width="100%">&nbsp;</td>
+		<td align="right"><a href="https://www.weather.gov/"><img src="InvalidBuoy_files/nwsright.jpg" alt="Select to go to the NWS homepage" width="85" height="78" border="0"></a></td>
+	</tr>
+</tbody></table>
+
+<table style="background-image:url(/images/nws/navbkgrnd.gif)" width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tbody><tr>
+		<td width="94" valign="top" align="left"><img src="InvalidBuoy_files/navbarleft.jpg" alt="" width="94" height="23" border="0"></td>
+		<td width="15%" nowrap="nowrap" align="center"><a href="https://www.ndbc.noaa.gov/" class="nav">Home</a></td>
+		<td width="15%" align="center"><a href="https://www.ndbc.noaa.gov/ndbc.shtml" class="nav">About Us</a></td>
+		<td width="15%" align="center"><a href="https://www.ndbc.noaa.gov/contact_us.shtml" class="nav">Contact Us</a></td>
+		<td class="searchinput" width="40%" nowrap="nowrap" align="right"><form method="get" action="https://search.usa.gov/search" style="margin-bottom:0; margin-top:0;">
+			<label for="Search" class="yellow">Search&nbsp;</label>
+			<input type="hidden" name="affiliate" value="ndbc.noaa.gov">
+			<input type="hidden" name="v:project" value="firstgov">
+			<input type="text" name="query" value="NDBC Web Site" onclick="this.value='';return(true);" size="20" maxlength="256" id="Search">
+			<input type="submit" value="Search">
+		</form></td>
+		<td width="10%">&nbsp;</td>
+		<td width="24" valign="bottom" align="right"><img src="InvalidBuoy_files/navbarendcap.jpg" alt="" width="24" height="23" border="0"></td>
+	</tr>
+</tbody></table>
+</td></tr></tbody></table>
+</div>
+<!-- End Top Navbar -->
+
+
+<!-- Start Side Navbar -->
+
+<div id="contentdiv">
+<table id="contenttable" width="700" cellspacing="0" cellpadding="0" border="0">
+	<tbody><tr valign="top">
+	<td id="sidenav" class="noprint" style="margin-top:5px" width="150" valign="top" nowrap="nowrap" bgcolor="#0a2390" align="left">
+			<form id="station_form" method="get" action="/station_page.php" style="margin-bottom:0">
+			&nbsp;<span class="yellow"><label for="station">Station ID Search</label></span><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<span class="searchinput"><input name="station" id="station" size="8" maxlength="7">
+			<input type="submit" value="Go"></span></form>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/to_station.shtml" title="View a list of available stations ordered by owner" class="nav">Station List</a><br><br>
+
+			&nbsp;<span class="yellow">Data Access</span><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/mobile/" title="Access latest marine observations on your mobile device" class="nav">Mobile Access</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<span class="yellow">Interactive Maps</span><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/obs.shtml" class="nav">All Stations</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/obs.shtml?lat=13&amp;lon=-173&amp;zoom=2&amp;pgm=tsunami" title="Deep Ocean Assessment and Reporting of Tsunamis" class="nav">DART®</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/os.shtml" title="Get a tabular list of recent marine observations near a specific location" class="nav">Obs Search</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/ship_obs.php" title="View a list of recent marine observations from ships" class="nav">Ship Obs Report</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/buoycams.shtml" title="BuoyCAMs" class="nav">BuoyCAMs</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://tao.ndbc.noaa.gov/" title="Tropical Atmosphere Ocean" class="nav">TAO</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://dods.ndbc.noaa.gov/" title="NDBC DODS Server" class="nav">DODS</a><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://dods.ndbc.noaa.gov/oceansites/" title="NDBC OceanSITES GDAC" class="nav">OceanSITES</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://hfradar.ndbc.noaa.gov/" title="View ocean surface currents measured by High Frequency Radar" class="nav">HF Radar</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://osmc.noaa.gov/Monitor/OSMC/OSMC.html" title="Observing System Monitoring Center (OSMC)" class="nav">OSMC</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/dial.shtml" title="Listen to latest marine observations on your phone" class="nav">Dial-A-Buoy</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/rss_access.shtml" title="Latest marine observations via RSS Feeds" class="nav">RSS Feeds <img src="InvalidBuoy_files/feed-icon-14x14.png" alt="Image indicating link to RSS feed access page" width="14" height="14" border="0"></a><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/widgets/" title="Add latest marine observations for a given station to your web site" class="nav">Web Widget</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/docs/ndbc_web_data_guide.pdf" title="How to access data on the NDBC web site" class="nav">Web Data Guide</a><br>
+
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/ops.shtml" title="Maintenance schedule for NDBC stations" class="nav">Maintenance Schedule</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/wstat.shtml" title="Status report for NDBC Stations" class="nav">Station Status Report</a><br><br>
+
+			&nbsp;<span class="yellow">Program Info</span><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://tao.ndbc.noaa.gov/proj_overview/proj_overview_ndbc.shtml" title="Tropical Atmosphere Ocean" class="nav">TAO</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/dart/dart.shtml" title="Deep Ocean Assessment and Reporting of Tsunamis" class="nav">DART®</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://ioos.noaa.gov/" title="Integrated Ocean Observing System (IOOS®)" class="nav">IOOS®</a><br><br>
+
+			&nbsp;<span class="yellow">Publications</span><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/pea/ndbc_final_pea_20180104.pdf" title="NDBC Final Programmatic Environmental Assessment" class="nav">NDBC PEA</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/pea/ndbc_fonsi_signed_20180102.pdf" title="NDBC Finding of No Significant Impact" class="nav">NDBC FONSI</a><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ndbc.noaa.gov/NDBCHandbookofAutomatedDataQualityControl2009.pdf" title="Handbook of Automated Data Quality Control Checks and Procedures" class="nav">NDBC DQC Handbook</a><br>
+			<br>
+
+			&nbsp;<span class="yellow"><a href="https://www.ndbc.noaa.gov/visitorinfo.shtml" class="nav">Visitor Information</a></span><br>
+			&nbsp;<br>
+			<a href="https://www.usa.gov/"><img src="InvalidBuoy_files/usagov_logo.gif" title="USA.gov is the U.S. government's official web portal to all federal, state and local government web resources and services" alt="USA.gov is the U.S. government's official web portal to all federal, state and local government web resources and services." width="110" vspace="3" hspace="3" height="30" border="0"></a><br>
+		</td>
+		<td id="contentarea" width="560" valign="top"><a name="contents"></a>
+	<div id="notices" class="noprint">
+		<!-- Put notices here -->
+        </div>
+		
+                <h1 style="text-align:center; margin:3px;">Station 13009  - Lambada</h1>
+                
+
+<!-- End Side Navbar -->
+
+
+<table width="650" cellspacing="0" cellpadding="2" border="0">
+<tbody><tr>
+	<td>
+		<div id="stn_metadata">
+		<p><b>Owned and maintained by the <a href="http://www.pmel.noaa.gov/pirata/"> PIRATA</a>Prediction and Research Moored Array in the Atlantic</b><br>
+		<b>Atlas Buoy</b><br>
+		<b>8.000 N 38.000 W (8°0'0" N 38°0'0" W)</b><br>
+		<br>
+		<b>Site elevation:</b> sea level<br>
+		<b>Air temp height:</b> 3 m above site elevation<br>
+		<b>Anemometer height:</b> 4 m above site elevation<br>
+		<b>Barometer elevation:</b> 3 m above mean sea level<br>
+		</p>
+		<p><a href="https://www.ndbc.noaa.gov/radial_search.php?lat1=8.000N&amp;lon1=38.000W&amp;uom=E&amp;dist=250">Meteorological Observations from Nearby Stations and Ships</a>
+		<a href="https://www.ndbc.noaa.gov/rss/ndbc_obs_search.php?lat=8.000N&amp;lon=38.000W" title="RSS feed of recent meteorological observations near station 13009">
+			<img src="InvalidBuoy_files/feed-icon-14x14.png" alt="Image indicating link to RSS feed of recent meteorological observations near station 13009" width="14" height="14" border="0">
+		</a></p>
+		</div>
+		<div id="stn_img_map">
+				<a href="https://www.ndbc.noaa.gov/images/stations/13009.jpg"><img src="InvalidBuoy_files/13009_mini.jpg" alt="Station 13009" border="0"></a>
+	<div id="stnmapcontainer">
+  <div id="switch-basemap-container">
+    <div id="basemap-selection-form" title="Choose a Basemap">
+        <label for="basemap-selected">Map Type: </label>
+     	<select name="basemap-selected" id="basemap-selected" title="Basemap Dropdown Menu">
+        <option value="none">Select Basemap</option>
+       	<option value="oceans" selected="selected">Oceans</option>
+       	<option value="satellite">Satellite</option>
+       	<option value="streets">Streets</option>
+       	<option value="topo">Topographic</option>
+     	</select>
+   	</div>
+  </div>
+  <div id="stnmap" class="map" data-zoom="8" data-scale="2311162.217155" data-loaded=""><div id="stnmap_root" style="width: 250px; height: 175px; direction: ltr;" class="esriMapContainer"><div id="stnmap_container" style="position: absolute; cursor: default; user-select: none; clip: auto;" class="esriMapContainer"><div id="stnmap_layers" class="esriMapLayers"><div style="position: absolute; width: 250px; height: 175px; overflow: visible; transform: translate3d(0px, 0px, 0px); display: block;" id="stnmap_layer0"><div style="position: absolute; width: 250px; height: 175px; overflow: visible; transition: transform 500ms ease 0s;"><img id="stnmap_layer0_tile_8_0_0" alt="" class="layerTile" style="width: 256px; height: 256px; visibility: inherit; transform: translate3d(-125px, -243px, 0px);" src="InvalidBuoy_files/100_002.jpg"><img id="stnmap_layer0_tile_8_1_0" alt="" class="layerTile" style="width: 256px; height: 256px; visibility: inherit; transform: translate3d(-125px, 13px, 0px);" src="InvalidBuoy_files/100.jpg"><img id="stnmap_layer0_tile_8_0_1" alt="" class="layerTile" style="width: 256px; height: 256px; visibility: inherit; transform: translate3d(131px, -243px, 0px);" src="InvalidBuoy_files/101_002.jpg"><img id="stnmap_layer0_tile_8_1_1" alt="" class="layerTile" style="width: 256px; height: 256px; visibility: inherit; transform: translate3d(131px, 13px, 0px);" src="InvalidBuoy_files/101.jpg"></div></div><div style="position: absolute; width: 250px; height: 175px; overflow: visible; transform: translate3d(0px, 0px, 0px); display: block;" id="stnmap_layer1"><div style="position: absolute; width: 250px; height: 175px; overflow: visible; transition: transform 500ms ease 0s;"><img id="stnmap_layer1_tile_8_0_0" alt="" class="layerTile" style="width: 256px; height: 256px; visibility: inherit; transform: translate3d(-125px, -243px, 0px);" src="InvalidBuoy_files/100.png"><img id="stnmap_layer1_tile_8_1_0" alt="" class="layerTile" style="width: 256px; height: 256px; visibility: inherit; transform: translate3d(-125px, 13px, 0px);" src="InvalidBuoy_files/100_002.png"><img id="stnmap_layer1_tile_8_0_1" alt="" class="layerTile" style="width: 256px; height: 256px; visibility: inherit; transform: translate3d(131px, -243px, 0px);" src="InvalidBuoy_files/101_002.png"><img id="stnmap_layer1_tile_8_1_1" alt="" class="layerTile" style="width: 256px; height: 256px; visibility: inherit; transform: translate3d(131px, 13px, 0px);" src="InvalidBuoy_files/101.png"></div></div><svg overflow="hidden" width="250" height="175" style="touch-action: none; overflow: visible; position: absolute;" id="stnmap_gc"><g id="myFeatureLayer_layer" data-geometry-type="point" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000)" style="display: block;"><g></g><path fill="rgb(255, 0, 0)" fill-opacity="1" stroke="rgb(30, 30, 30)" stroke-opacity="1" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" path="M 125,80 132,87 125,94 118,87 Z" d="M 125 80 132 87 125 94 118 87Z" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000)" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid"></path><path fill="rgb(255, 0, 0)" fill-opacity="1" stroke="rgb(30, 30, 30)" stroke-opacity="1" stroke-width="1.3333333333333333" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" path="M 125,76 136,87 125,98 114,87 Z" d="M 125 76 136 87 125 98 114 87Z" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000)" fill-rule="evenodd" stroke-dasharray="none" dojoGfxStrokeStyle="solid"></path></g><defs></defs><g id="stnmap_graphics_layer" transform="matrix(1.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000)" style="display: block;"><g></g></g></svg></div></div><div class="esriControlsBR"><span class="esriAttribution" style="max-width: 112px; cursor: pointer;" tabindex="0"><span class="esriAttributionList"><span class="esriAttributionItem" style="display: inline;">Esri, GEBCO, IHO-IOC GEBCO, DeLorme, NGS<span class="esriAttributionDelim"> | </span></span><span class="esriAttributionLastItem" style="display: inline;">Esri, GEBCO, DeLorme, NaturalVue<span class="esriAttributionDelim"> | </span></span></span></span><div tabindex="0" title="Esri" class="logo-sm"></div></div><div class="esriPopup esriPopupHidden" style="z-index: 40;"><div class="esriPopupWrapper" style="position: absolute;"><div class="sizer"><div class="titlePane"><div class="spinner hidden" title="Searching..."></div><div class="title"></div><div class="titleButton prev hidden" title="Previous feature"></div><div class="titleButton next hidden" title="Next feature"></div><div class="titleButton maximize" title="Maximize"></div><div class="titleButton close" title="Close"></div></div></div><div class="sizer content"><div class="contentPane"></div></div><div class="sizer"><div class="actionsPane"><div class="actionList hidden"><a title="Zoom to" class="action zoomTo" href="javascript:void(0);"><span>Zoom to</span></a></div></div></div><div class="pointer hidden"></div></div><div class="outerPointer hidden"></div></div><div id="stnmap_zoom_slider" class="esriSimpleSlider esriSimpleSliderVertical esriSimpleSliderTL" style="z-index: 30;"><div class="esriSimpleSliderIncrementButton" tabindex="0" role="button" title="Zoom In"><span aria-hidden="true" role="presentation">+</span><span class="esriIconFallbackText">Zoom In</span></div><div class="esriSimpleSliderDecrementButton" tabindex="0" role="button" title="Zoom Out"><span aria-hidden="true" role="presentation">&#8722;</span><span class="esriIconFallbackText">Zoom Out</span></div></div></div></div>
+  <div id="ndbcmapfooter">
+	<div id="ndbcmaplegend" style="text-align:left;margin:0;background-color:white;color:black;float:left;width:80%;">
+      Large icon indicates selected station.<br>
+      <img src="InvalidBuoy_files/tiny_active_marker.png" alt="yellow diamond" style="vertical-align:middle;" width="11" height="11"> Stations with recent data<br>
+      <img src="InvalidBuoy_files/tiny_inactive_marker.png" alt="red diamond" style="vertical-align:middle;" width="11" height="11"> Stations with no data in last 8 hours<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(24 hours for tsunami stations)
+    </div>
+    <div id="ndbcmapnwslinks" style="text-align:left;margin:0;background-color:white;color:black;float:right;width:20%;">
+      <a href="https://www.weather.gov/disclaimer#esri" target="_blank" rel="noopener" onclick="window.open('https://www.weather.gov/disclaimer#esri','_blank','width=750,height=550,top=0,left=0,menubar=yes,toolbar=yes,scrollbars=yes');return false">Disclaimer</a><br>
+      <!--<a href="javascript:alert('Reserved for future KML option');">Download in KML/KMZ</a>-->
+    </div>
+  </div>
+</div>
+	</div>
+</td></tr></tbody></table>
+<br style="clear:both;"><div id="data" data-nosnippet="">
+<hr width="100%" size="1"><h3>No Recent Reports</h3>
+</div>
+<hr width="100%" size="1">
+<p>Links which are specific to this station are listed below:</p>
+<ul>
+	<li><p>Data for last 45 days:<em> No data available.</em></p></li>
+</ul>
+<ul><li><b> <a href="https://www.ndbc.noaa.gov/historical_data.shtml">Historical data</a></b> (<i><a href="https://www.ndbc.noaa.gov/measdes.shtml">data descriptions</a></i>)</li><li><a href="https://www.ndbc.noaa.gov/histsearch.php?station=13009"><b>Search historical meteorological data for observations that meet your threshold conditions</b></a></li>
+</ul>
+<p>Some data files have been compressed with the GNU gzip program.</p><!-- Start Tail -->
+
+		<div id="footer" class="noprint" style="clear:both;">
+			<hr width="100%" size="1" noshade="noshade">
+				<div id="footer-flexbox" class="footer-flexbox" width="100%">
+					<a class="socialMediaLink" href="https://www.ndbc.noaa.gov/ndbcexit.php?url=https://www.facebook.com/NWSNDBC&amp;blurb=NDBC%20on%20Facebook"><img src="InvalidBuoy_files/facebook_logo.png" class="socialMediaLogo" alt="Facebook Logo" title="NDBC on Facebook" width="21" height="21">&nbsp;NDBC on Facebook</a><br>
+					<a class="socialMediaLink" href="https://www.ndbc.noaa.gov/ndbcexit.php?url=https://www.linkedin.com/company/noaa&amp;blurb=NOAA%20on%20LinkedIn"><img src="InvalidBuoy_files/linkedin_logo.png" class="socialMediaLogo" alt="LinkedIn Logo" title="NDBC on LinkedIn" width="25" height="21">&nbsp;NOAA on LinkedIn</a><br>
+				</div>
+			<table width="100%" cellpadding="2" border="0">
+				<tbody><tr valign="top">
+					<td class="footertext" width="70%" align="left"><a href="https://www.commerce.gov/"><span class="footertext">U.S. Dept. of Commerce</span></a><br>
+					<a href="https://www.noaa.gov/"><span class="footertext">National Oceanic and Atmospheric Administration</span></a><br>
+					<a href="https://www.weather.gov/"><span class="footertext">National Weather Service</span></a><br>
+					National Data Buoy Center<br>
+					Bldg. 3205<br>
+					Stennis Space Center, MS 39529<br>
+					<a href="https://www.ndbc.noaa.gov/contact_us.shtml"><span class="footertext">Contact&nbsp;Us</span></a><br>
+					Page last modified: March 16, 2022</td>
+					<td width="15%" align="left">
+					<a href="https://www.weather.gov/disclaimer" target="_blank" rel="noopener" onclick="window.open('https://www.weather.gov/disclaimer','_blank','width=750,height=550,top=0,left=0,menubar=yes,toolbar=yes,scrollbars=yes');return false"><span class="footertext">Disclaimer</span></a><br>
+					<a href="https://www.cio.noaa.gov/services_programs/info_quality.html" target="_blank" rel="noopener" onclick="window.open('https://www.cio.noaa.gov/services_programs/info_quality.html','_blank','width=750,height=550,top=0,left=0,menubar=yes,toolbar=yes,scrollbars=yes');return false"><span class="footertext">Information&nbsp;Quality</span></a><br>
+					<a href="https://www.weather.gov/glossary" target="_blank" rel="noopener" onclick="window.open('https://www.weather.gov/glossary','_blank','width=750,height=550,top=0,left=0,menubar=yes,toolbar=yes,scrollbars=yes');return false"><span class="footertext">Glossary</span></a></td>
+					<td width="15%" align="left">
+					<a href="https://www.weather.gov/privacy" target="_blank" rel="noopener" onclick="window.open('https://www.weather.gov/privacy','_blank','width=750,height=550,top=0,left=0,menubar=yes,toolbar=yes,scrollbars=yes');return false"><span class="footertext">Privacy Policy</span></a><br>
+					<a href="https://www.noaa.gov/foia-freedom-of-information-act" target="_blank" rel="noopener" onclick="window.open('https://www.noaa.gov/foia-freedom-of-information-act','_blank','width=750,height=550,top=0,left=0,menubar=yes,toolbar=yes,scrollbars=yes');return false"><span class="footertext">Freedom&nbsp;of&nbsp;Information</span></a><br>
+					<a href="https://www.ndbc.noaa.gov/ndbc.shtml"><span class="footertext">About Us</span></a><br>
+					<a href="https://www.weather.gov/careers" target="_blank" rel="noopener" onclick="window.open('https://www.weather.gov/careers','_blank','width=750,height=550,top=0,left=0,menubar=yes,toolbar=yes,scrollbars=yes');return false"><span class="footertext">Career&nbsp;Opportunities</span></a></td>
+				</tr>
+			</tbody></table>
+		</div>
+		</td>
+	</tr>
+</tbody></table>
+</div>
+<script id="_fed_an_ua_tag" type="text/javascript" src="InvalidBuoy_files/federated-analytics.js"></script>
+
+
+
+
+
+
+
+
+<div class="dijitPopup dijitTooltipDialogPopup" style="visibility: visible; top: 383px; left: 666px; right: auto; z-index: 1000; height: auto; overflow-y: visible; display: none;" role="region" aria-label="tooltipDialog" id="popup_6" dijitpopupparent=""><div role="alertdialog" tabindex="-1" class="dijitTooltipDialog dijitTooltipBelow dijitTooltipABLeft" id="tooltipDialog" style="width: 250px; font: 10pt Helvetica; z-index: 100; opacity: 0.85; top: 0px; visibility: visible;" widgetid="tooltipDialog">
+	<div class="dijitTooltipContainer" role="presentation">
+		<div data-dojo-attach-point="contentsNode" class="dijitTooltipContents dijitTooltipFocusNode">
+			<div data-dojo-attach-point="containerNode"><b>Station </b> - </div>
+			
+		</div>
+	</div>
+	<div class="dijitTooltipConnector" role="presentation" data-dojo-attach-point="connectorNode"></div>
+</div></div></body><!-- End Tail --></html>

@@ -26,6 +26,9 @@ def create_buoy(buoy):
     buoy_valid = get_current_data(soup, current_buoy_data, f"Conditions at {buoy}")
     buoy_valid |= get_current_data(soup, current_buoy_data, "Detailed Wave Summary")
 
+    if not buoy_valid:
+        return None
+    
     buoy_data = Buoy(buoy)
     buoy_data.valid = buoy_valid
     buoy_data.present = current_buoy_data
@@ -44,8 +47,14 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
     '''
     # keep track of the number of variables that were set, indicates validity
     buoy_variables_set = 0
-    
-    txt_search = soup.find(text=search)
+
+    try:
+        txt_search = soup.find(string=search)
+    except AttributeError as error:
+        log.debug(error)
+        # backwards compatible for old versions of bs4
+        txt_search = soup.find(text=search)
+        
     if not txt_search:
         return False
 
