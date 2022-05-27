@@ -1,4 +1,50 @@
+from enum import Enum
+from nautical.log import get_logger
 from .buoy import Buoy
+
+
+log = get_logger()
+
+
+class SourceType(Enum):
+
+    ALL = 0
+    INTERNATIONAL_PARTNERS = 1
+    IOOS_PARTNERS = 2
+    MARINE_METAR = 3
+    NDBC_METEOROLOGICAL_OCEAN = 4
+    NERRS = 5
+    NOS_CO_OPS = 6
+    SHIPS = 7
+    # unsupported types below
+    TAO = 8
+    TSUNAMI = 9
+
+    @classmethod
+    def as_strings(cls, source_type):
+        '''Get the string value based on the type of source
+
+        :param source_type: Type of source from the enumeration
+        :return: List of strings that match the source type
+        '''
+        if source_type in (cls.TAO, cls.TSUNAMI):
+            log.warning("Unsupported type: %s", source_type.name)
+        
+        source_as_string = {
+            cls.INTERNATIONAL_PARTNERS: "International Partners",
+            cls.IOOS_PARTNERS: "IOOS Partners",
+            cls.MARINE_METAR: "Marine METAR",
+            cls.NDBC_METEOROLOGICAL_OCEAN: "NDBC Meteorological/Ocean",
+            cls.NERRS: "NERRS",
+            cls.NOS_CO_OPS: "NOS/CO-OPS",
+            cls.SHIPS: "Ships",
+            cls.TAO: "TAO",
+            cls.TSUNAMI: "Tsunami"
+        }
+
+        if source_type == cls.ALL:
+            return list(source_as_string.values())
+        return source_as_string.get(source_type, None)
 
 
 class Source:
