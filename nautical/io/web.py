@@ -6,9 +6,6 @@ from nautical.log import get_logger
 
 log = get_logger()
 
-# The same format is used to find all stations online
-_STATION_LINK = "https://www.ndbc.noaa.gov/station_page.php?station={}"
-
 
 def get_noaa_forecast_url(buoy):
     '''NOAA is kind enough to post all of their data from their buoys at 
@@ -21,7 +18,7 @@ def get_noaa_forecast_url(buoy):
     :return: full url if buoy is not empty, otherwise None
     '''
     if buoy:
-        return _STATION_LINK.format(buoy)
+        return f"https://www.ndbc.noaa.gov/station_page.php?station={buoy}"
     log.warning("No buoy ID provided to get_noaa_forecast_url")
 
 

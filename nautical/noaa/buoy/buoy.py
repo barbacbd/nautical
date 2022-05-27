@@ -24,6 +24,9 @@ class Buoy:
         if location is not None:
             self.location = location
 
+        # is the instance data considered valid
+        self.valid = False
+
     @property
     def location(self):
         '''Location Property
