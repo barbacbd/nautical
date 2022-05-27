@@ -12,6 +12,43 @@ from nautical.noaa.buoy import Buoy, BuoyData
 from bs4 import BeautifulSoup
 from urllib.error import HTTPError
 import pytest
+from os.path import abspath, dirname, join
+from unittest.mock import Mock, patch
+
+
+class MockResponse:
+    '''Class to mock the behavior and results of the requests.get function
+    in the NCEI module of the Nautical library.
+    '''
+
+    def __init__(self, data, status_code):
+        '''Fill the class with the required data for a response
+        expected from the NCEI API.
+
+        :param data: String data from the request
+        :param status_code: Mock of the requests.get status_code
+        '''
+        self.data = data
+        self.code = status_code
+
+    def read(self):
+        '''Mock function for the requests.get.json return type
+        :return: data that was input 
+        '''
+        return self.data
+
+
+def create_good_response():
+    '''Create a mock response with good data'''
+    with open(join(abspath(dirname(__file__)), "GoodWebpage.html"), "r") as good_data:
+        mock_resp = MockResponse(good_data.read(), 200)
+
+    return mock_resp
+    
+def create_bad_response(data, code):
+    '''Create a mock response with bad data'''
+    mock_resp = MockResponse(data, code)
+    return mock_resp
 
 
 def test_beautiful_soup_good():
@@ -23,35 +60,41 @@ def test_beautiful_soup_good():
     If interested the 44099 buoy resides in the Chesapeake Bay
     off of the coast of Virginia.
     '''
-    url = get_noaa_forecast_url(44099)
-    soup = get_url_source(url)
-    assert isinstance(soup, BeautifulSoup)
+    with patch("nautical.io.web.urlopen") as get_patch:
+        get_patch.return_value = create_good_response()
+        url = get_noaa_forecast_url(44099)
+        soup = get_url_source(url)
+        assert isinstance(soup, BeautifulSoup)
 
-    
+
 def test_beautiful_soup_bad():
     '''Test that a buoy ID that has no meaning and no known
     matching buoy will not pass the lookup/creation.
     '''
-    with pytest.raises(HTTPError):
-        bad_url = get_noaa_forecast_url("afasdfasdjfna")
-        bad_soup = get_url_source(bad_url)
+    with patch("nautical.io.web.urlopen", side_effect=HTTPError("", 404, "", {}, "")) as get_patch:
+        get_patch.return_value = create_bad_response("", 404)
 
-        
+        with pytest.raises(HTTPError):
+            bad_url = get_noaa_forecast_url("afasdfasdjfna")
+            bad_soup = get_url_source(bad_url)
+
+
 def test_beautiful_soup_bad_empty_str_entry():
     '''Test that an empty buoy ID will not make a valid lookup request
     '''
-    with pytest.raises(AttributeError):
-        bad_url = get_noaa_forecast_url("")
-        # returns but causes bad_url
-        bad_soup = get_url_source(bad_url)
+    with patch("nautical.io.web.urlopen", side_effect=HTTPError("", 404, "", {}, "")) as get_patch:
+        get_patch.return_value = create_bad_response("", 404)
+
+        with pytest.raises(HTTPError):
+            bad_url = get_noaa_forecast_url("")
+            bad_soup = get_url_source(bad_url)
 
 
 def test_beautiful_soup_bad_empty_none_entry():
     '''Test that an empty buoy ID will not make a valid lookup request
     '''
-    with pytest.raises(TypeError):
-        bad_url = get_noaa_forecast_url()
-        bad_soup = get_url_source(bad_url)
+    with pytest.raises(AttributeError):
+        bad_soup = get_url_source(None)
 
     
 def test_forecast_url_good():
@@ -230,7 +273,7 @@ def test_cdata_lon_no_sign():
     data = "65.7N 13.6"
     parsed_data_dict = parse_location(data)
     assert "location" not in parsed_data_dict
-    
+
 
 def test_good_cdata_min_values():
     '''Create a minimum string of data to parse'''
@@ -464,5 +507,3 @@ Some Random Bad Data"""
             values[k] = v
         
     assert not values
-
-    

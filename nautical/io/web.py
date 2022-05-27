@@ -38,6 +38,6 @@ def get_url_source(url_name):
         open_url = urlopen(url_name)
         soup = BeautifulSoup(open_url.read(), features="lxml")
         return soup
-    except (ValueError, HTTPError) as error:
+    except (AttributeError, TypeError, ValueError, HTTPError) as error:
         log.error(error)
         raise

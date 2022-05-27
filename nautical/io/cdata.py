@@ -1,5 +1,3 @@
-from lxml import etree
-import xml.etree.ElementTree as ElementTree
 from nautical.time import NauticalTime, TimeFormat
 from nautical.log import get_logger
 from nautical.location import Point
@@ -57,9 +55,9 @@ def parse_location(location_data):
         }
         _data = data.lower()
 
-        for k, v in _lookup.items():
-            if k in _data:
-                return v[0], v[1], _data.replace(k, '')
+        for key, value in _lookup.items():
+            if key in _data:
+                return value[0], value[1], _data.replace(key, '')
         return None, 0.0, None
 
     location_dict = {}  # base/default return
@@ -68,23 +66,20 @@ def parse_location(location_data):
     latitude = None
     longitude = None
 
-    for sp in split_location:
-        ll, s, val = _describe(sp)
+    for loc_data in split_location:
+        ll_val, sign, val = _describe(loc_data)
 
         try:
             fval = float(val)
 
-            if ll == "latitude":
-                latitude = s * fval
-            elif ll == "longitude":
-                longitude = s * fval
+            if ll_val == "latitude":
+                latitude = sign * fval
+            elif ll_val == "longitude":
+                longitude = sign * fval
 
         except (ValueError, TypeError) as error:
             log.debug(error)
 
-    log.warning(f"Latitude = {latitude}")
-    log.warning(f"Longitude = {longitude}")
-    
     if None not in (latitude, longitude):
         location_dict["location"] = Point(latitude, longitude)
 
@@ -169,10 +164,10 @@ def parse_cdata(cdata):
     # data is separated by line breaks, cut there
     xml_data = cdata.split("<br />")
 
-    for xd in xml_data:
+    for xd_val in xml_data:
 
         # remove the tags
-        elements = [x for x in xd.strip().replace("<b>", "").split("</b>") if x]
+        elements = [x for x in xd_val.strip().replace("<b>", "").split("</b>") if x]
         # no elements found, don't bother searching
         if not elements:
             continue
