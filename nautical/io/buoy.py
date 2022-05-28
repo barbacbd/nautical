@@ -19,21 +19,32 @@ def create_buoy(buoy):
     if not buoy:
         return None
 
-    url = get_noaa_forecast_url(buoy)
+    buoy_data = Buoy(buoy)
+    fill_buoy(buoy_data)
+
+    if not buoy_data.valid:
+        return None
+    
+    return buoy_data
+
+
+def fill_buoy(buoy):
+    '''Pass in a Buoy object that needs to be filled in with the current data.
+    The buoy object will have the validity set if the results were successful
+
+    :param buoy: nautical.noaa.buoy.Buoy object
+    '''
+    url = get_noaa_forecast_url(buoy.station)
     soup = get_url_source(url)
 
     current_buoy_data = BuoyData()
-    buoy_valid = get_current_data(soup, current_buoy_data, f"Conditions at {buoy}")
-    buoy_valid |= get_current_data(soup, current_buoy_data, "Detailed Wave Summary")
-
-    if not buoy_valid:
-        return None
-    
-    buoy_data = Buoy(buoy)
-    buoy_data.valid = buoy_valid
-    buoy_data.present = current_buoy_data
-
-    return buoy_data
+    buoy_valid = get_current_data(
+        soup,
+        current_buoy_data,
+        [f"Conditions at {buoy.station}", "Detailed Wave Summary"]
+    )
+    buoy.valid = buoy_valid
+    buoy.present = current_buoy_data
 
 
 def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
@@ -48,40 +59,36 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
     # keep track of the number of variables that were set, indicates validity
     buoy_variables_set = 0
 
-    try:
-        txt_search = soup.find(string=search)
-    except AttributeError as error:
-        log.debug(error)
-        # backwards compatible for old versions of bs4
-        txt_search = soup.find(text=search)
-        
-    if not txt_search:
-        return False
+    if not isinstance(search, list):
+        search = [search]
 
-    table = txt_search.findParent("table")
-    if not table:
-        return False
+    # Find all tables with a caption that has the text we are searching for
+    tables = []
+    for caption in soup.find_all('caption'):
+        for search_text in search:
+            if search_text in caption.get_text():
+                tables.append(caption.find_parent('table'))
 
-    for i, row in enumerate(table.findAll('tr')):
+    for table in tables:
+        for i, row in enumerate(table.findAll('tr')):
 
-        # the first table is another table and it is no use to use -- skipping
-        if i >= 1:
-            cells = row.findAll('td')
+            # the first table is another table and it is no use to use -- skipping
+            if i >= 1:
+                cells = row.findAll('td')
 
-            if cells:
-                try:
-                    key_data = cells[1].next.split()
-                    key = sub('[():]', '', key_data[len(key_data) - 1]).lower()
-                    value = cells[2].next.split()[0]
+                if cells:
+                    try:
+                        key_data = cells[1].next.split()
+                        key = sub('[():]', '', key_data[len(key_data) - 1]).lower()
+                        value = cells[2].next.split()[0]
 
-                    buoy.set(key, value)
-                    buoy_variables_set += 1
-                except (IndexError, TypeError, AttributeError) as error:
-                    log.error(error)
+                        buoy.set(key, value)
+                        buoy_variables_set += 1
+                    except (IndexError, TypeError, AttributeError) as error:
+                        log.error(error)
 
     # no variables set indicates errors or invalid buoy
     return buoy_variables_set > 0
-
 
 # Alias for getting current data, It has the same result
 get_buoy_data = get_current_data

@@ -18,6 +18,31 @@ from nautical.units import (
 # There may be times where we check against this value for validity/availability
 UNAVAILABLE_NOAA_DATA = "-"
 
+# list of known buoy variable names.
+buoy_vars = [
+    # date/time
+    'year', 'mm', 'dd', 'time',
+    # wind data
+    'wdir', 'wspd', 'gst', 'mwd', 'wspd10m', 'wspd20m',
+    # wave data
+    'wvht', 'dpd', 'apd', 'wwh', 'wwp', 'wwd',
+    'swh', 'swp', 'swd',
+    # pressure
+    'pres', 'ptdy',
+    # temperature
+    'atmp', 'wtmp', 'dewp', 'otmp', 'chill', 'heat',
+    # salinity
+    'sal', 'ph',
+    # oxygen
+    'o2pct', 'o2ppm',
+    # distance
+    'depth', 'nmi', 'vis', 'tide',
+    # other
+    'steepness', 
+    'clcon', 'turb', 'cond',
+    'srad1', 'swrad', 'lwrad'
+]
+
 
 def _find_parameter_units(key: str) -> str:
     '''Function that will attempt to find the units associated 
@@ -43,7 +68,11 @@ def _find_parameter_units(key: str) -> str:
         "swh": DistanceUnits.FEET,
         "swp": TimeUnits.SECONDS,
         "wwh": DistanceUnits.FEET,
-        "wwp": TimeUnits.SECONDS
+        "wwp": TimeUnits.SECONDS,
+        "otmp": TemperatureUnits.DEG_F,
+        "wspd10m": SpeedUnits.KNOTS,
+        "wspd20m": SpeedUnits.KNOTS,
+        "depth": DistanceUnits.FEET,
     }.get(key, None)
 
 
@@ -53,17 +82,7 @@ class BuoyData:
     point for a buoy. A buoy can also include weather stations.
     '''
 
-    __slots__ = [
-        # time/date data
-        'year', 'mm', 'dd', 'time',
-        # detailed wave summary data
-        'wdir', 'wspd', 'gst', 'wvht', 'dpd', 'apd', 'mwd', 'pres',
-        'ptdy', 'atmp', 'wtmp', 'dewp', 'sal', 'vis', 'tide',
-        # swell data
-        'swh', 'swp', 'swd', 'wwh', 'wwp', 'wwd', 'steepness', 
-        # new support
-        'chill'
-    ]
+    __slots__ = buoy_vars
 
     def __init__(self):
         # initialize all slots to None

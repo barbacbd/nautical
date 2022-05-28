@@ -1,3 +1,4 @@
+from copy import deepcopy
 from enum import Enum
 from nautical.log import get_logger
 from .buoy import Buoy
@@ -50,28 +51,59 @@ class SourceType(Enum):
 class Source:
     '''The source is a grouping or categorization of buoy sources.'''
 
-    __slots__ = ['_name', '_description', '_buoys']
-
     def __init__(self, name: str, description: str = None):
         '''
         :param name: Name of the data source or grouping of data
         :param description: Description tag of the data source
         '''
-
         if not name:
             raise NotImplementedError(f"Invalid name provided to {self.__class__.__name__}")
-        self._name = name
-        self._description = description
+        self.name = name
+        self.description = description
 
         # Each buoy should have a unique name to use as the key
         self._buoys = {}
 
+    def __len__(self):
+        '''Return the number of buoys in this source'''
+        return len(self._buoys)
+        
+    def __copy__(self):
+        '''Override the copy function to only keep specific 
+        values. Notice that the buoys are not kept
+        '''
+        cls = self.__class__
+        result = cls.__new__(cls)
+        
+        source_dict = {
+            key: value
+            for key, value in self.__dict__.items() if not key.startswith("_")
+        }
+        source_dict["_buoys"] = {}
+        log.info("Making copy of %s with dict %s", str(self.__class__.__name__), source_dict)
+        result.__dict__.update(source_dict)
+        return result
+
+    def __deepcopy__(self, memo):
+        '''Override the deepcopy for this instance to include
+        all private variables
+        '''
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        log.info("Making deepcopy of %s (%s) with dict %s",
+                 str(self.__class__.__name__), id(self), self.__dict__)
+        # Keep the references to the buoy and all private variables
+        for key, value in self.__dict__.items():
+            setattr(result, key, deepcopy(value, memo))
+        return result
+    
     def __str__(self):
         '''String representation of this instance
 
         :return: string representation of the source
         '''
-        return str(self._name)
+        return self.name
 
     def __contains__(self, item):
         '''Determine if the item buoy exists in our dictionary.
@@ -113,28 +145,12 @@ class Source:
         return not self.__eq__(other)
 
     @property
-    def name(self):
-        '''Name Property for this instance
-
-        :return: The name of the instance
-        '''
-        return self._name
-
-    @property
     def buoys(self):
         '''Buoys Property for this instance
 
         :return: Copy of the current set of buoys contained in this instance
         '''
         return self._buoys.copy()
-
-    @property
-    def description(self):
-        '''Description Property for this instance
-
-        :return: The instance description.
-        '''
-        return self._description
 
     def add_buoy(self, buoy):
         '''Add a buoy to this instance

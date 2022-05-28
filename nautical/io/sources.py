@@ -1,3 +1,4 @@
+from copy import copy, deepcopy
 from urllib.request import urlopen
 from urllib.error import URLError
 from pykml import parser
@@ -6,10 +7,9 @@ from nautical.noaa.buoy.source import Source, SourceType
 from nautical.location.point import Point
 from nautical.log import get_logger
 from .cdata import fill_buoy_with_cdata
+from .buoy import fill_buoy
 
 
-# The known public link to all NOAA Buoys
-_KML_LINK = "https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml"
 log = get_logger()
 
 
@@ -35,7 +35,8 @@ def get_buoy_sources(source_type=SourceType.ALL):
             valid_source_types.remove(unsupported_source)
     
     try:
-        fileobject = urlopen(_KML_LINK)
+        # The known public link to all NOAA Buoys
+        fileobject = urlopen("https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml")
     except URLError:
         return sources
 
@@ -65,11 +66,58 @@ def get_buoy_sources(source_type=SourceType.ALL):
                 buoy = Buoy(placemark.name.text, description=placemark.Snippet, location=pnt)
 
                 # These two sources contain buoys with information embedded in CDATA
-                if source.name in ("Ships", ):
+                if source.name in (SourceType.as_strings(SourceType.SHIPS), ):
                     fill_buoy_with_cdata(buoy, placemark.description.text)
+                    # These buoys must be marked as True
+                    buoy.valid = True
 
                 source.add_buoy(buoy)
 
             sources[source.name] = source
 
     return sources
+
+
+def validate_sources(source_data, remove_invalid=True):
+    '''This function is presumed to be executed after `get_buoy_sources`. 
+    The results of the previous function meet the requirements for the
+    formatted parameter here. The function will attempt to parse all
+    buoys found for each source supplied.
+
+    :param source_data: Dictionary in the format of source_name: source
+    :param remove_invalid: when True [default] remove the buoys that are invalid
+    :return: New dictionary where the buoys for each source are validated
+    '''
+    validated_source_info = {}
+
+    if not isinstance(source_data, dict):
+        return validated_source_info
+
+    for source, source_obj in source_data.items():
+
+        if source == SourceType.as_strings(SourceType.SHIPS):
+            log.info("Skipping validity check on Ships")
+            validated_source_info[source] = deepcopy(source_obj)
+            continue
+        
+        copied_source = copy(source_obj)
+        for _, buoy_obj in source_obj.buoys.items():
+            buoy_copy = copy(buoy_obj)
+
+            if buoy_copy.valid:
+                log.debug("Skipping buoy: %s, already validated", buoy_obj.station)
+                copied_source.add_buoy(buoy_copy)
+            
+            fill_buoy(buoy_copy)
+
+            if not buoy_copy.valid and remove_invalid:
+                log.warning("Dropping buoy: %s, invalid data", buoy_obj.station)
+            else:
+                copied_source.add_buoy(buoy_copy)
+    
+        if len(copied_source) == 0:
+            log.error("No valid buoys found for %s, removing", source)
+        else:
+            validated_source_info[source] = copied_source
+
+    return validated_source_info
