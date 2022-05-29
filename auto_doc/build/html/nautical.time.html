@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>nautical.time package &#8212; nautical 3.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="nautical-time-package">
+<h1>nautical.time package<a class="headerlink" href="#nautical-time-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-nautical.time.conversion">
+<span id="nautical-time-conversion-module"></span><h2>nautical.time.conversion module<a class="headerlink" href="#module-nautical.time.conversion" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.time.conversion.convert_noaa_time">
+<span class="sig-prename descclassname"><span class="pre">nautical.time.conversion.</span></span><span class="sig-name descname"><span class="pre">convert_noaa_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/conversion.html#convert_noaa_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.conversion.convert_noaa_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the time value read in from the table that NOAA has hosted.
+The time string is formatted/encoded with HTML data. We need to remove that data
+then split the time up.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>orig</strong> – original string representation of time</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>NauticalTime object if it could be created, otherwise None will be returned</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-nautical.time.enums">
+<span id="nautical-time-enums-module"></span><h2>nautical.time.enums module<a class="headerlink" href="#module-nautical.time.enums" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.time.enums.Midday">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.time.enums.</span></span><span class="sig-name descname"><span class="pre">Midday</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/enums.html#Midday"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.enums.Midday" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>simple enumeration to provide which side of midday the time is associated with</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.time.enums.Midday.AM">
+<span class="sig-name descname"><span class="pre">AM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#nautical.time.enums.Midday.AM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.time.enums.Midday.PM">
+<span class="sig-name descname"><span class="pre">PM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#nautical.time.enums.Midday.PM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.time.enums.TimeFormat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.time.enums.</span></span><span class="sig-name descname"><span class="pre">TimeFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/enums.html#TimeFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.enums.TimeFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Time Format Enumeration to indicate 12-24 hour times</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.time.enums.TimeFormat.HOUR_12">
+<span class="sig-name descname"><span class="pre">HOUR_12</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">12</span></em><a class="headerlink" href="#nautical.time.enums.TimeFormat.HOUR_12" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.time.enums.TimeFormat.HOUR_24">
+<span class="sig-name descname"><span class="pre">HOUR_24</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">24</span></em><a class="headerlink" href="#nautical.time.enums.TimeFormat.HOUR_24" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.time.nautical_time">
+<span id="nautical-time-nautical-time-module"></span><h2>nautical.time.nautical_time module<a class="headerlink" href="#module-nautical.time.nautical_time" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.NauticalTime">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.time.nautical_time.</span></span><span class="sig-name descname"><span class="pre">NauticalTime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nautical.time.enums.TimeFormat" title="nautical.time.enums.TimeFormat"><span class="pre">TimeFormat</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TimeFormat.HOUR_12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/nautical_time.html#NauticalTime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.nautical_time.NauticalTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Nautical Time is a class to Keep Track of Time read in from
+NOAA data. The time can be converted to 24 or 12 hour time formats.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.NauticalTime.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nautical.time.enums.TimeFormat" title="nautical.time.enums.TimeFormat"><span class="pre">TimeFormat</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TimeFormat.HOUR_12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/nautical_time.html#NauticalTime.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.nautical_time.NauticalTime.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fmt</strong> – format for the time 12 vs 24 hour (default is TimeFormat.HOUR_12)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.NauticalTime.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/nautical_time.html#NauticalTime.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.nautical_time.NauticalTime.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the 24 hour version of the hour and minutes. This class does not
+deal in seconds as the seconds are not provided by NOAA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>string representation of the time</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.NauticalTime.fmt">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fmt</span></span><a class="headerlink" href="#nautical.time.nautical_time.NauticalTime.fmt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format Property, see <cite>enums.TimeFormat</cite> for more information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>current format (12 vs 24 hour)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.NauticalTime.hours">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hours</span></span><a class="headerlink" href="#nautical.time.nautical_time.NauticalTime.hours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hours Property with instance format applied</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>current hour (am/pm if exists)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.time.nautical_time.NauticalTime.minutes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">minutes</span></span><a class="headerlink" href="#nautical.time.nautical_time.NauticalTime.minutes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minutes Property</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>current minutes</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.time">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nautical.time" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.time.Midday">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.time.</span></span><span class="sig-name descname"><span class="pre">Midday</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/enums.html#Midday"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.Midday" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>simple enumeration to provide which side of midday the time is associated with</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.time.Midday.AM">
+<span class="sig-name descname"><span class="pre">AM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#nautical.time.Midday.AM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.time.Midday.PM">
+<span class="sig-name descname"><span class="pre">PM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#nautical.time.Midday.PM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.time.NauticalTime">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.time.</span></span><span class="sig-name descname"><span class="pre">NauticalTime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nautical.time.enums.TimeFormat" title="nautical.time.enums.TimeFormat"><span class="pre">TimeFormat</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TimeFormat.HOUR_12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/nautical_time.html#NauticalTime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.NauticalTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Nautical Time is a class to Keep Track of Time read in from
+NOAA data. The time can be converted to 24 or 12 hour time formats.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.time.NauticalTime.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nautical.time.enums.TimeFormat" title="nautical.time.enums.TimeFormat"><span class="pre">TimeFormat</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TimeFormat.HOUR_12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/nautical_time.html#NauticalTime.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.NauticalTime.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fmt</strong> – format for the time 12 vs 24 hour (default is TimeFormat.HOUR_12)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.time.NauticalTime.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/nautical_time.html#NauticalTime.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.NauticalTime.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the 24 hour version of the hour and minutes. This class does not
+deal in seconds as the seconds are not provided by NOAA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>string representation of the time</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.time.NauticalTime.fmt">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fmt</span></span><a class="headerlink" href="#nautical.time.NauticalTime.fmt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format Property, see <cite>enums.TimeFormat</cite> for more information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>current format (12 vs 24 hour)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.time.NauticalTime.hours">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hours</span></span><a class="headerlink" href="#nautical.time.NauticalTime.hours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hours Property with instance format applied</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>current hour (am/pm if exists)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nautical.time.NauticalTime.minutes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">minutes</span></span><a class="headerlink" href="#nautical.time.NauticalTime.minutes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minutes Property</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>current minutes</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.time.TimeFormat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.time.</span></span><span class="sig-name descname"><span class="pre">TimeFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/enums.html#TimeFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.TimeFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Time Format Enumeration to indicate 12-24 hour times</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.time.TimeFormat.HOUR_12">
+<span class="sig-name descname"><span class="pre">HOUR_12</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">12</span></em><a class="headerlink" href="#nautical.time.TimeFormat.HOUR_12" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.time.TimeFormat.HOUR_24">
+<span class="sig-name descname"><span class="pre">HOUR_24</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">24</span></em><a class="headerlink" href="#nautical.time.TimeFormat.HOUR_24" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.time.convert_noaa_time">
+<span class="sig-prename descclassname"><span class="pre">nautical.time.</span></span><span class="sig-name descname"><span class="pre">convert_noaa_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/time/conversion.html#convert_noaa_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.time.convert_noaa_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the time value read in from the table that NOAA has hosted.
+The time string is formatted/encoded with HTML data. We need to remove that data
+then split the time up.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>orig</strong> – original string representation of time</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>NauticalTime object if it could be created, otherwise None will be returned</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">nautical</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Brent Barbachem.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/nautical.time.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
