@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nautical.units.units &#8212; nautical 3.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for nautical.units.units</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+
+<div class="viewcode-block" id="TimeUnits"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.units.TimeUnits">[docs]</a><span class="k">class</span> <span class="nc">TimeUnits</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Various units of time to provide to the user in the event</span>
+<span class="sd">    that they do not wish to use the base units from NOAA</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">SECONDS</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">MINUTES</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">HOURS</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">DAYS</span> <span class="o">=</span> <span class="mi">4</span></div>
+
+
+<div class="viewcode-block" id="TemperatureUnits"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.units.TemperatureUnits">[docs]</a><span class="k">class</span> <span class="nc">TemperatureUnits</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Various units of temperature to provide to the user in the event</span>
+<span class="sd">    that they do not wish to use the base units from NOAA</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">DEG_F</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Degrees Fahrenheit</span>
+    <span class="n">DEG_C</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Degrees Celsius</span></div>
+
+
+<div class="viewcode-block" id="SpeedUnits"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.units.SpeedUnits">[docs]</a><span class="k">class</span> <span class="nc">SpeedUnits</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Various units of speed to provide to the user in the event</span>
+<span class="sd">    that they do not wish to use the base units from NOAA</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">KNOTS</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Nautical Miles Per Hour</span>
+    <span class="n">MPS</span> <span class="o">=</span> <span class="mi">2</span>    <span class="c1"># Meters Per Second</span>
+    <span class="n">MPH</span> <span class="o">=</span> <span class="mi">3</span>    <span class="c1"># Miles Per Hour</span>
+    <span class="n">KPH</span> <span class="o">=</span> <span class="mi">4</span>    <span class="c1"># Kilometers Per Hour</span>
+    <span class="n">FPS</span> <span class="o">=</span> <span class="mi">5</span>    <span class="c1"># Feet Per Second</span></div>
+
+
+<div class="viewcode-block" id="DistanceUnits"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.units.DistanceUnits">[docs]</a><span class="k">class</span> <span class="nc">DistanceUnits</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Various units of distance to provide to the user in the event</span>
+<span class="sd">    that they do not wish to use the base units from NOAA</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">CENTIMETERS</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">FEET</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">YARDS</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">METERS</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">KILOMETERS</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">MILES</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">NAUTICAL_MILES</span> <span class="o">=</span> <span class="mi">7</span></div>
+
+
+<div class="viewcode-block" id="PressureUnits"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.units.PressureUnits">[docs]</a><span class="k">class</span> <span class="nc">PressureUnits</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Various units of pressure to provide to the user in the event</span>
+<span class="sd">    that they do not wish to use the base units from NOAA</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">PA</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c1"># Pascals</span>
+    <span class="n">TORR</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># ~1mm Hg</span>
+    <span class="n">BARR</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># Metric unit  100,000 Pa</span>
+    <span class="n">ATM</span> <span class="o">=</span> <span class="mi">4</span>   <span class="c1"># Standard Atmospheres</span>
+    <span class="n">AT</span> <span class="o">=</span> <span class="mi">5</span>    <span class="c1"># Technical Atmosphere</span>
+    <span class="n">BA</span> <span class="o">=</span> <span class="mi">6</span>    <span class="c1"># Barad </span>
+    <span class="n">PSI</span> <span class="o">=</span> <span class="mi">7</span>   <span class="c1"># Pound per square inch (American) - Default</span>
+    <span class="n">HG</span> <span class="o">=</span> <span class="mi">8</span>    <span class="c1"># Mercury - manometric units (water influence)</span></div>
+
+
+<div class="viewcode-block" id="SalinityUnits"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.units.SalinityUnits">[docs]</a><span class="k">class</span> <span class="nc">SalinityUnits</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Units of salinity&#39;&#39;&#39;</span>
+    <span class="n">PSU</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Practical Salinity Unit</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">nautical</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Brent Barbachem.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
