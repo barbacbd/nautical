@@ -1,5 +1,7 @@
+from uuid import uuid4
 from nautical.io.web import get_noaa_forecast_url, get_url_source
-from nautical.io.buoy import create_buoy
+from nautical.io.buoy import create_buoy, fill_buoy
+from nautical.io.sources import validate_sources
 from nautical.io.cdata import (
     parse_winds,
     parse_location,
@@ -9,7 +11,7 @@ from nautical.io.cdata import (
 )
 from nautical.location import Point
 from nautical.time import NauticalTime
-from nautical.noaa.buoy import Buoy, BuoyData
+from nautical.noaa.buoy import Buoy, BuoyData, Source, SourceType
 from bs4 import BeautifulSoup
 from urllib.error import HTTPError
 import pytest
@@ -38,6 +40,15 @@ class MockResponse:
         '''
         return self.data
 
+
+def mock_buoy_setter(self):
+    '''Set values for a buoy_data object'''
+    self.set("wspd", 10.0)
+    self.set("gst", 15.6)
+    self.set("wvht", 1.5)
+    self.set("atmp", 95.34)
+    self.set("wtmp", 80.4)
+    
 
 def create_good_response(file_to_read):
     '''Create a mock response with good data'''
@@ -540,3 +551,97 @@ def test_invalid_create_buoy():
     with patch("nautical.io.web.urlopen") as get_patch:
         get_patch.return_value = create_good_response("InvalidBuoy.html")
         assert create_buoy("invalid-buoy") is None
+
+
+def test_fill_buoy_valid():
+    '''The test will fill '''
+    buoy = Buoy("44099", "This is a test buoy")
+    
+    with patch("nautical.io.web.urlopen") as get_patch:
+        get_patch.return_value = create_good_response("ValidBuoy.html")
+
+        fill_buoy(buoy)
+
+    # this should be a valid buoy now
+    assert buoy.valid
+
+    # These values are pulled directly from the ValidBuoy.html in the tables
+    # 'Conditions at ...'  and 'Detailed Wave Summary'
+    assert buoy.data.wvht == '3.6'
+    assert buoy.data.dpd == '7'
+    assert buoy.data.apd == '5.7'
+    assert buoy.data.mwd == "ESE"
+    assert buoy.data.wtmp == '53.8'
+    assert buoy.data.swh == '0.7'
+    assert buoy.data.swp == '10.5'
+    assert buoy.data.swd == "E"
+    assert buoy.data.wwh == '3.6'
+    assert buoy.data.wwp == '6.7'
+    assert buoy.data.wwd == "ESE"
+    assert buoy.data.steepness == "STEEP"
+
+
+def test_invalid_type_validate_sources():
+    '''Expects a dict, returns an empty dict'''
+    assert validate_sources([]) == {}
+
+
+def test_skip_ships_validate_sources():
+    '''Validate Sources should skip the ships, and we can make sure based on
+    the number of buoys that exist (even when invalid)
+    '''
+    station_ids = [str(uuid4())] * 5
+    buoys = [Buoy(station_id, f"Test buoy {station_id}", Point(36.0, -75.0))
+             for station_id in station_ids]
+
+    source = Source(SourceType.as_strings(SourceType.SHIPS),
+                    "This is a test Source, do not use")
+    for buoy in buoys:
+        source.add_buoy(buoy)
+
+    unvalidated_sources = {SourceType.as_strings(SourceType.SHIPS): source}
+
+    validated_sources = validate_sources(unvalidated_sources)
+
+    assert len(unvalidated_sources[SourceType.as_strings(SourceType.SHIPS)]) == \
+        len(validated_sources[SourceType.as_strings(SourceType.SHIPS)])
+
+
+def test_remove_invalid_validate_sources():
+    '''Remove invlaid [Default]'''
+    station_ids = [str(uuid4())] * 5
+    buoys = [Buoy(station_id, f"Test buoy {station_id}", Point(36.0, -75.0))
+             for station_id in station_ids]
+
+    source = Source(SourceType.as_strings(SourceType.INTERNATIONAL_PARTNERS),
+                    "This is a test Source, do not use")
+    for buoy in buoys:
+        source.add_buoy(buoy)
+    
+    with patch("nautical.io.web.urlopen") as get_patch:
+        get_patch.return_value = create_good_response("InvalidBuoy.html")
+        unvalidated_sources = {SourceType.as_strings(SourceType.INTERNATIONAL_PARTNERS): source}
+        validated_sources = validate_sources(unvalidated_sources)
+
+    assert len(validated_sources) == 0
+
+
+def test_keep_invalid_validate_sources():
+    '''Keep invalid buoys in the source'''
+    station_ids = [str(uuid4())] * 5
+    buoys = [Buoy(station_id, f"Test buoy {station_id}", Point(36.0, -75.0))
+             for station_id in station_ids]
+
+    source = Source(SourceType.as_strings(SourceType.INTERNATIONAL_PARTNERS),
+                    "This is a test Source, do not use")
+    for buoy in buoys:
+        source.add_buoy(buoy)
+    num_before = len(source)
+        
+    with patch("nautical.io.web.urlopen") as get_patch:
+        get_patch.return_value = create_good_response("InvalidBuoy.html")
+        unvalidated_sources = {SourceType.as_strings(SourceType.INTERNATIONAL_PARTNERS): source}
+        validated_sources = validate_sources(unvalidated_sources, False)
+
+    assert len(validated_sources) != 0
+    assert len(validated_sources[SourceType.as_strings(SourceType.INTERNATIONAL_PARTNERS)]) == num_before

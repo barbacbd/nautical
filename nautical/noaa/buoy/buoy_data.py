@@ -1,9 +1,9 @@
-from datetime import datetime
-from time import mktime, strptime
+from datetime import datetime, timezone
 from typing import Dict, Any
+from nautical.log import get_logger
 from nautical.time.conversion import convert_noaa_time
 from nautical.time.nautical_time import NauticalTime
-from nautical.time.enums import TimeFormat
+from nautical.time.enums import TimeFormat, Midday
 from nautical.units import (
     SpeedUnits,
     DistanceUnits,
@@ -13,6 +13,8 @@ from nautical.units import (
     SalinityUnits
 )
 
+
+log = get_logger()
 
 # Not sure why but this is the default value for NOAA data that is not present.
 # There may be times where we check against this value for validity/availability
@@ -103,14 +105,23 @@ class BuoyData:
 
     @property
     def epoch_time(self):
-        '''Epoch time property. Converts the nautical time to the epoch time.
+        '''Epoch time property. Converts the nautical time to the epoch time. 
+        The function assumes that the data is in UTC time. 
 
-        :return: epoch time if all pieces of the time object exist, otherwise None
+        :return: Seconds since the epoch in UTC, 0 on failure
         '''
         if self.year and self.mm and self.dd and self.time:
-            date = f"{self.year}-{self.mm}-{self.dd} {str(self.time)}"
-            pattern = '%Y-%m-%d %H:%M:%S'
-            return int(mktime(strptime(date, pattern)))
+            # convert the hours values based on the time format
+            hours = self.time.hours
+            if isinstance(hours, tuple):
+                if hours[1] == Midday.PM and hours[0] < 12:
+                    hours = hours[0] + 12
+                else:
+                    hours = hours[0]
+            # convert the time using datetime, set the timezone to UTC
+            return int(datetime(
+                self.year, self.mm, self.dd, hours, self.time.minutes
+            ).replace(tzinfo=timezone.utc).timestamp())
         return 0
 
     def __iter__(self):
@@ -149,4 +160,7 @@ class BuoyData:
             elif isinstance(value, NauticalTime):
                 setattr(self, key, value)
         else:
-            setattr(self, key, value)
+            try:
+                setattr(self, key, value)
+            except AttributeError as error:
+                log.warning(error)
