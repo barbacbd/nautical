@@ -46,3 +46,26 @@ requirement for XXX.
 ```
 
 _It is suggested (but not required to add the Issue number to the commit message._
+
+
+## Further Information
+
+Please run the tests [here](../../scripts/). If you cannot execute a shell script, run the equivalent on your system.
+
+The following script executes all project tests. 
+
+```bash
+scripts/pytest.sh
+```
+
+**NOTE**: If you are adding tests, no tests should make any network API calls. Please refer to [mock](https://pypi.org/project/pytest-mock/)
+for information on creating mock tests.
+
+
+The following script executes the python linter.
+
+```bash
+scripts/pylint.sh
+```
+
+The linter is *not* executed during `push`, but it will be utilized during all reviews.

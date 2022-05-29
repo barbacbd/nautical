@@ -28,6 +28,9 @@ View the [documentation](user/docs/Documentation.md) page for more information.
 
 View the [contirbution](user/docs/Contributing.md) for more information.
 
+# Examples
+
+More details and specific examples can be found in [here](user/docs). 
 
 # Building and Testing
 
@@ -42,7 +45,6 @@ python -m venv /path/to/nautical_venv
 **NOTE:** The `python` referenced above should be a version of python that is acceptable for this library.
 
 Don't forget to activate the virtual environment, `source /path/to/nautical_venv/bin/activate`.
-
 
 ## Install dependencies
 
@@ -76,4 +78,16 @@ command. Use the `coverage and pytest-cov` packages to view all of the results m
 
 ```
 pytest --cov=tests
+```
+
+If the user is running a system that can execute shell scripts, run the following from the project base directory:
+
+```bash
+scripts/pytest.sh
+```
+
+The user may also view the output of linting with:
+
+```bash
+scripts/pylint.sh
 ```

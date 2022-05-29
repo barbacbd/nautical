@@ -192,6 +192,41 @@ def _check_parameters(parameters):
     return isinstance(parameters, Parameter)
 
 
+def combine_parameters(obj_type, parameters):
+    '''Combine all parameters contained in the parameters parameter 
+    in the format expected for the endpoint.
+
+    :param parameters: List or single parameter
+    :param obj_type: Type of object where parameters are applied
+    :return: string formatted as expected for the endpoint
+    '''
+    if not _check_parameters(parameters):
+        raise TypeError("parameters must be type Parameter or List[Parameter]")
+
+    if isinstance(parameters, list):
+        return "&".join([str(p) for p in parameters if p.param in obj_type.parameters])
+
+    if parameters.param in obj_type.parameters:
+        return "?" + str(parameters)
+
+    return None
+
+
+def add_params_to_endpoint(endpoint, obj_type, parameters):
+    '''Add the parameters to the endpoint to create a final endpoint
+
+    :param endpoint: Original Endpoint
+    :param obj_type: Type of object where parameters are applied
+    :param parameters: List or single Parameter
+    :return: The final formatted endpoint
+    '''
+    combined = combine_parameters(obj_type, parameters)
+    if not combined:
+        return endpoint
+    
+    return endpoint + "?" + combined
+
+
 def query_all(token, obj_type=NCEIBase, parameters=None):
     '''Run the common query all for an end node
 
@@ -211,16 +246,7 @@ def query_all(token, obj_type=NCEIBase, parameters=None):
         raise AttributeError(f"{str(obj_type)} has no attribute parameters")
 
     if parameters is not None:
-        if not _check_parameters(parameters):
-            raise TypeError("parameters must be type Parameter or List[Parameter]")
-
-        if isinstance(parameters, list):
-            endpoint += "?" + "&".join(
-                [str(p) for p in parameters if p.param in obj_type.parameters]
-            )
-        else:
-            if parameters.param in obj_type.parameters:
-                endpoint += "?" + str(parameters)
+        endpoint = add_params_to_endpoint(endpoint, obj_type, parameters)
 
     count = get_num_results(token, endpoint)
     lookup_offsets = create_offset_lookups(count)
