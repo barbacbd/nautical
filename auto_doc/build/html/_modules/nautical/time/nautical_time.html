@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nautical.time.nautical_time &#8212; nautical 3.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for nautical.time.nautical_time</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.enums</span> <span class="kn">import</span> <span class="n">TimeFormat</span><span class="p">,</span> <span class="n">Midday</span>
+
+
+<div class="viewcode-block" id="NauticalTime"><a class="viewcode-back" href="../../../nautical.time.html#nautical.time.nautical_time.NauticalTime">[docs]</a><span class="k">class</span> <span class="nc">NauticalTime</span><span class="p">:</span>
+
+    <span class="sd">&#39;&#39;&#39;Nautical Time is a class to Keep Track of Time read in from</span>
+<span class="sd">     NOAA data. The time can be converted to 24 or 12 hour time formats.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_format&#39;</span><span class="p">,</span> <span class="s1">&#39;_midday&#39;</span><span class="p">,</span> <span class="s1">&#39;_minutes&#39;</span><span class="p">,</span> <span class="s1">&#39;_hours&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="NauticalTime.__init__"><a class="viewcode-back" href="../../../nautical.time.html#nautical.time.nautical_time.NauticalTime.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="n">TimeFormat</span> <span class="o">=</span> <span class="n">TimeFormat</span><span class="o">.</span><span class="n">HOUR_12</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        :param fmt: format for the time 12 vs 24 hour (default is TimeFormat.HOUR_12)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">=</span> <span class="n">fmt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_midday</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_minutes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hours</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">minutes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Minutes Property</span>
+
+<span class="sd">        :return: current minutes</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_minutes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">hours</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Hours Property with instance format applied</span>
+
+<span class="sd">        :return: current hour (am/pm if exists)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_midday</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hours</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_midday</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hours</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fmt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Format Property, see `enums.TimeFormat` for more information.</span>
+
+<span class="sd">        :return: current format (12 vs 24 hour)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span>
+
+    <span class="nd">@fmt</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">fmt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Adjust the hours and the midday (meridian) value accordingly</span>
+
+<span class="sd">        :param val: TimeFormat that should be different that the current format.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">TimeFormat</span><span class="p">)</span> <span class="ow">and</span> <span class="n">val</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="n">TimeFormat</span><span class="o">.</span><span class="n">HOUR_12</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hours</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_hours</span> <span class="o">-=</span> <span class="mi">12</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_midday</span> <span class="o">=</span> <span class="n">Midday</span><span class="o">.</span><span class="n">PM</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_midday</span> <span class="o">=</span> <span class="n">Midday</span><span class="o">.</span><span class="n">AM</span>
+
+            <span class="k">elif</span> <span class="n">val</span> <span class="o">==</span> <span class="n">TimeFormat</span><span class="o">.</span><span class="n">HOUR_24</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_hours</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hours</span> <span class="o">+</span> <span class="mi">12</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_midday</span> <span class="o">==</span> <span class="n">Midday</span><span class="o">.</span><span class="n">PM</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hours</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_midday</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@minutes</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">minutes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minutes</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Minutes setter/validity checker.</span>
+
+<span class="sd">        :param minutes: minutes provided should be no less than 0 and no greater than 59</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">minutes</span> <span class="o">&lt;=</span> <span class="mi">59</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_minutes</span> <span class="o">=</span> <span class="n">minutes</span>
+
+    <span class="nd">@hours</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">hours</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Make sure that the hours are valid. If the time is afternoon</span>
+<span class="sd">        but the hours are less than 12 in a 12-hour format add 12 to</span>
+<span class="sd">        convert to the 24 hour format, all other values are considered valid</span>
+
+<span class="sd">        :param data: tuple or single value containing (hours, midday enumeration)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">hours</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">midday</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">hours</span><span class="p">,</span> <span class="n">midday</span> <span class="o">=</span> <span class="n">data</span>
+
+        <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">(</span><span class="n">hours</span><span class="p">,</span> <span class="n">midday</span><span class="p">):</span>
+            <span class="n">hours</span> <span class="o">=</span> <span class="n">data</span>
+            <span class="c1"># provide a default value</span>
+            <span class="n">midday</span> <span class="o">=</span> <span class="n">Midday</span><span class="o">.</span><span class="n">AM</span> <span class="k">if</span> <span class="n">hours</span> <span class="o">&lt;</span> <span class="mi">12</span> <span class="k">else</span> <span class="n">Midday</span><span class="o">.</span><span class="n">PM</span>
+
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">hours</span> <span class="o">&lt;</span> <span class="mi">24</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">(</span><span class="n">TimeFormat</span><span class="o">.</span><span class="n">HOUR_12</span><span class="p">,</span> <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_midday</span> <span class="o">=</span> <span class="n">midday</span>
+
+            <span class="k">if</span> <span class="n">midday</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Midday</span><span class="o">.</span><span class="n">PM</span><span class="p">,)</span> <span class="ow">and</span> <span class="n">hours</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_hours</span> <span class="o">=</span> <span class="n">hours</span> <span class="o">+</span> <span class="mi">12</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_hours</span> <span class="o">=</span> <span class="n">hours</span>
+
+<div class="viewcode-block" id="NauticalTime.__str__"><a class="viewcode-back" href="../../../nautical.time.html#nautical.time.nautical_time.NauticalTime.__str__">[docs]</a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Return the 24 hour version of the hour and minutes. This class does not</span>
+<span class="sd">        deal in seconds as the seconds are not provided by NOAA.</span>
+
+<span class="sd">        :return: string representation of the time</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">(</span><span class="n">TimeFormat</span><span class="o">.</span><span class="n">HOUR_12</span><span class="p">,</span> <span class="p">):</span>
+            <span class="n">hours</span><span class="p">,</span> <span class="n">midday</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hours</span>
+            <span class="n">hours</span> <span class="o">=</span> <span class="n">hours</span> <span class="o">+</span> <span class="mi">12</span> <span class="k">if</span> <span class="n">midday</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Midday</span><span class="o">.</span><span class="n">PM</span><span class="p">,</span> <span class="p">)</span> <span class="k">else</span> <span class="n">hours</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">hours</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minutes</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">:00&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hours</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minutes</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">:00&quot;</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">nautical</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Brent Barbachem.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

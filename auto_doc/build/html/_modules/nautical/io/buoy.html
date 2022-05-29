@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nautical.io.buoy &#8212; nautical 3.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for nautical.io.buoy</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">re</span> <span class="kn">import</span> <span class="n">sub</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">from</span> <span class="nn">nautical.log</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">nautical.io.web</span> <span class="kn">import</span> <span class="n">get_noaa_forecast_url</span><span class="p">,</span> <span class="n">get_url_source</span>
+<span class="kn">from</span> <span class="nn">nautical.noaa.buoy.buoy_data</span> <span class="kn">import</span> <span class="n">BuoyData</span>
+<span class="kn">from</span> <span class="nn">nautical.noaa.buoy.buoy</span> <span class="kn">import</span> <span class="n">Buoy</span>
+
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="create_buoy"><a class="viewcode-back" href="../../../nautical.io.html#nautical.io.buoy.create_buoy">[docs]</a><span class="k">def</span> <span class="nf">create_buoy</span><span class="p">(</span><span class="n">buoy</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Provide a full workup for a specific buoy. If the buoy is None or it cannot</span>
+<span class="sd">    be found then the data returned will be considered invalid as None</span>
+
+<span class="sd">    :param buoy: id of the buoy to do a workup on</span>
+<span class="sd">    :return: BuoyWorkup if successful else None</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">buoy</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">buoy_data</span> <span class="o">=</span> <span class="n">Buoy</span><span class="p">(</span><span class="n">buoy</span><span class="p">)</span>
+    <span class="n">fill_buoy</span><span class="p">(</span><span class="n">buoy_data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">buoy_data</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">return</span> <span class="n">buoy_data</span></div>
+
+
+<div class="viewcode-block" id="fill_buoy"><a class="viewcode-back" href="../../../nautical.io.html#nautical.io.buoy.fill_buoy">[docs]</a><span class="k">def</span> <span class="nf">fill_buoy</span><span class="p">(</span><span class="n">buoy</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Pass in a Buoy object that needs to be filled in with the current data.</span>
+<span class="sd">    The buoy object will have the validity set if the results were successful</span>
+
+<span class="sd">    :param buoy: nautical.noaa.buoy.Buoy object</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">get_noaa_forecast_url</span><span class="p">(</span><span class="n">buoy</span><span class="o">.</span><span class="n">station</span><span class="p">)</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">get_url_source</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="n">current_buoy_data</span> <span class="o">=</span> <span class="n">BuoyData</span><span class="p">()</span>
+    <span class="n">buoy_valid</span> <span class="o">=</span> <span class="n">get_current_data</span><span class="p">(</span>
+        <span class="n">soup</span><span class="p">,</span>
+        <span class="n">current_buoy_data</span><span class="p">,</span>
+        <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Conditions at </span><span class="si">{</span><span class="n">buoy</span><span class="o">.</span><span class="n">station</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Detailed Wave Summary&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">buoy</span><span class="o">.</span><span class="n">valid</span> <span class="o">=</span> <span class="n">buoy_valid</span>
+    <span class="n">buoy</span><span class="o">.</span><span class="n">present</span> <span class="o">=</span> <span class="n">current_buoy_data</span></div>
+
+
+<div class="viewcode-block" id="get_current_data"><a class="viewcode-back" href="../../../nautical.io.html#nautical.io.buoy.get_current_data">[docs]</a><span class="k">def</span> <span class="nf">get_current_data</span><span class="p">(</span><span class="n">soup</span><span class="p">:</span> <span class="n">BeautifulSoup</span><span class="p">,</span> <span class="n">buoy</span><span class="p">:</span> <span class="n">BuoyData</span><span class="p">,</span> <span class="n">search</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Search the beautiful soup object for a TABLE containing the search string. The </span>
+<span class="sd">    function will grab the data from the table and create a NOAAData object and return the data</span>
+
+<span class="sd">    :param soup: beautiful soup object generated from the get_url_source()</span>
+<span class="sd">    :param buoy: BuoyData object that should be filled with data as this function parses the data.</span>
+<span class="sd">    :param search: text to search for in the soup object. </span>
+<span class="sd">    :return: True when data has been found and set</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># keep track of the number of variables that were set, indicates validity</span>
+    <span class="n">buoy_variables_set</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">search</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">search</span> <span class="o">=</span> <span class="p">[</span><span class="n">search</span><span class="p">]</span>
+
+    <span class="c1"># Find all tables with a caption that has the text we are searching for</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">caption</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;caption&#39;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">search_text</span> <span class="ow">in</span> <span class="n">search</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">search_text</span> <span class="ow">in</span> <span class="n">caption</span><span class="o">.</span><span class="n">get_text</span><span class="p">():</span>
+                <span class="n">tables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">caption</span><span class="o">.</span><span class="n">find_parent</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">)):</span>
+
+            <span class="c1"># the first table is another table and it is no use to use -- skipping</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">cells</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">cells</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">key_data</span> <span class="o">=</span> <span class="n">cells</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                        <span class="n">key</span> <span class="o">=</span> <span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[():]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">key_data</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">key_data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="n">cells</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+                        <span class="n">buoy</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                        <span class="n">buoy_variables_set</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+
+    <span class="c1"># no variables set indicates errors or invalid buoy</span>
+    <span class="k">return</span> <span class="n">buoy_variables_set</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+<span class="c1"># Alias for getting current data, It has the same result</span>
+<span class="n">get_buoy_data</span> <span class="o">=</span> <span class="n">get_current_data</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">nautical</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Brent Barbachem.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
