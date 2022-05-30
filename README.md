@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://github.com/barbacbd/nautical">
-    <img src=".images/buoy.jpg" width="256" height="256" border-radius="50%" >
+    <img src="https://github.com/barbacbd/nautical/blob/231d553500087cf23348aa80b830cf842f9edd1e/.images/buoy.jpg" width="256" height="256" border-radius="50%" >
   </a>
   <br>Nautical</br>
 </h1>
