@@ -3,8 +3,13 @@ from nautical.time import (
     NauticalTime,
     convert_noaa_time,
     TimeFormat,
-    Midday
+    Midday,
+    get_current_time,
+    get_time_diff,
+    get_time_str
 )
+from nautical.time.ops import __DT_FORMAT
+from datetime import timedelta, timezone
 
 
 def test_correct_conversion():
@@ -116,3 +121,41 @@ def test_nTime_24_hr_low_hours():
     x.hours = -1
     assert x.minutes == 45 and x.hours == 0
 
+
+def test_nTime_from_str_valid():
+    '''Test converting time from valid string'''
+    n = NauticalTime()
+    n.from_str("13:45:00")
+    
+    assert n.hours[0] == 1
+    assert n.minutes == 45
+    
+    
+def test_nTime_from_short_string():
+    '''Test converting from invalid string missing values'''
+    with pytest.raises(ValueError):
+        n = NauticalTime()
+        n.from_str("13:45")
+
+
+def test_get_time_diff():
+    '''Get a time difference of 30 minutes in the past'''
+    
+    alter = get_current_time().replace(tzinfo=timezone.utc)
+    alter = alter - timedelta(minutes=30)
+    
+    assert get_time_diff(get_time_str(alter)) == 30
+    
+
+def test_get_time_diff_invalid():
+    '''Get a time difference of 30 minutes in the future'''
+    
+    alter = get_current_time().replace(tzinfo=timezone.utc)
+    alter = alter + timedelta(minutes=30)
+    
+    with pytest.raises(ValueError):
+        assert get_time_diff(get_time_str(alter)) == 30
+
+
+if __name__ == '__main__':
+    test_get_time_diff()

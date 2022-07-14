@@ -174,3 +174,24 @@ class Source:
         :return: Buoy with a matching station, None if one was not found.
         '''
         return next((v for k, v in self._buoys.items() if v.station == station), None)
+
+    def to_json(self):
+        '''Convert this instance to a json dictionary'''
+        return {
+            "name": self.name,
+            "description": self.description if self.description else "",
+            "buoys": list(self._buoys.keys())
+        }
+
+    def from_json(self, json_dict):
+        '''Fill in instance from a json dictionary'''
+        if "name" in json_dict and json_dict["name"]:
+            self.name = json_dict["name"]
+        
+        if "description" in json_dict and json_dict["description"]:
+            self.description = json_dict["description"]
+
+        # Create a shell        
+        if "buoys" in json_dict:
+            for buoy_id in json_dict["buoys"]:
+                self._buoys[buoy_id] = None

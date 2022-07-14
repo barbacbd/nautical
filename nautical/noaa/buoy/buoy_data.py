@@ -133,6 +133,22 @@ class BuoyData:
 
             if val:
                 yield slot, val
+    
+    def to_json(self):
+        '''Return the object as a json dict'''
+        output = {k: v for k, v in self if k != "time"}
+        if self.time:
+            output["time"] = str(self.time)
+        return output
+    
+    def from_json(self, json_data):
+        '''Fill this instance from the json_data'''
+        for k, v in json_data.items():
+            if k in self.__slots__:
+                if k == "time":
+                    self.time.from_str(v)
+                else:
+                    setattr(self, k, v)
 
     def from_dict(self, buoy_data_dict: Dict[str, Any]):
         '''Fill this object from the data stored in a dictionary where 
