@@ -166,19 +166,30 @@ class Buoy:
         }
         return json_dict
 
-    def from_json(self, json_dict):
-        '''Fill this instance from a json dictionary'''
-        if "station" in json_dict and json_dict["station"]:
-            self.station = json_dict["station"]
+    @staticmethod
+    def from_json(json_dict):
+        '''Return a Buoy object created from a json dictionary'''
+        buoy = Buoy("nautical_example")
+        buoy.from_dict(json_dict)
         
-        if "description" in json_dict and json_dict["description"]:
-            self.description = json_dict["description"]
+        if buoy.station == "nautical_example":
+            raise KeyError("Failed to set station during Buoy::from_json")
         
-        if "valid" in json_dict:
-            self.valid = bool(json_dict["valid"])
+        return buoy
+
+    def from_dict(self, buoy_dict):
+        '''Fill this instance from a dictionary'''
+        if "station" in buoy_dict and buoy_dict["station"]:
+            self.station = buoy_dict["station"]
         
-        if "location" in json_dict and json_dict["location"]:
-            self._location = Point().from_json(json_dict["location"])
+        if "description" in buoy_dict and buoy_dict["description"]:
+            self.description = buoy_dict["description"]
         
-        if "data" in json_dict and json_dict["data"]:
-            self._present = BuoyData().from_json([json_dict["data"]])
+        if "valid" in buoy_dict:
+            self.valid = bool(buoy_dict["valid"])
+        
+        if "location" in buoy_dict and buoy_dict["location"]:
+            self._location = Point.from_json(buoy_dict["location"])
+        
+        if "data" in buoy_dict and buoy_dict["data"]:
+            self._present = BuoyData.from_json(buoy_dict["data"])

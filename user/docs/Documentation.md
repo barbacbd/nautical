@@ -19,12 +19,26 @@ chmod 777 auto_doc.sh;
 ./auto_doc.sh
 ```
 
+# Cache
+
+[Nautical cache](../../nautical/cache/) can be used to cache/save information to the system, so that the data can be loaded
+back later. The file location is determined via the [appdirs module](https://pypi.org/project/appdirs/). The user can:
+
+- Create cache files
+- Copy cache files to new names (with timestamps or custom names)
+- Load Cache files to Nautical Objects.
+
+**Note**: _[Nautical cache](../../nautical/cache/) was added in version 3.1.0_.
+
 # Examples
 
 The following are examples that can be copied and modified for a user's specific needs.
 
-## IO - Buoys
+## IO
 
+The following sections are provided as examples in the [IO module](../../nautical/io/).
+
+### Buoys
 If you know the ID of the buoy station you may use `create_buoy` as a shortcut to create a buoy object.
 
 ```python
@@ -65,7 +79,7 @@ The `past` data is considered deprecated, but will remain in the project. Simila
 above, the user can access the past data (a list of all past entries) in the buoy and iterate over
 the `BuoyData` objects.
 
-## IO - Sources
+### Sources
 
 NOAA provides a KML document containing all sources and the buoys that are grouped together by that
 source. The document also provides minimal information about buoys in the event that they cannot
@@ -121,7 +135,11 @@ using `fill_buoy`. If the user wishes to keep all buoys, pass `False` as the sec
 In the event that a source has _no valid buoys_, the source will *not* be returned in the new dictionary. 
 
 
-## Location - In Area
+## Location
+
+The following sections are provided as examples in the [location module](../../nautical/location/).
+
+### In area
 
 The user is provided with convenience functions for `location Points`. If the use wants to determine if a
 point (possibly the location of a buoy) is contained within a specific area they can use the `in_area_ function.
@@ -153,7 +171,7 @@ if in_area(geometry, buoy.location):
    print("Buoy is in geometry")
 ```
 
-## Location - In Range
+### In Range
 
 The user can determine if two points are within a range of each other using the `in_range`
 static function of the `in_range` function of a `Point`.
@@ -195,3 +213,110 @@ if point_1.in_range(point_2, 1000.0):
 ```
 
 
+## Cache 
+
+The following sections are provided as examples in the [cache module](../../nautical/cache/).
+
+
+### Dump data to file
+
+Start by loading the data. There are several methods of doing so, but here the data is loaded by json dictionaries.
+
+```python
+from nautical.cache import dump
+from nautical.noaa.buoy import Buoy, Source
+
+buoy1 = Buoy.from_json(
+   {   
+            "data": {
+               'wdir': "ESE", 'wspd': 10.2, 'gst': 15.9,
+               'wspd10m': 10.4, 'wspd20m': 13.4,
+               'wvht': 2.5, 'dpd': 2.5, 'apd': 2.5,
+               'mwd': "E", 'wwh': 3.5, 'wwp': 7, 'wwd': "ESE",
+               'swh': 10.0, 'swp': 1.4, 'swd': "W",
+               'pres': 1.8, 'ptdy': 1.8,
+               'atmp': 76.5, 'wtmp': 65.3, 'otmp': 65.3, 'dewp': 85.0,
+               'time': '09:34:00', 'dd': 10, 'mm': 1, 'year': 2020
+            },
+            "station": "TestStationID",
+            "description": "Test Description",
+            "valid": True,
+            "location": {
+               "latitude": 36.0,
+               "longitude": -75.34
+            }
+      }
+)
+        
+source1 = Source.from_json(
+   {
+      "buoys": [
+            {
+               "station": "TestBuoy",
+               "data": {
+                  'wdir': "ESE", 'wspd': 10.2, 'gst': 15.9,
+                  'wspd10m': 10.4, 'wspd20m': 13.4,
+                  'wvht': 2.5, 'dpd': 2.5, 'apd': 2.5,
+                  'mwd': "E", 'wwh': 3.5, 'wwp': 7, 'wwd': "ESE",
+                  'swh': 10.0, 'swp': 1.4, 'swd': "W",
+                  'pres': 1.8, 'ptdy': 1.8,
+                  'atmp': 76.5, 'wtmp': 65.3, 'otmp': 65.3, 'dewp': 85.0,
+                  'time': '09:34:00', 'dd': 10, 'mm': 1, 'year': 2020
+               }            
+            }
+      ],
+      "name": "TestSource",
+      "description": "Test Source"
+   }
+)
+
+```
+
+Add the data to a dictionary that will contain the cached data to be saved. 
+The following keys are allowed:
+- "BUOYS"
+- "SOURCES"
+
+**Note**: _See the [CacheData enumeration](../../nautical/cache/file.py#l25) for more information.
+
+```python    
+cache_data = {
+   CacheData.BUOYS.name: [buoy1, buoy2],
+   CacheData.SOURCES.name: [source1, source2]
+}
+```
+
+Provide the data to be cached and the filename [optional].
+
+```python
+dumps(tmp_data)
+```
+
+### Load data from file
+
+Loading the cached data will supply the user/caller with a dictionary where the keys can be fouund in the [CacheData enumeration](../../nautical/cache/file.py#l25).
+
+```python
+from nautical.cache import load
+
+cache_data = load()
+```
+
+The [load function](../../nautical/cache/file.py#l73) accepts a filename and type of data to be returned.
+
+**Note**: _Default filename is the `nautical_cache.json`_.
+**Note**: _Default returned data is `CacheData.ALL`_.
+
+
+### Copying file contents
+
+The user/caller has access to `copy_current_cache` and `copy_current_cache_with_timestamp`. These functions will copy
+the current contents of the cached file (if exists) to a new filename. The name of the file where the data was copied is returned by both functions.
+
+The `copy_current_cache` function provides a bit more flexibility with the name as any data provided is appended to the name of `nautical_cache.json`.
+
+
+For instance, the following snippet would return `nautical_cacheEXAMPLE.json`.
+```python
+filename = copy_current_cache("EXAMPLE")
+```

@@ -70,11 +70,18 @@ class Point:
             "altitude": self._altitude
         }
     
-    def from_json(self, json_dict):
+    @staticmethod
+    def from_json(json_dict):
         '''Fill the instance from a json dictionary'''
-        self._latitude = json_dict.get("latitude", self._latitude)
-        self._longitude = json_dict.get("longitude", self._longitude)
-        self._altitude = json_dict.get("altitude", self._altitude)
+        loc = Point()
+        loc.from_dict(json_dict)
+        return loc
+    
+    def from_dict(self, point_dict):
+        '''Fill the instance from a json dictionary'''
+        self._latitude = point_dict.get("latitude", self._latitude)
+        self._longitude = point_dict.get("longitude", self._longitude)
+        self._altitude = point_dict.get("altitude", self._altitude)
 
     def distance(self, other, units=DistanceUnits.METERS):
         '''Get the distance using the Haversine function. The function will

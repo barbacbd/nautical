@@ -279,8 +279,8 @@ def test_json_complete_set():
     json_dict["longitude"] = -78.234
     json_dict["altitude"] = 10
     
-    p.from_json(json_dict)
+    p = Point.from_json(json_dict)
     
-    assert p.latitude == 34.45
+    assert p.latitude == 35.45
     assert p.longitude == -78.234
     assert p.altitude == 10

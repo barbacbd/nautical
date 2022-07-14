@@ -8,8 +8,8 @@ from nautical.time import (
     get_time_diff,
     get_time_str
 )
-from nautical.time.ops import __DT_FORMAT
 from datetime import timedelta, timezone
+from nautical.cache.time import should_update
 
 
 def test_correct_conversion():
@@ -42,8 +42,7 @@ def test_correct_conversion():
 def test_incorrect_conversion():
     '''
     First test:
-        The time string below has extra fields after that will cause
-        an error which means that no nTime object is created.
+        Should pass as the minutes do not matter. 
 
     Second Test:
         The time string has an invalid midday value. The value should
@@ -54,12 +53,12 @@ def test_incorrect_conversion():
     t = convert_noaa_time(time_str)
     errors = []
     
-    if t:
+    if not t:
         errors.append("t is None")
     
     time_str = "10:30&nbsp;lm"
     t = convert_noaa_time(time_str)
-    if t:
+    if t is not None:
         errors.append("t is not None")
         
     assert not errors, "\n".join(errors)
@@ -124,18 +123,33 @@ def test_nTime_24_hr_low_hours():
 
 def test_nTime_from_str_valid():
     '''Test converting time from valid string'''
-    n = NauticalTime()
-    n.from_str("13:45:00")
+    n = convert_noaa_time("13:45:00")
+    
+    assert n.hours == 1
+    assert n.minutes == 45
+
+
+def test_nTime_from_str_short_valid():
+    '''Test converting time from valid string'''
+    n = convert_noaa_time("13:45")
+    
+    assert n.hours == 1
+    assert n.minutes == 45
+
+
+def test_nTime_from_str_long_valid():
+    '''Test converting time from valid string'''
+    n = convert_noaa_time("01:45pm")
     
     assert n.hours[0] == 1
+    assert n.hours[1].name == "PM"
     assert n.minutes == 45
-    
-    
-def test_nTime_from_short_string():
-    '''Test converting from invalid string missing values'''
-    with pytest.raises(ValueError):
-        n = NauticalTime()
-        n.from_str("13:45")
+
+
+def test_nTime_from_str_invalid():
+    '''Test converting time from invalid string'''
+    n = convert_noaa_time("13:gf45")
+    assert n is None
 
 
 def test_get_time_diff():
@@ -157,5 +171,17 @@ def test_get_time_diff_invalid():
         assert get_time_diff(get_time_str(alter)) == 30
 
 
-if __name__ == '__main__':
-    test_get_time_diff()
+def test_should_update_yes():
+    '''Test that enough time has passed to warrant an update'''
+    dt = get_current_time().replace(tzinfo=timezone.utc)
+    dt = dt - timedelta(minutes=45)
+    
+    assert should_update(get_time_str(dt))
+
+
+def test_should_update_no():
+    '''Test that enough time has passed to warrant an update'''
+    dt = get_current_time().replace(tzinfo=timezone.utc)
+    dt = dt - timedelta(minutes=29)
+    
+    assert not should_update(get_time_str(dt))

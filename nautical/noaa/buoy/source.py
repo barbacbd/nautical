@@ -1,6 +1,7 @@
 from copy import deepcopy
 from enum import Enum
 from nautical.log import get_logger
+from nautical.noaa.buoy.buoy_data import BuoyData
 from .buoy import Buoy
 
 
@@ -180,18 +181,29 @@ class Source:
         return {
             "name": self.name,
             "description": self.description if self.description else "",
-            "buoys": list(self._buoys.keys())
+            "buoys": [value.to_json() for _, value in self.buoys.items()]
         }
 
-    def from_json(self, json_dict):
-        '''Fill in instance from a json dictionary'''
-        if "name" in json_dict and json_dict["name"]:
-            self.name = json_dict["name"]
+    @staticmethod
+    def from_json(json_dict):
+        '''Create/Fill/Return an instance from a json dictionary'''
+        src = Source("nautical_source")
+        src.from_dict(json_dict)
         
-        if "description" in json_dict and json_dict["description"]:
-            self.description = json_dict["description"]
+        if src.name == "nautical_source":
+            raise KeyError("Failed to set name during Source::from_json")
+    
+        return src
+        
+    def from_dict(self, source_dict):
+        '''Fill in instance from a dictionary'''
+        if "name" in source_dict and source_dict["name"]:
+            self.name = source_dict["name"]
+        
+        if "description" in source_dict and source_dict["description"]:
+            self.description = source_dict["description"]
 
-        # Create a shell        
-        if "buoys" in json_dict:
-            for buoy_id in json_dict["buoys"]:
-                self._buoys[buoy_id] = None
+        if "buoys" in source_dict:
+            for buoy_json in source_dict["buoys"]:
+                buoy = Buoy.from_json(buoy_json)
+                self._buoys[buoy.station] = buoy

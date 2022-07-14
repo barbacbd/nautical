@@ -4,9 +4,10 @@ correct/known location provided by this module.
 from appdirs import user_cache_dir
 from datetime import datetime, timezone
 from enum import Enum
-from json import load as jload, dumps as jdumps
+from json import load as jload, dump as jdump
 from os.path import join, exists
 from os import mkdir, remove
+from shutil import copyfile
 from ..log import get_logger
 from ..time import get_time_str
 from ..noaa.buoy import Source, Buoy
@@ -16,9 +17,9 @@ log = get_logger()
 log.warning("First time imports should call nautical.cache.setup()")
 
 __CACHE_FILE = "nautical_cache.json"
-__CACHE_DIR = user_cache_dir("nautical")
+NAUTICAL_CACHE_DIR = user_cache_dir("nautical")
 
-NAUTICAL_CACHE_FILE = join(__CACHE_DIR, __CACHE_FILE)
+NAUTICAL_CACHE_FILE = join(NAUTICAL_CACHE_DIR, __CACHE_FILE)
 
 
 class CacheData(Enum):
@@ -34,8 +35,8 @@ class CacheData(Enum):
 def setup():
     '''Create the cache directory if it does not exist/
     '''
-    if not exists(__CACHE_DIR):
-        mkdir(__CACHE_DIR)
+    if not exists(NAUTICAL_CACHE_DIR):
+        mkdir(NAUTICAL_CACHE_DIR)
 
 
 def copy_current_cache(extra_name_data):
@@ -47,7 +48,10 @@ def copy_current_cache(extra_name_data):
         return None
     
     copied_name = NAUTICAL_CACHE_FILE
-    copied_name = copied_name.replace(".json", extra_name_data) + ".json"    
+    copied_name = copied_name.replace(".json", extra_name_data) + ".json"
+    
+    copyfile(NAUTICAL_CACHE_FILE, copied_name)
+     
     return copied_name
 
 
@@ -77,23 +81,18 @@ def load(filename=NAUTICAL_CACHE_FILE, cached_output=CacheData.ALL):
     if not exists(filename):
         return {}
     
-    converted = _convert_to_keys(cached_output)
-    
     with open(filename, "rb") as cache_file:
         cache = jload(cache_file)
     
-    output = {}
-    for key in converted:
-        if key in cache:
-            # TOOD: convert to native types
-            output[key] = {
-                CacheData.BUOYS: [Buoy("filler").from_json(buoy_data) for buoy_data in cache[key]],
-                CacheData.SOURCES: [Source("filler").from_json(src_data) for src_data in cache[key]],
-                CacheData.TIME: cache[key]
-            }.get(key)
-        else:
-            log.warning("Key %s not found in cache", key)
-    
+    converted = _convert_to_keys(cached_output)
+
+    output = {}    
+    for key, value in cache.items():
+        if key in converted:
+            if key == CacheData.BUOYS.name: output[key] = [Buoy.from_json(buoy_data) for buoy_data in value]
+            elif key == CacheData.SOURCES.name: output[key] = [Source.from_json(src_data) for src_data in value]
+            elif key == CacheData.TIME.name: output[key] = value
+            else: log.warning("Skip loading key: %s", key)
     return output
 
 
@@ -124,6 +123,6 @@ def dumps(data, filename=NAUTICAL_CACHE_FILE):
         _data[CacheData.SOURCES.name] = [
             source.to_json() for source in data[CacheData.SOURCES.name]
         ]
-    
+        
     with open(filename, "w+") as cache_file:
-        jdumps(_data, cache_file, indent=4)
+        jdump(_data, cache_file, indent=4)

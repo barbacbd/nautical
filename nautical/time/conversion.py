@@ -18,7 +18,6 @@ def convert_noaa_time(orig: str):
     '''
     split_str = orig.strip().split(NON_BREAKING_SPACE)
 
-    mins_secs = None  # minutes and seconds
     nautical_time = None
     midday = None  # Midday value
 
@@ -29,23 +28,33 @@ def convert_noaa_time(orig: str):
         except IndexError as index_error:
             log.error(index_error)
             return None
-        mins_secs = split_str[0].split(":")
+        # time portion of the split string is element 0
+        # time_str = split_str[0].split(":")
+        time_str = split_str[0]
 
     elif len(split_str) == 1:
+        midday = [x for x in Midday if x.name.lower() in orig.lower()]
+        if midday:
+            midday = midday[0]
+            time_str_sp = [t for t in orig.lower().split(midday.name.lower()) if t]
+            # time portion of the string is the first element
+            time_str = time_str_sp[0]
+        else:
+            log.warning("No AM/PM found in time string, assuming 24 hour format")
+            # in this case NO AM/PM provided - String assumed to be complete in original state
+            time_str = orig
 
+    split_time = time_str.split(":")
+    
+    # Time is assumed in the format HH:MM:[SS] Where seconds is optional and not used
+    if len(split_time) >= 2:
+        nautical_time = NauticalTime()
         try:
-            midday = [x for x in Midday if x.name.lower() in orig.lower()][0]
-        except IndexError as index_error:
-            log.error(index_error)
+            nautical_time.minutes = int(split_time[1])
+            # See nautical.time.nautical_time.NauticalTime.hours for parsing information
+            nautical_time.hours = int(split_time[0]), midday
+        except ValueError as error:
+            log.error(error)
             return None
-
-        time_str_sp = [t for t in orig.lower().split(midday.name.lower()) if t]
-        mins_secs = time_str_sp[0].split(":")
-
-    # Minutes and seconds found along with AM/PM
-    if mins_secs and midday and len(mins_secs) == 2:
-        nautical_time = NauticalTime()  # Time object to be returned on success
-        nautical_time.minutes = int(mins_secs[1])
-        nautical_time.hours = int(mins_secs[0]), midday
-
+    
     return nautical_time

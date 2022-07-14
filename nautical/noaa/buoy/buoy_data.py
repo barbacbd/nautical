@@ -124,6 +124,11 @@ class BuoyData:
             ).replace(tzinfo=timezone.utc).timestamp())
         return 0
 
+    def __contains__(self, item):
+        '''Returns True when the value exists and is set'''
+        return item in self.__slots__ and \
+            getattr(self, item, None) is not None
+
     def __iter__(self):
         '''Provide a user friendly mapping of variable names to values stored 
         in this Buoy Data Object
@@ -141,14 +146,12 @@ class BuoyData:
             output["time"] = str(self.time)
         return output
     
-    def from_json(self, json_data):
-        '''Fill this instance from the json_data'''
-        for k, v in json_data.items():
-            if k in self.__slots__:
-                if k == "time":
-                    self.time.from_str(v)
-                else:
-                    setattr(self, k, v)
+    @staticmethod
+    def from_json(json_data):
+        '''Fill an instance from the json_data.'''
+        bd = BuoyData()
+        bd.from_dict(json_data)
+        return bd
 
     def from_dict(self, buoy_data_dict: Dict[str, Any]):
         '''Fill this object from the data stored in a dictionary where 

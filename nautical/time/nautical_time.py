@@ -99,23 +99,14 @@ class NauticalTime:
             else:
                 self._hours = hours
 
-    def from_str(self, time_as_str):
-        '''Set the data from a string'''
-        split_time = time_as_str.split(":")
-        if len(split_time) != 3:
-            raise ValueError("NauticalTime from_str requires a format hh:mm:ss")
-    
-        self.hours = int(split_time[0])
-        self.minutes = int(split_time[1])
-
     def __str__(self):
         '''Return the 24 hour version of the hour and minutes. This class does not
         deal in seconds as the seconds are not provided by NOAA.
 
         :return: string representation of the time
         '''
-        if self._format in (TimeFormat.HOUR_12, ):
-            hours, midday = self.hours
-            hours = hours + 12 if midday in (Midday.PM, ) else hours
-            return f"{hours:02d}:{self.minutes:02d}:00"
-        return f"{self.hours:02d}:{self.minutes:02d}:00"
+        hours, midday = self.hours if isinstance(self.hours, tuple) else self.hours, None
+        if midday in (Midday.PM,):
+            hours = hours + 12
+        return f"{hours:02d}:{self.minutes:02d}:00" 
+

@@ -309,7 +309,7 @@ def test_offset_positive_small():
     assert lookup_offsets[1] == 500
 
     
-def test_offset_positive_large():
+def test_offset_positive_large(subtests):
     '''Test a large number that should create quite a few chunks 15034
     16 chunks - 15 full size and 1 of 34
     '''
@@ -322,8 +322,9 @@ def test_offset_positive_large():
 
     # check for perfect blocks, except the last
     for k, v in lookup_offsets.items():
-        if v != 1000:
-            assert v == num_lookups - ((num_offsets-1)*1000)
+        with subtests.test(k=k, v=v):
+            if v != 1000:
+                assert v == num_lookups - ((num_offsets-1)*1000)
 
 
 def test_offset_negative():
