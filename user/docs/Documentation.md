@@ -279,7 +279,7 @@ The following keys are allowed:
 - "BUOYS"
 - "SOURCES"
 
-**Note**: _See the [CacheData enumeration](../../nautical/cache/file.py#l25) for more information.
+**Note**: _See the [CacheData enumeration](../../nautical/cache/file.py#l25) for more information_.
 
 ```python    
 cache_data = {
