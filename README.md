@@ -7,7 +7,11 @@
 
 <h2 align="center">
   
-![build workflow](https://github.com/barbacbd/nautical/actions/workflows/python-app.yml/badge.svg) [![PyPI version fury.io](https://badge.fury.io/py/nautical.svg)](https://pypi.python.org/pypi/nautical/) [![GitHub latest commit](https://badgen.net/github/last-commit/barbacbd/nautical)](https://github.com/barbacbd/nautical/commit/) [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/Dev-nautical/community)
+[![Build-Linux](https://github.com/barbacbd/nautical/actions/workflows/python-app-linux.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-linux.yml) [![Build-OSX](https://github.com/barbacbd/nautical/actions/workflows/python-app-osx.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-osx.yml) [![Build-Windows](https://github.com/barbacbd/nautical/actions/workflows/python-app-windows.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-windows.yml)
+
+[![PyPI version fury.io](https://badge.fury.io/py/nautical.svg)](https://pypi.python.org/pypi/nautical/) [![GitHub latest commit](https://badgen.net/github/last-commit/barbacbd/nautical)](https://github.com/barbacbd/nautical/commit/) 
+
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/Dev-nautical/community)
 
 
 # Description
@@ -24,7 +28,7 @@ View the [documentation](user/docs/Documentation.md) page for more information.
 
 # Contributing
 
-View the [contirbution](user/docs/Contributing.md) for more information.
+View the [contirbuting guidelines](user/docs/Contributing.md) for more information.
 
 # Examples
 
