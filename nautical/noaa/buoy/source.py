@@ -1,6 +1,7 @@
 from copy import deepcopy
 from enum import Enum
 from nautical.log import get_logger
+from nautical.noaa.buoy.buoy_data import BuoyData
 from .buoy import Buoy
 
 
@@ -174,3 +175,35 @@ class Source:
         :return: Buoy with a matching station, None if one was not found.
         '''
         return next((v for k, v in self._buoys.items() if v.station == station), None)
+
+    def to_json(self):
+        '''Convert this instance to a json dictionary'''
+        return {
+            "name": self.name,
+            "description": self.description if self.description else "",
+            "buoys": [value.to_json() for _, value in self.buoys.items()]
+        }
+
+    @staticmethod
+    def from_json(json_dict):
+        '''Create/Fill/Return an instance from a json dictionary'''
+        src = Source("nautical_source")
+        src.from_dict(json_dict)
+        
+        if src.name == "nautical_source":
+            raise KeyError("Failed to set name during Source::from_json")
+    
+        return src
+        
+    def from_dict(self, source_dict):
+        '''Fill in instance from a dictionary'''
+        if "name" in source_dict and source_dict["name"]:
+            self.name = source_dict["name"]
+        
+        if "description" in source_dict and source_dict["description"]:
+            self.description = source_dict["description"]
+
+        if "buoys" in source_dict:
+            for buoy_json in source_dict["buoys"]:
+                buoy = Buoy.from_json(buoy_json)
+                self._buoys[buoy.station] = buoy

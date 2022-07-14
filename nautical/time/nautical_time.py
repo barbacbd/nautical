@@ -105,8 +105,8 @@ class NauticalTime:
 
         :return: string representation of the time
         '''
-        if self._format in (TimeFormat.HOUR_12, ):
-            hours, midday = self.hours
-            hours = hours + 12 if midday in (Midday.PM, ) else hours
-            return f"{hours:02d}:{self.minutes:02d}:00"
-        return f"{self.hours:02d}:{self.minutes:02d}:00"
+        hours, midday = self.hours if isinstance(self.hours, tuple) else self.hours, None
+        if midday in (Midday.PM,):
+            hours = hours + 12
+        return f"{hours:02d}:{self.minutes:02d}:00" 
+

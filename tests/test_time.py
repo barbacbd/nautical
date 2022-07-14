@@ -3,8 +3,13 @@ from nautical.time import (
     NauticalTime,
     convert_noaa_time,
     TimeFormat,
-    Midday
+    Midday,
+    get_current_time,
+    get_time_diff,
+    get_time_str
 )
+from datetime import timedelta, timezone
+from nautical.cache.time import should_update
 
 
 def test_correct_conversion():
@@ -37,8 +42,7 @@ def test_correct_conversion():
 def test_incorrect_conversion():
     '''
     First test:
-        The time string below has extra fields after that will cause
-        an error which means that no nTime object is created.
+        Should pass as the minutes do not matter. 
 
     Second Test:
         The time string has an invalid midday value. The value should
@@ -49,12 +53,12 @@ def test_incorrect_conversion():
     t = convert_noaa_time(time_str)
     errors = []
     
-    if t:
+    if not t:
         errors.append("t is None")
     
     time_str = "10:30&nbsp;lm"
     t = convert_noaa_time(time_str)
-    if t:
+    if t is not None:
         errors.append("t is not None")
         
     assert not errors, "\n".join(errors)
@@ -116,3 +120,68 @@ def test_nTime_24_hr_low_hours():
     x.hours = -1
     assert x.minutes == 45 and x.hours == 0
 
+
+def test_nTime_from_str_valid():
+    '''Test converting time from valid string'''
+    n = convert_noaa_time("13:45:00")
+    
+    assert n.hours == 1
+    assert n.minutes == 45
+
+
+def test_nTime_from_str_short_valid():
+    '''Test converting time from valid string'''
+    n = convert_noaa_time("13:45")
+    
+    assert n.hours == 1
+    assert n.minutes == 45
+
+
+def test_nTime_from_str_long_valid():
+    '''Test converting time from valid string'''
+    n = convert_noaa_time("01:45pm")
+    
+    assert n.hours[0] == 1
+    assert n.hours[1].name == "PM"
+    assert n.minutes == 45
+
+
+def test_nTime_from_str_invalid():
+    '''Test converting time from invalid string'''
+    n = convert_noaa_time("13:gf45")
+    assert n is None
+
+
+def test_get_time_diff():
+    '''Get a time difference of 30 minutes in the past'''
+    
+    alter = get_current_time().replace(tzinfo=timezone.utc)
+    alter = alter - timedelta(minutes=30)
+    
+    assert get_time_diff(get_time_str(alter)) == 30
+    
+
+def test_get_time_diff_invalid():
+    '''Get a time difference of 30 minutes in the future'''
+    
+    alter = get_current_time().replace(tzinfo=timezone.utc)
+    alter = alter + timedelta(minutes=30)
+    
+    with pytest.raises(ValueError):
+        assert get_time_diff(get_time_str(alter)) == 30
+
+
+def test_should_update_yes():
+    '''Test that enough time has passed to warrant an update'''
+    dt = get_current_time().replace(tzinfo=timezone.utc)
+    dt = dt - timedelta(minutes=45)
+    
+    assert should_update(get_time_str(dt))
+
+
+def test_should_update_no():
+    '''Test that enough time has passed to warrant an update'''
+    dt = get_current_time().replace(tzinfo=timezone.utc)
+    dt = dt - timedelta(minutes=29)
+    
+    assert not should_update(get_time_str(dt))

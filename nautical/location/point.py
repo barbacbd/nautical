@@ -55,12 +55,33 @@ class Point:
         '''
         return self.latitude, self.longitude
 
-    def __str__(self) -> str:
+    def __str__(self):
         '''Python version of the to string function. Turn this object into a string
 
         :return: string representation of this object
         '''
         return f"{self.x}, {self.y}, {self.z}"
+
+    def to_json(self):
+        '''Convert the instance to a json dictionary'''
+        return {
+            "latitude": self._latitude,
+            "longitude": self._longitude,
+            "altitude": self._altitude
+        }
+    
+    @staticmethod
+    def from_json(json_dict):
+        '''Fill the instance from a json dictionary'''
+        loc = Point()
+        loc.from_dict(json_dict)
+        return loc
+    
+    def from_dict(self, point_dict):
+        '''Fill the instance from a json dictionary'''
+        self._latitude = point_dict.get("latitude", self._latitude)
+        self._longitude = point_dict.get("longitude", self._longitude)
+        self._altitude = point_dict.get("altitude", self._altitude)
 
     def distance(self, other, units=DistanceUnits.METERS):
         '''Get the distance using the Haversine function. The function will

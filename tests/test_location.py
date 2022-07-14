@@ -266,3 +266,21 @@ def test_complex_invalid():
     ]
     assert not in_area(geo, Point(36.84, -75.784889))
 
+def test_json_complete_set():
+    '''Test a full work up of json for the Point'''
+    p = Point(36.0, -75.0, 500.0)
+    json_dict = p.to_json()
+    
+    assert json_dict["latitude"] == 36.0
+    assert json_dict["longitude"] == -75.0
+    assert json_dict["altitude"] == 500.0
+    
+    json_dict["latitude"] = 35.45
+    json_dict["longitude"] = -78.234
+    json_dict["altitude"] = 10
+    
+    p = Point.from_json(json_dict)
+    
+    assert p.latitude == 35.45
+    assert p.longitude == -78.234
+    assert p.altitude == 10

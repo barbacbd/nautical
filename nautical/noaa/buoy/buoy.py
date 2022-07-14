@@ -154,3 +154,42 @@ class Buoy:
         '''
         return hash(str(self.station)) * hash(self.description) \
             if self.description else hash(str(self.station))
+
+    def to_json(self):
+        '''Create a json dictionary representation of this instance'''
+        json_dict = {
+            "station": self.station,
+            "description": self.description if self.description else "",
+            "valid": self.valid,
+            "location": self._location.to_json() if self._location else "",
+            "data": self._present.to_json() if self._present else ""
+        }
+        return json_dict
+
+    @staticmethod
+    def from_json(json_dict):
+        '''Return a Buoy object created from a json dictionary'''
+        buoy = Buoy("nautical_example")
+        buoy.from_dict(json_dict)
+        
+        if buoy.station == "nautical_example":
+            raise KeyError("Failed to set station during Buoy::from_json")
+        
+        return buoy
+
+    def from_dict(self, buoy_dict):
+        '''Fill this instance from a dictionary'''
+        if "station" in buoy_dict and buoy_dict["station"]:
+            self.station = buoy_dict["station"]
+        
+        if "description" in buoy_dict and buoy_dict["description"]:
+            self.description = buoy_dict["description"]
+        
+        if "valid" in buoy_dict:
+            self.valid = bool(buoy_dict["valid"])
+        
+        if "location" in buoy_dict and buoy_dict["location"]:
+            self._location = Point.from_json(buoy_dict["location"])
+        
+        if "data" in buoy_dict and buoy_dict["data"]:
+            self._present = BuoyData.from_json(buoy_dict["data"])
