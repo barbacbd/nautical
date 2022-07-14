@@ -28,6 +28,8 @@ back later. The file location is determined via the [appdirs module](https://pyp
 - Copy cache files to new names (with timestamps or custom names)
 - Load Cache files to Nautical Objects.
 
+**Note**: _Always call [setup](../../nautical/cache/file.py#L35) before using cache_.
+
 **Note**: _[Nautical cache](../../nautical/cache/) was added in version 3.1.0_.
 
 # Examples

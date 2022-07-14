@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from json import load as jload, dump as jdump
 from os.path import join, exists
-from os import mkdir, remove
+from os import mkdir, remove, getenv
 from shutil import copyfile
 from ..log import get_logger
 from ..time import get_time_str
@@ -17,7 +17,7 @@ log = get_logger()
 log.warning("First time imports should call nautical.cache.setup()")
 
 __CACHE_FILE = "nautical_cache.json"
-NAUTICAL_CACHE_DIR = user_cache_dir("nautical")
+NAUTICAL_CACHE_DIR = getenv("NAUTICAL_CACHE_DIR", user_cache_dir("nautical"))
 
 NAUTICAL_CACHE_FILE = join(NAUTICAL_CACHE_DIR, __CACHE_FILE)
 

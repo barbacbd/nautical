@@ -1,14 +1,21 @@
+from os.path import exists, join
+from os import remove, listdir, environ
+import pytest
+from shutil import rmtree
+
+environ["NAUTICAL_CACHE_DIR"] = "nautical_cache_tests"
+
+# Load anything associated with nautical after env vars are set
 from nautical.cache import *
 from nautical.cache.file import NAUTICAL_CACHE_DIR, NAUTICAL_CACHE_FILE
-from os.path import exists, join
-from os import remove, listdir
 from nautical.noaa.buoy import Buoy, Source
-import pytest
 
 
-@pytest.mark.order(1)
+
+@pytest.mark.first
 def test_setup():
     '''Test the correct creation of the cache directory'''
+    
     setup()
     assert exists(NAUTICAL_CACHE_DIR)
 
@@ -213,12 +220,8 @@ def test_load_time(subtests):
 @pytest.mark.last
 def test_remove_tmp_files():
     '''Remove any temporary files that were created during testing
-    '''
-    tmp_filename = join(NAUTICAL_CACHE_DIR, "NAUTICAL_TEST_CACHE.json")
-    if not exists(tmp_filename):
-        tmp_filename = NAUTICAL_CACHE_FILE
+    '''    
+    if exists(NAUTICAL_CACHE_DIR):
+        rmtree(NAUTICAL_CACHE_DIR)
     
-    if exists(tmp_filename):
-        remove(tmp_filename)
-    
-    assert not exists(tmp_filename)
+    assert not exists(NAUTICAL_CACHE_DIR)
