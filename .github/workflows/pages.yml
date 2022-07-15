@@ -19,8 +19,6 @@ jobs:
 
     - name: Commit The Docs
       run: |
-        git clone git@github.com:barbacbd/nautical.git
-        cd nautical
         git checkout master
         git pull
         git checkout gh-pages
