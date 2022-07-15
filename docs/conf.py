@@ -37,7 +37,7 @@ release = None
 output = output.decode('utf-8').split("\n")
 for line in output:
     if line.startswith('Version'):
-        release = line.split()[1]
+        release = str(line.split()[1])
 
 if release is None:
     raise ValueError("Failed to find a version")
