@@ -22,8 +22,8 @@ jobs:
     - name: Commit The Docs
       run: |
         git fetch origin
-	git merge origin/master
-	git push origin gh-pages
+        git merge origin/master
+        git push origin gh-pages
 
         # remove all current docs                                                                                                                                                                                          
         git rm -rf docs/
