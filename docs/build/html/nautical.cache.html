@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nautical.cache package &mdash; nautical 3.1.2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> nautical
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">nautical.cache package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-nautical.cache.file">nautical.cache.file module</a></li>
+<li><a class="reference internal" href="#module-nautical.cache.time">nautical.cache.time module</a></li>
+<li><a class="reference internal" href="#module-nautical.cache">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nautical</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>nautical.cache package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nautical.cache.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nautical-cache-package">
+<h1>nautical.cache package<a class="headerlink" href="#nautical-cache-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-nautical.cache.file">
+<span id="nautical-cache-file-module"></span><h2>nautical.cache.file module<a class="headerlink" href="#module-nautical.cache.file" title="Permalink to this heading"></a></h2>
+<p>No matter what system is used, the cache should be save to the
+correct/known location provided by this module.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.cache.file.CacheData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.cache.file.</span></span><span class="sig-name descname"><span class="pre">CacheData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#CacheData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.file.CacheData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Describes the type of data that the user wants
+to retrieve from the CACHE</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.cache.file.CacheData.ALL">
+<span class="sig-name descname"><span class="pre">ALL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#nautical.cache.file.CacheData.ALL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.cache.file.CacheData.BUOYS">
+<span class="sig-name descname"><span class="pre">BUOYS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#nautical.cache.file.CacheData.BUOYS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.cache.file.CacheData.SOURCES">
+<span class="sig-name descname"><span class="pre">SOURCES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#nautical.cache.file.CacheData.SOURCES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.cache.file.CacheData.TIME">
+<span class="sig-name descname"><span class="pre">TIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#nautical.cache.file.CacheData.TIME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.file._convert_to_keys">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.file.</span></span><span class="sig-name descname"><span class="pre">_convert_to_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#_convert_to_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.file._convert_to_keys" title="Permalink to this definition"></a></dt>
+<dd><p>Convert the CacheData type to string keys required for output</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.file.copy_current_cache">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.file.</span></span><span class="sig-name descname"><span class="pre">copy_current_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra_name_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#copy_current_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.file.copy_current_cache" title="Permalink to this definition"></a></dt>
+<dd><p>Copy the current nautical cache file and append the extra_data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Filename on success, None otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.file.copy_current_cache_with_timestamp">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.file.</span></span><span class="sig-name descname"><span class="pre">copy_current_cache_with_timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#copy_current_cache_with_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.file.copy_current_cache_with_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Apply timestamp to the name of the nautical cache</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.file.dumps">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.file.</span></span><span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/bbarbach/.cache/nautical/nautical_cache.json'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#dumps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.file.dumps" title="Permalink to this definition"></a></dt>
+<dd><p>Overwrite the current value of the NAUTICAL_CACHE_FILE
+with the current contents of data. The data should be passed in should
+be provided as nautical objects for buoys and sources.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Dictionary containing buoys and sources with the keys to match</p></li>
+<li><p><strong>filename</strong> – name of the file where the data will be stored</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.file.load">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.file.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/bbarbach/.cache/nautical/nautical_cache.json'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cached_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">CacheData.ALL</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.file.load" title="Permalink to this definition"></a></dt>
+<dd><p>Load the nautical cache if it exists. All nautical data is returned as nautical objects
+in the dictionary. Time is provided as a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – Name of the file containing cached data.</p></li>
+<li><p><strong>cached_output</strong> – CacheData enumeration type. What type of information to retrieve</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary containing all cached output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.file.setup">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.file.</span></span><span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.file.setup" title="Permalink to this definition"></a></dt>
+<dd><p>Create the cache directory if it does not exist/</p>
+</dd></dl>
+
+</section>
+<section id="module-nautical.cache.time">
+<span id="nautical-cache-time-module"></span><h2>nautical.cache.time module<a class="headerlink" href="#module-nautical.cache.time" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.time.should_update">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.time.</span></span><span class="sig-name descname"><span class="pre">should_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_time_stamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">TimeUnits.MINUTES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/time.html#should_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.time.should_update" title="Permalink to this definition"></a></dt>
+<dd><p>Determine if an update _should_ occur based on the time provided. The
+date_time_stamp should be provided with the format <cite>__DT_FORMAT</cite> (see
+../time/ops.py for more information).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_time_stamp</strong> – String format for the string following the format in <cite>__DT_FORMAT</cite></p></li>
+<li><p><strong>units</strong> – Resulting time units</p></li>
+<li><p><strong>max_diff</strong> – if the diff exceeds this value then True is returned</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True when an update _may_ be desired</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-nautical.cache">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nautical.cache" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.cache.CacheData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.cache.</span></span><span class="sig-name descname"><span class="pre">CacheData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#CacheData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.CacheData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Describes the type of data that the user wants
+to retrieve from the CACHE</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.cache.CacheData.ALL">
+<span class="sig-name descname"><span class="pre">ALL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#nautical.cache.CacheData.ALL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.cache.CacheData.BUOYS">
+<span class="sig-name descname"><span class="pre">BUOYS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#nautical.cache.CacheData.BUOYS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.cache.CacheData.SOURCES">
+<span class="sig-name descname"><span class="pre">SOURCES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#nautical.cache.CacheData.SOURCES" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.cache.CacheData.TIME">
+<span class="sig-name descname"><span class="pre">TIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#nautical.cache.CacheData.TIME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.copy_current_cache">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.</span></span><span class="sig-name descname"><span class="pre">copy_current_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extra_name_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#copy_current_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.copy_current_cache" title="Permalink to this definition"></a></dt>
+<dd><p>Copy the current nautical cache file and append the extra_data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Filename on success, None otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.copy_current_cache_with_timestamp">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.</span></span><span class="sig-name descname"><span class="pre">copy_current_cache_with_timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#copy_current_cache_with_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.copy_current_cache_with_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Apply timestamp to the name of the nautical cache</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.dumps">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.</span></span><span class="sig-name descname"><span class="pre">dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/bbarbach/.cache/nautical/nautical_cache.json'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#dumps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.dumps" title="Permalink to this definition"></a></dt>
+<dd><p>Overwrite the current value of the NAUTICAL_CACHE_FILE
+with the current contents of data. The data should be passed in should
+be provided as nautical objects for buoys and sources.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Dictionary containing buoys and sources with the keys to match</p></li>
+<li><p><strong>filename</strong> – name of the file where the data will be stored</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.load">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/bbarbach/.cache/nautical/nautical_cache.json'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cached_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">CacheData.ALL</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.load" title="Permalink to this definition"></a></dt>
+<dd><p>Load the nautical cache if it exists. All nautical data is returned as nautical objects
+in the dictionary. Time is provided as a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – Name of the file containing cached data.</p></li>
+<li><p><strong>cached_output</strong> – CacheData enumeration type. What type of information to retrieve</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary containing all cached output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.setup">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.</span></span><span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/file.html#setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.setup" title="Permalink to this definition"></a></dt>
+<dd><p>Create the cache directory if it does not exist/</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.cache.should_update">
+<span class="sig-prename descclassname"><span class="pre">nautical.cache.</span></span><span class="sig-name descname"><span class="pre">should_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_time_stamp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">TimeUnits.MINUTES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/cache/time.html#should_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.cache.should_update" title="Permalink to this definition"></a></dt>
+<dd><p>Determine if an update _should_ occur based on the time provided. The
+date_time_stamp should be provided with the format <cite>__DT_FORMAT</cite> (see
+../time/ops.py for more information).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_time_stamp</strong> – String format for the string following the format in <cite>__DT_FORMAT</cite></p></li>
+<li><p><strong>units</strong> – Resulting time units</p></li>
+<li><p><strong>max_diff</strong> – if the diff exceeds this value then True is returned</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True when an update _may_ be desired</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

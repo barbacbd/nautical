@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nautical.noaa.ncei.token &mdash; nautical 3.1.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> nautical
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">nautical</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>nautical.noaa.ncei.token</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nautical.noaa.ncei.token</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">json</span> <span class="kn">import</span> <span class="n">load</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span><span class="p">,</span> <span class="n">exists</span>
+<span class="kn">from</span> <span class="nn">yaml</span> <span class="kn">import</span> <span class="n">safe_load</span>
+<span class="kn">from</span> <span class="nn">nautical.log</span> <span class="kn">import</span> <span class="n">get_logger</span>
+
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+<span class="n">_default_token_file</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s2">&quot;token.yaml&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="_load_from_yaml"><a class="viewcode-back" href="../../../../nautical.noaa.ncei.html#nautical.noaa.ncei.token._load_from_yaml">[docs]</a><span class="k">def</span> <span class="nf">_load_from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Search for the token in the yaml file</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">token_file</span><span class="p">:</span>
+        <span class="n">yaml_data</span> <span class="o">=</span> <span class="n">safe_load</span><span class="p">(</span><span class="n">token_file</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">yaml_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="_load_from_json"><a class="viewcode-back" href="../../../../nautical.noaa.ncei.html#nautical.noaa.ncei.token._load_from_json">[docs]</a><span class="k">def</span> <span class="nf">_load_from_json</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Search for the token in the json file</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">token_file</span><span class="p">:</span>
+        <span class="n">json_data</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">token_file</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">json_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_default_token"><a class="viewcode-back" href="../../../../nautical.noaa.ncei.html#nautical.noaa.ncei.token.get_default_token">[docs]</a><span class="k">def</span> <span class="nf">get_default_token</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;Parse the default token information&#39;&#39;&#39;</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Using the default token file.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_load_from_yaml</span><span class="p">(</span><span class="n">_default_token_file</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_token"><a class="viewcode-back" href="../../../../nautical.noaa.ncei.html#nautical.noaa.ncei.token.get_token">[docs]</a><span class="k">def</span> <span class="nf">get_token</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">_default_token_file</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Provide a yaml, json, or text.</span>
+
+<span class="sd">    For yaml files, the file must contain the keyword `token` followed by the token,</span>
+<span class="sd">    token: {{ token }}</span>
+
+<span class="sd">    For json files, the file must contain the keywork `token` follwed by the token,</span>
+<span class="sd">    {&quot;token&quot;: {{ token }} }</span>
+
+<span class="sd">    [Default Behavior]:</span>
+<span class="sd">    For text files, simply copy the token into the file.</span>
+
+<span class="sd">    This file does not need to be considered a secret. Follow the link below </span>
+<span class="sd">    to generate your unique (one time) token.</span>
+<span class="sd">    `https://www.ncdc.noaa.gov/cdo-web/token`</span>
+
+<span class="sd">    The usage of a token is limitted to 5 times per second, and 10,000</span>
+<span class="sd">    times per day according to the noaa website. </span>
+
+<span class="sd">    :param filename: file containing the token data</span>
+<span class="sd">    :return: token contained in the file if exists, otherwise None</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed to find </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.yaml&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="n">_default_token_file</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">get_default_token</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">_load_from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.json&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_load_from_json</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.txt&quot;</span><span class="p">):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;assuming </span><span class="si">%s</span><span class="s2"> is a txt file&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">token_file</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">token_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

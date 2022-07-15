@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nautical.noaa.buoy.buoy_data &mdash; nautical 3.1.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> nautical
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">nautical</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>nautical.noaa.buoy.buoy_data</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nautical.noaa.buoy.buoy_data</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">nautical.log</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">nautical.time.conversion</span> <span class="kn">import</span> <span class="n">convert_noaa_time</span>
+<span class="kn">from</span> <span class="nn">nautical.time.nautical_time</span> <span class="kn">import</span> <span class="n">NauticalTime</span>
+<span class="kn">from</span> <span class="nn">nautical.time.enums</span> <span class="kn">import</span> <span class="n">TimeFormat</span><span class="p">,</span> <span class="n">Midday</span>
+<span class="kn">from</span> <span class="nn">nautical.units</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SpeedUnits</span><span class="p">,</span>
+    <span class="n">DistanceUnits</span><span class="p">,</span>
+    <span class="n">TimeUnits</span><span class="p">,</span>
+    <span class="n">PressureUnits</span><span class="p">,</span>
+    <span class="n">TemperatureUnits</span><span class="p">,</span> 
+    <span class="n">SalinityUnits</span>
+<span class="p">)</span>
+
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+
+<span class="c1"># Not sure why but this is the default value for NOAA data that is not present.</span>
+<span class="c1"># There may be times where we check against this value for validity/availability</span>
+<span class="n">UNAVAILABLE_NOAA_DATA</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
+
+<span class="c1"># list of known buoy variable names.</span>
+<span class="n">buoy_vars</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># date/time</span>
+    <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;mm&#39;</span><span class="p">,</span> <span class="s1">&#39;dd&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span>
+    <span class="c1"># wind data</span>
+    <span class="s1">&#39;wdir&#39;</span><span class="p">,</span> <span class="s1">&#39;wspd&#39;</span><span class="p">,</span> <span class="s1">&#39;gst&#39;</span><span class="p">,</span> <span class="s1">&#39;mwd&#39;</span><span class="p">,</span> <span class="s1">&#39;wspd10m&#39;</span><span class="p">,</span> <span class="s1">&#39;wspd20m&#39;</span><span class="p">,</span>
+    <span class="c1"># wave data</span>
+    <span class="s1">&#39;wvht&#39;</span><span class="p">,</span> <span class="s1">&#39;dpd&#39;</span><span class="p">,</span> <span class="s1">&#39;apd&#39;</span><span class="p">,</span> <span class="s1">&#39;wwh&#39;</span><span class="p">,</span> <span class="s1">&#39;wwp&#39;</span><span class="p">,</span> <span class="s1">&#39;wwd&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;swh&#39;</span><span class="p">,</span> <span class="s1">&#39;swp&#39;</span><span class="p">,</span> <span class="s1">&#39;swd&#39;</span><span class="p">,</span>
+    <span class="c1"># pressure</span>
+    <span class="s1">&#39;pres&#39;</span><span class="p">,</span> <span class="s1">&#39;ptdy&#39;</span><span class="p">,</span>
+    <span class="c1"># temperature</span>
+    <span class="s1">&#39;atmp&#39;</span><span class="p">,</span> <span class="s1">&#39;wtmp&#39;</span><span class="p">,</span> <span class="s1">&#39;dewp&#39;</span><span class="p">,</span> <span class="s1">&#39;otmp&#39;</span><span class="p">,</span> <span class="s1">&#39;chill&#39;</span><span class="p">,</span> <span class="s1">&#39;heat&#39;</span><span class="p">,</span>
+    <span class="c1"># salinity</span>
+    <span class="s1">&#39;sal&#39;</span><span class="p">,</span> <span class="s1">&#39;ph&#39;</span><span class="p">,</span>
+    <span class="c1"># oxygen</span>
+    <span class="s1">&#39;o2pct&#39;</span><span class="p">,</span> <span class="s1">&#39;o2ppm&#39;</span><span class="p">,</span>
+    <span class="c1"># distance</span>
+    <span class="s1">&#39;depth&#39;</span><span class="p">,</span> <span class="s1">&#39;nmi&#39;</span><span class="p">,</span> <span class="s1">&#39;vis&#39;</span><span class="p">,</span> <span class="s1">&#39;tide&#39;</span><span class="p">,</span>
+    <span class="c1"># other</span>
+    <span class="s1">&#39;steepness&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;clcon&#39;</span><span class="p">,</span> <span class="s1">&#39;turb&#39;</span><span class="p">,</span> <span class="s1">&#39;cond&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;srad1&#39;</span><span class="p">,</span> <span class="s1">&#39;swrad&#39;</span><span class="p">,</span> <span class="s1">&#39;lwrad&#39;</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="_find_parameter_units"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data._find_parameter_units">[docs]</a><span class="k">def</span> <span class="nf">_find_parameter_units</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;Function that will attempt to find the units associated </span>
+<span class="sd">    with the key. If no units are found, None is returned.</span>
+
+<span class="sd">    :param key: Name of the parameter</span>
+<span class="sd">    :return: string of the type of units if there are units associated with the parameter.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;wspd&quot;</span><span class="p">:</span> <span class="n">SpeedUnits</span><span class="o">.</span><span class="n">KNOTS</span><span class="p">,</span>
+        <span class="s2">&quot;gst&quot;</span><span class="p">:</span> <span class="n">SpeedUnits</span><span class="o">.</span><span class="n">KNOTS</span><span class="p">,</span>
+        <span class="s2">&quot;wvht&quot;</span><span class="p">:</span> <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span>
+        <span class="s2">&quot;dpd&quot;</span><span class="p">:</span> <span class="n">TimeUnits</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">,</span>
+        <span class="s2">&quot;apd&quot;</span><span class="p">:</span> <span class="n">TimeUnits</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">,</span>
+        <span class="s2">&quot;pres&quot;</span><span class="p">:</span> <span class="n">PressureUnits</span><span class="o">.</span><span class="n">PSI</span><span class="p">,</span>
+        <span class="s2">&quot;ptdy&quot;</span><span class="p">:</span> <span class="n">PressureUnits</span><span class="o">.</span><span class="n">PSI</span><span class="p">,</span>
+        <span class="s2">&quot;atmp&quot;</span><span class="p">:</span> <span class="n">TemperatureUnits</span><span class="o">.</span><span class="n">DEG_F</span><span class="p">,</span>
+        <span class="s2">&quot;wtmp&quot;</span><span class="p">:</span> <span class="n">TemperatureUnits</span><span class="o">.</span><span class="n">DEG_F</span><span class="p">,</span>
+        <span class="s2">&quot;dewp&quot;</span><span class="p">:</span> <span class="n">TemperatureUnits</span><span class="o">.</span><span class="n">DEG_F</span><span class="p">,</span>
+        <span class="s2">&quot;sal&quot;</span><span class="p">:</span> <span class="n">SalinityUnits</span><span class="o">.</span><span class="n">PSU</span><span class="p">,</span>
+        <span class="s2">&quot;vis&quot;</span><span class="p">:</span> <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">NAUTICAL_MILES</span><span class="p">,</span>
+        <span class="s2">&quot;tide&quot;</span><span class="p">:</span> <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span>
+        <span class="s2">&quot;swh&quot;</span><span class="p">:</span> <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span>
+        <span class="s2">&quot;swp&quot;</span><span class="p">:</span> <span class="n">TimeUnits</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">,</span>
+        <span class="s2">&quot;wwh&quot;</span><span class="p">:</span> <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span>
+        <span class="s2">&quot;wwp&quot;</span><span class="p">:</span> <span class="n">TimeUnits</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">,</span>
+        <span class="s2">&quot;otmp&quot;</span><span class="p">:</span> <span class="n">TemperatureUnits</span><span class="o">.</span><span class="n">DEG_F</span><span class="p">,</span>
+        <span class="s2">&quot;wspd10m&quot;</span><span class="p">:</span> <span class="n">SpeedUnits</span><span class="o">.</span><span class="n">KNOTS</span><span class="p">,</span>
+        <span class="s2">&quot;wspd20m&quot;</span><span class="p">:</span> <span class="n">SpeedUnits</span><span class="o">.</span><span class="n">KNOTS</span><span class="p">,</span>
+        <span class="s2">&quot;depth&quot;</span><span class="p">:</span> <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">FEET</span><span class="p">,</span>
+    <span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BuoyData"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData">[docs]</a><span class="k">class</span> <span class="nc">BuoyData</span><span class="p">:</span>
+
+    <span class="sd">&#39;&#39;&#39;Class to contain all information included in a NOAA data</span>
+<span class="sd">    point for a buoy. A buoy can also include weather stations.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="n">buoy_vars</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># initialize all slots to None</span>
+        <span class="k">for</span> <span class="n">slot</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slot</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># set the time for this buoy data to NOW</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+        <span class="c1"># pylint: disable=invalid-name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">month</span><span class="p">)</span>
+        <span class="c1"># pylint: disable=invalid-name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dd</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+
+        <span class="c1"># initialize the time in the case of Present data, we can always correct this later</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">NauticalTime</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="n">TimeFormat</span><span class="o">.</span><span class="n">HOUR_24</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">minutes</span> <span class="o">=</span> <span class="mi">30</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">minute</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">30</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">hour</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">epoch_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Epoch time property. Converts the nautical time to the epoch time. </span>
+<span class="sd">        The function assumes that the data is in UTC time. </span>
+
+<span class="sd">        :return: Seconds since the epoch in UTC, 0 on failure</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">dd</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">:</span>
+            <span class="c1"># convert the hours values based on the time format</span>
+            <span class="n">hours</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">hours</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hours</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">hours</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">Midday</span><span class="o">.</span><span class="n">PM</span> <span class="ow">and</span> <span class="n">hours</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="p">:</span>
+                    <span class="n">hours</span> <span class="o">=</span> <span class="n">hours</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">12</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">hours</span> <span class="o">=</span> <span class="n">hours</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># convert the time using datetime, set the timezone to UTC</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dd</span><span class="p">,</span> <span class="n">hours</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">minutes</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="BuoyData.__contains__"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData.__contains__">[docs]</a>    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Returns True when the value exists and is set&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span> <span class="ow">and</span> \
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="BuoyData.__iter__"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData.__iter__">[docs]</a>    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Provide a user friendly mapping of variable names to values stored </span>
+<span class="sd">        in this Buoy Data Object</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">slot</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slot</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">slot</span><span class="p">,</span> <span class="n">val</span></div>
+    
+<div class="viewcode-block" id="BuoyData.to_json"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Return the object as a json dict&#39;&#39;&#39;</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;time&quot;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">:</span>
+            <span class="n">output</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+    
+<div class="viewcode-block" id="BuoyData.from_json"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData.from_json">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="n">json_data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Fill an instance from the json_data.&#39;&#39;&#39;</span>
+        <span class="n">bd</span> <span class="o">=</span> <span class="n">BuoyData</span><span class="p">()</span>
+        <span class="n">bd</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">json_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bd</span></div>
+
+<div class="viewcode-block" id="BuoyData.from_dict"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData.from_dict">[docs]</a>    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buoy_data_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+        <span class="sd">&#39;&#39;&#39;Fill this object from the data stored in a dictionary where </span>
+<span class="sd">        the key should match a slot or object variable</span>
+
+<span class="sd">        :param buoy_data_dict: Dictionary containing the data about this buoy</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">buoy_data_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BuoyData.set"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.buoy_data.BuoyData.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Set a key, value pair. This function is intended to replace</span>
+<span class="sd">        `__setattr__` for simplcity. The function will also attempt to convert</span>
+<span class="sd">        the noaa time to a formatted time that is readable.</span>
+
+<span class="sd">        :param key: the internal variable name</span>
+<span class="sd">        :param value: the value we wish to set the variable to</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">UNAVAILABLE_NOAA_DATA</span> <span class="o">==</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">convert_noaa_time</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">NauticalTime</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">error</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

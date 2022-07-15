@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nautical.units.conversion &mdash; nautical 3.1.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> nautical
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">nautical</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>nautical.units.conversion</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nautical.units.conversion</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">nautical.log</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TimeUnits</span><span class="p">,</span>
+    <span class="n">TemperatureUnits</span><span class="p">,</span>
+    <span class="n">SpeedUnits</span><span class="p">,</span>
+    <span class="n">DistanceUnits</span><span class="p">,</span>
+    <span class="n">PressureUnits</span>
+<span class="p">)</span>
+
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+
+<span class="n">TimeLookup</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">TimeUnits</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">TimeUnits</span><span class="o">.</span><span class="n">MINUTES</span><span class="p">:</span> <span class="mf">60.0</span><span class="p">,</span>  <span class="c1"># seconds per minute</span>
+    <span class="n">TimeUnits</span><span class="o">.</span><span class="n">HOURS</span><span class="p">:</span> <span class="mf">3600.0</span><span class="p">,</span>  <span class="c1"># seconds per hour</span>
+    <span class="n">TimeUnits</span><span class="o">.</span><span class="n">DAYS</span><span class="p">:</span> <span class="mf">86400.0</span>   <span class="c1"># seconds per day</span>
+<span class="p">}</span>
+
+<span class="n">DistanceLookup</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">CENTIMETERS</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">FEET</span><span class="p">:</span> <span class="mf">30.48</span><span class="p">,</span>              <span class="c1"># cm per feet</span>
+    <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">YARDS</span><span class="p">:</span> <span class="mf">91.44</span><span class="p">,</span>             <span class="c1"># cm per yard</span>
+    <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">METERS</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span>            <span class="c1"># cm per meter</span>
+    <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">KILOMETERS</span><span class="p">:</span> <span class="mf">100000.0</span><span class="p">,</span>     <span class="c1"># cm per km</span>
+    <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">MILES</span><span class="p">:</span> <span class="mf">160934.0</span><span class="p">,</span>          <span class="c1"># cm per mile</span>
+    <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">NAUTICAL_MILES</span><span class="p">:</span> <span class="mf">185200.0</span>  <span class="c1"># cm per nautical mile</span>
+<span class="p">}</span>
+
+<span class="n">SpeedLookup</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">SpeedUnits</span><span class="o">.</span><span class="n">MPS</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">SpeedUnits</span><span class="o">.</span><span class="n">KNOTS</span><span class="p">:</span> <span class="mf">1.94384</span><span class="p">,</span>  <span class="c1"># MPS to KTS</span>
+    <span class="n">SpeedUnits</span><span class="o">.</span><span class="n">MPH</span><span class="p">:</span> <span class="mf">2.23694</span><span class="p">,</span>    <span class="c1"># MPS to Miles Per Hour</span>
+    <span class="n">SpeedUnits</span><span class="o">.</span><span class="n">KPH</span><span class="p">:</span> <span class="mf">3.6</span><span class="p">,</span>        <span class="c1"># MPS to Kilometers Per Hour</span>
+    <span class="n">SpeedUnits</span><span class="o">.</span><span class="n">FPS</span><span class="p">:</span> <span class="mf">3.28084</span>     <span class="c1"># MPS to Feet Per Second</span>
+<span class="p">}</span>
+
+<span class="n">PressureLookup</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">PressureUnits</span><span class="o">.</span><span class="n">PA</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">PressureUnits</span><span class="o">.</span><span class="n">TORR</span><span class="p">:</span> <span class="mf">7.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span>
+    <span class="n">PressureUnits</span><span class="o">.</span><span class="n">BARR</span><span class="p">:</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">PressureUnits</span><span class="o">.</span><span class="n">ATM</span><span class="p">:</span> <span class="mf">9.869</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">6</span><span class="p">),</span>
+    <span class="n">PressureUnits</span><span class="o">.</span><span class="n">AT</span><span class="p">:</span> <span class="mf">1.02</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">5</span><span class="p">),</span>
+    <span class="n">PressureUnits</span><span class="o">.</span><span class="n">BA</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">PressureUnits</span><span class="o">.</span><span class="n">PSI</span><span class="p">:</span> <span class="mf">1.45</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">4</span><span class="p">),</span>
+    <span class="n">PressureUnits</span><span class="o">.</span><span class="n">HG</span><span class="p">:</span> <span class="mf">7.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="convert_temperature"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.conversion.convert_temperature">[docs]</a><span class="k">def</span> <span class="nf">convert_temperature</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">init_units</span><span class="p">,</span> <span class="n">final_units</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert the temperature value from the initial units to the</span>
+<span class="sd">    final units</span>
+
+<span class="sd">    :param value: initial value for temperature</span>
+<span class="sd">    :param init_units: initial units for temperature</span>
+<span class="sd">    :param final_units: desired temperature units</span>
+<span class="sd">    :return: value converted from the initial units to the final units</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">init_units</span><span class="p">,</span> <span class="n">TemperatureUnits</span><span class="p">)</span> <span class="ow">or</span> \
+       <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">final_units</span><span class="p">,</span> <span class="n">TemperatureUnits</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span>
+    <span class="n">_temp</span> <span class="o">=</span> <span class="n">value</span> <span class="k">if</span> <span class="n">init_units</span> <span class="ow">in</span> <span class="p">(</span><span class="n">TemperatureUnits</span><span class="o">.</span><span class="n">DEG_F</span><span class="p">,)</span> <span class="k">else</span> <span class="p">(</span><span class="mf">9.0</span> <span class="o">/</span> <span class="mf">5.0</span> <span class="o">*</span> <span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="mf">32.0</span>
+    <span class="k">return</span> <span class="n">_temp</span> <span class="k">if</span> <span class="n">final_units</span> <span class="ow">in</span> <span class="p">(</span><span class="n">TemperatureUnits</span><span class="o">.</span><span class="n">DEG_F</span><span class="p">,)</span> <span class="k">else</span> <span class="p">(</span><span class="n">_temp</span> <span class="o">-</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="mf">5.0</span> <span class="o">/</span> <span class="mf">9.0</span></div>
+
+
+<div class="viewcode-block" id="convert_time"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.conversion.convert_time">[docs]</a><span class="k">def</span> <span class="nf">convert_time</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">init_units</span><span class="p">,</span> <span class="n">final_units</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert the time value from the initial units to the final units</span>
+
+<span class="sd">    :param value: initial value for time</span>
+<span class="sd">    :param init_units: initial units for time</span>
+<span class="sd">    :param final_units: desired time units</span>
+<span class="sd">    :return: value converted from the initial units to the final units</span>
+<span class="sd">    :raises KeyError: </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">TimeLookup</span><span class="p">[</span><span class="n">init_units</span><span class="p">]</span> <span class="o">/</span> <span class="n">TimeLookup</span><span class="p">[</span><span class="n">final_units</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">key_error</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">key_error</span><span class="p">)</span>
+        <span class="k">raise</span></div>
+
+
+<div class="viewcode-block" id="convert_distance"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.conversion.convert_distance">[docs]</a><span class="k">def</span> <span class="nf">convert_distance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">init_units</span><span class="p">,</span> <span class="n">final_units</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert the distance value from the initial units to the final units</span>
+
+<span class="sd">    :param value: initial value for distance</span>
+<span class="sd">    :param init_units: initial units for distance</span>
+<span class="sd">    :param final_units: desired distance units</span>
+<span class="sd">    :return: value converted from the initial units to the final units</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">DistanceLookup</span><span class="p">[</span><span class="n">init_units</span><span class="p">]</span> <span class="o">/</span> <span class="n">DistanceLookup</span><span class="p">[</span><span class="n">final_units</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">key_error</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">key_error</span><span class="p">)</span>
+        <span class="k">raise</span> </div>
+
+
+<div class="viewcode-block" id="convert_speed"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.conversion.convert_speed">[docs]</a><span class="k">def</span> <span class="nf">convert_speed</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">init_units</span><span class="p">,</span> <span class="n">final_units</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert the speed value from the initial units to the final units</span>
+
+<span class="sd">    :param value: initial value for speed</span>
+<span class="sd">    :param init_units: initial units for speed</span>
+<span class="sd">    :param final_units: desired speed units</span>
+<span class="sd">    :return: value converted from the initial units to the final units</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># speed works a bit the opposite we want to divide then multiply</span>
+        <span class="c1"># instead of the normal multiplication then division</span>
+        <span class="k">return</span> <span class="n">value</span> <span class="o">/</span> <span class="n">SpeedLookup</span><span class="p">[</span><span class="n">init_units</span><span class="p">]</span> <span class="o">*</span> <span class="n">SpeedLookup</span><span class="p">[</span><span class="n">final_units</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">key_error</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">key_error</span><span class="p">)</span>
+        <span class="k">raise</span> </div>
+
+
+<div class="viewcode-block" id="convert_pressure"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.conversion.convert_pressure">[docs]</a><span class="k">def</span> <span class="nf">convert_pressure</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">init_units</span><span class="p">,</span> <span class="n">final_units</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert the pressure value from the initial units to the final units</span>
+
+<span class="sd">    :param value: initial value for pressure</span>
+<span class="sd">    :param init_units: initial units for pressure</span>
+<span class="sd">    :param final_units: desired pressure units</span>
+<span class="sd">    :return: value converted from the initial units to the final units</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># speed works a bit the opposite we want to divide then multiply</span>
+        <span class="c1"># instead of the normal multiplication then division</span>
+        <span class="k">return</span> <span class="n">value</span> <span class="o">/</span> <span class="n">PressureLookup</span><span class="p">[</span><span class="n">init_units</span><span class="p">]</span> <span class="o">*</span> <span class="n">PressureUnits</span><span class="p">[</span><span class="n">final_units</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">key_error</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">key_error</span><span class="p">)</span>
+        <span class="k">raise</span> </div>
+
+
+<span class="c1"># saved for quicker lookup</span>
+<span class="n">ConversionLookup</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">TimeUnits</span><span class="p">:</span> <span class="n">convert_time</span><span class="p">,</span>
+    <span class="n">TemperatureUnits</span><span class="p">:</span> <span class="n">convert_temperature</span><span class="p">,</span>
+    <span class="n">DistanceUnits</span><span class="p">:</span> <span class="n">convert_distance</span><span class="p">,</span>
+    <span class="n">SpeedUnits</span><span class="p">:</span> <span class="n">convert_speed</span><span class="p">,</span>
+    <span class="n">PressureUnits</span><span class="p">:</span> <span class="n">convert_pressure</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="convert"><a class="viewcode-back" href="../../../nautical.units.html#nautical.units.conversion.convert">[docs]</a><span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">init_units</span><span class="p">,</span> <span class="n">final_units</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert the value given the current units to the new units. If the</span>
+<span class="sd">    units are not in the same set of units then the value cannot be converted,</span>
+<span class="sd">    and None will be returned.</span>
+
+<span class="sd">    :param value: Value provided in the units (init_units)</span>
+<span class="sd">    :param init_units: initial units of the value (must match final units type)</span>
+<span class="sd">    :param final_units: final units of the value (must match initial units type)</span>
+<span class="sd">    :return: The value converted to the final units. If the units did not match None is returned</span>
+<span class="sd">    :raises TypeError: when the two types do not match, or when any of the parameters are None</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="kc">None</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">init_units</span><span class="p">,</span> <span class="n">final_units</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">final_units</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">init_units</span><span class="p">)):</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">ConversionLookup</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">init_units</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">init_units</span><span class="p">,</span> <span class="n">final_units</span><span class="p">)</span>
+
+    <span class="k">raise</span> <span class="ne">TypeError</span>  <span class="c1"># two types did not match </span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

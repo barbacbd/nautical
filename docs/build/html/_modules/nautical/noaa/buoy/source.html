@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nautical.noaa.buoy.source &mdash; nautical 3.1.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> nautical
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">nautical</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>nautical.noaa.buoy.source</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nautical.noaa.buoy.source</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">nautical.log</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">nautical.noaa.buoy.buoy_data</span> <span class="kn">import</span> <span class="n">BuoyData</span>
+<span class="kn">from</span> <span class="nn">.buoy</span> <span class="kn">import</span> <span class="n">Buoy</span>
+
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="SourceType"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.SourceType">[docs]</a><span class="k">class</span> <span class="nc">SourceType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+
+    <span class="n">ALL</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">INTERNATIONAL_PARTNERS</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">IOOS_PARTNERS</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">MARINE_METAR</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">NDBC_METEOROLOGICAL_OCEAN</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">NERRS</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">NOS_CO_OPS</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">SHIPS</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="c1"># unsupported types below</span>
+    <span class="n">TAO</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">TSUNAMI</span> <span class="o">=</span> <span class="mi">9</span>
+
+<div class="viewcode-block" id="SourceType.as_strings"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.SourceType.as_strings">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">as_strings</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">source_type</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the string value based on the type of source</span>
+
+<span class="sd">        :param source_type: Type of source from the enumeration</span>
+<span class="sd">        :return: List of strings that match the source type</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">source_type</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">TAO</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TSUNAMI</span><span class="p">):</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Unsupported type: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">source_type</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
+        <span class="n">source_as_string</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">INTERNATIONAL_PARTNERS</span><span class="p">:</span> <span class="s2">&quot;International Partners&quot;</span><span class="p">,</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">IOOS_PARTNERS</span><span class="p">:</span> <span class="s2">&quot;IOOS Partners&quot;</span><span class="p">,</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">MARINE_METAR</span><span class="p">:</span> <span class="s2">&quot;Marine METAR&quot;</span><span class="p">,</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">NDBC_METEOROLOGICAL_OCEAN</span><span class="p">:</span> <span class="s2">&quot;NDBC Meteorological/Ocean&quot;</span><span class="p">,</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">NERRS</span><span class="p">:</span> <span class="s2">&quot;NERRS&quot;</span><span class="p">,</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">NOS_CO_OPS</span><span class="p">:</span> <span class="s2">&quot;NOS/CO-OPS&quot;</span><span class="p">,</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">SHIPS</span><span class="p">:</span> <span class="s2">&quot;Ships&quot;</span><span class="p">,</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">TAO</span><span class="p">:</span> <span class="s2">&quot;TAO&quot;</span><span class="p">,</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">TSUNAMI</span><span class="p">:</span> <span class="s2">&quot;Tsunami&quot;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">source_type</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ALL</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">source_as_string</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">source_as_string</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">source_type</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Source"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source">[docs]</a><span class="k">class</span> <span class="nc">Source</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;The source is a grouping or categorization of buoy sources.&#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="Source.__init__"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        :param name: Name of the data source or grouping of data</span>
+<span class="sd">        :param description: Description tag of the data source</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid name provided to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+
+        <span class="c1"># Each buoy should have a unique name to use as the key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buoys</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="Source.__len__"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.__len__">[docs]</a>    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Return the number of buoys in this source&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buoys</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="Source.__copy__"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.__copy__">[docs]</a>    <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Override the copy function to only keep specific </span>
+<span class="sd">        values. Notice that the buoys are not kept</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        
+        <span class="n">source_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">key</span><span class="p">:</span> <span class="n">value</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">source_dict</span><span class="p">[</span><span class="s2">&quot;_buoys&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Making copy of </span><span class="si">%s</span><span class="s2"> with dict </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span> <span class="n">source_dict</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">source_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="Source.__deepcopy__"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.__deepcopy__">[docs]</a>    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Override the deepcopy for this instance to include</span>
+<span class="sd">        all private variables</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">memo</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Making deepcopy of </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">) with dict </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                 <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+        <span class="c1"># Keep the references to the buoy and all private variables</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">memo</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+    
+<div class="viewcode-block" id="Source.__str__"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.__str__">[docs]</a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;String representation of this instance</span>
+
+<span class="sd">        :return: string representation of the source</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
+<div class="viewcode-block" id="Source.__contains__"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.__contains__">[docs]</a>    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if the item buoy exists in our dictionary.</span>
+<span class="sd">        When `item` is a `Buoy`, check if the hash of the item is in the dict. </span>
+<span class="sd">        when `item` is an int, assume this is the hash and check for it in the dict.</span>
+<span class="sd">        When `item` is a str, assume this is the station name check if its in the dict.</span>
+
+<span class="sd">        :param item: should be a Buoy, String or int</span>
+<span class="sd">        :return: True when the item is found in this instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Buoy</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buoys</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buoys</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">next</span><span class="p">((</span><span class="kc">True</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buoys</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="n">v</span><span class="o">.</span><span class="n">station</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Source.__iter__"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.__iter__">[docs]</a>    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Override iterate to provide the user with the buoys in this instance.</span>
+<span class="sd">        Yield the `Buoy` objects in this instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">_key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buoys</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">yield</span> <span class="n">value</span></div>
+
+<div class="viewcode-block" id="Source.__eq__"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.__eq__">[docs]</a>    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Determine if this instance is the same as the other `source`</span>
+
+<span class="sd">        :return: True if name and description match</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="ow">and</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">description</span></div>
+
+<div class="viewcode-block" id="Source.__ne__"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.__ne__">[docs]</a>    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;See __eq__ for more information</span>
+
+<span class="sd">        :return: True if the name or description do not match</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">buoys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Buoys Property for this instance</span>
+
+<span class="sd">        :return: Copy of the current set of buoys contained in this instance</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buoys</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Source.add_buoy"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.add_buoy">[docs]</a>    <span class="k">def</span> <span class="nf">add_buoy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buoy</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Add a buoy to this instance</span>
+
+<span class="sd">        .. note:: Buoy names are case sensitive to ensure they are unique</span>
+
+<span class="sd">        :param buoy: buoy to be added to the list of buoys.</span>
+<span class="sd">        :return: True if the buoy was added to the list of buoys</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">buoy</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_buoys</span><span class="p">[</span><span class="nb">hash</span><span class="p">(</span><span class="n">buoy</span><span class="p">)]</span> <span class="o">=</span> <span class="n">buoy</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Source.get_buoy"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.get_buoy">[docs]</a>    <span class="k">def</span> <span class="nf">get_buoy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">station</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get a buoy where the station matches the `station` of the Buoy</span>
+
+<span class="sd">        .. note:: Buoy names are case sensitive to ensure they are unique</span>
+
+<span class="sd">        :param station: name of the buoy station</span>
+<span class="sd">        :return: Buoy with a matching station, None if one was not found.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">next</span><span class="p">((</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buoys</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">station</span> <span class="o">==</span> <span class="n">station</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Source.to_json"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Convert this instance to a json dictionary&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;buoys&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buoys</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="Source.from_json"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.from_json">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="n">json_dict</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Create/Fill/Return an instance from a json dictionary&#39;&#39;&#39;</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="n">Source</span><span class="p">(</span><span class="s2">&quot;nautical_source&quot;</span><span class="p">)</span>
+        <span class="n">src</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">json_dict</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">src</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;nautical_source&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Failed to set name during Source::from_json&quot;</span><span class="p">)</span>
+    
+        <span class="k">return</span> <span class="n">src</span></div>
+        
+<div class="viewcode-block" id="Source.from_dict"><a class="viewcode-back" href="../../../../nautical.noaa.buoy.html#nautical.noaa.buoy.source.Source.from_dict">[docs]</a>    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_dict</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Fill in instance from a dictionary&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">source_dict</span> <span class="ow">and</span> <span class="n">source_dict</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">source_dict</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="s2">&quot;description&quot;</span> <span class="ow">in</span> <span class="n">source_dict</span> <span class="ow">and</span> <span class="n">source_dict</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">source_dict</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="s2">&quot;buoys&quot;</span> <span class="ow">in</span> <span class="n">source_dict</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">buoy_json</span> <span class="ow">in</span> <span class="n">source_dict</span><span class="p">[</span><span class="s2">&quot;buoys&quot;</span><span class="p">]:</span>
+                <span class="n">buoy</span> <span class="o">=</span> <span class="n">Buoy</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">buoy_json</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_buoys</span><span class="p">[</span><span class="n">buoy</span><span class="o">.</span><span class="n">station</span><span class="p">]</span> <span class="o">=</span> <span class="n">buoy</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nautical.noaa.ncei package &mdash; nautical 3.1.2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> nautical
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">nautical.noaa.ncei package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.ncei.base">nautical.noaa.ncei.base module</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.ncei.data">nautical.noaa.ncei.data module</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.ncei.datacategories">nautical.noaa.ncei.datacategories module</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.ncei.datasets">nautical.noaa.ncei.datasets module</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.ncei.datatypes">nautical.noaa.ncei.datatypes module</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.ncei.location_categories">nautical.noaa.ncei.location_categories module</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.ncei.locations">nautical.noaa.ncei.locations module</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.ncei.stations">nautical.noaa.ncei.stations module</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.ncei.token">nautical.noaa.ncei.token module</a></li>
+<li><a class="reference internal" href="#module-nautical.noaa.ncei">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nautical</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>nautical.noaa.ncei package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nautical.noaa.ncei.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nautical-noaa-ncei-package">
+<h1>nautical.noaa.ncei package<a class="headerlink" href="#nautical-noaa-ncei-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-nautical.noaa.ncei.base">
+<span id="nautical-noaa-ncei-base-module"></span><h2>nautical.noaa.ncei.base module<a class="headerlink" href="#module-nautical.noaa.ncei.base" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.NCEIBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.base.</span></span><span class="sig-name descname"><span class="pre">NCEIBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#NCEIBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base.NCEIBase" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for all NCEI types</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.NCEIBase.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#NCEIBase.__eq__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base.NCEIBase.__eq__" title="Permalink to this definition"></a></dt>
+<dd><p>Determine if this instance is the same as the other passed in.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – Other object to compare to this one.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True when the instances are the same.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.NCEIBase.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#NCEIBase.__ne__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base.NCEIBase.__ne__" title="Permalink to this definition"></a></dt>
+<dd><p>See __eq__ for more information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The opposite of __eq__</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.NCEIBase.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#NCEIBase.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base.NCEIBase.__str__" title="Permalink to this definition"></a></dt>
+<dd><p>String override for this instance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>String representation of this instance, formatted as json.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.NCEIBase.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.ncei.noaa.gov/cdo-web/api/v2/'</span></em><a class="headerlink" href="#nautical.noaa.ncei.base.NCEIBase.endpoint" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.NCEIBase.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#nautical.noaa.ncei.base.NCEIBase.parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.Parameter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.base.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#Parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base.Parameter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to track the query parameters that can and will exist
+at the end of the API queries. For instance:</p>
+<p>datatypeid=EMNT</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.Parameter.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#nautical.noaa.ncei.base.Parameter.data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.Parameter.param">
+<span class="sig-name descname"><span class="pre">param</span></span><a class="headerlink" href="#nautical.noaa.ncei.base.Parameter.param" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base._check_parameters">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.base.</span></span><span class="sig-name descname"><span class="pre">_check_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#_check_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base._check_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Check that the type(s) of the parameters are all of the
+type <cite>Parameter</cite> from this module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameters</strong> – List of Parameters or Parameter object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True when all parameters are of type <cite>Parameter</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base._query">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.base.</span></span><span class="sig-name descname"><span class="pre">_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base._query" title="Permalink to this definition"></a></dt>
+<dd><p>Execute the POST request/query</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> – Authentication token</p></li>
+<li><p><strong>endpoint</strong> – Endpoint to query</p></li>
+<li><p><strong>limit</strong> – Number of results to accept. Max of 1000</p></li>
+<li><p><strong>offset</strong> – Entry offset used to determine which results to accept</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON object representing the result of the query</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.add_params_to_endpoint">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.base.</span></span><span class="sig-name descname"><span class="pre">add_params_to_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#add_params_to_endpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base.add_params_to_endpoint" title="Permalink to this definition"></a></dt>
+<dd><p>Add the parameters to the endpoint to create a final endpoint</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> – Original Endpoint</p></li>
+<li><p><strong>obj_type</strong> – Type of object where parameters are applied</p></li>
+<li><p><strong>parameters</strong> – List or single Parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The final formatted endpoint</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.combine_parameters">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.base.</span></span><span class="sig-name descname"><span class="pre">combine_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#combine_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base.combine_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Combine all parameters contained in the parameters parameter
+in the format expected for the endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> – List or single parameter</p></li>
+<li><p><strong>obj_type</strong> – Type of object where parameters are applied</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>string formatted as expected for the endpoint</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.create_offset_lookups">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.base.</span></span><span class="sig-name descname"><span class="pre">create_offset_lookups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#create_offset_lookups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base.create_offset_lookups" title="Permalink to this definition"></a></dt>
+<dd><p>Create a dictionary that maps the offset to the number to search</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>count</strong> – Number returned from a query. See <cite>get_num_results</cite></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary of offsets and the number to search</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.get_num_results">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.base.</span></span><span class="sig-name descname"><span class="pre">get_num_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#get_num_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base.get_num_results" title="Permalink to this definition"></a></dt>
+<dd><p>Query the API provided with the correct endpoint and authentication
+token to find the number of possible results from a query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> – HTTP athentication token</p></li>
+<li><p><strong>endpoint</strong> – Full http endpoint where the <cite>get</cite> request will fetch information from.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of expected results</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.query_all">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.base.</span></span><span class="sig-name descname"><span class="pre">query_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_type=&lt;class</span> <span class="pre">'nautical.noaa.ncei.base.NCEIBase'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#query_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base.query_all" title="Permalink to this definition"></a></dt>
+<dd><p>Run the common query all for an end node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> – Token for authentication</p></li>
+<li><p><strong>obj_type</strong> – Class for the type of data to be returned.</p></li>
+<li><p><strong>parameters</strong> – List or single <cite>Parameter</cite> object(s) that will be used for the query.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>unordered list of json strings containing the individual results from each query.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>AttributeError</strong> – If endpoint of the class type is not set</p></li>
+<li><p><strong>AttributeError</strong> – If class type does not have a variable parameters</p></li>
+<li><p><strong>TypeError</strong> – If parameters does not contain only type <cite>Parameter</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.base.query_base">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.base.</span></span><span class="sig-name descname"><span class="pre">query_base</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_type=&lt;class</span> <span class="pre">'nautical.noaa.ncei.base.NCEIBase'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset=1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/base.html#query_base"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.base.query_base" title="Permalink to this definition"></a></dt>
+<dd><p>Query the API provided with the correct endpoint and authentication token.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> – HTTP athentication token</p></li>
+<li><p><strong>endpoint</strong> – Full http endpoint where the <cite>get</cite> request will fetch information from.</p></li>
+<li><p><strong>obj_type</strong> – Class type that will be used to make the objects</p></li>
+<li><p><strong>limit</strong> – Number of results to yield. The API only allows for a max value of 1000</p></li>
+<li><p><strong>offset</strong> – The location offset where the results will begin.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Json encoded result of the query</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-nautical.noaa.ncei.data">
+<span id="nautical-noaa-ncei-data-module"></span><h2>nautical.noaa.ncei.data module<a class="headerlink" href="#module-nautical.noaa.ncei.data" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.data.Data">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.data.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/data.html#Data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.data.Data" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nautical.noaa.ncei.base.NCEIBase" title="nautical.noaa.ncei.base.NCEIBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">NCEIBase</span></code></a></p>
+<p>The data endpoint is used for actually fetching the data.</p>
+<p>Additional Query Parameters</p>
+<blockquote>
+<div><dl class="simple">
+<dt>datasetid [Optional]</dt><dd><p>Accepts a valid dataset id or a chain of dataset ids separated by ampersands.
+Data returned will be supported by dataset(s) specified</p>
+</dd>
+<dt>datatypeid [Optional]</dt><dd><p>Accepts a valid data type id or a chain of data type ids separated by ampersands.
+Data returned will contain all of the data type(s) specified</p>
+</dd>
+<dt>locationid [Optional]</dt><dd><p>Accepts a valid location id or a chain of location ids separated by ampersands.
+Data returned will contain data for the location(s) specified</p>
+</dd>
+<dt>stationid [Optional]</dt><dd><p>Accepts a valid station id or a chain of of station ids separated by ampersands.
+Data returned will contain data for the station(s) specified</p>
+</dd>
+<dt>startdate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Data returned will have data after
+the specified date. Paramater can be use independently of enddate</p>
+</dd>
+<dt>enddate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Data returned will have data before the
+specified date. Paramater can be use independently of startdate</p>
+</dd>
+<dt>units [Optional]</dt><dd><p>Accepts the literal strings ‘standard’ or ‘metric’. Data will be scaled and converted
+to the specified units. If a unit is not provided then no scaling nor conversion
+will take place.</p>
+</dd>
+<dt>sortfield [Optional]</dt><dd><p>The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage
+fields</p>
+</dd>
+<dt>sortorder [     Optional]</dt><dd><p>Which order to sort by, asc or desc. Defaults to asc</p>
+</dd>
+<dt>limit [Optional]</dt><dd><p>Defaults to 25, limits the number of results in the response. Maximum is 1000</p>
+</dd>
+<dt>offset [Optional]</dt><dd><p>Defaults to 0, used to offset the resultlist. The example would begin with record 24</p>
+</dd>
+<dt>includemetadata [Optional]</dt><dd><p>Defaults to true, used to improve response time by preventing the calculation
+of result metadata.</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.data.Data.attributes">
+<span class="sig-name descname"><span class="pre">attributes</span></span><a class="headerlink" href="#nautical.noaa.ncei.data.Data.attributes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.data.Data.datatype">
+<span class="sig-name descname"><span class="pre">datatype</span></span><a class="headerlink" href="#nautical.noaa.ncei.data.Data.datatype" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.data.Data.date">
+<span class="sig-name descname"><span class="pre">date</span></span><a class="headerlink" href="#nautical.noaa.ncei.data.Data.date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.data.Data.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.ncei.noaa.gov/cdo-web/api/v2/data'</span></em><a class="headerlink" href="#nautical.noaa.ncei.data.Data.endpoint" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.data.Data.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('datasetid',</span> <span class="pre">'datatypeid',</span> <span class="pre">'locationid',</span> <span class="pre">'stationid',</span> <span class="pre">'startdate',</span> <span class="pre">'enddate',</span> <span class="pre">'units',</span> <span class="pre">'sortfield',</span> <span class="pre">'sortorder',</span> <span class="pre">'limit',</span> <span class="pre">'offset',</span> <span class="pre">'includemetadata')</span></em><a class="headerlink" href="#nautical.noaa.ncei.data.Data.parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.data.Data.station">
+<span class="sig-name descname"><span class="pre">station</span></span><a class="headerlink" href="#nautical.noaa.ncei.data.Data.station" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.data.Data.value">
+<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#nautical.noaa.ncei.data.Data.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.noaa.ncei.datacategories">
+<span id="nautical-noaa-ncei-datacategories-module"></span><h2>nautical.noaa.ncei.datacategories module<a class="headerlink" href="#module-nautical.noaa.ncei.datacategories" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datacategories.DataCategory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.datacategories.</span></span><span class="sig-name descname"><span class="pre">DataCategory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/datacategories.html#DataCategory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.datacategories.DataCategory" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nautical.noaa.ncei.base.NCEIBase" title="nautical.noaa.ncei.base.NCEIBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">NCEIBase</span></code></a></p>
+<p>Data Categories represent groupings of data types.</p>
+<p>Additional Parameters</p>
+<blockquote>
+<div><dl class="simple">
+<dt>datasetid [Optional]</dt><dd><p>Accepts a valid dataset id or a chain of dataset ids separated by ampersands.
+Data categories returned will be supported by dataset(s) specified</p>
+</dd>
+<dt>locationid [Optional]</dt><dd><p>Accepts a valid location id or a chain of location ids separated by ampersands.
+Data categories returned will contain data for the location(s) specified</p>
+</dd>
+<dt>stationid [Optional]</dt><dd><p>Accepts a valid station id or a chain of of station ids separated by ampersands.
+Data categories returned will contain data for the station(s) specified</p>
+</dd>
+<dt>startdate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Data categories returned will have
+data after the specified date. Paramater can be use independently of enddate</p>
+</dd>
+<dt>enddate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Data categories returned will
+have data before the specified date. Paramater can be use independently of startdate</p>
+</dd>
+<dt>sortfield [Optional]</dt><dd><p>The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage
+fields</p>
+</dd>
+<dt>sortorder [     Optional]</dt><dd><p>Which order to sort by, asc or desc. Defaults to asc</p>
+</dd>
+<dt>limit [Optional]</dt><dd><p>Defaults to 25, limits the number of results in the response. Maximum is 1000</p>
+</dd>
+<dt>offset [Optional]</dt><dd><p>Defaults to 0, used to offset the resultlist. The example would begin with record 24</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datacategories.DataCategory.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.ncei.noaa.gov/cdo-web/api/v2/datacategories'</span></em><a class="headerlink" href="#nautical.noaa.ncei.datacategories.DataCategory.endpoint" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datacategories.DataCategory.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#nautical.noaa.ncei.datacategories.DataCategory.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datacategories.DataCategory.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#nautical.noaa.ncei.datacategories.DataCategory.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datacategories.DataCategory.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('datasetid',</span> <span class="pre">'locationid',</span> <span class="pre">'stationid',</span> <span class="pre">'startdate',</span> <span class="pre">'enddate',</span> <span class="pre">'sortfield',</span> <span class="pre">'sortorder',</span> <span class="pre">'limit',</span> <span class="pre">'offset')</span></em><a class="headerlink" href="#nautical.noaa.ncei.datacategories.DataCategory.parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.noaa.ncei.datasets">
+<span id="nautical-noaa-ncei-datasets-module"></span><h2>nautical.noaa.ncei.datasets module<a class="headerlink" href="#module-nautical.noaa.ncei.datasets" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datasets.Dataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.datasets.</span></span><span class="sig-name descname"><span class="pre">Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/datasets.html#Dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.datasets.Dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nautical.noaa.ncei.base.NCEIBase" title="nautical.noaa.ncei.base.NCEIBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">NCEIBase</span></code></a></p>
+<p>All of the CDO data are in datasets. The containing dataset must be known before
+attempting to access its data.</p>
+<p>Additional Parameters</p>
+<blockquote>
+<div><dl class="simple">
+<dt>datatypeid [Optional]</dt><dd><p>Accepts a valid data type id or a chain of data type ids separated by ampersands.
+Datasets returned will contain all of the data type(s) specified</p>
+</dd>
+<dt>locationid [Optional]</dt><dd><p>Accepts a valid location id or a chain of location ids separated by ampersands.
+Datasets returned will contain data for the location(s) specified</p>
+</dd>
+<dt>stationid [Optional]</dt><dd><p>Accepts a valid station id or a chain of of station ids separated by ampersands.
+Datasets returned will contain data for the station(s) specified</p>
+</dd>
+<dt>startdate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Datasets returned will have data
+after the specified date. Paramater can be use independently of enddate</p>
+</dd>
+<dt>enddate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Datasets returned will have data
+before the specified date. Paramater can be use independently of startdate</p>
+</dd>
+<dt>sortfield [Optional]</dt><dd><p>The field to sort results by. Supports id, name, mindate, maxdate, and
+datacoverage fields</p>
+</dd>
+<dt>sortorder [     Optional]</dt><dd><p>Which order to sort by, asc or desc. Defaults to asc</p>
+</dd>
+<dt>limit [Optional]</dt><dd><p>Defaults to 25, limits the number of results in the response. Maximum is 1000</p>
+</dd>
+<dt>offset [Optional]</dt><dd><p>Defaults to 0, used to offset the resultlist. The example would begin with record 24</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datasets.Dataset.datacoverage">
+<span class="sig-name descname"><span class="pre">datacoverage</span></span><a class="headerlink" href="#nautical.noaa.ncei.datasets.Dataset.datacoverage" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datasets.Dataset.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.ncei.noaa.gov/cdo-web/api/v2/datasets'</span></em><a class="headerlink" href="#nautical.noaa.ncei.datasets.Dataset.endpoint" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datasets.Dataset.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#nautical.noaa.ncei.datasets.Dataset.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datasets.Dataset.maxdate">
+<span class="sig-name descname"><span class="pre">maxdate</span></span><a class="headerlink" href="#nautical.noaa.ncei.datasets.Dataset.maxdate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datasets.Dataset.mindate">
+<span class="sig-name descname"><span class="pre">mindate</span></span><a class="headerlink" href="#nautical.noaa.ncei.datasets.Dataset.mindate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datasets.Dataset.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#nautical.noaa.ncei.datasets.Dataset.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datasets.Dataset.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('datatypeid',</span> <span class="pre">'locationid',</span> <span class="pre">'stationid',</span> <span class="pre">'startdate',</span> <span class="pre">'enddate',</span> <span class="pre">'sortfield',</span> <span class="pre">'sortorder',</span> <span class="pre">'limit',</span> <span class="pre">'offset')</span></em><a class="headerlink" href="#nautical.noaa.ncei.datasets.Dataset.parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datasets.Dataset.uid">
+<span class="sig-name descname"><span class="pre">uid</span></span><a class="headerlink" href="#nautical.noaa.ncei.datasets.Dataset.uid" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.noaa.ncei.datatypes">
+<span id="nautical-noaa-ncei-datatypes-module"></span><h2>nautical.noaa.ncei.datatypes module<a class="headerlink" href="#module-nautical.noaa.ncei.datatypes" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datatypes.DataType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.datatypes.</span></span><span class="sig-name descname"><span class="pre">DataType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/datatypes.html#DataType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.datatypes.DataType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nautical.noaa.ncei.base.NCEIBase" title="nautical.noaa.ncei.base.NCEIBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">NCEIBase</span></code></a></p>
+<p>Describes the type of data, acts as a label. If it’s 64°f out right now, then
+the data type is Air Temperature and the data is 64.</p>
+<p>Additional Parameters</p>
+<blockquote>
+<div><dl class="simple">
+<dt>datasetid [Optional]</dt><dd><p>Accepts a valid dataset id or a chain of dataset ids separated by ampersands.
+Data types returned will be supported by dataset(s) specified</p>
+</dd>
+<dt>locationid [Optional]</dt><dd><p>Accepts a valid location id or a chain of location ids separated by ampersands.
+Data types returned will contain data for the location(s) specified</p>
+</dd>
+<dt>stationid [Optional]</dt><dd><p>Accepts a valid station id or a chain of of station ids separated by ampersands.
+Data types returned will contain data for the station(s) specified</p>
+</dd>
+<dt>datacategoryid [Optional]</dt><dd><p>Accepts a valid data category id or a chain of data category ids separated by
+ampersands (although it is rare to have a data type with more than one data category).
+Data types returned will be associated with the data category(ies) specified</p>
+</dd>
+<dt>startdate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Data types returned will have data
+after the specified date. Paramater can be use independently of enddate</p>
+</dd>
+<dt>enddate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Data types returned will have data
+before the specified date. Paramater can be use independently of startdate</p>
+</dd>
+<dt>sortfield [Optional]</dt><dd><p>The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage
+fields</p>
+</dd>
+<dt>sortorder [     Optional]</dt><dd><p>Which order to sort by, asc or desc. Defaults to asc</p>
+</dd>
+<dt>limit [Optional]</dt><dd><p>Defaults to 25, limits the number of results in the response. Maximum is 1000</p>
+</dd>
+<dt>offset [Optional]</dt><dd><p>Defaults to 0, used to offset the resultlist. The example would begin with record 24</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datatypes.DataType.datacoverage">
+<span class="sig-name descname"><span class="pre">datacoverage</span></span><a class="headerlink" href="#nautical.noaa.ncei.datatypes.DataType.datacoverage" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datatypes.DataType.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.ncei.noaa.gov/cdo-web/api/v2/datatypes'</span></em><a class="headerlink" href="#nautical.noaa.ncei.datatypes.DataType.endpoint" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datatypes.DataType.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#nautical.noaa.ncei.datatypes.DataType.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datatypes.DataType.maxdate">
+<span class="sig-name descname"><span class="pre">maxdate</span></span><a class="headerlink" href="#nautical.noaa.ncei.datatypes.DataType.maxdate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datatypes.DataType.mindate">
+<span class="sig-name descname"><span class="pre">mindate</span></span><a class="headerlink" href="#nautical.noaa.ncei.datatypes.DataType.mindate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datatypes.DataType.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#nautical.noaa.ncei.datatypes.DataType.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.datatypes.DataType.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('datasetid',</span> <span class="pre">'locationid',</span> <span class="pre">'stationid',</span> <span class="pre">'datacategoryid',</span> <span class="pre">'startdate',</span> <span class="pre">'enddate',</span> <span class="pre">'sortfield',</span> <span class="pre">'sortorder',</span> <span class="pre">'limit',</span> <span class="pre">'offset')</span></em><a class="headerlink" href="#nautical.noaa.ncei.datatypes.DataType.parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.noaa.ncei.location_categories">
+<span id="nautical-noaa-ncei-location-categories-module"></span><h2>nautical.noaa.ncei.location_categories module<a class="headerlink" href="#module-nautical.noaa.ncei.location_categories" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.location_categories.LocationCategory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.location_categories.</span></span><span class="sig-name descname"><span class="pre">LocationCategory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/location_categories.html#LocationCategory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.location_categories.LocationCategory" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nautical.noaa.ncei.base.NCEIBase" title="nautical.noaa.ncei.base.NCEIBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">NCEIBase</span></code></a></p>
+<p>Location categories are groupings of locations under an applicable label.</p>
+<p>Additional Parameters</p>
+<blockquote>
+<div><dl class="simple">
+<dt>datasetid [Optional]</dt><dd><p>Accepts a valid dataset id or a chain of dataset ids separated by ampersands.
+Location categories returned will be supported by dataset(s) specified</p>
+</dd>
+<dt>startdate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Location categories returned will
+have data after the specified date. Paramater can be use independently of enddate</p>
+</dd>
+<dt>enddate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Location categories returned will
+have data before the specified date. Paramater can be use independently of startdate</p>
+</dd>
+<dt>sortfield [Optional]</dt><dd><p>The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage
+fields</p>
+</dd>
+<dt>sortorder [     Optional]</dt><dd><p>Which order to sort by, asc or desc. Defaults to asc</p>
+</dd>
+<dt>limit [Optional]</dt><dd><p>Defaults to 25, limits the number of results in the response. Maximum is 1000</p>
+</dd>
+<dt>offset [Optional]</dt><dd><p>Defaults to 0, used to offset the resultlist. The example would begin with record 24</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.location_categories.LocationCategory.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.ncei.noaa.gov/cdo-web/api/v2/locationcategories'</span></em><a class="headerlink" href="#nautical.noaa.ncei.location_categories.LocationCategory.endpoint" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.location_categories.LocationCategory.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#nautical.noaa.ncei.location_categories.LocationCategory.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.location_categories.LocationCategory.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#nautical.noaa.ncei.location_categories.LocationCategory.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.location_categories.LocationCategory.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('datasetid',</span> <span class="pre">'startdate',</span> <span class="pre">'enddate',</span> <span class="pre">'sortfield',</span> <span class="pre">'sortorder',</span> <span class="pre">'limit',</span> <span class="pre">'offset')</span></em><a class="headerlink" href="#nautical.noaa.ncei.location_categories.LocationCategory.parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.noaa.ncei.locations">
+<span id="nautical-noaa-ncei-locations-module"></span><h2>nautical.noaa.ncei.locations module<a class="headerlink" href="#module-nautical.noaa.ncei.locations" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.locations.Location">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.locations.</span></span><span class="sig-name descname"><span class="pre">Location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/locations.html#Location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.locations.Location" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nautical.noaa.ncei.base.NCEIBase" title="nautical.noaa.ncei.base.NCEIBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">NCEIBase</span></code></a></p>
+<p>Locations can be a specific latitude/longitude point such as a station, or a label
+representing a bounding area such as a city.</p>
+<p>Additional Parameters</p>
+<blockquote>
+<div><dl class="simple">
+<dt>datasetid [Optional]</dt><dd><p>Accepts a valid dataset id or a chain of dataset ids separated by ampersands.
+Locations returned will be supported by dataset(s) specified</p>
+</dd>
+<dt>locationcategoryid [Optional]</dt><dd><p>Accepts a valid location id or a chain of location category ids separated by
+ampersands.Locations returned will be in the location category(ies) specified.</p>
+</dd>
+<dt>datacategoryid [Optional]</dt><dd><p>Accepts a valid data category id or an array of data category ids. Locations
+returned will be associated with the data category(ies) specified</p>
+</dd>
+<dt>startdate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Locations returned will have data
+after the specified date. Paramater can be use independently of enddate</p>
+</dd>
+<dt>enddate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Locations returned will have data
+before the specified date. Paramater can be use independently of startdate</p>
+</dd>
+<dt>sortfield [Optional]</dt><dd><p>The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage
+fields</p>
+</dd>
+<dt>sortorder [     Optional]</dt><dd><p>Which order to sort by, asc or desc. Defaults to asc</p>
+</dd>
+<dt>limit [Optional]</dt><dd><p>Defaults to 25, limits the number of results in the response. Maximum is 1000</p>
+</dd>
+<dt>offset [Optional]</dt><dd><p>Defaults to 0, used to offset the resultlist. The example would begin with record 24</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.locations.Location.datacoverage">
+<span class="sig-name descname"><span class="pre">datacoverage</span></span><a class="headerlink" href="#nautical.noaa.ncei.locations.Location.datacoverage" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.locations.Location.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.ncei.noaa.gov/cdo-web/api/v2/locations'</span></em><a class="headerlink" href="#nautical.noaa.ncei.locations.Location.endpoint" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.locations.Location.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#nautical.noaa.ncei.locations.Location.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.locations.Location.maxdate">
+<span class="sig-name descname"><span class="pre">maxdate</span></span><a class="headerlink" href="#nautical.noaa.ncei.locations.Location.maxdate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.locations.Location.mindate">
+<span class="sig-name descname"><span class="pre">mindate</span></span><a class="headerlink" href="#nautical.noaa.ncei.locations.Location.mindate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.locations.Location.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#nautical.noaa.ncei.locations.Location.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.locations.Location.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('datasetid',</span> <span class="pre">'locationcategoryid',</span> <span class="pre">'datacategoryid',</span> <span class="pre">'startdate',</span> <span class="pre">'enddate',</span> <span class="pre">'sortfield',</span> <span class="pre">'sortorder',</span> <span class="pre">'limit',</span> <span class="pre">'offset')</span></em><a class="headerlink" href="#nautical.noaa.ncei.locations.Location.parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.noaa.ncei.stations">
+<span id="nautical-noaa-ncei-stations-module"></span><h2>nautical.noaa.ncei.stations module<a class="headerlink" href="#module-nautical.noaa.ncei.stations" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.stations.</span></span><span class="sig-name descname"><span class="pre">Station</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/stations.html#Station"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.stations.Station" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nautical.noaa.ncei.base.NCEIBase" title="nautical.noaa.ncei.base.NCEIBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">NCEIBase</span></code></a></p>
+<p>Stations are where the data comes from (for most datasets) and can be considered the smallest
+granual of location data. If the desired station is known, all of its data can quickly be
+viewed</p>
+<p>Additional Query Parameters</p>
+<blockquote>
+<div><dl class="simple">
+<dt>datasetid [Optional]</dt><dd><p>Accepts a valid dataset id or a chain of dataset ids separated by ampersands.
+Stations returned will be supported by dataset(s) specified</p>
+</dd>
+<dt>locationid [Optional]</dt><dd><p>Accepts a valid location id or a chain of location ids separated by ampersands.
+Stations returned will contain data for the location(s) specified</p>
+</dd>
+<dt>datacategoryid [Optional]</dt><dd><p>Accepts a valid data category id or an array of data category ids. Stations
+returned will be associated with the data category(ies) specified</p>
+</dd>
+<dt>datatypeid [Optional]</dt><dd><p>Accepts a valid data type id or a chain of data type ids separated by ampersands.
+Stations returned will contain all of the data type(s) specified</p>
+</dd>
+<dt>extent [Optional]</dt><dd><p>The desired geographical extent for search. Designed to take a parameter
+generated by Google Maps API V3 LatLngBounds.toUrlValue. Stations returned must be
+located within the extent specified.</p>
+</dd>
+<dt>startdate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Stations returned will have data after
+the specified date. Paramater can be use independently of enddate</p>
+</dd>
+<dt>enddate [Optional]</dt><dd><p>Accepts valid ISO formated date (yyyy-mm-dd). Stations returned will have data
+before the specified date. Paramater can be use independently of startdate</p>
+</dd>
+<dt>sortfield [Optional]</dt><dd><p>The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage
+fields</p>
+</dd>
+<dt>sortorder [     Optional]</dt><dd><p>Which order to sort by, asc or desc. Defaults to asc</p>
+</dd>
+<dt>limit [Optional]</dt><dd><p>Defaults to 25, limits the number of results in the response. Maximum is 1000</p>
+</dd>
+<dt>offset [Optional]</dt><dd><p>Defaults to 0, used to offset the resultlist. The example would begin with record 24</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station.datacoverage">
+<span class="sig-name descname"><span class="pre">datacoverage</span></span><a class="headerlink" href="#nautical.noaa.ncei.stations.Station.datacoverage" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station.elevation">
+<span class="sig-name descname"><span class="pre">elevation</span></span><a class="headerlink" href="#nautical.noaa.ncei.stations.Station.elevation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station.elevationUnit">
+<span class="sig-name descname"><span class="pre">elevationUnit</span></span><a class="headerlink" href="#nautical.noaa.ncei.stations.Station.elevationUnit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.ncei.noaa.gov/cdo-web/api/v2/stations'</span></em><a class="headerlink" href="#nautical.noaa.ncei.stations.Station.endpoint" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#nautical.noaa.ncei.stations.Station.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station.latitude">
+<span class="sig-name descname"><span class="pre">latitude</span></span><a class="headerlink" href="#nautical.noaa.ncei.stations.Station.latitude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station.longitude">
+<span class="sig-name descname"><span class="pre">longitude</span></span><a class="headerlink" href="#nautical.noaa.ncei.stations.Station.longitude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station.maxdate">
+<span class="sig-name descname"><span class="pre">maxdate</span></span><a class="headerlink" href="#nautical.noaa.ncei.stations.Station.maxdate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station.mindate">
+<span class="sig-name descname"><span class="pre">mindate</span></span><a class="headerlink" href="#nautical.noaa.ncei.stations.Station.mindate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#nautical.noaa.ncei.stations.Station.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.stations.Station.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('datasetid',</span> <span class="pre">'locationid',</span> <span class="pre">'datacategoryid',</span> <span class="pre">'datatypeid',</span> <span class="pre">'extent',</span> <span class="pre">'startdate',</span> <span class="pre">'enddate',</span> <span class="pre">'sortfield',</span> <span class="pre">'sortorder',</span> <span class="pre">'limit',</span> <span class="pre">'offset')</span></em><a class="headerlink" href="#nautical.noaa.ncei.stations.Station.parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nautical.noaa.ncei.token">
+<span id="nautical-noaa-ncei-token-module"></span><h2>nautical.noaa.ncei.token module<a class="headerlink" href="#module-nautical.noaa.ncei.token" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.token._load_from_json">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.token.</span></span><span class="sig-name descname"><span class="pre">_load_from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/token.html#_load_from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.token._load_from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Search for the token in the json file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.token._load_from_yaml">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.token.</span></span><span class="sig-name descname"><span class="pre">_load_from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/token.html#_load_from_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.token._load_from_yaml" title="Permalink to this definition"></a></dt>
+<dd><p>Search for the token in the yaml file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.token.get_default_token">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.token.</span></span><span class="sig-name descname"><span class="pre">get_default_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/token.html#get_default_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.token.get_default_token" title="Permalink to this definition"></a></dt>
+<dd><p>Parse the default token information</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nautical.noaa.ncei.token.get_token">
+<span class="sig-prename descclassname"><span class="pre">nautical.noaa.ncei.token.</span></span><span class="sig-name descname"><span class="pre">get_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/bbarbach/personal/nautical/auto_doc_venv/lib64/python3.6/site-packages/nautical/noaa/ncei/token.yaml'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nautical/noaa/ncei/token.html#get_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nautical.noaa.ncei.token.get_token" title="Permalink to this definition"></a></dt>
+<dd><p>Provide a yaml, json, or text.</p>
+<p>For yaml files, the file must contain the keyword <cite>token</cite> followed by the token,
+token: {{ token }}</p>
+<p>For json files, the file must contain the keywork <cite>token</cite> follwed by the token,
+{“token”: {{ token }} }</p>
+<p>[Default Behavior]:
+For text files, simply copy the token into the file.</p>
+<p>This file does not need to be considered a secret. Follow the link below
+to generate your unique (one time) token.
+<cite>https://www.ncdc.noaa.gov/cdo-web/token</cite></p>
+<p>The usage of a token is limitted to 5 times per second, and 10,000
+times per day according to the noaa website.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – file containing the token data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>token contained in the file if exists, otherwise None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-nautical.noaa.ncei">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nautical.noaa.ncei" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
