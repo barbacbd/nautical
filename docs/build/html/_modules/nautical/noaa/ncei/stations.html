@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nautical.noaa.ncei.stations &mdash; nautical 3.1.2 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> nautical
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">nautical</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>nautical.noaa.ncei.stations</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nautical.noaa.ncei.stations</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">NCEIBase</span>
+
+
+<div class="viewcode-block" id="Station"><a class="viewcode-back" href="../../../../nautical.noaa.ncei.html#nautical.noaa.ncei.stations.Station">[docs]</a><span class="k">class</span> <span class="nc">Station</span><span class="p">(</span><span class="n">NCEIBase</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Stations are where the data comes from (for most datasets) and can be considered the smallest</span>
+<span class="sd">    granual of location data. If the desired station is known, all of its data can quickly be </span>
+<span class="sd">    viewed</span>
+
+<span class="sd">    Additional Query Parameters</span>
+
+<span class="sd">        datasetid [Optional] </span>
+<span class="sd">            Accepts a valid dataset id or a chain of dataset ids separated by ampersands.</span>
+<span class="sd">            Stations returned will be supported by dataset(s) specified</span>
+<span class="sd">        locationid [Optional]</span>
+<span class="sd">            Accepts a valid location id or a chain of location ids separated by ampersands.</span>
+<span class="sd">            Stations returned will contain data for the location(s) specified</span>
+<span class="sd">        datacategoryid [Optional] </span>
+<span class="sd">            Accepts a valid data category id or an array of data category ids. Stations</span>
+<span class="sd">            returned will be associated with the data category(ies) specified</span>
+<span class="sd">        datatypeid [Optional]</span>
+<span class="sd">            Accepts a valid data type id or a chain of data type ids separated by ampersands. </span>
+<span class="sd">            Stations returned will contain all of the data type(s) specified</span>
+<span class="sd">        extent [Optional] </span>
+<span class="sd">            The desired geographical extent for search. Designed to take a parameter </span>
+<span class="sd">            generated by Google Maps API V3 LatLngBounds.toUrlValue. Stations returned must be</span>
+<span class="sd">            located within the extent specified.</span>
+<span class="sd">        startdate [Optional] </span>
+<span class="sd">            Accepts valid ISO formated date (yyyy-mm-dd). Stations returned will have data after</span>
+<span class="sd">            the specified date. Paramater can be use independently of enddate</span>
+<span class="sd">        enddate [Optional] </span>
+<span class="sd">            Accepts valid ISO formated date (yyyy-mm-dd). Stations returned will have data</span>
+<span class="sd">            before the specified date. Paramater can be use independently of startdate</span>
+<span class="sd">        sortfield [Optional]</span>
+<span class="sd">            The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage</span>
+<span class="sd">            fields</span>
+<span class="sd">        sortorder [	Optional]</span>
+<span class="sd">            Which order to sort by, asc or desc. Defaults to asc</span>
+<span class="sd">        limit [Optional]</span>
+<span class="sd">            Defaults to 25, limits the number of results in the response. Maximum is 1000</span>
+<span class="sd">        offset [Optional]</span>
+<span class="sd">            Defaults to 0, used to offset the resultlist. The example would begin with record 24</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;datasetid&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;locationid&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;datacategoryid&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;datatypeid&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;extent&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;startdate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;enddate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sortfield&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sortorder&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;limit&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;offset&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">endpoint</span> <span class="o">=</span> <span class="n">NCEIBase</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">+</span> <span class="s2">&quot;stations&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;elevation&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;mindate&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;maxdate&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;latitude&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;datacoverage&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;id&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;elevationUnit&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;longitude&#39;</span>
+    <span class="p">]</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Brent Barbachem.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
