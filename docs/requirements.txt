@@ -1,0 +1,3 @@
+# Sphinx information and add-ons
+sphinx
+sphinx-rtd-theme
