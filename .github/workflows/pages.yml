@@ -8,6 +8,9 @@ permissions:
 
 jobs:
   build-pages:
+    name: Build and Publish Docs
+    runs-on: ubuntu-latest
+    steps:
     - uses: actions/checkout@v2
     - name: Setup Git 
       run: |
