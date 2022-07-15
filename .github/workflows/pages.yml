@@ -12,18 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Setup Git 
+    - name: Setup Git
+      with:
+        ref: gh-pages
       run: |
         git config user.name "Brent Barbachem"
         git config user.email "barbacbd@dukes.jmu.edu"
 
     - name: Commit The Docs
       run: |
-        git checkout master
-        git pull
-        git checkout gh-pages
-        git rebase master
-        git pull
+        git fetch origin
+	git merge origin/master
+	git push origin gh-pages
 
         # remove all current docs                                                                                                                                                                                          
         git rm -rf docs/
