@@ -1,6 +1,6 @@
 # NOAA National Centers for Environmental Information
 
-The NCEI module was added to version 2.3.0 found [here](../../nautical.noaa.ncei). The module adds a NOAA-managed [API](https://www.ncei.noaa.gov/) that provides users environmental information.
+The NCEI module was added to version 2.3.0 found [here](https://github.com/barbacbd/nautical/blob/master/nautical.noaa.ncei). The module adds a NOAA-managed [API](https://www.ncei.noaa.gov/) that provides users environmental information.
 Further reading about the API information can be found [here](https://www.ncdc.noaa.gov/cdo-web/webservices/v2#gettingStarted).
 
 A token is required to access the information provided by the API, and tokens are limitted to 5 requests per second or 10,000 per day. A default token has been provided with this package, but
@@ -79,7 +79,7 @@ results = query_base(get_default_token(), final_endpoint, obj_type, limit=1, off
 ```
 
 In the snippet above, the user sets the specific parameters for the endpoint. The parameters for each endpoint can be
-found in the files containing the [classes](../../nautical/noaa/ncei/).
+found in the files containing the [classes](https://github.com/barbacbd/nautical/blob/master/nautical/noaa/ncei/).
 
 ## Query - All
 
@@ -102,4 +102,4 @@ obj_type = Data
 results = query_all(get_default_token(), obj_type, parameters)
 ```
 
-The parameters for each endpoint can be found in the files containing the [classes](../../nautical/noaa/ncei/).
+The parameters for each endpoint can be found in the files containing the [classes](https://github.com/barbacbd/nautical/blob/master/nautical/noaa/ncei/).

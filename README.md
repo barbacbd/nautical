@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://github.com/barbacbd/nautical">
-    <img src="https://github.com/barbacbd/nautical/blob/231d553500087cf23348aa80b830cf842f9edd1e/.images/buoy.jpg" width="256" height="256" border-radius="50%" >
+    <img src="https://raw.githubusercontent.com/barbacbd/nautical/master/.images/buoy.jpg" width="256" height="256" border-radius="50%" >
   </a>
   <br>Nautical</br>
 </h1>
@@ -24,15 +24,15 @@ Peer into that spyglass and review the [nautical documentation](https://barbacbd
 
 # Documentation
 
-View the [documentation](user/docs/Documentation.md) page for more information.
+View the [documentation](https://github.com/barbacbd/nautical/blob/master/user/docs/Documentation.md) page for more information.
 
 # Contributing
 
-View the [contirbuting guidelines](user/docs/Contributing.md) for more information.
+View the [contirbuting guidelines](https://github.com/barbacbd/nautical/blob/master/user/docs/Contributing.md) for more information.
 
 # Examples
 
-More details and specific examples can be found in [here](user/docs). 
+More details and specific examples can be found in [here](https://github.com/barbacbd/nautical/blob/master/user/docs/). 
 
 # Building and Testing
 
@@ -73,7 +73,7 @@ If you wish to view the results with a bit more information, run the following c
 pip install pytest coverage pytest-cov mock
 ```
 
-All tests for the project are located in the [tests](./tests)  directory.
+All tests for the project are located in the [tests](https://github.com/barbacbd/nautical/blob/master/tests)  directory.
 The minimal requirements for the contributions to make it into the repository will be to pass all tests.
 Run the `pytest` command in this directory, or provide the directory to the
 command. Use the `coverage and pytest-cov` packages to view all of the results more clearly.

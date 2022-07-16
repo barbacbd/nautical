@@ -7,9 +7,9 @@ development progress of the package.
 ## Casting off
 
 - Fork the repository on GitHub
-- Read the [README](../../README.md) for test instructions.
+- Read the [README](https://github.com/barbacbd/nautical/blob/master/README.md) for test instructions.
 - Create a virtual environment [Optional].
-- Install the build dependencies, see [building and testing](../../README.md).
+- Install the build dependencies, see [building and testing](https://github.com/barbacbd/nautical/blob/master/README.md).
 - Play with the project, submit bugs, submit patches!
 
 ## Contribution Flow
@@ -50,7 +50,7 @@ _It is suggested (but not required to add the Issue number to the commit message
 
 ## Further Information
 
-Please run the tests [here](../../scripts/). If you cannot execute a shell script, run the equivalent on your system.
+Please run the tests [here](https://github.com/barbacbd/nautical/blob/master/scripts). If you cannot execute a shell script, run the equivalent on your system.
 
 The following script executes all project tests. 
 

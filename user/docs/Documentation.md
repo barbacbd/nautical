@@ -21,16 +21,16 @@ chmod 777 auto_doc.sh;
 
 # Cache
 
-[Nautical cache](../../nautical/cache/) can be used to cache/save information to the system, so that the data can be loaded
+[Nautical cache](https://github.com/barbacbd/nautical/blob/master/nautical/cache) can be used to cache/save information to the system, so that the data can be loaded
 back later. The file location is determined via the [appdirs module](https://pypi.org/project/appdirs/). The user can:
 
 - Create cache files
 - Copy cache files to new names (with timestamps or custom names)
 - Load Cache files to Nautical Objects.
 
-**Note**: _Always call [setup](../../nautical/cache/file.py#L35) before using cache_.
+**Note**: _Always call [setup](https://github.com/barbacbd/nautical/blob/master/nautical/cache/file.py#L35) before using cache_.
 
-**Note**: _[Nautical cache](../../nautical/cache/) was added in version 3.1.0_.
+**Note**: _[Nautical cache](https://github.com/barbacbd/nautical/blob/master/nautical/cache/) was added in version 3.1.0_.
 
 # Examples
 
@@ -38,7 +38,7 @@ The following are examples that can be copied and modified for a user's specific
 
 ## IO
 
-The following sections are provided as examples in the [IO module](../../nautical/io/).
+The following sections are provided as examples in the [IO module](https://github.com/barbacbd/nautical/blob/master/nautical/io/).
 
 ### Buoys
 If you know the ID of the buoy station you may use `create_buoy` as a shortcut to create a buoy object.
@@ -69,7 +69,7 @@ fill_buoy(buoy)
 ```
 
 If the user wishes to view all data inside of a buoy they can iterate over the object. All
-of the available variables can be found [here](../../nautical/noaa/buoy/buoy_data.py) in the
+of the available variables can be found [here](https://github.com/barbacbd/nautical/blob/master/nautical/noaa/buoy/buoy_data.py) in the
 `buoy_vars` list..
 
 ```python
@@ -139,7 +139,7 @@ In the event that a source has _no valid buoys_, the source will *not* be return
 
 ## Location
 
-The following sections are provided as examples in the [location module](../../nautical/location/).
+The following sections are provided as examples in the [location module](https://github.com/barbacbd/nautical/blob/master/nautical/location/).
 
 ### In area
 
@@ -217,7 +217,7 @@ if point_1.in_range(point_2, 1000.0):
 
 ## Cache 
 
-The following sections are provided as examples in the [cache module](../../nautical/cache/).
+The following sections are provided as examples in the [cache module](https://github.com/barbacbd/nautical/blob/master/nautical/cache/).
 
 
 ### Dump data to file
@@ -279,7 +279,7 @@ The following keys are allowed:
 - "BUOYS"
 - "SOURCES"
 
-**Note**: _See the [CacheData enumeration](../../nautical/cache/file.py#l25) for more information_.
+**Note**: _See the [CacheData enumeration](https://github.com/barbacbd/nautical/blob/master/nautical/cache/file.py#l25) for more information_.
 
 ```python    
 cache_data = {
@@ -296,7 +296,7 @@ dumps(tmp_data)
 
 ### Load data from file
 
-Loading the cached data will supply the user/caller with a dictionary where the keys can be fouund in the [CacheData enumeration](../../nautical/cache/file.py#l25).
+Loading the cached data will supply the user/caller with a dictionary where the keys can be fouund in the [CacheData enumeration](https://github.com/barbacbd/nautical/blob/master/nautical/cache/file.py#l25).
 
 ```python
 from nautical.cache import load
@@ -304,7 +304,7 @@ from nautical.cache import load
 cache_data = load()
 ```
 
-The [load function](../../nautical/cache/file.py#l73) accepts a filename and type of data to be returned.
+The [load function](https://github.com/barbacbd/nautical/blob/master/nautical/cache/file.py#l73) accepts a filename and type of data to be returned.
 
 **Note**: _Default filename is the `nautical_cache.json`_.
 **Note**: _Default returned data is `CacheData.ALL`_.
