@@ -37,7 +37,8 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
-    'sphinx.ext.viewcode',]
+    'sphinx.ext.viewcode',
+    'sphinx_mdinclude',]
 
 # Set values for Napoleon
 napoleon_google_docstring = True

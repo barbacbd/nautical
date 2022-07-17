@@ -1,20 +1,17 @@
-.. nautical documentation master file, created by
-   sphinx-quickstart on Sun May 29 13:39:51 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. nautical documentation master file, created by Brent Barbachem through auto_doc.sh
 
-Welcome to nautical's documentation!
-====================================
+nautical's Information
+======================
+
+.. mdinclude:: ../../README.md
+
+
+nautical's Documentation
+========================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   nautical.rst
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
