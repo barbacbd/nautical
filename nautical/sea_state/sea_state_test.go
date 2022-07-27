@@ -1,4 +1,4 @@
-package seaState
+package sea_state
 
 import (
 	"testing"
