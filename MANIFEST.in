@@ -1,1 +1,2 @@
 include nautical/noaa/ncei/*.yaml
+exclude nautical/*.go
