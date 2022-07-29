@@ -12,10 +12,10 @@ const (
 
 type NauticalTime struct {
 	// Format contains the string representation of the Time Format
-	Format int `json:"timeFormat,omitempty" default:"24"`
+	Format int `json:"timeFormat,omitempty"`
 
 	// Midday contains the string representation of the AM/PM value
-	Midday int `json:"midday,omitempty" default:"0"`
+	Midday int `json:"midday,omitempty"`
 
 	// Minutes is the number of minutes past the hour. Values are valid 0-59
 	Minutes int `json:"minutes" default:"0"`
@@ -40,6 +40,10 @@ func (nt *NauticalTime) SetMinutes(minutes int) error {
 // GetHours will get the current value in hours in a 24 hour time format.
 func (nt *NauticalTime) GetHours() (int, error) {
 	switch {
+	case nt.Format == 0:
+		// Set the value here when empty
+		nt.Format = HOUR_24
+		fallthrough
 	case nt.Format == HOUR_24:
 		return nt.Hours, nil
 	case nt.Format == HOUR_12:
@@ -67,6 +71,10 @@ func (nt *NauticalTime) SetHours(hours int) error {
 // current value of the hours, a value >= 12 will set Midday to PM all other times
 // are assumed AM.
 func (nt *NauticalTime) SetFormat(format int) error {
+	if nt.Format == 0 {
+		nt.Format = HOUR_24
+	}
+
 	switch {
 	case format == HOUR_12:
 		if nt.Hours >= HOUR_12 {
