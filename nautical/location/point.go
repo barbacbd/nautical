@@ -28,6 +28,11 @@ func (p *Point) X() float64 { return p.Latitude }
 func (p *Point) Y() float64 { return p.Longitude }
 func (p *Point) Z() float64 { return p.Altitude }
 
+// String function returns the String format of the Point struct
+func (p *Point) String() string {
+	return fmt.Sprintf("%.2f, %.2f, %.2f", p.Latitude, p.Longitude, p.Altitude)
+}
+
 // SetLatitude adds some protection to the ability to set the latitude degrees for
 // the global coordinates
 func (p *Point) SetLatitude(latitude float64) error {
@@ -116,5 +121,5 @@ func (p *Point) InRange(other *Point, distance float64) (bool, error) {
 		return false, err
 	}
 
-	return distance <= dist, nil
+	return distance >= dist, nil
 }

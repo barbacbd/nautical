@@ -24,7 +24,7 @@ func createSquare(geometry []Point) ([]Point, error) {
 	minLat := math.Min(geometry[0].Latitude, geometry[1].Latitude)
 	maxLat := math.Max(geometry[0].Latitude, geometry[1].Latitude)
 	minLon := math.Min(geometry[0].Longitude, geometry[1].Longitude)
-	maxLon := math.Min(geometry[0].Longitude, geometry[1].Longitude)
+	maxLon := math.Max(geometry[0].Longitude, geometry[1].Longitude)
 
 	points := []Point{
 		Point{Latitude: minLat, Longitude: minLon},
@@ -55,13 +55,14 @@ func findIntersection(geometry []Point, point Point) int {
 		if math.Max(curr.Y(), nxt.Y()) >= point.Y() && point.Y() > math.Min(curr.Y(), nxt.Y()) {
 			if point.X() <= math.Max(curr.X(), nxt.X()) {
 				xinters := (point.Y()-curr.Y())*(nxt.X()-curr.X())/(nxt.Y()-curr.Y()) + curr.X()
-				if curr.X() == nxt.X() || point.Y() <= xinters {
+				if curr.X() == nxt.X() || point.X() <= xinters {
 					intersected += 1
 				}
 			}
 		}
 	}
 
+	fmt.Println(intersected)
 	return intersected
 }
 
@@ -69,7 +70,7 @@ func findIntersection(geometry []Point, point Point) int {
 // here: https://www.eecs.umich.edu/courses/eecs380/HANDOUTS/PROJ2/InsidePoly.html
 func InArea(geometry []Point, point Point) (bool, error) {
 	if len(geometry) < 2 {
-		return false, fmt.Errorf("geometry must be a set of atleast 2 points")
+		return false, fmt.Errorf("geometry must be a set of at least 2 points")
 	}
 
 	var geoPoints []Point
@@ -89,4 +90,3 @@ func InArea(geometry []Point, point Point) (bool, error) {
 	// do not reside in the geometry
 	return intersected%2 == 1, nil
 }
-
