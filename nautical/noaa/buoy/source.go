@@ -95,14 +95,19 @@ func (s *Source) GetBuoys() []*Buoy {
 }
 
 // AddBuoy will add a buoy to the struct
-func (s *Source) AddBuoy(buoy *Buoy) error {
+func (s *Source) AddBuoy(buoy Buoy) error {
 	hash := buoy.Hash()
 
+	if s.Buoys == nil {
+		s.Buoys = make(map[uint64]*Buoy)
+	}
+
+	fmt.Println(hash)
 	if s.Contains(hash) {
 		return fmt.Errorf("buoy already exists: %s", buoy.Station)
 	}
-
-	s.Buoys[hash] = buoy
+	
+	s.Buoys[hash] = &buoy
 	return nil
 }
 

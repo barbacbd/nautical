@@ -109,3 +109,119 @@ func TestBuoySetData(t *testing.T) {
 		})
 	}
 }
+
+func TestSourceGetBuoyByStationID(t *testing.T) {
+	tests := []struct {
+		name          string
+		source        Source
+		searchStation string
+		expectedErr   string
+	}{{
+		name: "Find Station in Source",
+		source: Source{
+			Name:        "Sample Source",
+			Description: "Sample Source",
+			Buoys: map[uint64]*Buoy{
+				1234: &Buoy{Station: "ExampleBuoy"},
+			},
+		},
+		searchStation: "ExampleBuoy",
+	}, {
+		name: "Find Station In Empty Source Buoys not init",
+		source: Source{
+			Name:        "Sample Source",
+			Description: "Sample Source",
+		},
+		searchStation: "ExampleBuoy",
+		expectedErr:   "failed to find buoy with station: ExampleBuoy",
+	}, {
+		name: "Find Station In Empty Source",
+		source: Source{
+			Name:        "Sample Source",
+			Description: "Sample Source",
+			Buoys:       map[uint64]*Buoy{},
+		},
+		searchStation: "ExampleBuoy",
+		expectedErr:   "failed to find buoy with station: ExampleBuoy",
+	}, {
+		name: "Find Station in Source No Match",
+		source: Source{
+			Name:        "Sample Source",
+			Description: "Sample Source",
+			Buoys: map[uint64]*Buoy{
+				1234: &Buoy{Station: "ExampleBuoy1"},
+				2345: &Buoy{Station: "ExampleBuoy2"},
+				3456: &Buoy{Station: "ExampleBuoy3"},
+			},
+		},
+		searchStation: "ExampleBuoy",
+		expectedErr:   "failed to find buoy with station: ExampleBuoy",
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+
+			buoy, err := tc.source.GetBuoy(tc.searchStation)
+			if err != nil && tc.expectedErr != "" {
+				assert.Equal(t, tc.expectedErr, err.Error())
+			} else {
+				assert.True(t, buoy != nil)
+			}
+		})
+	}
+}
+
+func TestAddBuoy(t *testing.T) {
+	tests := []struct {
+		name        string
+		source      Source
+		newBuoy     Buoy
+		expectedErr string
+	}{{
+		name: "Add Station to Blank Source",
+		source: Source{
+			Name:        "Sample Source",
+			Description: "Sample Source",
+		},
+		newBuoy: Buoy{Station: "ExampleBuoy"},
+	}, {
+		name: "Add Station to Source With Other Buoys",
+		source: Source{
+			Name:        "Sample Source",
+			Description: "Sample Source",
+			Buoys: map[uint64]*Buoy{
+				1234: &Buoy{Station: "ExampleBuoy1"},
+				2345: &Buoy{Station: "ExampleBuoy2"},
+				3456: &Buoy{Station: "ExampleBuoy3"},
+			},
+		},
+		newBuoy: Buoy{Station: "ExampleBuoy"},
+	}, {
+		name: "Add Station to Source With Other Buoys Same ID",
+		source: Source{
+			Name:        "Sample Source",
+			Description: "Sample Source",
+			Buoys: map[uint64]*Buoy{
+				13226671306703588120: &Buoy{Station: "ExampleBuoy1"},
+				13226671306703588121: &Buoy{Station: "ExampleBuoy2"},
+				13226671306703588122: &Buoy{Station: "ExampleBuoy3"},
+			},
+		},
+		newBuoy:     Buoy{Station: "ExampleBuoy"},
+		expectedErr: "buoy already exists: ExampleBuoy",
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+
+			originalLen := len(tc.source.Buoys)
+
+			err := tc.source.AddBuoy(tc.newBuoy)
+			if err != nil && tc.expectedErr != "" {
+				assert.Equal(t, tc.expectedErr, err.Error())
+			} else {
+				assert.Equal(t, originalLen+1, len(tc.source.Buoys))
+			}
+		})
+	}
+}
