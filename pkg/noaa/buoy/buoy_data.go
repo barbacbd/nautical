@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	nt "github.com/barbacbd/nautical/nautical/time"
+	nt "github.com/barbacbd/nautical/pkg/time"
 )
 
 type BuoyData struct {

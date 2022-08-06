@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/barbacbd/nautical/nautical/units"
+	"github.com/barbacbd/nautical/pkg/units"
 
 	"github.com/umahmood/haversine"
 )

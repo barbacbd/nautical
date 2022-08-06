@@ -2,7 +2,7 @@ package buoy
 
 import (
 	"fmt"
-	"github.com/barbacbd/nautical/nautical/location"
+	"github.com/barbacbd/nautical/pkg/location"
 	"hash/fnv"
 )
 
