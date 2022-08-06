@@ -82,6 +82,7 @@ func CreateOffsetLookups(count int) (map[int]int, error) {
 	// Set a max value for all full sets
 	for i := 0; i < numFull; i++ {
 		lookups[offsets] = MaxResultLimit
+		offsets += MaxResultLimit
 	}
 
 	// Add in any leftover values

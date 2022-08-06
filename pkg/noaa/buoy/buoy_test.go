@@ -2,7 +2,7 @@ package buoy
 
 import (
 	"encoding/json"
-	"github.com/barbacbd/nautical/nautical/time"
+	"github.com/barbacbd/nautical/pkg/time"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

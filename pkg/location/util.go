@@ -62,7 +62,6 @@ func findIntersection(geometry []Point, point Point) int {
 		}
 	}
 
-	fmt.Println(intersected)
 	return intersected
 }
 
