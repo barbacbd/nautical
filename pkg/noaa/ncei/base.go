@@ -3,6 +3,7 @@ package ncei
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 type QueryType int
@@ -10,6 +11,7 @@ type QueryType int
 const (
 	MaxResultLimit int    = 1000
 	BaseEndpoint   string = "https://www.ncei.noaa.gov/cdo-web/api/v2/"
+	requestsPerSec int    = 5
 
 	DataType QueryType = iota
 	DataCategoryType
@@ -21,8 +23,10 @@ const (
 )
 
 type NCEIBase interface {
-	// ConvertToType
-	ConvertToType(results []string) interface{}
+	// ConvertToType will convert the resultant strings from the Query functions
+	// to the interface type including Data, DataCategory, DataSet, Datatype,
+	// LocationCategory, Location, and Station
+	ConvertToType(results []string) []interface{}
 }
 
 func AddToEndpoint(endpoint string, next string) string {
@@ -183,21 +187,33 @@ func QueryAll(token string, qt QueryType, parameters []Parameter) ([]string, err
 		return results, nil
 	}
 
-	// TODO: Figure out how to make sue that we run no more than 5 per second
-	// The api limits queries to a max of 5 requests per second.
-	// Make sure those rules are applied here
-	//ticker := time.NewTicker(time.Second / 5.0)
-
 	i := 0
+	var startTime time.Time
 	for key, value := range offsets {
+		if i == 0 {
+			startTime = time.Now()
+		}
 
 		baseQueryResults, err := QueryBase(token, endpoint, value, key)
 		if err != nil {
 			// log the error
-			continue
+		} else {
+			results = append(results, baseQueryResults...)
 		}
 
-		results = append(results, baseQueryResults...)
+		// Even when a request failed, the request is counted against the
+		// number allowed per second with a token.
+		i = (i + 1) % requestsPerSec
+		if i == 0 {
+			diffTime := time.Now().Sub(startTime)
+			if diffTime.Seconds() < 1 {
+				// Sleep the difference to make sure that the requests do not get skipped
+				time.Sleep(time.Duration(diffTime.Milliseconds()) * time.Millisecond)
+			}
+
+			// reset the time
+			startTime = time.Now()
+		}
 	}
 
 	return results, nil
