@@ -5,20 +5,24 @@ import (
 	"strings"
 )
 
+type QueryType int
+
 const (
 	MaxResultLimit int    = 1000
 	BaseEndpoint   string = "https://www.ncei.noaa.gov/cdo-web/api/v2/"
+
+	DataType QueryType = iota
+	DataCategoryType
+	DatasetType
+	DatatypeType
+	LocationCategoryType
+	LocationType
+	StationType
 )
 
 type NCEIBase interface {
-	// QueryAll will query the endpoint stored in the struct that is passed through
-	// the interface. The list of parameters are used to establish a full endpoint
-	// where the query will return a list of json strings.
-	QueryAll(token string, parameters []Parameter) ([]string, error)
-
-	// QueryBase will query the API provided with the correct endpoint and authentication token.
-	// returns a json encoded result of the query
-	QueryBase(token string, endpoint string, limit int, offset int) (string, error)
+	// ConvertToType
+	ConvertToType(results []string) interface{}
 }
 
 func AddToEndpoint(endpoint string, next string) string {
@@ -96,4 +100,105 @@ func CreateOffsetLookups(count int) (map[int]int, error) {
 // query is the base/common function for all queries and is internal to this package.
 func query(token string, endpoint string, limit int, offset int) (string, error) {
 	return "", nil
+}
+
+// findTypeEndpoint Will match an endpoint based on the
+// type of Query. These will correspond to the package structs.
+func findTypeEndpoint(t QueryType) (string, error) {
+	switch {
+	case t == DataType:
+		return DataEndpoint, nil
+	case t == DataCategoryType:
+		return DataCategoryEndpoint, nil
+	case t == DatasetType:
+		return DatasetEndpoint, nil
+	case t == DatatypeType:
+		return DatatypeEndpoint, nil
+	case t == LocationCategoryType:
+		return LocationCategoryEndpoint, nil
+	case t == LocationType:
+		return LocationEndpoint, nil
+	case t == StationType:
+		return StationEndpoint, nil
+	}
+
+	return "", fmt.Errorf("no matching endpoint: %d", int(t))
+}
+
+// findTypeParameters Will match a list of string parameters based on the
+// type of Query. These will correspond to the package structs.
+func findTypeParameters(t QueryType) ([]string, error) {
+	switch {
+	case t == DataType:
+		return DataParameters, nil
+	case t == DataCategoryType:
+		return DataCategoryParameters, nil
+	case t == DatasetType:
+		return DatasetParameters, nil
+	case t == DatatypeType:
+		return DatatypeParameters, nil
+	case t == LocationCategoryType:
+		return LocationCategoryParameters, nil
+	case t == LocationType:
+		return LocationParameters, nil
+	case t == StationType:
+		return StationParameters, nil
+	}
+
+	return nil, fmt.Errorf("no matching parameters: %d", int(t))
+}
+
+// QueryBase will query the API provided with the correct endpoint and authentication token.
+// returns a json encoded result of the query
+func QueryBase(token string, endpoint string, limit int, offset int) ([]string, error) {
+
+	return nil, nil
+}
+
+// QueryAll will query the endpoint stored in the struct that is passed through
+// the interface. The list of parameters are used to establish a full endpoint
+// where the query will return a list of json strings.
+func QueryAll(token string, qt QueryType, parameters []Parameter) ([]string, error) {
+	var results []string
+
+	baseEndpoint, err := findTypeEndpoint(qt)
+	if err != nil {
+		return nil, err
+	}
+
+	baseParameters, err := findTypeParameters(qt)
+	if err != nil {
+		return nil, err
+	}
+
+	endpoint := addParamsToEndpoint(baseEndpoint, baseParameters, parameters)
+
+	count, err := GetNumResults(token, endpoint)
+	if err != nil {
+		return nil, err
+	}
+
+	offsets, err := CreateOffsetLookups(count)
+	if err != nil {
+		return results, nil
+	}
+
+	// TODO: Figure out how to make sue that we run no more than 5 per second
+	// The api limits queries to a max of 5 requests per second.
+	// Make sure those rules are applied here
+	//ticker := time.NewTicker(time.Second / 5.0)
+
+	i := 0
+	for key, value := range offsets {
+
+		baseQueryResults, err := QueryBase(token, endpoint, value, key)
+		if err != nil {
+			// log the error
+			continue
+		}
+
+		results = append(results, baseQueryResults...)
+	}
+
+	return results, nil
 }
