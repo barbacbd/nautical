@@ -1,10 +1,10 @@
 package ncei
 
 var (
-	// The data endpoint is used for actually fetching the location categories.
+	// LocationCategoryEndpoint is the endpoint is used for fetching the location categories.
 	LocationCategoryEndpoint = AddToEndpoint(BaseEndpoint, "locationcategories")
 
-	// Valid Query Parameters
+	// LocationCategoryParameters contains the valid query parameter names for Location Categories
 	LocationCategoryParameters = []string{
 		// datasetid [Optional]
 		// Accepts a valid dataset id or a chain of dataset ids separated by ampersands.
@@ -12,13 +12,13 @@ var (
 		"datasetid",
 
 		// startdate [Optional]
-		// Accepts valid ISO formated date (yyyy-mm-dd). Data returned will have data after
-		// the specified date. Paramater can be use independently of enddate
+		// Accepts valid ISO formatted date (yyyy-mm-dd). Data returned will have data after
+		// the specified date. parameter can be use independently of enddate
 		"startdate",
 
 		// enddate [Optional]
-		// Accepts valid ISO formated date (yyyy-mm-dd). Data returned will have data before the
-		// specified date. Paramater can be use independently of startdate
+		// Accepts valid ISO formatted date (yyyy-mm-dd). Data returned will have data before the
+		// specified date. parameter can be use independently of startdate
 		"enddate",
 
 		//sortfield [Optional]
@@ -35,11 +35,12 @@ var (
 		"limit",
 
 		// offset [Optional]
-		// Defaults to 0, used to offset the resultlist. The example would begin with record 24
+		// Defaults to 0, used to offset the result list. The example would begin with record 24
 		"offset",
 	}
 )
 
+// LocationCategory is a structure that contains the resulting location category data after a query is processed.
 type LocationCategory struct {
 	Name string `json:"name,omitempty"`
 	ID   string `json:"id,omitempty"`

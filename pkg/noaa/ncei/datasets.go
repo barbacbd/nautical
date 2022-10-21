@@ -1,14 +1,14 @@
 package ncei
 
 var (
-	// The data endpoint is used for actually fetching the datasets.
+	// DatasetEndpoint is the endpoint is used for fetching the datasets.
 	DatasetEndpoint = AddToEndpoint(BaseEndpoint, "datasets")
 
-	// Valid Query Parameters
+	// DatasetParameters contains the valid query parameter names for Dataset
 	DatasetParameters = []string{
 		// datatypeid [Optional]
 		// Accepts a valid data type id or a chain of data type ids separated by ampersands.
-		// Data returned will contain all of the data type(s) specified
+		// Data returned will contain all data type(s) specified
 		"datatypeid",
 
 		// locationid [Optional]
@@ -17,18 +17,18 @@ var (
 		"locationid",
 
 		// stationid [Optional]
-		// Accepts a valid station id or a chain of of station ids separated by ampersands.
+		// Accepts a valid station id or a chain of station ids separated by ampersands.
 		// Data returned will contain data for the station(s) specified
 		"stationid",
 
 		// startdate [Optional]
-		// Accepts valid ISO formated date (yyyy-mm-dd). Data returned will have data after
-		// the specified date. Paramater can be use independently of enddate
+		// Accepts valid ISO formatted date (yyyy-mm-dd). Data returned will have data after
+		// the specified date. parameter can be use independently of enddate
 		"startdate",
 
 		// enddate [Optional]
-		// Accepts valid ISO formated date (yyyy-mm-dd). Data returned will have data before the
-		// specified date. Paramater can be use independently of startdate
+		// Accepts valid ISO formatted date (yyyy-mm-dd). Data returned will have data before the
+		// specified date. parameter can be use independently of startdate
 		"enddate",
 
 		//sortfield [Optional]
@@ -45,11 +45,12 @@ var (
 		"limit",
 
 		// offset [Optional]
-		// Defaults to 0, used to offset the resultlist. The example would begin with record 24
+		// Defaults to 0, used to offset the result list. The example would begin with record 24
 		"offset",
 	}
 )
 
+// Dataset is a structure that contains the resulting dataset after a query is processed.
 type Dataset struct {
 	UID          string `json:"uid,omitempty"`
 	MinDate      string `json:"mindate,omitempty"`

@@ -1,10 +1,10 @@
 package ncei
 
 var (
-	// The data endpoint is used for actually fetching the locations.
+	// StationEndpoint is the endpoint is used for fetching the Stations.
 	StationEndpoint = AddToEndpoint(BaseEndpoint, "stations")
 
-	// Valid Query Parameters
+	// StationParameters contains the valid query parameter names for Stations
 	StationParameters = []string{
 		// datasetid [Optional]
 		// Accepts a valid dataset id or a chain of dataset ids separated by ampersands.
@@ -23,7 +23,7 @@ var (
 
 		// datatypeid [Optional]
 		// Accepts a valid data type id or a chain of data type ids separated by ampersands.
-		// Stations returned will contain all of the data type(s) specified
+		// Stations returned will contain all data type(s) specified
 		"datatypeid",
 
 		// extent [Optional]
@@ -33,13 +33,13 @@ var (
 		"extent",
 
 		// startdate [Optional]
-		// Accepts valid ISO formated date (yyyy-mm-dd). Data returned will have data after
-		// the specified date. Paramater can be use independently of enddate
+		// Accepts valid ISO formatted date (yyyy-mm-dd). Data returned will have data after
+		// the specified date. parameter can be use independently of enddate
 		"startdate",
 
 		// enddate [Optional]
-		// Accepts valid ISO formated date (yyyy-mm-dd). Data returned will have data before the
-		// specified date. Paramater can be use independently of startdate
+		// Accepts valid ISO formatted date (yyyy-mm-dd). Data returned will have data before the
+		// specified date. parameter can be use independently of startdate
 		"enddate",
 
 		//sortfield [Optional]
@@ -56,11 +56,12 @@ var (
 		"limit",
 
 		// offset [Optional]
-		// Defaults to 0, used to offset the resultlist. The example would begin with record 24
+		// Defaults to 0, used to offset the result list. The example would begin with record 24
 		"offset",
 	}
 )
 
+// Station is a structure that contains the resulting station data after a query is processed.
 type Station struct {
 	Elevation     float64 `json:"elevation,omitempty"`
 	MinDate       string  `json:"mindate,omitempty"`

@@ -1,7 +1,13 @@
 package ncei
 
+// NCEI is a work in progress
+
 import (
 	"fmt"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -106,55 +112,56 @@ func query(token string, endpoint string, limit int, offset int) (string, error)
 	return "", nil
 }
 
-// findTypeEndpoint Will match an endpoint based on the
-// type of Query. These will correspond to the package structs.
-func findTypeEndpoint(t QueryType) (string, error) {
+// getQueryData will get the endpoint and the parameters associated with the provided query type.
+func getQueryData(t QueryType) (string, []string, error) {
 	switch {
 	case t == DataType:
-		return DataEndpoint, nil
+		return DataEndpoint, DataParameters, nil
 	case t == DataCategoryType:
-		return DataCategoryEndpoint, nil
+		return DataCategoryEndpoint, DataCategoryParameters, nil
 	case t == DatasetType:
-		return DatasetEndpoint, nil
+		return DatasetEndpoint, DatasetParameters, nil
 	case t == DatatypeType:
-		return DatatypeEndpoint, nil
+		return DatatypeEndpoint, DatatypeParameters, nil
 	case t == LocationCategoryType:
-		return LocationCategoryEndpoint, nil
+		return LocationCategoryEndpoint, LocationCategoryParameters, nil
 	case t == LocationType:
-		return LocationEndpoint, nil
+		return LocationEndpoint, LocationParameters, nil
 	case t == StationType:
-		return StationEndpoint, nil
+		return StationEndpoint, StationParameters, nil
 	}
 
-	return "", fmt.Errorf("no matching endpoint: %d", int(t))
-}
-
-// findTypeParameters Will match a list of string parameters based on the
-// type of Query. These will correspond to the package structs.
-func findTypeParameters(t QueryType) ([]string, error) {
-	switch {
-	case t == DataType:
-		return DataParameters, nil
-	case t == DataCategoryType:
-		return DataCategoryParameters, nil
-	case t == DatasetType:
-		return DatasetParameters, nil
-	case t == DatatypeType:
-		return DatatypeParameters, nil
-	case t == LocationCategoryType:
-		return LocationCategoryParameters, nil
-	case t == LocationType:
-		return LocationParameters, nil
-	case t == StationType:
-		return StationParameters, nil
-	}
-
-	return nil, fmt.Errorf("no matching parameters: %d", int(t))
+	return "", nil, fmt.Errorf("no matching query type: %d", int(t))
 }
 
 // QueryBase will query the API provided with the correct endpoint and authentication token.
 // returns a json encoded result of the query
 func QueryBase(token string, endpoint string, limit int, offset int) ([]string, error) {
+
+	params := url.Values{}
+	params.Add("limit", strconv.Itoa(limit))
+	params.Add("offset", strconv.Itoa(offset))
+
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", endpoint, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("limit", strconv.Itoa(limit))
+	req.Header.Add("offset", strconv.Itoa(offset))
+	req.Header.Add("Token", token)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	_, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
 
 	return nil, nil
 }
@@ -165,18 +172,12 @@ func QueryBase(token string, endpoint string, limit int, offset int) ([]string, 
 func QueryAll(token string, qt QueryType, parameters []Parameter) ([]string, error) {
 	var results []string
 
-	baseEndpoint, err := findTypeEndpoint(qt)
-	if err != nil {
-		return nil, err
-	}
-
-	baseParameters, err := findTypeParameters(qt)
+	baseEndpoint, baseParameters, err := getQueryData(qt)
 	if err != nil {
 		return nil, err
 	}
 
 	endpoint := addParamsToEndpoint(baseEndpoint, baseParameters, parameters)
-
 	count, err := GetNumResults(token, endpoint)
 	if err != nil {
 		return nil, err

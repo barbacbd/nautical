@@ -1,10 +1,10 @@
 package ncei
 
 var (
-	// The data endpoint is used for actually fetching the datatypes.
+	// DatatypeEndpoint is the endpoint is used for fetching the data types.
 	DatatypeEndpoint = AddToEndpoint(BaseEndpoint, "datatypes")
 
-	// Valid Query Parameters
+	// DatatypeParameters contains the valid query parameter names for Data Types
 	DatatypeParameters = []string{
 		// datasetid [Optional]
 		// Accepts a valid dataset id or a chain of dataset ids separated by ampersands.
@@ -17,7 +17,7 @@ var (
 		"locationid",
 
 		// stationid [Optional]
-		// Accepts a valid station id or a chain of of station ids separated by ampersands.
+		// Accepts a valid station id or a chain of station ids separated by ampersands.
 		// Data returned will contain data for the station(s) specified
 		"stationid",
 
@@ -28,13 +28,13 @@ var (
 		"datacategoryid",
 
 		// startdate [Optional]
-		// Accepts valid ISO formated date (yyyy-mm-dd). Data returned will have data after
-		// the specified date. Paramater can be use independently of enddate
+		// Accepts valid ISO formatted date (yyyy-mm-dd). Data returned will have data after
+		// the specified date. parameter can be use independently of enddate
 		"startdate",
 
 		// enddate [Optional]
-		// Accepts valid ISO formated date (yyyy-mm-dd). Data returned will have data before the
-		// specified date. Paramater can be use independently of startdate
+		// Accepts valid ISO formatted date (yyyy-mm-dd). Data returned will have data before the
+		// specified date. parameter can be use independently of startdate
 		"enddate",
 
 		//sortfield [Optional]
@@ -51,11 +51,12 @@ var (
 		"limit",
 
 		// offset [Optional]
-		// Defaults to 0, used to offset the resultlist. The example would begin with record 24
+		// Defaults to 0, used to offset the result list. The example would begin with record 24
 		"offset",
 	}
 )
 
+// Datatype is a structure that contains the resulting data type data after a query is processed.
 type Datatype struct {
 	MinDate      string `json:"mindate,omitempty"`
 	MaxDate      string `json:"maxdate,omitempty"`

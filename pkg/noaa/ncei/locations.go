@@ -1,10 +1,10 @@
 package ncei
 
 var (
-	// The data endpoint is used for actually fetching the locations.
+	// LocationEndpoint is the endpoint is used for fetching the locations.
 	LocationEndpoint = AddToEndpoint(BaseEndpoint, "locations")
 
-	// Valid Query Parameters
+	// LocationParameters contains the valid query parameter names for Locations
 	LocationParameters = []string{
 		// datasetid [Optional]
 		// Accepts a valid dataset id or a chain of dataset ids separated by ampersands.
@@ -50,6 +50,7 @@ var (
 	}
 )
 
+// Location is a structure that contains the resulting location data after a query is processed.
 type Location struct {
 	MinDate      string `json:"mindate,omitempty"`
 	MaxDate      string `json:"maxdate,omitempty"`
