@@ -40,9 +40,11 @@ jobs:
         env:
           token: ${{ secrets.CI_TOKEN }}
         run: |
+          git stash;
           git pull;
           git checkout coverage-tracking;
           git rebase master;
+          git stash pop;
           if [ ! -d ".cov" ]; then mkdir .cov; fi
           mv .coverage .cov/
           cd .cov
