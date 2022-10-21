@@ -38,7 +38,7 @@ source venv/bin/activate;
 pip install . --upgrade;
 
 # install the python requirements for testing.
-pip install -r tests/requirements.txt;
+pip install -r test_requirements.txt;
 
 # Run the python tests for this package
 pytest --cov=tests

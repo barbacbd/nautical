@@ -36,7 +36,7 @@ source venv/bin/activate;
 pip install . --upgrade;
 
 # install the python requirements for testing.
-pip install -r tests/requirements.txt;
+pip install -r test_requirements.txt;
 
 [ -f ".pylintrc" ] && created_pylintrc=0 ||  created_pylintrc=1 
 if [ ! -f ".pylintrc" ]; then
