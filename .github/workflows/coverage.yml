@@ -29,11 +29,11 @@ jobs:
         python -m pip install coverage-badge
     - name: Install Project and Applications
       run: |
-	      python -m pip install . --upgrade
+        python -m pip install . --upgrade
     - name: Setup Git
       run: |
-	      git config --global user.name "Brent Barbachem"
-	      git config --global user.email "barbacbd@dukes.jmu.edu"
+        git config --global user.name "Brent Barbachem"
+        git config --global user.email "barbacbd@dukes.jmu.edu"
     - name: Execute the tests and push results
       env:
         token: ${{ secrets.CI_TOKEN }}
