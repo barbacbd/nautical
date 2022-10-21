@@ -43,7 +43,7 @@ jobs:
         pushd .cov
         coverage-badge -o coverage-badge.svg
         popd
-        git add .cov/
-        git commit -m "[Automated Commit]: Adding code coverage information from unit tests."
-        git remote set-url --push origin https://barbacbd:$token@github.com/barbacbd/nautical
-        git push --force
+        git ls-files --modified | xargs git add
+        git commit -m "[Automated Commit]: Adding code coverage information from unit tests." || echo "no changes to commit"
+        git remote set-url --push origin https://barbacbd:$token@github.com/barbacbd/nautical || echo "no need to set remote"
+        git push --force || echo "nothing to push"
