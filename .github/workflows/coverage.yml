@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "master" ]
 
-permssions:
+permissions:
   contents: write
 
 jobs:
