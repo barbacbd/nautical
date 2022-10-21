@@ -32,12 +32,10 @@ jobs:
       - name: Tests
         run: |
           pytest --cov=tests
-
       - name: Setup git
-        run: | 
+        run: |
           git config --global user.name "Brent Barbachem"
-	        git config --global user.email "barbacbd@dukes.jmu.edu"
-
+          git config --global user.email "barbacbd@dukes.jmu.edu"
       - name: Apply Coverage to Branch
         env:
           token: ${{ secrets.CI_TOKEN }}
@@ -45,13 +43,10 @@ jobs:
           git pull;
           git checkout coverage-tracking;
           git rebase master;
-
           if [ ! -d ".cov" ]; then mkdir .cov; fi
-
           mv .coverage .cov/
           cd .cov
           coverage-badge -o coverage-badge.svg
-
           cd ..;
           git add .cov/
           git commit -m "[Automated Commit]: Adding code coverage information from unit tests."

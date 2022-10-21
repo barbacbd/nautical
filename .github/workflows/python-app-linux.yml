@@ -9,6 +9,7 @@ on:
   pull_request:
     types:
       - opened
+      - edited
 
 jobs:
   systems-tests:
