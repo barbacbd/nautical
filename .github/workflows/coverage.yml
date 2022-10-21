@@ -11,47 +11,39 @@ permissions:
   contents: write
 
 jobs:
-  systems-tests:
-    runs-on: ${{ matrix.os }}
-    name: ${{matrix.os}}-${{matrix.python-version}}
-    strategy:
-      max-parallel: 1
-      matrix:
-        os: [ubuntu-latest]
-        python-version: ["3.10"]
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Local install
-        run: |
-          python -m pip install . --upgrade
-      - name: Install Test Deps
-        run: |
-          python -m pip install -r test_requirements.txt
-          python -m pip install coverage-badge
-      - name: Setup git
-        run: |
-          git config --global user.name "Brent Barbachem"
-          git config --global user.email "barbacbd@dukes.jmu.edu"
-      - name: Create Coverage Directory
-        run: |
-          if [ ! -d ".cov" ]; then mkdir .cov; fi
-      - name: Create Coverage
-        run: |
-          pytest --cov=tests
-          mv .coverage .cov/
-          pushd .cov
-          coverage-badge -o coverage-badge.svg
-          popd
-          git add .cov/
-      - name: Commit local changes
-        run: |
-          git commit -m "[Automated Commit]: Adding code coverage information from unit tests."
-      - name: Push Coverage Changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.CI_TOKEN }}
-          branch: coverage-tracking
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.head_ref }}
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f test_requirements.txt ]; then pip install -r test_requirements.txt; fi
+        python -m pip install coverage-badge
+    - name: Install Project and Applications
+      run: |
+	      python -m pip install . --upgrade
+    - name: Setup Git
+      run: |
+	      git config --global user.name "Brent Barbachem"
+	      git config --global user.email "barbacbd@dukes.jmu.edu"
+    - name: Execute the tests and push results
+      env:
+        token: ${{ secrets.CI_TOKEN }}
+      run: |
+        pytest --cov=tests
+        mv .coverage .cov/
+        pushd .cov
+        coverage-badge -o coverage-badge.svg
+        popd
+        git add .cov/
+        git commit -m "[Automated Commit]: Adding code coverage information from unit tests."
+        git remote set-url --push origin https://barbacbd:$token@github.com/barbacbd/nautical
+        git push --force
