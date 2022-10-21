@@ -41,6 +41,7 @@ jobs:
         pytest --cov=tests
         mv .coverage .cov/
         pushd .cov
+        rm coverage-badge.svg
         coverage-badge -o coverage-badge.svg
         popd
         git ls-files --modified | xargs git add
