@@ -1,0 +1,59 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python Code Coverage
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  systems-tests:
+    runs-on: ${{ matrix.os }}
+    name: ${{matrix.os}}-${{matrix.python-version}}
+    strategy:
+      max-parallel: 1
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Local install
+        run: |
+          python -m pip install . --upgrade
+      - name: Install Test Deps
+        run: |
+          python -m pip install -r test_requirements.txt
+          python -m pip install coverage-badge
+      - name: Tests
+        run: |
+          pytest --cov=tests
+
+      - name: Setup git
+        run: | 
+          git config --global user.name "Brent Barbachem"
+	        git config --global user.email "barbacbd@dukes.jmu.edu"
+
+      - name: Apply Coverage to Branch
+        env:
+          token: ${{ secrets.CI_TOKEN }}
+        run: |
+          git pull;
+          git checkout coverage-tracking;
+          git rebase master;
+
+          if [ ! -d ".cov" ]; then mkdir .cov; fi
+
+          mv .coverage .cov/
+          cd .cov
+          coverage-badge -o coverage-badge.svg
+
+          cd ..;
+          git add .cov/
+          git commit -m "[Automated Commit]: Adding code coverage information from unit tests."
+          git remote set-url --push origin https://barbacbd:$token@github.com/barbacbd/nautical
+          git push --force
