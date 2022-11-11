@@ -7,7 +7,6 @@ from enum import Enum
 from json import load as jload, dump as jdump
 from os.path import join, exists
 from os import mkdir, remove, getenv
-from shutil import copyfile
 from ..log import get_logger
 from ..time import get_time_str
 from ..noaa.buoy import Source, Buoy
@@ -49,11 +48,12 @@ def copy_current_cache(extra_name_data):
     
     copied_name = NAUTICAL_CACHE_FILE
     copied_name = copied_name.replace(".json", extra_name_data) + ".json"
-    # hack to get around windows path issues with shutil.copyfile 
     copied_name = copied_name.replace("\\", "/")
-    
-    copyfile(NAUTICAL_CACHE_FILE.replace("\\", "/"), copied_name)
-     
+
+    with open(NAUTICAL_CACHE_FILE.replace("\\", "/"), "r") as readFile:
+        with open(copied_name, "w+") as writeFile:
+            writeFile.write(readFile.read())
+
     return copied_name
 
 
