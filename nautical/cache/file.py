@@ -52,7 +52,7 @@ def copy_current_cache(extra_name_data):
     # hack to get around windows path issues with shutil.copyfile 
     copied_name = copied_name.replace("\\", "/")
     
-    copyfile(NAUTICAL_CACHE_FILE, copied_name)
+    copyfile(NAUTICAL_CACHE_FILE.replace("\\", "/"), copied_name)
      
     return copied_name
 
