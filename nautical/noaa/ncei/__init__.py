@@ -8,6 +8,16 @@ from .datatypes import DataType                    # noqa # pylint: disable=unus
 from .location_categories import LocationCategory  # noqa # pylint: disable=unused-import
 from .locations import Location                    # noqa # pylint: disable=unused-import
 from .stations import Station                      # noqa # pylint: disable=unused-import
+import warnings
+
+
+warnings.simplefilter('always', DeprecationWarning)
+warnings.warn(
+    "The ncei module is deprecated. See https://github.com/barbacbd/ncei for future development.",
+    DeprecationWarning,
+    stacklevel=2
+)
+
 
 # pylint: disable=redefined-builtin
 all = [
