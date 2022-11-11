@@ -26,7 +26,6 @@ def test_copy_current_cache():
     '''Copy the contents of the current nautical cache file to another file
     '''
     filename = copy_current_cache("EXAMPLE")
-    filename = filename.replace("\\", "/")
     found = [join(NAUTICAL_CACHE_DIR, x).replace("\\", "/") for x in listdir(NAUTICAL_CACHE_DIR)]
     assert filename in found   
     
@@ -38,7 +37,6 @@ def test_copy_current_cache_ts():
     '''Copy the contents of the nautical cache file to a file with a timestamp
     '''
     filename = copy_current_cache_with_timestamp()
-    filename = filename.replace("\\", "/")
     found = [join(NAUTICAL_CACHE_DIR, x).replace("\\", "/") for x in listdir(NAUTICAL_CACHE_DIR)]
     assert filename in found
     

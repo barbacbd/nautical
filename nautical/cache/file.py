@@ -49,6 +49,8 @@ def copy_current_cache(extra_name_data):
     
     copied_name = NAUTICAL_CACHE_FILE
     copied_name = copied_name.replace(".json", extra_name_data) + ".json"
+    # hack to get around windows path issues with shutil.copyfile 
+    copied_name = copied_name.replace("\\", "/")
     
     copyfile(NAUTICAL_CACHE_FILE, copied_name)
      
