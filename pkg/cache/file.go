@@ -16,7 +16,7 @@ import (
 
 const (
 	CacheFile  = "nautical_cache.json"
-	TimeLayout = "2006-01-02_15:04:05"
+	TimeLayout = "2006-01-02_15-04-05"
 )
 
 type NauticalCache struct {

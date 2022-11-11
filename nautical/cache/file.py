@@ -48,7 +48,6 @@ def copy_current_cache(extra_name_data):
     
     copied_name = NAUTICAL_CACHE_FILE
     copied_name = copied_name.replace(".json", extra_name_data) + ".json"
-    copied_name = copied_name.replace("\\", "/")
 
     with open(NAUTICAL_CACHE_FILE.replace("\\", "/"), "r") as readFile:
         with open(copied_name, "w+") as writeFile:
@@ -61,7 +60,7 @@ def copy_current_cache_with_timestamp():
     '''Apply timestamp to the name of the nautical cache
     '''
     now = datetime.now().replace(tzinfo=timezone.utc)
-    return copy_current_cache(now.strftime("%Y-%m-%d_%H:%M:%S"))
+    return copy_current_cache(now.strftime("%Y-%m-%d_%H-%M-%S"))
 
 
 def _convert_to_keys(output_type):
