@@ -16,6 +16,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -70,8 +71,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>nautical package</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">nautical package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/nautical.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -89,31 +90,160 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nautical.cache.html">nautical.cache package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="nautical.cache.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.cache.html#module-nautical.cache.file">nautical.cache.file module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.cache.html#module-nautical.cache.time">nautical.cache.time module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.cache.html#module-nautical.cache">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.cache.html#module-nautical.cache.file">nautical.cache.file module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.file.CacheData"><code class="docutils literal notranslate"><span class="pre">CacheData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.cache.html#nautical.cache.file.CacheData.ALL"><code class="docutils literal notranslate"><span class="pre">CacheData.ALL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.cache.html#nautical.cache.file.CacheData.BUOYS"><code class="docutils literal notranslate"><span class="pre">CacheData.BUOYS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.cache.html#nautical.cache.file.CacheData.SOURCES"><code class="docutils literal notranslate"><span class="pre">CacheData.SOURCES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.cache.html#nautical.cache.file.CacheData.TIME"><code class="docutils literal notranslate"><span class="pre">CacheData.TIME</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.file._convert_to_keys"><code class="docutils literal notranslate"><span class="pre">_convert_to_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.file.copy_current_cache"><code class="docutils literal notranslate"><span class="pre">copy_current_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.file.copy_current_cache_with_timestamp"><code class="docutils literal notranslate"><span class="pre">copy_current_cache_with_timestamp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.file.dumps"><code class="docutils literal notranslate"><span class="pre">dumps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.file.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.file.setup"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.cache.html#module-nautical.cache.time">nautical.cache.time module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.time.should_update"><code class="docutils literal notranslate"><span class="pre">should_update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.cache.html#module-nautical.cache">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.CacheData"><code class="docutils literal notranslate"><span class="pre">CacheData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.cache.html#nautical.cache.CacheData.ALL"><code class="docutils literal notranslate"><span class="pre">CacheData.ALL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.cache.html#nautical.cache.CacheData.BUOYS"><code class="docutils literal notranslate"><span class="pre">CacheData.BUOYS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.cache.html#nautical.cache.CacheData.SOURCES"><code class="docutils literal notranslate"><span class="pre">CacheData.SOURCES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.cache.html#nautical.cache.CacheData.TIME"><code class="docutils literal notranslate"><span class="pre">CacheData.TIME</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.copy_current_cache"><code class="docutils literal notranslate"><span class="pre">copy_current_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.copy_current_cache_with_timestamp"><code class="docutils literal notranslate"><span class="pre">copy_current_cache_with_timestamp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.dumps"><code class="docutils literal notranslate"><span class="pre">dumps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.setup"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.cache.html#nautical.cache.should_update"><code class="docutils literal notranslate"><span class="pre">should_update()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nautical.io.html">nautical.io package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="nautical.io.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.io.html#module-nautical.io.buoy">nautical.io.buoy module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.io.html#module-nautical.io.cdata">nautical.io.cdata module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.io.html#module-nautical.io.sources">nautical.io.sources module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.io.html#module-nautical.io.web">nautical.io.web module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.io.html#module-nautical.io">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.io.html#module-nautical.io.buoy">nautical.io.buoy module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.buoy.create_buoy"><code class="docutils literal notranslate"><span class="pre">create_buoy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.buoy.fill_buoy"><code class="docutils literal notranslate"><span class="pre">fill_buoy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.buoy.get_buoy_data"><code class="docutils literal notranslate"><span class="pre">get_buoy_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.buoy.get_current_data"><code class="docutils literal notranslate"><span class="pre">get_current_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.io.html#module-nautical.io.cdata">nautical.io.cdata module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.cdata.fill_buoy_with_cdata"><code class="docutils literal notranslate"><span class="pre">fill_buoy_with_cdata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.cdata.parse_cdata"><code class="docutils literal notranslate"><span class="pre">parse_cdata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.cdata.parse_location"><code class="docutils literal notranslate"><span class="pre">parse_location()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.cdata.parse_time"><code class="docutils literal notranslate"><span class="pre">parse_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.cdata.parse_winds"><code class="docutils literal notranslate"><span class="pre">parse_winds()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.io.html#module-nautical.io.sources">nautical.io.sources module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.sources.get_buoy_sources"><code class="docutils literal notranslate"><span class="pre">get_buoy_sources()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.sources.validate_sources"><code class="docutils literal notranslate"><span class="pre">validate_sources()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.io.html#module-nautical.io.web">nautical.io.web module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.web.get_noaa_forecast_url"><code class="docutils literal notranslate"><span class="pre">get_noaa_forecast_url()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.web.get_url_source"><code class="docutils literal notranslate"><span class="pre">get_url_source()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.io.html#module-nautical.io">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.create_buoy"><code class="docutils literal notranslate"><span class="pre">create_buoy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.fill_buoy_with_cdata"><code class="docutils literal notranslate"><span class="pre">fill_buoy_with_cdata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.get_buoy_data"><code class="docutils literal notranslate"><span class="pre">get_buoy_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.get_buoy_sources"><code class="docutils literal notranslate"><span class="pre">get_buoy_sources()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.get_current_data"><code class="docutils literal notranslate"><span class="pre">get_current_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.get_noaa_forecast_url"><code class="docutils literal notranslate"><span class="pre">get_noaa_forecast_url()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.get_url_source"><code class="docutils literal notranslate"><span class="pre">get_url_source()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.parse_cdata"><code class="docutils literal notranslate"><span class="pre">parse_cdata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.parse_location"><code class="docutils literal notranslate"><span class="pre">parse_location()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.parse_time"><code class="docutils literal notranslate"><span class="pre">parse_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.io.html#nautical.io.parse_winds"><code class="docutils literal notranslate"><span class="pre">parse_winds()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nautical.location.html">nautical.location package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="nautical.location.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.location.html#module-nautical.location.point">nautical.location.point module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.location.html#module-nautical.location.util">nautical.location.util module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.location.html#module-nautical.location">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.location.html#module-nautical.location.point">nautical.location.point module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point"><code class="docutils literal notranslate"><span class="pre">Point</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.__init__"><code class="docutils literal notranslate"><span class="pre">Point.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.__str__"><code class="docutils literal notranslate"><span class="pre">Point.__str__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.altitude"><code class="docutils literal notranslate"><span class="pre">Point.altitude</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.as_tuple"><code class="docutils literal notranslate"><span class="pre">Point.as_tuple()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.distance"><code class="docutils literal notranslate"><span class="pre">Point.distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.from_dict"><code class="docutils literal notranslate"><span class="pre">Point.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.from_json"><code class="docutils literal notranslate"><span class="pre">Point.from_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.in_range"><code class="docutils literal notranslate"><span class="pre">Point.in_range()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.latitude"><code class="docutils literal notranslate"><span class="pre">Point.latitude</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.longitude"><code class="docutils literal notranslate"><span class="pre">Point.longitude</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.parse"><code class="docutils literal notranslate"><span class="pre">Point.parse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.parse_noaa_kml_format"><code class="docutils literal notranslate"><span class="pre">Point.parse_noaa_kml_format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.point.Point.to_json"><code class="docutils literal notranslate"><span class="pre">Point.to_json()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.location.html#module-nautical.location.util">nautical.location.util module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.location.html#nautical.location.util._create_square"><code class="docutils literal notranslate"><span class="pre">_create_square()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.location.html#nautical.location.util._find_intersections"><code class="docutils literal notranslate"><span class="pre">_find_intersections()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.location.html#nautical.location.util.haversine"><code class="docutils literal notranslate"><span class="pre">haversine()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.location.html#nautical.location.util.in_area"><code class="docutils literal notranslate"><span class="pre">in_area()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.location.html#nautical.location.util.in_range"><code class="docutils literal notranslate"><span class="pre">in_range()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.location.html#nautical.location.util.in_range_ll"><code class="docutils literal notranslate"><span class="pre">in_range_ll()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.location.html#module-nautical.location">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.location.html#nautical.location.Point"><code class="docutils literal notranslate"><span class="pre">Point</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.__init__"><code class="docutils literal notranslate"><span class="pre">Point.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.__str__"><code class="docutils literal notranslate"><span class="pre">Point.__str__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.altitude"><code class="docutils literal notranslate"><span class="pre">Point.altitude</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.as_tuple"><code class="docutils literal notranslate"><span class="pre">Point.as_tuple()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.distance"><code class="docutils literal notranslate"><span class="pre">Point.distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.from_dict"><code class="docutils literal notranslate"><span class="pre">Point.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.from_json"><code class="docutils literal notranslate"><span class="pre">Point.from_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.in_range"><code class="docutils literal notranslate"><span class="pre">Point.in_range()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.latitude"><code class="docutils literal notranslate"><span class="pre">Point.latitude</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.longitude"><code class="docutils literal notranslate"><span class="pre">Point.longitude</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.parse"><code class="docutils literal notranslate"><span class="pre">Point.parse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.parse_noaa_kml_format"><code class="docutils literal notranslate"><span class="pre">Point.parse_noaa_kml_format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.location.html#nautical.location.Point.to_json"><code class="docutils literal notranslate"><span class="pre">Point.to_json()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nautical.log.html">nautical.log package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="nautical.log.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.log.html#module-nautical.log.log">nautical.log.log module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.log.html#module-nautical.log">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.log.html#module-nautical.log.log">nautical.log.log module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.log.html#nautical.log.log.NauticalLogFormatter"><code class="docutils literal notranslate"><span class="pre">NauticalLogFormatter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.log.html#nautical.log.log.NauticalLogFormatter.FORMATS"><code class="docutils literal notranslate"><span class="pre">NauticalLogFormatter.FORMATS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.log.html#nautical.log.log.NauticalLogFormatter.blue"><code class="docutils literal notranslate"><span class="pre">NauticalLogFormatter.blue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.log.html#nautical.log.log.NauticalLogFormatter.fmt"><code class="docutils literal notranslate"><span class="pre">NauticalLogFormatter.fmt</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.log.html#nautical.log.log.NauticalLogFormatter.format"><code class="docutils literal notranslate"><span class="pre">NauticalLogFormatter.format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.log.html#nautical.log.log.NauticalLogFormatter.green"><code class="docutils literal notranslate"><span class="pre">NauticalLogFormatter.green</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.log.html#nautical.log.log.NauticalLogFormatter.purple"><code class="docutils literal notranslate"><span class="pre">NauticalLogFormatter.purple</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.log.html#nautical.log.log.NauticalLogFormatter.red"><code class="docutils literal notranslate"><span class="pre">NauticalLogFormatter.red</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.log.html#nautical.log.log.NauticalLogFormatter.reset"><code class="docutils literal notranslate"><span class="pre">NauticalLogFormatter.reset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.log.html#nautical.log.log.NauticalLogFormatter.yellow"><code class="docutils literal notranslate"><span class="pre">NauticalLogFormatter.yellow</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.log.html#nautical.log.log.get_logger"><code class="docutils literal notranslate"><span class="pre">get_logger()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.log.html#module-nautical.log">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.log.html#nautical.log.get_logger"><code class="docutils literal notranslate"><span class="pre">get_logger()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nautical.noaa.html">nautical.noaa package</a><ul>
@@ -126,43 +256,194 @@
 <li class="toctree-l4"><a class="reference internal" href="nautical.noaa.buoy.html#module-nautical.noaa.buoy">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="nautical.noaa.ncei.html">nautical.noaa.ncei package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.ncei.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.ncei.html#module-nautical.noaa.ncei.base">nautical.noaa.ncei.base module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.ncei.html#module-nautical.noaa.ncei.data">nautical.noaa.ncei.data module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.ncei.html#module-nautical.noaa.ncei.datacategories">nautical.noaa.ncei.datacategories module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.ncei.html#module-nautical.noaa.ncei.datasets">nautical.noaa.ncei.datasets module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.ncei.html#module-nautical.noaa.ncei.datatypes">nautical.noaa.ncei.datatypes module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.ncei.html#module-nautical.noaa.ncei.location_categories">nautical.noaa.ncei.location_categories module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.ncei.html#module-nautical.noaa.ncei.locations">nautical.noaa.ncei.locations module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.ncei.html#module-nautical.noaa.ncei.stations">nautical.noaa.ncei.stations module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.ncei.html#module-nautical.noaa.ncei.token">nautical.noaa.ncei.token module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nautical.noaa.ncei.html#module-nautical.noaa.ncei">Module contents</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.noaa.html#module-nautical.noaa">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.noaa.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nautical.sea_state.html">nautical.sea_state package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="nautical.sea_state.html#module-nautical.sea_state">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.sea_state.html#module-nautical.sea_state">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.sea_state.html#nautical.sea_state.sea_state"><code class="docutils literal notranslate"><span class="pre">sea_state()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nautical.time.html">nautical.time package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="nautical.time.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.time.html#module-nautical.time.conversion">nautical.time.conversion module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.time.html#module-nautical.time.enums">nautical.time.enums module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.time.html#module-nautical.time.nautical_time">nautical.time.nautical_time module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.time.html#module-nautical.time.ops">nautical.time.ops module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.time.html#module-nautical.time">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.time.html#module-nautical.time.conversion">nautical.time.conversion module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.conversion.convert_noaa_time"><code class="docutils literal notranslate"><span class="pre">convert_noaa_time()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.time.html#module-nautical.time.enums">nautical.time.enums module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.enums.Midday"><code class="docutils literal notranslate"><span class="pre">Midday</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.enums.Midday.AM"><code class="docutils literal notranslate"><span class="pre">Midday.AM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.enums.Midday.PM"><code class="docutils literal notranslate"><span class="pre">Midday.PM</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.enums.TimeFormat"><code class="docutils literal notranslate"><span class="pre">TimeFormat</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.enums.TimeFormat.HOUR_12"><code class="docutils literal notranslate"><span class="pre">TimeFormat.HOUR_12</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.enums.TimeFormat.HOUR_24"><code class="docutils literal notranslate"><span class="pre">TimeFormat.HOUR_24</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.time.html#module-nautical.time.nautical_time">nautical.time.nautical_time module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.nautical_time.NauticalTime"><code class="docutils literal notranslate"><span class="pre">NauticalTime</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.nautical_time.NauticalTime.__init__"><code class="docutils literal notranslate"><span class="pre">NauticalTime.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.nautical_time.NauticalTime.__str__"><code class="docutils literal notranslate"><span class="pre">NauticalTime.__str__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.nautical_time.NauticalTime.fmt"><code class="docutils literal notranslate"><span class="pre">NauticalTime.fmt</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.nautical_time.NauticalTime.hours"><code class="docutils literal notranslate"><span class="pre">NauticalTime.hours</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.nautical_time.NauticalTime.minutes"><code class="docutils literal notranslate"><span class="pre">NauticalTime.minutes</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.time.html#module-nautical.time.ops">nautical.time.ops module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.ops.get_current_time"><code class="docutils literal notranslate"><span class="pre">get_current_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.ops.get_time_diff"><code class="docutils literal notranslate"><span class="pre">get_time_diff()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.ops.get_time_str"><code class="docutils literal notranslate"><span class="pre">get_time_str()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.time.html#module-nautical.time">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.Midday"><code class="docutils literal notranslate"><span class="pre">Midday</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.Midday.AM"><code class="docutils literal notranslate"><span class="pre">Midday.AM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.Midday.PM"><code class="docutils literal notranslate"><span class="pre">Midday.PM</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.NauticalTime"><code class="docutils literal notranslate"><span class="pre">NauticalTime</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.NauticalTime.__init__"><code class="docutils literal notranslate"><span class="pre">NauticalTime.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.NauticalTime.__str__"><code class="docutils literal notranslate"><span class="pre">NauticalTime.__str__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.NauticalTime.fmt"><code class="docutils literal notranslate"><span class="pre">NauticalTime.fmt</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.NauticalTime.hours"><code class="docutils literal notranslate"><span class="pre">NauticalTime.hours</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.NauticalTime.minutes"><code class="docutils literal notranslate"><span class="pre">NauticalTime.minutes</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.TimeFormat"><code class="docutils literal notranslate"><span class="pre">TimeFormat</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.TimeFormat.HOUR_12"><code class="docutils literal notranslate"><span class="pre">TimeFormat.HOUR_12</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.time.html#nautical.time.TimeFormat.HOUR_24"><code class="docutils literal notranslate"><span class="pre">TimeFormat.HOUR_24</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.convert_noaa_time"><code class="docutils literal notranslate"><span class="pre">convert_noaa_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.get_current_time"><code class="docutils literal notranslate"><span class="pre">get_current_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.get_time_diff"><code class="docutils literal notranslate"><span class="pre">get_time_diff()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.time.html#nautical.time.get_time_str"><code class="docutils literal notranslate"><span class="pre">get_time_str()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nautical.units.html">nautical.units package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="nautical.units.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.units.html#module-nautical.units.conversion">nautical.units.conversion module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.units.html#module-nautical.units.units">nautical.units.units module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nautical.units.html#module-nautical.units">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.units.html#module-nautical.units.conversion">nautical.units.conversion module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.conversion.convert"><code class="docutils literal notranslate"><span class="pre">convert()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.conversion.convert_distance"><code class="docutils literal notranslate"><span class="pre">convert_distance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.conversion.convert_pressure"><code class="docutils literal notranslate"><span class="pre">convert_pressure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.conversion.convert_speed"><code class="docutils literal notranslate"><span class="pre">convert_speed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.conversion.convert_temperature"><code class="docutils literal notranslate"><span class="pre">convert_temperature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.conversion.convert_time"><code class="docutils literal notranslate"><span class="pre">convert_time()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.units.html#module-nautical.units.units">nautical.units.units module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.units.DistanceUnits"><code class="docutils literal notranslate"><span class="pre">DistanceUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.DistanceUnits.CENTIMETERS"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.CENTIMETERS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.DistanceUnits.FEET"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.FEET</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.DistanceUnits.KILOMETERS"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.KILOMETERS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.DistanceUnits.METERS"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.METERS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.DistanceUnits.MILES"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.MILES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.DistanceUnits.NAUTICAL_MILES"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.NAUTICAL_MILES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.DistanceUnits.YARDS"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.YARDS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.units.PressureUnits"><code class="docutils literal notranslate"><span class="pre">PressureUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.PressureUnits.AT"><code class="docutils literal notranslate"><span class="pre">PressureUnits.AT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.PressureUnits.ATM"><code class="docutils literal notranslate"><span class="pre">PressureUnits.ATM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.PressureUnits.BA"><code class="docutils literal notranslate"><span class="pre">PressureUnits.BA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.PressureUnits.BARR"><code class="docutils literal notranslate"><span class="pre">PressureUnits.BARR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.PressureUnits.HG"><code class="docutils literal notranslate"><span class="pre">PressureUnits.HG</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.PressureUnits.PA"><code class="docutils literal notranslate"><span class="pre">PressureUnits.PA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.PressureUnits.PSI"><code class="docutils literal notranslate"><span class="pre">PressureUnits.PSI</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.PressureUnits.TORR"><code class="docutils literal notranslate"><span class="pre">PressureUnits.TORR</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.units.SalinityUnits"><code class="docutils literal notranslate"><span class="pre">SalinityUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.SalinityUnits.PSU"><code class="docutils literal notranslate"><span class="pre">SalinityUnits.PSU</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.units.SpeedUnits"><code class="docutils literal notranslate"><span class="pre">SpeedUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.SpeedUnits.FPS"><code class="docutils literal notranslate"><span class="pre">SpeedUnits.FPS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.SpeedUnits.KNOTS"><code class="docutils literal notranslate"><span class="pre">SpeedUnits.KNOTS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.SpeedUnits.KPH"><code class="docutils literal notranslate"><span class="pre">SpeedUnits.KPH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.SpeedUnits.MPH"><code class="docutils literal notranslate"><span class="pre">SpeedUnits.MPH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.SpeedUnits.MPS"><code class="docutils literal notranslate"><span class="pre">SpeedUnits.MPS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.units.TemperatureUnits"><code class="docutils literal notranslate"><span class="pre">TemperatureUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.TemperatureUnits.DEG_C"><code class="docutils literal notranslate"><span class="pre">TemperatureUnits.DEG_C</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.TemperatureUnits.DEG_F"><code class="docutils literal notranslate"><span class="pre">TemperatureUnits.DEG_F</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.units.TimeUnits"><code class="docutils literal notranslate"><span class="pre">TimeUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.TimeUnits.DAYS"><code class="docutils literal notranslate"><span class="pre">TimeUnits.DAYS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.TimeUnits.HOURS"><code class="docutils literal notranslate"><span class="pre">TimeUnits.HOURS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.TimeUnits.MINUTES"><code class="docutils literal notranslate"><span class="pre">TimeUnits.MINUTES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.units.TimeUnits.SECONDS"><code class="docutils literal notranslate"><span class="pre">TimeUnits.SECONDS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nautical.units.html#module-nautical.units">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.DistanceUnits"><code class="docutils literal notranslate"><span class="pre">DistanceUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.DistanceUnits.CENTIMETERS"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.CENTIMETERS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.DistanceUnits.FEET"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.FEET</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.DistanceUnits.KILOMETERS"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.KILOMETERS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.DistanceUnits.METERS"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.METERS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.DistanceUnits.MILES"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.MILES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.DistanceUnits.NAUTICAL_MILES"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.NAUTICAL_MILES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.DistanceUnits.YARDS"><code class="docutils literal notranslate"><span class="pre">DistanceUnits.YARDS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.PressureUnits"><code class="docutils literal notranslate"><span class="pre">PressureUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.PressureUnits.AT"><code class="docutils literal notranslate"><span class="pre">PressureUnits.AT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.PressureUnits.ATM"><code class="docutils literal notranslate"><span class="pre">PressureUnits.ATM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.PressureUnits.BA"><code class="docutils literal notranslate"><span class="pre">PressureUnits.BA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.PressureUnits.BARR"><code class="docutils literal notranslate"><span class="pre">PressureUnits.BARR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.PressureUnits.HG"><code class="docutils literal notranslate"><span class="pre">PressureUnits.HG</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.PressureUnits.PA"><code class="docutils literal notranslate"><span class="pre">PressureUnits.PA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.PressureUnits.PSI"><code class="docutils literal notranslate"><span class="pre">PressureUnits.PSI</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.PressureUnits.TORR"><code class="docutils literal notranslate"><span class="pre">PressureUnits.TORR</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.SalinityUnits"><code class="docutils literal notranslate"><span class="pre">SalinityUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.SalinityUnits.PSU"><code class="docutils literal notranslate"><span class="pre">SalinityUnits.PSU</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.SpeedUnits"><code class="docutils literal notranslate"><span class="pre">SpeedUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.SpeedUnits.FPS"><code class="docutils literal notranslate"><span class="pre">SpeedUnits.FPS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.SpeedUnits.KNOTS"><code class="docutils literal notranslate"><span class="pre">SpeedUnits.KNOTS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.SpeedUnits.KPH"><code class="docutils literal notranslate"><span class="pre">SpeedUnits.KPH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.SpeedUnits.MPH"><code class="docutils literal notranslate"><span class="pre">SpeedUnits.MPH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.SpeedUnits.MPS"><code class="docutils literal notranslate"><span class="pre">SpeedUnits.MPS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.TemperatureUnits"><code class="docutils literal notranslate"><span class="pre">TemperatureUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.TemperatureUnits.DEG_C"><code class="docutils literal notranslate"><span class="pre">TemperatureUnits.DEG_C</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.TemperatureUnits.DEG_F"><code class="docutils literal notranslate"><span class="pre">TemperatureUnits.DEG_F</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.TimeUnits"><code class="docutils literal notranslate"><span class="pre">TimeUnits</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.TimeUnits.DAYS"><code class="docutils literal notranslate"><span class="pre">TimeUnits.DAYS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.TimeUnits.HOURS"><code class="docutils literal notranslate"><span class="pre">TimeUnits.HOURS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.TimeUnits.MINUTES"><code class="docutils literal notranslate"><span class="pre">TimeUnits.MINUTES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nautical.units.html#nautical.units.TimeUnits.SECONDS"><code class="docutils literal notranslate"><span class="pre">TimeUnits.SECONDS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.convert"><code class="docutils literal notranslate"><span class="pre">convert()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.convert_distance"><code class="docutils literal notranslate"><span class="pre">convert_distance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.convert_pressure"><code class="docutils literal notranslate"><span class="pre">convert_pressure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.convert_speed"><code class="docutils literal notranslate"><span class="pre">convert_speed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.convert_temperature"><code class="docutils literal notranslate"><span class="pre">convert_temperature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nautical.units.html#nautical.units.convert_time"><code class="docutils literal notranslate"><span class="pre">convert_time()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
