@@ -2,12 +2,9 @@ from os.path import exists, join
 from os import remove, listdir, environ
 import pytest
 from shutil import rmtree
-import sys
 
-if sys.platform == 'win32':
-    environ["NAUTICAL_CACHE_DIR"] = "C:\\nautical_cache_tests"
-else:
-    environ["NAUTICAL_CACHE_DIR"] = "nautical_cache_tests"
+
+environ["NAUTICAL_CACHE_DIR"] = "nautical_cache_tests"
 
 # Load anything associated with nautical after env vars are set
 from nautical.cache import *
@@ -29,6 +26,7 @@ def test_copy_current_cache():
     '''Copy the contents of the current nautical cache file to another file
     '''
     filename = copy_current_cache("EXAMPLE")
+    filename.replace("\\", "/")
     found = [join(NAUTICAL_CACHE_DIR, x) for x in listdir(NAUTICAL_CACHE_DIR)]
     assert filename in found   
     
@@ -40,6 +38,7 @@ def test_copy_current_cache_ts():
     '''Copy the contents of the nautical cache file to a file with a timestamp
     '''
     filename = copy_current_cache_with_timestamp()
+    filename.replace("\\", "/")
     found = [join(NAUTICAL_CACHE_DIR, x) for x in listdir(NAUTICAL_CACHE_DIR)]
     assert filename in found
     
