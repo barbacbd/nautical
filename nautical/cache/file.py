@@ -59,7 +59,7 @@ def copy_current_cache_with_timestamp():
     '''Apply timestamp to the name of the nautical cache
     '''
     now = datetime.now().replace(tzinfo=timezone.utc)
-    return copy_current_cache(now.strftime("%Y%m%d_%H%M%S"))
+    return copy_current_cache(now.strftime("%Y-%m-%d_%H:%M:%S"))
 
 
 def _convert_to_keys(output_type):

@@ -2,8 +2,12 @@ from os.path import exists, join
 from os import remove, listdir, environ
 import pytest
 from shutil import rmtree
+import sys
 
-environ["NAUTICAL_CACHE_DIR"] = "nautical_cache_tests"
+if sys.platform == 'win32':
+    environ["NAUTICAL_CACHE_DIR"] = "C:\\nautical_cache_tests"
+else:
+    environ["NAUTICAL_CACHE_DIR"] = "nautical_cache_tests"
 
 # Load anything associated with nautical after env vars are set
 from nautical.cache import *
