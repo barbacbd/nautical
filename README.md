@@ -15,7 +15,7 @@
 # Description
 
 Ahoy! Whether you've got your sea legs under yeh', or you're just looking to get those toes wet, you have discovered Nautical. Nautical contains an extension to a python based web scraper that
-allows users to retrieve [NOAA](https://www.ndbc.noaa.gov/) buoy information. Nautical also provides users with a simple interface to the [NOAA NCEI](https://www.ncei.noaa.gov/) web api.
+allows users to retrieve [NOAA](https://www.ndbc.noaa.gov/) buoy information. 
 
 Peer into that spyglass and review the [nautical documentation](https://barbacbd.github.io/nautical/build/html/index.html) for more information.
 
