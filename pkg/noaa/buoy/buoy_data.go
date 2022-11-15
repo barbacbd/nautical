@@ -7,8 +7,8 @@ import (
 	nt "github.com/barbacbd/nautical/pkg/time"
 )
 
+// BuoyData contains the scientific data associated with a Buoy
 type BuoyData struct {
-
 	// Year is the year the information was retrieved
 	Year int `json:"year,omitempty"`
 

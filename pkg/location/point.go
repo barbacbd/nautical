@@ -10,17 +10,18 @@ import (
 	"github.com/umahmood/haversine"
 )
 
+// Point is a 3-Dimensional Point representation with fields for
+// Latitude, Longitude, and Altitude
 type Point struct {
-
 	// Latitude degrees for the world coordinates
-	Latitude float64 `json:"latitude,omitempty"`
+	Latitude float64 `json:"latitude,omitempty" xml:"latitude"`
 
 	// Longitude degrees for the world coordinates
-	Longitude float64 `json:"longitude,omitempty"`
+	Longitude float64 `json:"longitude,omitempty" xml:"longitude"`
 
 	// Altitude in meters above sea level. Negative values
 	// are considered to be depth.
-	Altitude float64 `json:"altitude,omitempty"`
+	Altitude float64 `json:"altitude,omitempty" xml:"altitude"`
 }
 
 // Convenience functions for x,y,z coordinates of the Point

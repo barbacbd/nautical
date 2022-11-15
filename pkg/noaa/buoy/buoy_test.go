@@ -2,7 +2,11 @@ package buoy
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/anaskhan96/soup"
 	"github.com/barbacbd/nautical/pkg/time"
+	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -110,67 +114,6 @@ func TestBuoySetData(t *testing.T) {
 	}
 }
 
-func TestSourceGetBuoyByStationID(t *testing.T) {
-	tests := []struct {
-		name          string
-		source        Source
-		searchStation string
-		expectedErr   string
-	}{{
-		name: "Find Station in Source",
-		source: Source{
-			Name:        "Sample Source",
-			Description: "Sample Source",
-			Buoys: map[uint64]*Buoy{
-				1234: &Buoy{Station: "ExampleBuoy"},
-			},
-		},
-		searchStation: "ExampleBuoy",
-	}, {
-		name: "Find Station In Empty Source Buoys not init",
-		source: Source{
-			Name:        "Sample Source",
-			Description: "Sample Source",
-		},
-		searchStation: "ExampleBuoy",
-		expectedErr:   "failed to find buoy with station: ExampleBuoy",
-	}, {
-		name: "Find Station In Empty Source",
-		source: Source{
-			Name:        "Sample Source",
-			Description: "Sample Source",
-			Buoys:       map[uint64]*Buoy{},
-		},
-		searchStation: "ExampleBuoy",
-		expectedErr:   "failed to find buoy with station: ExampleBuoy",
-	}, {
-		name: "Find Station in Source No Match",
-		source: Source{
-			Name:        "Sample Source",
-			Description: "Sample Source",
-			Buoys: map[uint64]*Buoy{
-				1234: &Buoy{Station: "ExampleBuoy1"},
-				2345: &Buoy{Station: "ExampleBuoy2"},
-				3456: &Buoy{Station: "ExampleBuoy3"},
-			},
-		},
-		searchStation: "ExampleBuoy",
-		expectedErr:   "failed to find buoy with station: ExampleBuoy",
-	}}
-
-	for _, tc := range tests {
-		t.Run(tc.name, func(t *testing.T) {
-
-			buoy, err := tc.source.GetBuoy(tc.searchStation)
-			if err != nil && tc.expectedErr != "" {
-				assert.Equal(t, tc.expectedErr, err.Error())
-			} else {
-				assert.True(t, buoy != nil)
-			}
-		})
-	}
-}
-
 func TestAddBuoy(t *testing.T) {
 	tests := []struct {
 		name        string
@@ -213,10 +156,8 @@ func TestAddBuoy(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-
 			originalLen := len(tc.source.Buoys)
-
-			err := tc.source.AddBuoy(tc.newBuoy)
+			err := tc.source.AddBuoy(&tc.newBuoy)
 			if err != nil && tc.expectedErr != "" {
 				assert.Equal(t, tc.expectedErr, err.Error())
 			} else {
@@ -224,4 +165,85 @@ func TestAddBuoy(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestFillBuoy(t *testing.T) {
+
+	tests := []struct {
+		name               string
+		filename           string
+		search             []string
+		waveHeight         float64
+		dominantWavePeriod float64
+		averageWavePeriod  float64
+		meanWaveDirection  string
+		waterTemp          float64
+		swellHeight        float64
+		swellPeriod        float64
+		swellDirection     string
+		windWaveHeight     float64
+		windWavePeriod     float64
+		windWaveDirection  string
+		steepness          string
+		errString          string
+	}{{
+		name:               "Valid Buoy Loading",
+		filename:           "../../../tests/ValidBuoy.html",
+		search:             []string{"Conditions at 44099", "Detailed Wave Summary"},
+		waveHeight:         3.6,
+		dominantWavePeriod: 7.0,
+		averageWavePeriod:  5.7,
+		waterTemp:          53.8,
+		swellHeight:        0.7,
+		swellPeriod:        10.5,
+		swellDirection:     "E",
+		windWaveHeight:     3.6,
+		windWavePeriod:     6.7,
+		windWaveDirection:  "ESE",
+		steepness:          "STEEP",
+	}, {
+		name:      "Invalid Buoy Loading",
+		filename:  "../../../tests/InvalidBuoy.html",
+		search:    []string{"Conditions at 44099", "Detailed Wave Summary"},
+		errString: "no buoy variables set",
+	},
+	}
+
+	path, err := os.Getwd()
+	if err != nil {
+		t.Fail()
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+
+			fullFilePath := fmt.Sprintf("%s/%s", path, tc.filename)
+			body, err := ioutil.ReadFile(fullFilePath)
+			if err != nil {
+				t.Fail()
+			}
+			doc := soup.HTMLParse(string(body))
+			station := Buoy{
+				Present: &BuoyData{},
+			}
+
+			err = station.GetCurrentData(&doc, tc.search)
+			if err != nil {
+				assert.Equal(t, tc.errString, err.Error())
+			} else {
+				assert.Equal(t, tc.waveHeight, station.Present.WaveHeight)
+				assert.Equal(t, tc.dominantWavePeriod, station.Present.DominantWavePeriod)
+				assert.Equal(t, tc.averageWavePeriod, station.Present.AverageWavePeriod)
+				assert.Equal(t, tc.waterTemp, station.Present.WaterTemperature)
+				assert.Equal(t, tc.swellHeight, station.Present.SwellHeight)
+				assert.Equal(t, tc.swellPeriod, station.Present.SwellPeriod)
+				assert.Equal(t, tc.swellDirection, station.Present.SwellDirection)
+				assert.Equal(t, tc.windWaveHeight, station.Present.WindWaveHeight)
+				assert.Equal(t, tc.windWavePeriod, station.Present.WindWavePeriod)
+				assert.Equal(t, tc.windWaveDirection, station.Present.WindWaveDirection)
+				assert.Equal(t, tc.steepness, station.Present.Steepness)
+			}
+		})
+	}
+
 }

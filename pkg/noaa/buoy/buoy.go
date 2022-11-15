@@ -1,13 +1,49 @@
 package buoy
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/barbacbd/nautical/pkg/location"
 	"hash/fnv"
+	"regexp"
+	"strconv"
+	"strings"
+
+	"github.com/anaskhan96/soup"
+
+	"github.com/barbacbd/nautical/pkg/io"
+	"github.com/barbacbd/nautical/pkg/location"
 )
 
-type Buoy struct {
+var (
+	// NauticalRegex is a regular expression to find values between the parentheses
+	NauticalRegex = regexp.MustCompile(`\((.*?)\)`)
 
+	// aliasMap provides a faster lookup than a list of strings to compare
+	aliasMap = map[string]bool{
+		"gst":       true,
+		"wvht":      true,
+		"dpd":       true,
+		"apd":       true,
+		"pres":      true,
+		"atmp":      true,
+		"wtmp":      true,
+		"dewp":      true,
+		"sal":       true,
+		"vis":       true,
+		"tide":      true,
+		"swd":       true,
+		"swh":       true,
+		"swp":       true,
+		"wwh":       true,
+		"wwp":       true,
+		"wwd":       true,
+		"wspd":      true,
+		"steepness": true,
+	}
+)
+
+// Buoy represents a NOAA buoy.
+type Buoy struct {
 	// Station is the station ID or ID of the buoy
 	Station string `json:"station"`
 
@@ -32,6 +68,19 @@ type Buoy struct {
 	// Determines whether the data stored in this stuct is considered valid
 	// +optional
 	Valid bool `json:"valid,omitempty"`
+}
+
+// Placemark is the xml structure for a Buoy. It is a very different
+// format than the normal Buoy
+type Placemark struct {
+	// Name is the name tag in the Placemark that should match the
+	// name of a Buoy
+	Name string `xml:"name"`
+	// Description is the description tag of the Placemark that should
+	// match the description of the Buoy
+	Description string `xml:"description"`
+	// Placement is the location of the buoy
+	Placement location.Point `xml:"LookAt"`
 }
 
 // Hash returns the hashed string as an integer from Buoy
@@ -73,5 +122,100 @@ func (b *Buoy) SetData(data *BuoyData) error {
 	}
 
 	b.Present = data
+	return nil
+}
+
+// CreateBuoy will provide a full workup for a specific buoy. When the
+// buoy with matching station is not found, an error is returned.
+func CreateBuoy(stationID string) (*Buoy, error) {
+	station := &Buoy{Station: stationID}
+
+	err := station.FillBuoy()
+	if err != nil {
+		return nil, err
+	}
+
+	if !station.Valid {
+		return nil, fmt.Errorf("buoy %s is not valid", stationID)
+	}
+
+	return station, nil
+}
+
+// FillBuoy will fill a Buoy struct with the data parsed from the web
+func (b *Buoy) FillBuoy() error {
+	url := io.GetNOAAForecastURL(b.Station)
+	root, err := io.GetURLSource(url)
+	if err != nil {
+		return err
+	}
+
+	search := []string{fmt.Sprintf("Conditions at %s", b.Station), "Detailed Wave Summary"}
+	if err := b.GetCurrentData(root, search); err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetCurrentData parses the current data for a buoy from the NOAA website
+func (b *Buoy) GetCurrentData(root *soup.Root, search []string) error {
+	buoyVariablesSet := false
+
+	tables := map[string]soup.Root{}
+
+	// Find all tables that have a caption that matches any of
+	// the search criteria
+	suspectTables := root.FindAll("table")
+	for _, suspect := range suspectTables {
+		captions := suspect.FindAll("caption")
+		captionText := []string{}
+		for _, caption := range captions {
+			captionText = append(captionText, caption.Text())
+		}
+		for _, searchText := range search {
+			for _, ct := range captionText {
+				if strings.Contains(ct, searchText) {
+					if _, ok := tables[ct]; !ok {
+						tables[ct] = suspect
+					}
+
+				}
+			}
+		}
+	}
+
+	for _, table := range tables {
+		allTR := table.FindAll("tr")
+		for i, row := range allTR {
+			if i >= 1 {
+				cells := row.FindAll("td")
+				if len(cells) > 2 {
+					// for idx, cell := range cells {
+					submatchall := NauticalRegex.FindAllString(cells[1].Text(), -1)
+					if len(submatchall) > 0 {
+						// Trim the () off of the value so that we can use the variable name
+						alias := strings.Trim(strings.Trim(strings.ToLower(submatchall[0]), "("), ")")
+
+						// Make sure that this is data that we are expecting
+						if _, found := aliasMap[alias]; found {
+							splitCell := RemoveEmpty(strings.Split(cells[2].Text(), " "))
+							val, err := strconv.ParseFloat(splitCell[0], 64)
+							if err != nil {
+								json.Unmarshal([]byte(fmt.Sprintf("{\"%s\": \"%s\"}", alias, splitCell[0])), b.Present)
+							} else {
+								json.Unmarshal([]byte(fmt.Sprintf("{\"%s\": %f}", alias, val)), b.Present)
+							}
+							buoyVariablesSet = true
+						}
+					}
+				}
+			}
+		}
+	}
+
+	b.Valid = buoyVariablesSet
+	if !buoyVariablesSet {
+		return fmt.Errorf("no buoy variables set")
+	}
 	return nil
 }
