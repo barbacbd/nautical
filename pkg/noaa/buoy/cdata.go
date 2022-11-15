@@ -10,11 +10,15 @@ import (
 	nt "github.com/barbacbd/nautical/pkg/time"
 )
 
+// LocationSign contains the type (Latitude vs Longitude) and the
+// sign/multiplier
 type LocationSign struct {
 	LLType string
 	Sign   float64
 }
 
+// NauticalDate is an extension of NauticalTime where the date
+// information is also provided
 type NauticalDate struct {
 	Month int
 	Day   int
@@ -23,6 +27,8 @@ type NauticalDate struct {
 }
 
 var (
+	// cdataAliasMap is a map that specifically finds CDATA elements
+	// and assigns them to the json name of BuoyData values
 	cdataAliasMap = map[string]string{
 		"gust":                    "gst",
 		"wave height":             "wvht",
@@ -43,6 +49,8 @@ var (
 		"wind speed":              "wspd",
 	}
 
+	// locationMap contains all lat/lon text values followed by the
+	// sign/multiplier for that type
 	locationMap = map[string]LocationSign{
 		"n": {LLType: "latitude", Sign: 1.0},
 		"s": {LLType: "latitude", Sign: -1.0},

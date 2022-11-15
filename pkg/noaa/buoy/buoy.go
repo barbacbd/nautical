@@ -42,8 +42,8 @@ var (
 	}
 )
 
+// Buoy represents a NOAA buoy.
 type Buoy struct {
-
 	// Station is the station ID or ID of the buoy
 	Station string `json:"station"`
 
@@ -68,6 +68,19 @@ type Buoy struct {
 	// Determines whether the data stored in this stuct is considered valid
 	// +optional
 	Valid bool `json:"valid,omitempty"`
+}
+
+// Placemark is the xml structure for a Buoy. It is a very different
+// format than the normal Buoy
+type Placemark struct {
+	// Name is the name tag in the Placemark that should match the
+	// name of a Buoy
+	Name string `xml:"name"`
+	// Description is the description tag of the Placemark that should
+	// match the description of the Buoy
+	Description string `xml:"description"`
+	// Placement is the location of the buoy
+	Placement location.Point `xml:"LookAt"`
 }
 
 // Hash returns the hashed string as an integer from Buoy
