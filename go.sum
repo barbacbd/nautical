@@ -1,5 +1,7 @@
 github.com/anaskhan96/soup v1.2.5 h1:V/FHiusdTrPrdF4iA1YkVxsOpdNcgvqT1hG+YtcZ5hM=
 github.com/anaskhan96/soup v1.2.5/go.mod h1:6YnEp9A2yywlYdM4EgDz9NEHclocMepEtku7wg6Cq3s=
+github.com/barbacbd/nautical v0.0.0-20221115184247-f13e6d711805 h1:j86tdtsxJgbDf0G6YrxwAEf+cdhDXArZTwyaQVJnsNA=
+github.com/barbacbd/nautical v0.0.0-20221115184247-f13e6d711805/go.mod h1:g/ifH0rtRCSbuqHGStGchic9PN/VxEf658JanVQI0jk=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
