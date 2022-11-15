@@ -20,22 +20,25 @@ var (
 
 	// aliasMap provides a faster lookup than a list of strings to compare
 	aliasMap = map[string]bool{
-		"gst":  true,
-		"wvht": true,
-		"dpd":  true,
-		"apd":  true,
-		"pres": true,
-		"atmp": true,
-		"wtmp": true,
-		"dewp": true,
-		"sal":  true,
-		"vis":  true,
-		"tide": true,
-		"swh":  true,
-		"swp":  true,
-		"wwh":  true,
-		"wwp":  true,
-		"wspd": true,
+		"gst":       true,
+		"wvht":      true,
+		"dpd":       true,
+		"apd":       true,
+		"pres":      true,
+		"atmp":      true,
+		"wtmp":      true,
+		"dewp":      true,
+		"sal":       true,
+		"vis":       true,
+		"tide":      true,
+		"swd":       true,
+		"swh":       true,
+		"swp":       true,
+		"wwh":       true,
+		"wwp":       true,
+		"wwd":       true,
+		"wspd":      true,
+		"steepness": true,
 	}
 )
 
@@ -185,8 +188,7 @@ func (b *Buoy) GetCurrentData(root *soup.Root, search []string) error {
 							splitCell := RemoveEmpty(strings.Split(cells[2].Text(), " "))
 							val, err := strconv.ParseFloat(splitCell[0], 64)
 							if err != nil {
-								fmt.Printf("As String: %s\n", splitCell[0])
-								json.Unmarshal([]byte(fmt.Sprintf("{\"%s\": %s}", alias, splitCell[0])), b.Present)
+								json.Unmarshal([]byte(fmt.Sprintf("{\"%s\": \"%s\"}", alias, splitCell[0])), b.Present)
 							} else {
 								json.Unmarshal([]byte(fmt.Sprintf("{\"%s\": %f}", alias, val)), b.Present)
 							}

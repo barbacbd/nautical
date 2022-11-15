@@ -233,14 +233,42 @@ func TestAddBuoy(t *testing.T) {
 func TestFillBuoy(t *testing.T) {
 
 	tests := []struct {
-		name      string
-		filename  string
-		search    []string
-		errString string
+		name               string
+		filename           string
+		search             []string
+		waveHeight         float64
+		dominantWavePeriod float64
+		averageWavePeriod  float64
+		meanWaveDirection  string
+		waterTemp          float64
+		swellHeight        float64
+		swellPeriod        float64
+		swellDirection     string
+		windWaveHeight     float64
+		windWavePeriod     float64
+		windWaveDirection  string
+		steepness          string
+		errString          string
 	}{{
-		name:     "Valid Buoy Loading",
-		filename: "../../tests/ValidBuoy.html",
-		search:   []string{"Conditions at 44099", "Detailed Wave Summary"},
+		name:               "Valid Buoy Loading",
+		filename:           "../../../tests/ValidBuoy.html",
+		search:             []string{"Conditions at 44099", "Detailed Wave Summary"},
+		waveHeight:         3.6,
+		dominantWavePeriod: 7.0,
+		averageWavePeriod:  5.7,
+		waterTemp:          53.8,
+		swellHeight:        0.7,
+		swellPeriod:        10.5,
+		swellDirection:     "E",
+		windWaveHeight:     3.6,
+		windWavePeriod:     6.7,
+		windWaveDirection:  "ESE",
+		steepness:          "STEEP",
+	}, {
+		name:      "Invalid Buoy Loading",
+		filename:  "../../../tests/InvalidBuoy.html",
+		search:    []string{"Conditions at 44099", "Detailed Wave Summary"},
+		errString: "no buoy variables set",
 	},
 	}
 
@@ -265,6 +293,18 @@ func TestFillBuoy(t *testing.T) {
 			err = station.GetCurrentData(&doc, tc.search)
 			if err != nil {
 				assert.Equal(t, tc.errString, err.Error())
+			} else {
+				assert.Equal(t, tc.waveHeight, station.Present.WaveHeight)
+				assert.Equal(t, tc.dominantWavePeriod, station.Present.DominantWavePeriod)
+				assert.Equal(t, tc.averageWavePeriod, station.Present.AverageWavePeriod)
+				assert.Equal(t, tc.waterTemp, station.Present.WaterTemperature)
+				assert.Equal(t, tc.swellHeight, station.Present.SwellHeight)
+				assert.Equal(t, tc.swellPeriod, station.Present.SwellPeriod)
+				assert.Equal(t, tc.swellDirection, station.Present.SwellDirection)
+				assert.Equal(t, tc.windWaveHeight, station.Present.WindWaveHeight)
+				assert.Equal(t, tc.windWavePeriod, station.Present.WindWavePeriod)
+				assert.Equal(t, tc.windWaveDirection, station.Present.WindWaveDirection)
+				assert.Equal(t, tc.steepness, station.Present.Steepness)
 			}
 		})
 	}
