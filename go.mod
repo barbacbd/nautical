@@ -1,10 +1,9 @@
-module github.com/barbacbd/nautical/v4.1.0
+module github.com/barbacbd/nautical
 
 go 1.18
 
 require (
 	github.com/anaskhan96/soup v1.2.5
-	github.com/barbacbd/nautical v0.0.0-20221115184247-f13e6d711805
 	github.com/stretchr/testify v1.8.0
 	github.com/umahmood/haversine v0.0.0-20151105152445-808ab04add26
 )
