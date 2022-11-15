@@ -179,6 +179,30 @@ func GetBuoySources() ([]*Source, error) {
 	return sources, nil
 }
 
+// FilterSourcesByType filters out the unwanted source types
+func FilterSourcesByType(sources []*Source, sourceType int) ([]*Source, error) {
+	sourceTypeMap := map[string]bool{}
+	if sourceType == ALL {
+		for _, value := range SourceTypeMap {
+			sourceTypeMap[value] = true
+		}
+	} else {
+		strType, err := SourceTypeAsString(sourceType)
+		if err != nil {
+			return nil, err
+		}
+		sourceTypeMap[strType] = true
+	}
+
+	newSources := []*Source{}
+	for _, source := range sources {
+		if _, ok := sourceTypeMap[source.Name]; ok {
+			newSources = append(newSources, source)
+		}
+	}
+	return newSources, nil
+}
+
 // downloadSourcesFile downloads the KML file from the url source. The file contains
 // all NOAA Source information as KML.
 func downloadSourcesFile() (string, error) {
