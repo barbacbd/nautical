@@ -1,9 +1,10 @@
-package io
+package buoy
 
 import (
+	"testing"
+
 	nt "github.com/barbacbd/nautical/pkg/time"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 const (

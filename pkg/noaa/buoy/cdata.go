@@ -1,4 +1,4 @@
-package io
+package buoy
 
 import (
 	"encoding/json"
@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	loc "github.com/barbacbd/nautical/pkg/location"
-	buoy "github.com/barbacbd/nautical/pkg/noaa/buoy"
 	nt "github.com/barbacbd/nautical/pkg/time"
 )
 
@@ -24,7 +23,7 @@ type NauticalDate struct {
 }
 
 var (
-	aliasMap = map[string]string{
+	cdataAliasMap = map[string]string{
 		"gust":                    "gst",
 		"wave height":             "wvht",
 		"significant wave height": "wvht",
@@ -52,9 +51,9 @@ var (
 	}
 )
 
-// removeEmpty is a helper function that removes empty string values from
+// RemoveEmpty is a helper function that removes empty string values from
 // the original list
-func removeEmpty(values []string) []string {
+func RemoveEmpty(values []string) []string {
 	var validSplitValues []string
 	for _, str := range values {
 		if str != "" {
@@ -115,7 +114,7 @@ func ParseLocation(locationData string) (*loc.Point, error) {
 	var longitude float64
 	longitudeSet := false
 	splitData := strings.Split(locationData, " ")
-	validSplitValues := removeEmpty(splitData)
+	validSplitValues := RemoveEmpty(splitData)
 
 	for _, value := range validSplitValues {
 		llType, sign, strVal, err := describe(value)
@@ -183,9 +182,9 @@ func ParseTime(timeData string) (*NauticalDate, error) {
 // On success, the returned Buoy structure should be altered as it will
 // indicate that it was auto-filled. The Station and Description will need to be
 // set to reflect valid Buoy information.
-func ParseCData(cdata string) (*buoy.Buoy, error) {
-	buoyData := buoy.BuoyData{}
-	station := buoy.Buoy{
+func ParseCData(cdata string) (*Buoy, error) {
+	buoyData := BuoyData{}
+	station := Buoy{
 		Station:     "AutoFilled",
 		Description: "Auto Filled Buoy From Parsed CData",
 		Present:     &buoyData,
@@ -228,10 +227,10 @@ func ParseCData(cdata string) (*buoy.Buoy, error) {
 			station.Present.Month = nauticalDate.Month
 			station.Present.Year = nauticalDate.Year
 		default:
-			if alias, ok := aliasMap[key]; ok {
+			if alias, ok := cdataAliasMap[key]; ok {
 
 				// Split all of the elements and grab the first one as it is the value we need
-				validSplitValues := removeEmpty(strings.Split(elements[1], " "))
+				validSplitValues := RemoveEmpty(strings.Split(elements[1], " "))
 				val, err := strconv.ParseFloat(validSplitValues[0], 64)
 				if err == nil {
 					jsonStr := fmt.Sprintf("{\"%s\": %f}", alias, val)

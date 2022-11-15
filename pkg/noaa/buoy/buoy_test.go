@@ -2,7 +2,11 @@ package buoy
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/anaskhan96/soup"
 	"github.com/barbacbd/nautical/pkg/time"
+	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -224,4 +228,45 @@ func TestAddBuoy(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestFillBuoy(t *testing.T) {
+
+	tests := []struct {
+		name      string
+		filename  string
+		search    []string
+		errString string
+	}{{
+		name:     "Valid Buoy Loading",
+		filename: "../../tests/ValidBuoy.html",
+		search:   []string{"Conditions at 44099", "Detailed Wave Summary"},
+	},
+	}
+
+	path, err := os.Getwd()
+	if err != nil {
+		t.Fail()
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+
+			fullFilePath := fmt.Sprintf("%s/%s", path, tc.filename)
+			body, err := ioutil.ReadFile(fullFilePath)
+			if err != nil {
+				t.Fail()
+			}
+			doc := soup.HTMLParse(string(body))
+			station := Buoy{
+				Present: &BuoyData{},
+			}
+
+			err = station.GetCurrentData(&doc, tc.search)
+			if err != nil {
+				assert.Equal(t, tc.errString, err.Error())
+			}
+		})
+	}
+
 }
