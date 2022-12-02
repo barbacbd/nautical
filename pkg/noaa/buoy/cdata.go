@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	loc "github.com/barbacbd/nautical/v1/pkg/location"
-	nt "github.com/barbacbd/nautical/v1/pkg/time"
+	loc "github.com/barbacbd/nautical/pkg/location"
+	nt "github.com/barbacbd/nautical/pkg/time"
 )
 
 // LocationSign contains the type (Latitude vs Longitude) and the

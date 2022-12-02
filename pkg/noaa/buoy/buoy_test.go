@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/barbacbd/nautical/v1/pkg/time"
+	"github.com/barbacbd/nautical/pkg/time"
 
 	"github.com/anaskhan96/soup"
 	"github.com/stretchr/testify/assert"

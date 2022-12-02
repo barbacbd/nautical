@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	nt "github.com/barbacbd/nautical/v1/pkg/time"
+	nt "github.com/barbacbd/nautical/pkg/time"
 )
 
 // BuoyData contains the scientific data associated with a Buoy

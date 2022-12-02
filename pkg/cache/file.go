@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	noaa "github.com/barbacbd/nautical/v1/pkg/noaa/buoy"
+	noaa "github.com/barbacbd/nautical/pkg/noaa/buoy"
 )
 
 const (
