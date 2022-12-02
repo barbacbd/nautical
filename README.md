@@ -15,80 +15,173 @@
 
 # Description
 
-Ahoy! Whether you've got your sea legs under yeh', or you're just looking to get those toes wet, you have discovered Nautical. Nautical contains an extension to a python based web scraper that
-allows users to retrieve [NOAA](https://www.ndbc.noaa.gov/) buoy information. 
-
-Peer into that spyglass and review the [nautical documentation](https://barbacbd.github.io/nautical/build/html/index.html) for more information.
+Ahoy! Whether you've got your sea legs under yeh', or you're just looking to get those toes wet, you have discovered Nautical. Nautical is a web scraper that allows its users to parse real time data from [NOAA's](https://www.ndbc.noaa.gov/) buoys. You can try Nautical as a python or GO package! Nautical was created for research and data logging purposes, but there are many more possibilities for users to discover. 
 
 
-# Documentation
+If you would like to view the python documentation follow the [link to nautical's python documentation](https://barbacbd.github.io/nautical/build/html/index.html). 
 
-View the [documentation](https://github.com/barbacbd/nautical/blob/master/user/docs/Documentation.md) page for more information.
+If you would like to view the GO documentation follow the [link to nautical's GO documentation](https://pkg.go.dev/github.com/barbacbd/nautical).
 
-# Contributing
 
-View the [contirbuting guidelines](https://github.com/barbacbd/nautical/blob/master/user/docs/Contributing.md) for more information.
+# Table of Contents
 
-# Examples
+   * [Features](#features)
+      * [Buoys](#buoys)
+      * [Sources](#sources)
+      * [Data Caching](#data-caching)
+   * [Prerequisites](#prerequisites)
+   * [Casting Off](#casting-off)
+   * [Tutorials](#tutorials)
+   * [Testing](#testing)
+      * [Python](#python)
+      * [Golang](#go)
+   * [Contributing](#contributing)
+      * [Contribution Flow](#contribution-flow)
+      * [Suggested Commit Message Format](#suggested-commit-message-format)
+   * [Copyright](#copyright)
 
-More details and specific examples can be found in [here](https://github.com/barbacbd/nautical/blob/master/user/docs/). 
+# Features
 
-# Building and Testing
+The following are a set of features and/or data that can be accessed via the package. 
 
-## Create the environment [optional]
+## Sources
 
-If you wish to create a virtual environment:
+A source is a group of buoys. The source can be thought of as a sponsor or owner of the group/set of buoys. The source may be used as an indicator of the type of data that is stored in a buoy object. 
 
-```
-python -m venv /path/to/nautical_venv
-```
+**Note**: The `TAO` and `Tsunami` sources are not available in any regard.
 
-**NOTE:** The `python` referenced above should be a version of python that is acceptable for this library.
 
-Don't forget to activate the virtual environment, `source /path/to/nautical_venv/bin/activate`.
+## Buoys
 
-## Install dependencies
+A buoy _may_ contain, but are not limitted to, any of the following variables.
 
-**NOTE:** The dependencies will be installed in the next step, but provides the opportunity to view
-the dependency install by itself.
+| Data | Abbreviation |Units |
+| ---- | ---- | ---- |
+| Wind Speed | wspd | Knots |
+| Gust | gst | Knots |
+| Wave Height | wvht | Feet |
+| Dominant Wave Period | dpd | Seconds |
+| Average Wave Period | apd | Seconds |
+| Pressure | pres | PSI |
+| Pressure Tendency | ptdy | PSI |
+| Air Temperature | atmp | Fahrenheit |
+| Water Temperature | wtmp | Fahrenheit |
+| Dew Point | dewp | Fahrenheigt |
+| Salinity | sal | PSU |
+| Visibility | vis | Nautical Miles |
+| Tide | tide | Feet |
+| Swell Height | swh | Feet |
+| Swell Wave Period | swp | Seconds |
+| Wind Wave Height | wwh | Feet |
+| Wind Wave Period | wwp | Seconds |
+| Ocean Temperature | otmp | Fahrenheit |
+| Wind Speed 10m Interval | wspd10m | Knots |
+| Wind Speed 20m Interval | wspd10m | Knots |
+| Depth | depth | Feet |
 
-```
-pip install pip --upgrade;
+## Data Caching
 
+The cache can be used to save and load information about buoys and sources. The feature enables users to locally store and retrieve older information. NOAA refreshes the online data roughly every 30 minutes. The cache package can be used to throttle data retrieval calls to ensure the user is not wasting system resources when data has not been updated by NOAA.
+
+- Create cache files
+- Copy cache files to new names (with timestamps or custom names)
+- Load Cache files to Nautical Objects.
+
+**Note**: _[Nautical cache](https://github.com/barbacbd/nautical/blob/master/nautical/cache/) was added in version 3.1.0_.
+
+# Prerequisites 
+
+The python package requires `python>=3.6`. You can use a package manager to install a version of python that satifies the requirements, or you may manually install python from the [website](https://www.python.org/downloads/).
+<br>
+<br>
+The GO package requires `golang>=1.18`. To install go please visit the official [website](https://go.dev/doc/install).
+
+**Note**: _The GO requirement is not strict, but previous versions have Not been tested_.
+
+# Casting Off
+
+- Ensure your system meets the [prerequisites](#prerequisites).
+- Clone or Fork the repository.
+- Run the [package tests](#testing)
+
+# Tutorials
+
+Follow the link to view the [tutorials for the python package](https://github.com/barbacbd/nautical/blob/master/user/docs/PythonTutorials.md).
+
+Follow the link to view the [tutorials for the go package](https://github.com/barbacbd/nautical/blob/master/user/docs/GoTutorials.md).
+
+# Testing
+
+## Python 
+
+All python tests are located in the [tests](https://github.com/barbacbd/nautical/tree/master/tests) directory.
+
+```bash
+python 3.x -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-```
-
-## Install the package
-
-```
-pip install . --upgrade
-```
-
-## Execute Tests
-
-If you wish to view the results with a bit more information, run the following commmand:
-
-```
-pip install pytest coverage pytest-cov mock
-```
-
-All tests for the project are located in the [tests](https://github.com/barbacbd/nautical/blob/master/tests)  directory.
-The minimal requirements for the contributions to make it into the repository will be to pass all tests.
-Run the `pytest` command in this directory, or provide the directory to the
-command. Use the `coverage and pytest-cov` packages to view all of the results more clearly.
-
-```
+pip install -r test_requirements.txt
 pytest --cov=tests
 ```
 
-If the user is running a system that can execute shell scripts, run the following from the project base directory:
+**Note**: _The virtual environment and coverage are optional_.
+
+## GO
+
+All golang tests are located with the golang source in [pkg](https://gith
+ub.com/barbacbd/nautical/tree/master/pkg). The following should be executed from the project home directory.
 
 ```bash
-scripts/pytest.sh
+go get -u
+go test -v ./...
 ```
 
-The user may also view the output of linting with:
+# Contributing
 
-```bash
-scripts/pylint.sh
+If you are aiming to become the first mate, second mate, deck cadet, engineer, or scallywag you have found your
+way to the contributions documentation. Please continue reading if you would like to contribute or just follow along with the
+development progress of the package.
+
+- Ensure your system meets the [prerequisites](#prerequisites).
+- Fork the repository
+- Follow the [Casting Off](#casting-off) section above
+- Install the build dependencies, see [building and testing](https://github.com/barbacbd/nautical/blob/master/README.md).
+- Play with the project, submit bugs, submit patches!
+
+## Contribution Flow
+
+Anyone may submit [issues](https://github.com/barbacbd/nautical/issues). In fact, it is encouraged that users submit issues to contribute to the success and improvement of the project.
+The issues will be reviewed by the captain, and given the proper tags to assist developers. Shipmates that would like to work on pull requests, the workflow is roughly:
+
+1. Create a topic branch from where you want to base your work (usually master).
+2. Make commits of logical units.
+3. Make commit messages that clearly document the changes.
+4. Push your changes to a topic branch in your fork of the repository.
+5. Make sure the tests pass, and add any new tests as appropriate.
+6. Submit a pull request to the original repository.
+
+## Suggested Commit Message Format
+
+A rough convention for commit messages that is designed to answer two
+questions: what changed and why. The subject line should feature the what and
+the body of the commit should describe the why.
+
+Example:
+
 ```
+
+noaa: Added XXX functionality to XXXX
+
+** Added the XXX function to XXX to satisfy the need/
+requirement for XXX.
+
+** Additional information followed in other bullet points.
+
+```
+
+**Note**: _It is suggested (but not required) to add the Issue number to the commit message._
+
+
+# Copyright
+
+Copyright © 2022, Brent Barbachem. Released under the [MIT License](https://raw.githubusercontent.com/barbacbd/nautical/master/LICENSE.txt).

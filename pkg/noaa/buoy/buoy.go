@@ -8,10 +8,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/anaskhan96/soup"
-
 	"github.com/barbacbd/nautical/pkg/io"
 	"github.com/barbacbd/nautical/pkg/location"
+
+	"github.com/anaskhan96/soup"
 )
 
 var (

@@ -3,12 +3,13 @@ package buoy
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/anaskhan96/soup"
-	"github.com/barbacbd/nautical/pkg/time"
 	"io/ioutil"
 	"os"
 	"testing"
 
+	"github.com/barbacbd/nautical/pkg/time"
+
+	"github.com/anaskhan96/soup"
 	"github.com/stretchr/testify/assert"
 )
 

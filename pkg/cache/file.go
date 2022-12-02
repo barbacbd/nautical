@@ -19,6 +19,7 @@ const (
 	TimeLayout = "2006-01-02_15-04-05"
 )
 
+// NauticalCache contains the Buoys, Sources, and Time data for a cached instance
 type NauticalCache struct {
 	// Buoys is the list of all buoys that are to be cached
 	Buoys []noaa.Buoy `json:"buoys,omitempty"`
@@ -30,6 +31,8 @@ type NauticalCache struct {
 	Time string `json:"time,omitempty"`
 }
 
+// NauticalCacheData is a wrapper for the NauticalCache struct that includes the Filename
+// where the data is stored
 type NauticalCacheData struct {
 	// Full Filename (including path) to the cached data
 	Filename string

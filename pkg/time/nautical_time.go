@@ -10,6 +10,7 @@ const (
 	HOUR_24 = 24
 )
 
+// NauticalTime provides time of day as well as data parsing from the NOAA site
 type NauticalTime struct {
 	// Format contains the string representation of the Time Format
 	Format int `json:"timeFormat,omitempty"`
