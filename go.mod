@@ -1,4 +1,4 @@
-module github.com/barbacbd/nautical
+module github.com/barbacbd/nautical/v0.1.0
 
 go 1.18
 
