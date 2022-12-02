@@ -3,7 +3,7 @@ package buoy
 import (
 	"testing"
 
-	nt "github.com/barbacbd/nautical/pkg/time"
+	nt "github.com/barbacbd/nautical/v1/pkg/time"
 	"github.com/stretchr/testify/assert"
 )
 

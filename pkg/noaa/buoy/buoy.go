@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/barbacbd/nautical/pkg/io"
-	"github.com/barbacbd/nautical/pkg/location"
+	"github.com/barbacbd/nautical/v1/pkg/io"
+	"github.com/barbacbd/nautical/v1/pkg/location"
 
 	"github.com/anaskhan96/soup"
 )

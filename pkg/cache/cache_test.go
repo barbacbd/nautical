@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	noaa "github.com/barbacbd/nautical/pkg/noaa/buoy"
-	nt "github.com/barbacbd/nautical/pkg/time"
+	noaa "github.com/barbacbd/nautical/v1/pkg/noaa/buoy"
+	nt "github.com/barbacbd/nautical/v1/pkg/time"
 )
 
 const (
