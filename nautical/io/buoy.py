@@ -71,21 +71,23 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
 
     for table in tables:
         for i, row in enumerate(table.findAll('tr')):
+            key_data = None
+            key = None
+            value = None
 
             # the first table is another table and it is no use to use -- skipping
             if i >= 1:
                 cells = row.findAll('td')
-
                 if cells:
                     try:
-                        key_data = cells[1].next.split()
-                        key = sub('[():]', '', key_data[len(key_data) - 1]).lower()
-                        value = cells[2].next.split()[0]
 
-                        buoy.set(key, value)
+                        key_data = cells[0].text
+                        key = key_data[key_data.find("(")+1:key_data.find(")")]
+                        value = cells[1].next.split()[0]
+                        buoy.set(key.lower(), value)
                         buoy_variables_set += 1
                     except (IndexError, TypeError, AttributeError) as error:
-                        log.error(error)
+                        log.error("{} - key_field: {}, key: {}, value: {}".format(error, key_data, key, value))
 
     # no variables set indicates errors or invalid buoy
     return buoy_variables_set > 0

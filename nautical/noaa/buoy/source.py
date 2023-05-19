@@ -30,7 +30,7 @@ class SourceType(Enum):
         :return: List of strings that match the source type
         '''
         if source_type in (cls.TAO, cls.TSUNAMI):
-            log.warning("Unsupported type: %s", source_type.name)
+            log.debug("Unsupported type: %s", source_type.name)
         
         source_as_string = {
             cls.INTERNATIONAL_PARTNERS: "International Partners",

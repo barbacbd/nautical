@@ -134,7 +134,6 @@ class Point:
             if len(split_data) > 2:
                 # add altitude if exists
                 args.append(float(split_data[2].strip()))
-
             return Point(*args)
 
         except (IndexError, TypeError) as error:
