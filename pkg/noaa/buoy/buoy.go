@@ -8,38 +8,19 @@ import (
 	"strconv"
 	"strings"
 
+	"k8s.io/apimachinery/pkg/util/sets"
+	"github.com/anaskhan96/soup"
+
 	"github.com/barbacbd/nautical/pkg/io"
 	"github.com/barbacbd/nautical/pkg/location"
-
-	"github.com/anaskhan96/soup"
 )
 
 var (
 	// NauticalRegex is a regular expression to find values between the parentheses
 	NauticalRegex = regexp.MustCompile(`\((.*?)\)`)
 
-	// aliasMap provides a faster lookup than a list of strings to compare
-	aliasMap = map[string]bool{
-		"gst":       true,
-		"wvht":      true,
-		"dpd":       true,
-		"apd":       true,
-		"pres":      true,
-		"atmp":      true,
-		"wtmp":      true,
-		"dewp":      true,
-		"sal":       true,
-		"vis":       true,
-		"tide":      true,
-		"swd":       true,
-		"swh":       true,
-		"swp":       true,
-		"wwh":       true,
-		"wwp":       true,
-		"wwd":       true,
-		"wspd":      true,
-		"steepness": true,
-	}
+	// aliases is a list of all alias names for variables of a buoy
+	aliases = sets.New("gst", "wvht", "dpd", "apd", "pres", "atmp", "wtmp", "dewp", "sal", "vis", "tide", "swd", "swh", "swp", "wwh", "wwp", "wwd", "wspd", "steepness")
 )
 
 // Buoy represents a NOAA buoy.
@@ -197,7 +178,7 @@ func (b *Buoy) GetCurrentData(root *soup.Root, search []string) error {
 						alias := strings.Trim(strings.Trim(strings.ToLower(submatchall[0]), "("), ")")
 
 						// Make sure that this is data that we are expecting
-						if _, found := aliasMap[alias]; found {
+						if aliases.Has(alias) {
 							splitCell := RemoveEmpty(strings.Split(cells[2].Text(), " "))
 							val, err := strconv.ParseFloat(splitCell[0], 64)
 							if err != nil {
