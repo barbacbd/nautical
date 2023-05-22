@@ -175,33 +175,28 @@ func TestFillBuoy(t *testing.T) {
 		filename           string
 		search             []string
 		waveHeight         float64
-		dominantWavePeriod float64
-		averageWavePeriod  float64
-		meanWaveDirection  string
+		airTemp            float64
 		waterTemp          float64
-		swellHeight        float64
-		swellPeriod        float64
-		swellDirection     string
-		windWaveHeight     float64
-		windWavePeriod     float64
-		windWaveDirection  string
-		steepness          string
+		salinity           float64
+		windSpeed          float64
+		windDirection      string
+		gust               float64
+		windSpeed10Min     float64
+		windSpeed20Min     float64
 		errString          string
 	}{{
 		name:               "Valid Buoy Loading",
 		filename:           "../../../tests/ValidBuoy.html",
-		search:             []string{"Conditions at 44099", "Detailed Wave Summary"},
-		waveHeight:         3.6,
-		dominantWavePeriod: 7.0,
-		averageWavePeriod:  5.7,
-		waterTemp:          53.8,
-		swellHeight:        0.7,
-		swellPeriod:        10.5,
-		swellDirection:     "E",
-		windWaveHeight:     3.6,
-		windWavePeriod:     6.7,
-		windWaveDirection:  "ESE",
-		steepness:          "STEEP",
+		search:             []string{"Conditions at 44072", "Detailed Wave Summary"},
+		waveHeight:         0.3,
+		airTemp:            64.0,
+		waterTemp:          67.6,
+		salinity:           19.98,
+		windSpeed:          9.7, 
+		windDirection:      "NNE",
+		gust:               11.7,
+		windSpeed10Min:     9.7,
+		windSpeed20Min:     11.7,
 	}, {
 		name:      "Invalid Buoy Loading",
 		filename:  "../../../tests/InvalidBuoy.html",
@@ -233,16 +228,14 @@ func TestFillBuoy(t *testing.T) {
 				assert.Equal(t, tc.errString, err.Error())
 			} else {
 				assert.Equal(t, tc.waveHeight, station.Present.WaveHeight)
-				assert.Equal(t, tc.dominantWavePeriod, station.Present.DominantWavePeriod)
-				assert.Equal(t, tc.averageWavePeriod, station.Present.AverageWavePeriod)
+				assert.Equal(t, tc.airTemp, station.Present.AirTemperature)
 				assert.Equal(t, tc.waterTemp, station.Present.WaterTemperature)
-				assert.Equal(t, tc.swellHeight, station.Present.SwellHeight)
-				assert.Equal(t, tc.swellPeriod, station.Present.SwellPeriod)
-				assert.Equal(t, tc.swellDirection, station.Present.SwellDirection)
-				assert.Equal(t, tc.windWaveHeight, station.Present.WindWaveHeight)
-				assert.Equal(t, tc.windWavePeriod, station.Present.WindWavePeriod)
-				assert.Equal(t, tc.windWaveDirection, station.Present.WindWaveDirection)
-				assert.Equal(t, tc.steepness, station.Present.Steepness)
+				assert.Equal(t, tc.salinity, station.Present.Salinity)
+				assert.Equal(t, tc.windSpeed, station.Present.WindSpeed)
+				assert.Equal(t, tc.windDirection, station.Present.WindDirection)
+				assert.Equal(t, tc.gust, station.Present.Gust)
+				assert.Equal(t, tc.windSpeed10Min, station.Present.WindSpeed10Min)
+				assert.Equal(t, tc.windSpeed20Min, station.Present.WindSpeed20Min)
 			}
 		})
 	}

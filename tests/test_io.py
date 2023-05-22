@@ -568,9 +568,6 @@ def test_fill_buoy_valid():
     # These values are pulled directly from the ValidBuoy.html in the tables
     # 'Conditions at ...'  and 'Detailed Wave Summary'
     assert buoy.data.wvht == '0.3'
-    # assert buoy.data.dpd == '7'
-    # assert buoy.data.apd == '5.7'
-    # assert buoy.data.mwd == "ESE"
     assert buoy.data.atmp == '64.0'
     assert buoy.data.wtmp == '67.6'
     assert buoy.data.sal == '19.98'

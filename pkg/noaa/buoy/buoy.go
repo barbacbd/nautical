@@ -5,23 +5,25 @@ import (
 	"fmt"
 	"hash/fnv"
 	"regexp"
+	"reflect"
 	"strconv"
 	"strings"
 
-	"k8s.io/apimachinery/pkg/util/sets"
 	"github.com/anaskhan96/soup"
 
 	"github.com/barbacbd/nautical/pkg/io"
 	"github.com/barbacbd/nautical/pkg/location"
+	"github.com/barbacbd/nautical/pkg/util"
 )
 
 var (
 	// NauticalRegex is a regular expression to find values between the parentheses
 	NauticalRegex = regexp.MustCompile(`\((.*?)\)`)
 
-	// aliases is a list of all alias names for variables of a buoy
-	aliases = sets.New("gst", "wvht", "dpd", "apd", "pres", "atmp", "wtmp", "dewp", "sal", "vis", "tide", "swd", "swh", "swp", "wwh", "wwp", "wwd", "wspd", "steepness")
+	// aliases is a set of all alias names for variables of a buoy
+	aliases = util.GetAliases(BuoyData{})
 )
+
 
 // Buoy represents a NOAA buoy.
 type Buoy struct {
@@ -170,16 +172,16 @@ func (b *Buoy) GetCurrentData(root *soup.Root, search []string) error {
 		for i, row := range allTR {
 			if i >= 1 {
 				cells := row.FindAll("td")
-				if len(cells) > 2 {
+				if len(cells) >= 2 {
 					// for idx, cell := range cells {
-					submatchall := NauticalRegex.FindAllString(cells[1].Text(), -1)
+					submatchall := NauticalRegex.FindAllString(cells[0].Text(), -1)
 					if len(submatchall) > 0 {
 						// Trim the () off of the value so that we can use the variable name
 						alias := strings.Trim(strings.Trim(strings.ToLower(submatchall[0]), "("), ")")
 
 						// Make sure that this is data that we are expecting
 						if aliases.Has(alias) {
-							splitCell := RemoveEmpty(strings.Split(cells[2].Text(), " "))
+							splitCell := RemoveEmpty(strings.Split(cells[1].Text(), " "))
 							val, err := strconv.ParseFloat(splitCell[0], 64)
 							if err != nil {
 								json.Unmarshal([]byte(fmt.Sprintf("{\"%s\": \"%s\"}", alias, splitCell[0])), b.Present)

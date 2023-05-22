@@ -10,114 +10,114 @@ import (
 // BuoyData contains the scientific data associated with a Buoy
 type BuoyData struct {
 	// Year is the year the information was retrieved
-	Year int `json:"year,omitempty"`
+	Year int `json:"year"`
 
 	// Month is the month the information was retrieved
-	Month int `json:"mm,omitempty"`
+	Month int `json:"mm"`
 
 	// Day is the day the information was retrieved
-	Day int `json:"dd,omitempty"`
+	Day int `json:"dd"`
 
 	// time of day that the information was retrieved
 	Time *nt.NauticalTime `json:"time,omitempty"`
 
 	// Wind Direction as a string: example `sse`
-	WindDirection string `json:"wdir,omitempty"`
+	WindDirection string `json:"wdir"`
 
 	// Wind Speed in knots
-	WindSpeed float64 `json:"wspd,omitempty"`
+	WindSpeed float64 `json:"wspd"`
 
 	// Gust speed in knots
-	Gust float64 `json:"gst,omitempty"`
+	Gust float64 `json:"gst"`
 
 	// Mean Wind Direction is the average wind direction
-	MeanWindDirection string `json:"mwd,omitempty"`
+	MeanWindDirection string `json:"mwd"`
 
 	// Mean wind speed over a 10-minute period
-	WindSpeed10Min float64 `json:"wspd10m,omitempty"`
+	WindSpeed10Min float64 `json:"wspd10m"`
 
 	// Mean wind speed over a 20-minute period
-	WindSpeed20Min float64 `json:"wspd20m,omitempty"`
+	WindSpeed20Min float64 `json:"wspd20m"`
 
 	// Wave height in feet
-	WaveHeight float64 `json:"wvht,omitempty"`
+	WaveHeight float64 `json:"wvht"`
 
 	// Dominant Wave Period in seconds
-	DominantWavePeriod float64 `json:"dpd,omitempty"`
+	DominantWavePeriod float64 `json:"dpd"`
 
 	// Average Wave Period in seconds
-	AverageWavePeriod float64 `json:"apd,omitempty"`
+	AverageWavePeriod float64 `json:"apd"`
 
 	// Wind Wave Height in feet
-	WindWaveHeight float64 `json:"wwh,omitempty"`
+	WindWaveHeight float64 `json:"wwh"`
 
 	// Wind Wave Period in seconds
-	WindWavePeriod float64 `json:"wwp,omitempty"`
+	WindWavePeriod float64 `json:"wwp"`
 
 	// Direction of Waves due to wind
-	WindWaveDirection string `json:"wwd,omitempty"`
+	WindWaveDirection string `json:"wwd"`
 
 	// Swell Height in feet
-	SwellHeight float64 `json:"swh,omitempty"`
+	SwellHeight float64 `json:"swh"`
 
 	// Swell Period in seconds
-	SwellPeriod float64 `json:"swp,omitempty"`
+	SwellPeriod float64 `json:"swp"`
 
 	// Direction of Waves of the Swell
-	SwellDirection string `json:"swd,omitempty"`
+	SwellDirection string `json:"swd"`
 
 	// PSI
-	Pressure float64 `json:"pres,omitempty"`
+	Pressure float64 `json:"pres"`
 
 	// PSI
-	PressureTendency float64 `json:"ptdy,omitempty"`
+	PressureTendency float64 `json:"ptdy"`
 
 	// Deg F
-	AirTemperature float64 `json:"atmp,omitempty"`
+	AirTemperature float64 `json:"atmp"`
 
 	// Deg F
-	WaterTemperature float64 `json:"wtmp,omitempty"`
+	WaterTemperature float64 `json:"wtmp"`
 
 	// Deg F
-	DewPoint float64 `json:"dewp,omitempty"`
+	DewPoint float64 `json:"dewp"`
 
 	// Deg F
-	OceanTemperature float64 `json:"otmp,omitempty"`
+	OceanTemperature float64 `json:"otmp"`
 
-	Chill string `json:"chill,omitempty"`
+	Chill string `json:"chill"`
 
-	Heat string `json:"heat,omitempty"`
+	Heat string `json:"heat"`
 
 	// PSU
-	Salinity float64 `json:"sal,omitempty"`
+	Salinity float64 `json:"sal"`
 
-	PH string `json:"ph,omitempty"`
+	PH string `json:"ph"`
 
 	// Oxygen percent in water
-	OxygenPercent float64 `json:"o2pct,omitempty"`
+	OxygenPercent float64 `json:"o2pct"`
 
 	// Oxygen parts per million
-	OxygenPPM float64 `json:"o2ppm,omitempty"`
+	OxygenPPM float64 `json:"o2ppm"`
 
 	// Feet
-	Depth float64 `json:"depth,omitempty"`
+	Depth float64 `json:"depth"`
 
-	NauticalMiles float64 `json:"nmi,omitempty"`
+	NauticalMiles float64 `json:"nmi"`
 
 	// Nautical Miles
-	Visibility float64 `json:"vis,omitempty"`
+	Visibility float64 `json:"vis"`
 
 	// Feet
-	Tide float64 `json:"tide,omitempty"`
+	Tide float64 `json:"tide"`
 
 	// Other features that Don't fit in other categories
-	Steepness string `json:"steepness,omitempty"`
-	Clcon     string `json:"clcon,omitempty"`
-	Turb      string `json:"turb,omitempty"`
-	Cond      string `json:"cond,omitempty"`
-	SRad1     string `json:"srad1,omitempty"`
-	SWRad     string `json:"swrad,omitempty"`
-	LWRad     string `json:"lwrad,omitempty"`
+	Steepness string `json:"steepness"`
+	Clcon     string `json:"clcon"`
+	Turb      string `json:"turb"`
+	Cond      string `json:"cond"`
+	SRad1     string `json:"srad1"`
+	SWRad     string `json:"swrad"`
+	LWRad     string `json:"lwrad"`
 }
 
 // EpochTime will convert the current time information in this BuoyData struct to
