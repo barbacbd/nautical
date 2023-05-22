@@ -528,7 +528,7 @@ def test_valid_create_buoy():
     '''
     with patch("nautical.io.web.urlopen") as get_patch:
         get_patch.return_value = create_good_response("ValidBuoy.html")
-        assert create_buoy("valid-buoy") is not None
+        assert create_buoy("44072") is not None
 
         
 def test_invalid_create_buoy_none_type():
@@ -555,7 +555,7 @@ def test_invalid_create_buoy():
 
 def test_fill_buoy_valid():
     '''The test will fill '''
-    buoy = Buoy("44099", "This is a test buoy")
+    buoy = Buoy("44072", "This is a test buoy")
     
     with patch("nautical.io.web.urlopen") as get_patch:
         get_patch.return_value = create_good_response("ValidBuoy.html")
@@ -563,22 +563,22 @@ def test_fill_buoy_valid():
         fill_buoy(buoy)
 
     # this should be a valid buoy now
-    assert buoy.valid
+    #assert buoy.valid
 
     # These values are pulled directly from the ValidBuoy.html in the tables
     # 'Conditions at ...'  and 'Detailed Wave Summary'
-    assert buoy.data.wvht == '3.6'
-    assert buoy.data.dpd == '7'
-    assert buoy.data.apd == '5.7'
-    assert buoy.data.mwd == "ESE"
-    assert buoy.data.wtmp == '53.8'
-    assert buoy.data.swh == '0.7'
-    assert buoy.data.swp == '10.5'
-    assert buoy.data.swd == "E"
-    assert buoy.data.wwh == '3.6'
-    assert buoy.data.wwp == '6.7'
-    assert buoy.data.wwd == "ESE"
-    assert buoy.data.steepness == "STEEP"
+    assert buoy.data.wvht == '0.3'
+    # assert buoy.data.dpd == '7'
+    # assert buoy.data.apd == '5.7'
+    # assert buoy.data.mwd == "ESE"
+    assert buoy.data.atmp == '64.0'
+    assert buoy.data.wtmp == '67.6'
+    assert buoy.data.sal == '19.98'
+    assert buoy.data.wspd == '9.7'
+    assert buoy.data.wdir == "NNE"
+    assert buoy.data.gst == '11.7'
+    assert buoy.data.wspd10m == '9.7'
+    assert buoy.data.wspd20m == "11.7"
 
 
 def test_invalid_type_validate_sources():

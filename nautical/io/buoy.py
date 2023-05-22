@@ -80,7 +80,6 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
                 cells = row.findAll('td')
                 if cells:
                     try:
-
                         key_data = cells[0].text
                         key = key_data[key_data.find("(")+1:key_data.find(")")]
                         value = cells[1].next.split()[0]
