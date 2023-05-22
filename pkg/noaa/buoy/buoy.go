@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"hash/fnv"
 	"regexp"
-	"reflect"
 	"strconv"
 	"strings"
 
