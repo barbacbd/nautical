@@ -27,7 +27,7 @@ class NauticalLogFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def get_logger(name='nautical', verbosity=logging.DEBUG):
+def get_logger(name='nautical', verbosity=logging.CRITICAL):
     '''Wrap the logging.getLogger functionality to apply nautical 
     based logging information.
 
