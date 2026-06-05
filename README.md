@@ -91,7 +91,7 @@ The cache can be used to save and load information about buoys and sources. The 
 
 # Prerequisites 
 
-The python package requires `python>=3.6`. You can use a package manager to install a version of python that satifies the requirements, or you may manually install python from the [website](https://www.python.org/downloads/).
+The python package requires `python>=3.8`. You can use a package manager to install a version of python that satifies the requirements, or you may manually install python from the [website](https://www.python.org/downloads/).
 <br>
 <br>
 The GO package requires `golang>=1.18`. To install go please visit the official [website](https://go.dev/doc/install).
