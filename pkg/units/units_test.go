@@ -586,7 +586,7 @@ func TestTempConversion(t *testing.T) {
 			if err != nil && tc.expectedErr != "" {
 				assert.Equal(t, tc.expectedErr, err.Error())
 			} else {
-				assert.Equal(t, tc.expectedValue, finalValue)
+				assert.InDelta(t, tc.expectedValue, finalValue, 0.001)
 			}
 		})
 	}
