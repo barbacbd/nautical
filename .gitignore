@@ -6,3 +6,5 @@ autodoc_ext_artifacts.yaml
 venv/*
 nautical_venv/*
 *.pylintrc
+.coverage
+*.egg-info/
