@@ -134,7 +134,8 @@ func (cache *NauticalCacheData) CopyCurrentCache(extra_data string) error {
 // CopyCurrentCacheWithTimestamp Copies the data of the original file and renames the file
 // with a timestamp.
 func (cache *NauticalCacheData) CopyCurrentCacheWithTimestamp() error {
-	return cache.CopyCurrentCache(fmt.Sprintf(time.Now().UTC().Format(TimeLayout)))
+	timestamp := time.Now().UTC().Format(TimeLayout)
+	return cache.CopyCurrentCache(timestamp)
 }
 
 // Load will load the data from a file into the NauticalCacheData
