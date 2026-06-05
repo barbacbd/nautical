@@ -70,14 +70,14 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
                 tables.append(caption.find_parent('table'))
 
     for table in tables:
-        for i, row in enumerate(table.findAll('tr')):
+        for i, row in enumerate(table.find_all('tr')):
             key_data = None
             key = None
             value = None
 
             # the first table is another table and it is no use to use -- skipping
             if i >= 1:
-                cells = row.findAll('td')
+                cells = row.find_all('td')
                 if cells:
                     try:
                         key_data = cells[0].text
