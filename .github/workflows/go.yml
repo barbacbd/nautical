@@ -24,4 +24,7 @@ jobs:
         go-version: '1.25'
 
     - name: Test
-      run: go test -v ./...
+      run: go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
+
+    - name: Display coverage
+      run: go tool cover -func=coverage.out

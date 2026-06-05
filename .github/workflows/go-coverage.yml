@@ -1,0 +1,77 @@
+# This workflow runs Go tests with coverage and generates a coverage badge
+
+name: Go Code Coverage
+
+on:
+  push:
+    branches: [ "master" ]
+
+permissions:
+  contents: write
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref }}
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.25'
+
+    - name: Setup Git
+      run: |
+        git config --global user.name "Brent Barbachem"
+        git config --global user.email "barbacbd@dukes.jmu.edu"
+
+    - name: Run tests with coverage
+      run: |
+        go test -v -coverprofile=coverage.out -covermode=atomic ./...
+        go tool cover -func=coverage.out -o=coverage.txt
+
+    - name: Calculate coverage percentage
+      id: coverage
+      run: |
+        # Extract total coverage percentage from coverage.txt
+        COVERAGE=$(grep "total:" coverage.txt | awk '{print $3}' | sed 's/%//')
+        echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
+        echo "Go test coverage: $COVERAGE%"
+
+    - name: Create coverage directory
+      run: |
+        mkdir -p .cov-go
+
+    - name: Generate coverage badge
+      run: |
+        # Determine badge color based on coverage percentage
+        COVERAGE=${{ steps.coverage.outputs.coverage }}
+        COVERAGE_INT=${COVERAGE%.*}
+
+        if [ $COVERAGE_INT -ge 80 ]; then
+          COLOR="brightgreen"
+        elif [ $COVERAGE_INT -ge 60 ]; then
+          COLOR="green"
+        elif [ $COVERAGE_INT -ge 40 ]; then
+          COLOR="yellow"
+        elif [ $COVERAGE_INT -ge 20 ]; then
+          COLOR="orange"
+        else
+          COLOR="red"
+        fi
+
+        # Download badge from shields.io
+        curl -o .cov-go/coverage-badge.svg "https://img.shields.io/badge/coverage-${COVERAGE}%25-${COLOR}"
+
+    - name: Move coverage files
+      run: |
+        mv coverage.out .cov-go/
+        mv coverage.txt .cov-go/
+
+    - name: Commit and push coverage results
+      run: |
+        git add .cov-go/
+        git commit -m "[Automated Commit]: Adding Go code coverage information from unit tests." || echo "no changes to commit"
+        git push || echo "nothing to push"
