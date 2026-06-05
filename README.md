@@ -17,6 +17,7 @@
 
 Ahoy! Whether you've got your sea legs under yeh', or you're just looking to get those toes wet, you have discovered Nautical. Nautical is a web scraper that allows its users to parse real time data from [NOAA's](https://www.ndbc.noaa.gov/) buoys. You can try Nautical as a python or GO package! Nautical was created for research and data logging purposes, but there are many more possibilities for users to discover. 
 
+**Python**: The package includes custom exception classes for better error handling. See the [error handling tutorial](https://github.com/barbacbd/nautical/blob/master/user/docs/PythonTutorials.md#error-handling) for examples of handling network errors, invalid data, and other common scenarios.
 
 If you would like to view the python documentation follow the [link to nautical's python documentation](https://barbacbd.github.io/nautical/build/html/index.html). 
 
@@ -107,6 +108,8 @@ The GO package requires `golang>=1.18`. To install go please visit the official 
 # Tutorials
 
 Follow the link to view the [tutorials for the python package](https://github.com/barbacbd/nautical/blob/master/user/docs/PythonTutorials.md).
+
+Follow the link to view the [error handling guide for python](https://github.com/barbacbd/nautical/blob/master/user/docs/ErrorHandling.md).
 
 Follow the link to view the [tutorials for the go package](https://github.com/barbacbd/nautical/blob/master/user/docs/GoTutorials.md).
 

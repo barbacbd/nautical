@@ -4,6 +4,7 @@ The document contains the tutorials/examples for the python package.
 
 # Table Of Contents
 
+   * [Error Handling](#error-handling)
    * [IO](#io)
       * [Buoys](#buoys)
       * [Sources](#sources)
@@ -15,6 +16,87 @@ The document contains the tutorials/examples for the python package.
       * [Load Data From File](#load-data-from-file)
       * [Copying File Contents](#copying-file-contents)
 
+# Error Handling
+
+The nautical package provides custom exception classes for better error handling. All custom exceptions inherit from `NauticalError`, allowing you to catch all nautical-specific errors or handle specific error types.
+
+## Common Exception Types
+
+- `BuoyNotFoundError`: Raised when a buoy station doesn't exist or can't be found
+- `NetworkTimeoutError`: Raised when a network request to NOAA times out
+- `NOAAServiceError`: Raised when NOAA service is unavailable or returns an error
+- `InvalidBuoyDataError`: Raised when buoy data is invalid or can't be parsed
+- `InvalidUnitsError`: Raised when an invalid unit type is used in conversions
+- `CacheError`: Base class for cache-related errors
+
+## Basic Error Handling
+
+```python
+from nautical.io.buoy import create_buoy
+from nautical.exceptions import BuoyNotFoundError, NetworkTimeoutError, NauticalError
+
+try:
+    buoy = create_buoy("INVALID_STATION")
+except BuoyNotFoundError as e:
+    print(f"Buoy station '{e.station}' not found")
+    # Handle missing buoy - maybe use cache or alternative source
+except NetworkTimeoutError as e:
+    print(f"Request timed out after {e.timeout}s")
+    # Retry or use cached data
+except NauticalError as e:
+    print(f"Unexpected nautical error: {e}")
+    # Handle other nautical-specific errors
+```
+
+## Error Handling with Retry Logic
+
+```python
+import time
+from nautical.io.buoy import create_buoy
+from nautical.exceptions import NetworkTimeoutError, NOAAServiceError
+
+def fetch_buoy_with_retry(station_id, max_retries=3):
+    """Fetch buoy data with automatic retry on network errors."""
+    for attempt in range(max_retries):
+        try:
+            return create_buoy(station_id)
+        except NetworkTimeoutError:
+            if attempt < max_retries - 1:
+                wait_time = 2 ** attempt  # Exponential backoff
+                print(f"Timeout - retrying in {wait_time}s...")
+                time.sleep(wait_time)
+            else:
+                raise  # Give up after max retries
+        except NOAAServiceError:
+            if attempt < max_retries - 1:
+                print("NOAA service error - retrying in 30s...")
+                time.sleep(30)  # Wait longer for service issues
+            else:
+                raise
+
+# Usage
+buoy = fetch_buoy_with_retry("44099")
+```
+
+## Backwards Compatibility
+
+Custom exceptions inherit from built-in exception types for backward compatibility:
+
+```python
+# These all work:
+try:
+    # ... code that might fail
+    pass
+except ValueError:  # Catches InvalidBuoyDataError, InvalidCoordinatesError, etc.
+    pass
+
+except KeyError:  # Catches InvalidUnitsError
+    pass
+
+except FileNotFoundError:  # Catches CacheNotFoundError
+    pass
+```
+
 # IO
 
 The following sections are provided as examples in the [IO module](https://github.com/barbacbd/nautical/blob/master/nautical/io/).
@@ -24,16 +106,28 @@ If you know the ID of the buoy station you may use `create_buoy` as a shortcut t
 
 ```python
 from nautical.io.buoy import create_buoy
+from nautical.exceptions import BuoyNotFoundError, NauticalError
 
-buoy = create_buoy(44099)
+try:
+    buoy = create_buoy(44099)
+    if buoy and buoy.valid:
+        print(f"Successfully fetched buoy {buoy.station}")
+        # Use buoy data
+    else:
+        print("Buoy data is not valid")
+except BuoyNotFoundError as e:
+    print(f"Buoy station {e.station} not found")
+except NauticalError as e:
+    print(f"Error fetching buoy: {e}")
 ```
 
 The result will be a buoy filled with all of the data that was pulled online. The user _should_ *always*
-check the validity of the buoy after the function call(s) to ensure that the data can be trusted.
+check the validity of the buoy after the function call(s) to ensure that the data can be trusted, and
+handle potential exceptions when fetching data from NOAA's servers.
 
 ```python
-if buoy.valid:
-````
+if buoy and buoy.valid:
+```
 
 If the user already has a buoy object and wants to get the most up-to-date information, use te `fill_buoy`
 function. It is important to note that this will also keep the buoy's past retrievals. The information that
