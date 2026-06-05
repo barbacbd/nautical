@@ -2,6 +2,7 @@ from urllib.request import urlopen
 from urllib.error import HTTPError
 from bs4 import BeautifulSoup
 from nautical.log import get_logger
+from nautical.io.retry import with_retry, RetryConfig
 
 
 log = get_logger()
@@ -22,17 +23,22 @@ def get_noaa_forecast_url(buoy):
     log.warning("No buoy ID provided to get_noaa_forecast_url")
 
 
+@with_retry(RetryConfig(max_retries=3, initial_delay=1.0))
 def get_url_source(url_name):
-    '''If you already know the url_name or if you have run through the 
-    get_noaa_forecast_url(), then you can send in the url here. Get the source 
-    information for the url and place the information into a BeautifulSoup
-    object, so that we can do any lookups of the data that we need.
+    '''Fetch and parse NOAA buoy data webpage with automatic retry and rate limiting.
 
-    :param url_name: name of the url to search for
-    :return: BeautifulSoup Object on success otherwise none
+    The function automatically retries on network errors, timeouts, and server errors
+    (5xx status codes). Rate limiting (HTTP 429) is detected and respected via the
+    Retry-After header. Client errors (4xx except 429) are not retried.
+
+    :param url_name: URL to fetch
+    :return: BeautifulSoup object containing the parsed HTML
+    :raises HTTPError: If the request fails after all retries
+    :raises URLError: If there's a network-level error after all retries
+    :raises ValueError: If url_name is invalid
     '''
     try:
-        open_url = urlopen(url_name)
+        open_url = urlopen(url_name, timeout=30)
         soup = BeautifulSoup(open_url.read(), features="lxml")
         return soup
     except (AttributeError, TypeError, ValueError, HTTPError) as error:
