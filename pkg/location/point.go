@@ -56,11 +56,15 @@ func (p *Point) SetLongitude(longitude float64) error {
 
 // Parse will parse the point from the string formatted data containing the
 // latitude, longitude, [optional] altitude.
-// Strings with spaces are allowed but newlines and tabs should be avoided
+// All whitespace characters (spaces, tabs, newlines) are removed before parsing.
 func Parse(coordStr string) (Point, error) {
-	// TODO: change to all whitespace?
-	// replace spaces, or float conversion fails
-	coordStr = strings.ReplaceAll(coordStr, " ", "")
+	// Remove all whitespace characters to handle spaces, tabs, newlines, etc.
+	coordStr = strings.Map(func(r rune) rune {
+		if strings.ContainsRune(" \t\n\r", r) {
+			return -1 // Remove character
+		}
+		return r
+	}, coordStr)
 	splitStr := strings.Split(coordStr, ",")
 
 	point := Point{}

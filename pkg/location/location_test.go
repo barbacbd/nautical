@@ -53,6 +53,18 @@ func TestConvertPoint(t *testing.T) {
 		name:        "Parse Failure Latitude Out of Bounds",
 		locationStr: "100.213, -100.123",
 		expectedErr: "latitude not in range (-90, 90): -100.12",
+	}, {
+		name:        "Parse with tabs and newlines",
+		locationStr: "-110.123,\t76.45,\n123.67",
+		latitude:    76.45,
+		longitude:   -110.123,
+		altitude:    123.67,
+	}, {
+		name:        "Parse with mixed whitespace",
+		locationStr: " -110.123 , 76.45 \t",
+		latitude:    76.45,
+		longitude:   -110.123,
+		altitude:    0.0,
 	}}
 
 	for _, tc := range tests {
