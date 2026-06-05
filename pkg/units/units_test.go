@@ -592,3 +592,273 @@ func TestTempConversion(t *testing.T) {
 	}
 
 }
+
+func TestTimeUnitsString(t *testing.T) {
+	tests := []struct {
+		name     string
+		unit     TimeUnits
+		expected string
+		wantErr  bool
+	}{
+		{
+			name:     "SECONDS",
+			unit:     TimeUnits{value: SECONDS},
+			expected: "SECONDS",
+			wantErr:  false,
+		},
+		{
+			name:     "MINUTES",
+			unit:     TimeUnits{value: MINUTES},
+			expected: "MINUTES",
+			wantErr:  false,
+		},
+		{
+			name:     "HOURS",
+			unit:     TimeUnits{value: HOURS},
+			expected: "HOURS",
+			wantErr:  false,
+		},
+		{
+			name:     "DAYS",
+			unit:     TimeUnits{value: DAYS},
+			expected: "DAYS",
+			wantErr:  false,
+		},
+		{
+			name:    "Invalid value",
+			unit:    TimeUnits{value: 999},
+			wantErr: true,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			result, err := tc.unit.String()
+			if tc.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+				assert.Equal(t, tc.expected, result)
+			}
+		})
+	}
+}
+
+func TestTemperatureUnitsString(t *testing.T) {
+	tests := []struct {
+		name     string
+		unit     TemperatureUnits
+		expected string
+		wantErr  bool
+	}{
+		{
+			name:     "DEG_F",
+			unit:     TemperatureUnits{value: DEG_F},
+			expected: "DEG_F",
+			wantErr:  false,
+		},
+		{
+			name:     "DEG_C",
+			unit:     TemperatureUnits{value: DEG_C},
+			expected: "DEG_C",
+			wantErr:  false,
+		},
+		{
+			name:    "Invalid value",
+			unit:    TemperatureUnits{value: 999},
+			wantErr: true,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			result, err := tc.unit.String()
+			if tc.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+				assert.Equal(t, tc.expected, result)
+			}
+		})
+	}
+}
+
+func TestSpeedUnitsString(t *testing.T) {
+	tests := []struct {
+		name     string
+		unit     SpeedUnits
+		expected string
+		wantErr  bool
+	}{
+		{
+			name:     "KNOTS",
+			unit:     SpeedUnits{value: KNOTS},
+			expected: "KNOTS",
+			wantErr:  false,
+		},
+		{
+			name:     "MPS",
+			unit:     SpeedUnits{value: MPS},
+			expected: "MPS",
+			wantErr:  false,
+		},
+		{
+			name:     "MPH",
+			unit:     SpeedUnits{value: MPH},
+			expected: "MPH",
+			wantErr:  false,
+		},
+		{
+			name:     "KPH",
+			unit:     SpeedUnits{value: KPH},
+			expected: "KPH",
+			wantErr:  false,
+		},
+		{
+			name:     "FPS",
+			unit:     SpeedUnits{value: FPS},
+			expected: "FPS",
+			wantErr:  false,
+		},
+		{
+			name:    "Invalid value",
+			unit:    SpeedUnits{value: 999},
+			wantErr: true,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			result, err := tc.unit.String()
+			if tc.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+				assert.Equal(t, tc.expected, result)
+			}
+		})
+	}
+}
+
+func TestDistanceUnitsString(t *testing.T) {
+	tests := []struct {
+		name     string
+		unit     DistanceUnits
+		expected string
+		wantErr  bool
+	}{
+		{
+			name:     "CENTIMETERS",
+			unit:     DistanceUnits{value: CENTIMETERS},
+			expected: "CENTIMETERS",
+			wantErr:  false,
+		},
+		{
+			name:     "FEET",
+			unit:     DistanceUnits{value: FEET},
+			expected: "FEET",
+			wantErr:  false,
+		},
+		{
+			name:     "NAUTICAL_MILES",
+			unit:     DistanceUnits{value: NAUTICAL_MILES},
+			expected: "NAUTICAL_MILES",
+			wantErr:  false,
+		},
+		{
+			name:    "Invalid value",
+			unit:    DistanceUnits{value: 999},
+			wantErr: true,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			result, err := tc.unit.String()
+			if tc.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+				assert.Equal(t, tc.expected, result)
+			}
+		})
+	}
+}
+
+func TestPressureUnitsString(t *testing.T) {
+	tests := []struct {
+		name     string
+		unit     PressureUnits
+		expected string
+		wantErr  bool
+	}{
+		{
+			name:     "PA",
+			unit:     PressureUnits{value: PA},
+			expected: "PA",
+			wantErr:  false,
+		},
+		{
+			name:     "PSI",
+			unit:     PressureUnits{value: PSI},
+			expected: "PSI",
+			wantErr:  false,
+		},
+		{
+			name:     "ATM",
+			unit:     PressureUnits{value: ATM},
+			expected: "ATM",
+			wantErr:  false,
+		},
+		{
+			name:    "Invalid value",
+			unit:    PressureUnits{value: 999},
+			wantErr: true,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			result, err := tc.unit.String()
+			if tc.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+				assert.Equal(t, tc.expected, result)
+			}
+		})
+	}
+}
+
+func TestSalinityUnitsString(t *testing.T) {
+	tests := []struct {
+		name     string
+		unit     SalinityUnits
+		expected string
+		wantErr  bool
+	}{
+		{
+			name:     "PSU",
+			unit:     SalinityUnits{value: PSU},
+			expected: "PSU",
+			wantErr:  false,
+		},
+		{
+			name:    "Invalid value",
+			unit:    SalinityUnits{value: 999},
+			wantErr: true,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			result, err := tc.unit.String()
+			if tc.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+				assert.Equal(t, tc.expected, result)
+			}
+		})
+	}
+}

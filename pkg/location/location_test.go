@@ -287,3 +287,47 @@ func TestInArea(t *testing.T) {
 		})
 	}
 }
+
+func TestPointString(t *testing.T) {
+	tests := []struct {
+		name     string
+		point    Point
+		expected string
+	}{
+		{
+			name:     "Positive coordinates",
+			point:    Point{Latitude: 36.5, Longitude: -75.3, Altitude: 10.0},
+			expected: "36.50, -75.30, 10.00",
+		},
+		{
+			name:     "Negative coordinates",
+			point:    Point{Latitude: -36.5, Longitude: 75.3, Altitude: -10.5},
+			expected: "-36.50, 75.30, -10.50",
+		},
+		{
+			name:     "Zero coordinates",
+			point:    Point{Latitude: 0.0, Longitude: 0.0, Altitude: 0.0},
+			expected: "0.00, 0.00, 0.00",
+		},
+		{
+			name:     "High precision truncated",
+			point:    Point{Latitude: 36.123456, Longitude: -75.987654, Altitude: 123.456},
+			expected: "36.12, -75.99, 123.46",
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			result := tc.point.String()
+			assert.Equal(t, tc.expected, result)
+		})
+	}
+}
+
+func TestPointXYZ(t *testing.T) {
+	point := Point{Latitude: 36.5, Longitude: -75.3, Altitude: 100.0}
+
+	assert.Equal(t, 36.5, point.X())
+	assert.Equal(t, -75.3, point.Y())
+	assert.Equal(t, 100.0, point.Z())
+}
