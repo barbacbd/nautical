@@ -6,7 +6,7 @@
   <sub>Real-time ocean data from NOAA buoys — Python & Go</sub>
 </h1>
 
-<p align="center">
+<div align="center">
 
 [![Build-Linux](https://github.com/barbacbd/nautical/actions/workflows/python-app-linux.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-linux.yml) [![Build-OSX](https://github.com/barbacbd/nautical/actions/workflows/python-app-osx.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-osx.yml) [![Build-Windows](https://github.com/barbacbd/nautical/actions/workflows/python-app-windows.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-windows.yml)
 
@@ -14,7 +14,7 @@
 
 [![Go](https://github.com/barbacbd/nautical/actions/workflows/go.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/go.yml) [![Go Reference](https://pkg.go.dev/badge/github.com/barbacbd/nautical.svg)](https://pkg.go.dev/github.com/barbacbd/nautical) ![Go Code Coverage](https://raw.githubusercontent.com/barbacbd/nautical/master/.cov-go/coverage-badge.svg)
 
-</p>
+</div>
 
 Nautical is a library for scraping and parsing real-time and historical oceanographic data from [NOAA's National Data Buoy Center](https://www.ndbc.noaa.gov/). It supports both **Python** and **Go**, and was built for research, data logging, and monitoring — but there are many more possibilities to discover.
 
