@@ -4,12 +4,12 @@ setup: install
 	pre-commit install
 
 install:
-	pip install ".[test]" --upgrade
+	pip install -e ".[test]" --upgrade
 
 test: test-py test-go
 
 test-py:
-	pytest --cov=tests
+	pytest --cov=nautical
 
 test-go:
 	go test -v ./...
@@ -44,7 +44,7 @@ lint-py:
 coverage: coverage-py coverage-go
 
 coverage-py:
-	pytest --cov=tests --cov-report=term-missing
+	pytest --cov=nautical --cov-report=term-missing
 
 coverage-go:
 	go test -v -race -coverprofile=coverage.out -covermode=atomic ./...

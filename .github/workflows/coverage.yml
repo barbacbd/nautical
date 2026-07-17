@@ -24,7 +24,7 @@ jobs:
     - name: Install package with test dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install ".[test]" --upgrade
+        python -m pip install -e ".[test]" --upgrade
         python -m pip install coverage-badge
     - name: Setup Git
       run: |
@@ -32,7 +32,7 @@ jobs:
         git config --global user.email "barbacbd@dukes.jmu.edu"
     - name: Execute the tests and push results
       run: |
-        pytest --cov=tests
+        pytest --cov=nautical
         mv .coverage .cov/
         pushd .cov
         rm coverage-badge.svg
