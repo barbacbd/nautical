@@ -1,4 +1,4 @@
-.PHONY: setup install test test-py test-go lint lint-py format format-py format-go format-check format-check-py format-check-go coverage coverage-py coverage-go clean
+.PHONY: setup install test test-py test-go lint lint-py format format-py format-go format-check format-check-py format-check-go coverage coverage-py coverage-go docs clean
 
 setup: install
 	pre-commit install
@@ -50,6 +50,10 @@ coverage-go:
 	go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
 	go tool cover -func=coverage.out
 
+docs:
+	sphinx-apidoc -f -o docs/source/ nautical/
+	sphinx-build -b html docs/ docs/build/html
+
 clean:
-	rm -rf build/ dist/ *.egg-info .pytest_cache .coverage coverage.out
+	rm -rf build/ dist/ *.egg-info .pytest_cache .coverage coverage.out docs/build/ docs/source/
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true

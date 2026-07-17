@@ -50,6 +50,11 @@ test = [
     "pytest-order",
     "pytest-subtests",
 ]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "sphinx_mdinclude",
+]
 
 [project.urls]
 Homepage = "https://github.com/barbacbd/nautical"

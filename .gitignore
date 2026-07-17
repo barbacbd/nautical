@@ -9,3 +9,5 @@ nautical_venv/*
 .coverage
 *.egg-info/
 .ruff_cache/
+docs/build/
+docs/source/

@@ -27,6 +27,7 @@ make lint          # pylint (downloads .pylintrc if missing)
 make format        # auto-fix formatting (ruff for Python, gofmt for Go)
 make format-check  # check formatting without modifying files (used in CI)
 make coverage      # tests with detailed coverage for both languages
+make docs          # build Sphinx API documentation locally
 make clean         # remove build artifacts and caches
 ```
 
@@ -50,6 +51,7 @@ go tool cover -func=coverage.out
 - **Go**: tests run on Ubuntu with race detector enabled
 - **Coverage**: badge workflows auto-commit to `master` on push
 - **Deploy**: PyPI publish triggered by GitHub release events
+- **Docs**: Sphinx API docs auto-deployed to GitHub Pages on push to `master`
 
 ## Conventions
 
