@@ -143,7 +143,7 @@ def get_retry_delay(attempt, config, retry_after=None):
     jitter = delay * 0.2 * (random.random() * 2 - 1)  # -20% to +20%
     delay = max(0, delay + jitter)
 
-    return delay
+    return min(delay, config.max_delay)
 
 
 def should_retry(error, config):
@@ -156,11 +156,7 @@ def should_retry(error, config):
     Returns:
         tuple: (should_retry: bool, retry_after: str|None)
     """
-    # Network timeouts should be retried
-    if isinstance(error, (SocketTimeout, URLError)):
-        return True, None
-
-    # HTTP errors - check status code
+    # HTTP errors - check status code (must come before URLError since HTTPError is a subclass)
     if isinstance(error, HTTPError):
         # Extract Retry-After header if present
         retry_after = None
@@ -181,6 +177,10 @@ def should_retry(error, config):
         if 400 <= error.code < 500:
             log.info(f"Client error {error.code}, not retrying")
             return False, None
+
+    # Network timeouts and connection errors should be retried
+    if isinstance(error, (SocketTimeout, URLError)):
+        return True, None
 
     # Unknown error - don't retry
     return False, None
