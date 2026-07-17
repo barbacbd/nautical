@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from urllib.error import HTTPError
+from urllib.parse import quote
 from urllib.request import urlopen
 
 from bs4 import BeautifulSoup
@@ -22,7 +23,7 @@ def get_noaa_forecast_url(buoy: str) -> str | None:
     :return: full url if buoy is not empty, otherwise None
     """
     if buoy:
-        return f"https://www.ndbc.noaa.gov/station_page.php?station={buoy}"
+        return f"https://www.ndbc.noaa.gov/station_page.php?station={quote(str(buoy), safe='')}"
     log.warning("No buoy ID provided to get_noaa_forecast_url")
 
 
