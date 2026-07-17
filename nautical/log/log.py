@@ -1,9 +1,10 @@
 import logging
 import os
+import sys
 
 
 class NauticalLogFormatter(logging.Formatter):
-    """Colored log formatter with per-level ANSI styling."""
+    """Colored log formatter with per-level ANSI styling when outputting to a TTY."""
 
     green = "\x1b[32;20m"
     blue = "\x1b[34;20m"
@@ -13,15 +14,21 @@ class NauticalLogFormatter(logging.Formatter):
     reset = "\x1b[0m"
     fmt = "[🌊 %(levelname)s %(asctime)s %(name)s]: %(message)s"
 
-    def __init__(self) -> None:
+    def __init__(self, use_color: bool = True) -> None:
         super().__init__()
-        self._formatters = {
-            logging.DEBUG: logging.Formatter(self.blue + self.fmt + self.reset),
-            logging.INFO: logging.Formatter(self.green + self.fmt + self.reset),
-            logging.WARNING: logging.Formatter(self.yellow + self.fmt + self.reset),
-            logging.ERROR: logging.Formatter(self.red + self.fmt + self.reset),
-            logging.CRITICAL: logging.Formatter(self.purple + self.fmt + self.reset),
-        }
+        if use_color:
+            self._formatters = {
+                logging.DEBUG: logging.Formatter(self.blue + self.fmt + self.reset),
+                logging.INFO: logging.Formatter(self.green + self.fmt + self.reset),
+                logging.WARNING: logging.Formatter(self.yellow + self.fmt + self.reset),
+                logging.ERROR: logging.Formatter(self.red + self.fmt + self.reset),
+                logging.CRITICAL: logging.Formatter(self.purple + self.fmt + self.reset),
+            }
+        else:
+            plain = logging.Formatter(self.fmt)
+            self._formatters = {level: plain for level in (
+                logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR, logging.CRITICAL
+            )}
 
     def format(self, record: logging.LogRecord) -> str:
         formatter = self._formatters.get(record.levelno, self._formatters[logging.DEBUG])
@@ -44,7 +51,8 @@ def get_logger(name: str = "nautical") -> logging.Logger:
 
     if not log.handlers:
         handler = logging.StreamHandler()
-        handler.setFormatter(NauticalLogFormatter())
+        use_color = hasattr(sys.stderr, "isatty") and sys.stderr.isatty()
+        handler.setFormatter(NauticalLogFormatter(use_color=use_color))
         log.addHandler(handler)
 
     return log
