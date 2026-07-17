@@ -2,7 +2,7 @@ from nautical.log import get_logger
 
 from .units import DistanceUnits, PressureUnits, SpeedUnits, TemperatureUnits, TimeUnits
 
-log = get_logger()
+log = get_logger(__name__)
 
 TimeLookup = {
     TimeUnits.SECONDS: 1.0,
@@ -41,7 +41,7 @@ PressureLookup = {
 }
 
 
-def convert_temperature(value, init_units, final_units):
+def convert_temperature(value: float, init_units: TemperatureUnits, final_units: TemperatureUnits) -> float:
     """Convert the temperature value from the initial units to the
     final units
 
@@ -58,7 +58,7 @@ def convert_temperature(value, init_units, final_units):
     return _temp if final_units in (TemperatureUnits.DEG_F,) else (_temp - 32) * 5.0 / 9.0
 
 
-def convert_time(value, init_units, final_units):
+def convert_time(value: float, init_units: TimeUnits, final_units: TimeUnits) -> float:
     """Convert the time value from the initial units to the final units
 
     :param value: initial value for time
@@ -74,7 +74,7 @@ def convert_time(value, init_units, final_units):
         raise
 
 
-def convert_distance(value, init_units, final_units):
+def convert_distance(value: float, init_units: DistanceUnits, final_units: DistanceUnits) -> float:
     """Convert the distance value from the initial units to the final units
 
     :param value: initial value for distance
@@ -89,7 +89,7 @@ def convert_distance(value, init_units, final_units):
         raise
 
 
-def convert_speed(value, init_units, final_units):
+def convert_speed(value: float, init_units: SpeedUnits, final_units: SpeedUnits) -> float:
     """Convert the speed value from the initial units to the final units
 
     :param value: initial value for speed
@@ -106,7 +106,7 @@ def convert_speed(value, init_units, final_units):
         raise
 
 
-def convert_pressure(value, init_units, final_units):
+def convert_pressure(value: float, init_units: PressureUnits, final_units: PressureUnits) -> float:
     """Convert the pressure value from the initial units to the final units
 
     :param value: initial value for pressure
@@ -133,7 +133,7 @@ ConversionLookup = {
 }
 
 
-def convert(value, init_units, final_units):
+def convert(value: float, init_units: object, final_units: object) -> float:
     """Convert the value given the current units to the new units. If the
     units are not in the same set of units then the value cannot be converted,
     and None will be returned.

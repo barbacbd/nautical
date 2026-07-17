@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
@@ -6,10 +8,10 @@ from bs4 import BeautifulSoup
 from nautical.io.retry import RetryConfig, with_retry
 from nautical.log import get_logger
 
-log = get_logger()
+log = get_logger(__name__)
 
 
-def get_noaa_forecast_url(buoy):
+def get_noaa_forecast_url(buoy: str) -> str | None:
     """NOAA is kind enough to post all of their data from their buoys at
     the same url ONLY requiring the id of buoy to change at the end of the link
     (https://www.ndbc.noaa.gov/station_page.php?station=).
@@ -25,7 +27,7 @@ def get_noaa_forecast_url(buoy):
 
 
 @with_retry(RetryConfig(max_retries=3, initial_delay=1.0))
-def get_url_source(url_name):
+def get_url_source(url_name: str) -> BeautifulSoup:
     """Fetch and parse NOAA buoy data webpage with automatic retry and rate limiting.
 
     The function automatically retries on network errors, timeouts, and server errors

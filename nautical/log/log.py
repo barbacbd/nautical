@@ -1,10 +1,9 @@
 import logging
+import os
 
 
 class NauticalLogFormatter(logging.Formatter):
-    """Formatter class that will be used for formatting nautical
-    information. The formatter will add color as well as an image
-    """
+    """Colored log formatter with per-level ANSI styling."""
 
     green = "\x1b[32;20m"
     blue = "\x1b[34;20m"
@@ -12,32 +11,36 @@ class NauticalLogFormatter(logging.Formatter):
     red = "\x1b[31;20m"
     purple = "\x1b[35;20m"
     reset = "\x1b[0m"
-    fmt = "[🌊 %(levelname)s]: %(message)s"
+    fmt = "[🌊 %(levelname)s %(asctime)s %(name)s]: %(message)s"
 
-    FORMATS = {
-        logging.DEBUG: blue + fmt + reset,
-        logging.INFO: green + fmt + reset,
-        logging.WARNING: yellow + fmt + reset,
-        logging.ERROR: red + fmt + reset,
-        logging.CRITICAL: purple + fmt + reset,
-    }
+    def __init__(self) -> None:
+        super().__init__()
+        self._formatters = {
+            logging.DEBUG: logging.Formatter(self.blue + self.fmt + self.reset),
+            logging.INFO: logging.Formatter(self.green + self.fmt + self.reset),
+            logging.WARNING: logging.Formatter(self.yellow + self.fmt + self.reset),
+            logging.ERROR: logging.Formatter(self.red + self.fmt + self.reset),
+            logging.CRITICAL: logging.Formatter(self.purple + self.fmt + self.reset),
+        }
 
-    def format(self, record):
-        log_fmt = self.FORMATS.get(record.levelno)
-        formatter = logging.Formatter(log_fmt)
+    def format(self, record: logging.LogRecord) -> str:
+        formatter = self._formatters.get(record.levelno, self._formatters[logging.DEBUG])
         return formatter.format(record)
 
 
-def get_logger(name="nautical", verbosity=logging.CRITICAL):
-    """Wrap the logging.getLogger functionality to apply nautical
-    based logging information.
+def _get_default_level() -> int:
+    env_level = os.environ.get("NAUTICAL_LOG_LEVEL", "").upper()
+    return getattr(logging, env_level, logging.WARNING)
 
-    :param name: Name of the logger
-    :param verbosity: Level of verbosity for the logger
-    :return: logging.log formatted with the NauticalLogFormatter
+
+def get_logger(name: str = "nautical") -> logging.Logger:
+    """Get a logger with nautical formatting.
+
+    :param name: Logger name (use __name__ for per-module loggers)
+    :return: Configured logger instance
     """
     log = logging.getLogger(name)
-    log.setLevel(verbosity)
+    log.setLevel(_get_default_level())
 
     if not log.handlers:
         handler = logging.StreamHandler()

@@ -2,6 +2,8 @@
 correct/known location provided by this module.
 """
 
+from __future__ import annotations
+
 from datetime import datetime, timezone
 from enum import Enum
 from json import dump as jdump
@@ -15,7 +17,7 @@ from ..log import get_logger
 from ..noaa.buoy import Buoy, Source
 from ..time import get_time_str
 
-log = get_logger()
+log = get_logger(__name__)
 log.warning("First time imports should call nautical.cache.setup()")
 
 __CACHE_FILE = "nautical_cache.json"
@@ -35,13 +37,13 @@ class CacheData(Enum):
     TIME = 3
 
 
-def setup():
+def setup() -> None:
     """Create the cache directory if it does not exist/"""
     if not exists(NAUTICAL_CACHE_DIR):
         mkdir(NAUTICAL_CACHE_DIR)
 
 
-def copy_current_cache(extra_name_data):
+def copy_current_cache(extra_name_data: str) -> str | None:
     """Copy the current nautical cache file and append the extra_data.
 
     :return: Filename on success, None otherwise
@@ -59,20 +61,20 @@ def copy_current_cache(extra_name_data):
     return copied_name
 
 
-def copy_current_cache_with_timestamp():
+def copy_current_cache_with_timestamp() -> str | None:
     """Apply timestamp to the name of the nautical cache"""
     now = datetime.now().replace(tzinfo=timezone.utc)
     return copy_current_cache(now.strftime("%Y-%m-%d_%H-%M-%S"))
 
 
-def _convert_to_keys(output_type):
+def _convert_to_keys(output_type: CacheData) -> list[str]:
     """Convert the CacheData type to string keys required for output"""
     if output_type == CacheData.ALL:
         return [x.name for x in CacheData if x != CacheData.ALL]
     return [output_type.name]
 
 
-def load(filename=NAUTICAL_CACHE_FILE, cached_output=CacheData.ALL):
+def load(filename: str = NAUTICAL_CACHE_FILE, cached_output: CacheData = CacheData.ALL) -> dict:
     """Load the nautical cache if it exists. All nautical data is returned as nautical objects
     in the dictionary. Time is provided as a string.
 
@@ -102,7 +104,7 @@ def load(filename=NAUTICAL_CACHE_FILE, cached_output=CacheData.ALL):
     return output
 
 
-def dumps(data, filename=NAUTICAL_CACHE_FILE):
+def dumps(data: dict, filename: str = NAUTICAL_CACHE_FILE) -> None:
     """Overwrite the current value of the NAUTICAL_CACHE_FILE
     with the current contents of data. The data should be passed in should
     be provided as nautical objects for buoys and sources.

@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from collections.abc import Iterator
 from copy import deepcopy
 from enum import Enum
 
@@ -6,7 +9,7 @@ from nautical.noaa.buoy.buoy_data import BuoyData
 
 from .buoy import Buoy
 
-log = get_logger()
+log = get_logger(__name__)
 
 
 class SourceType(Enum):
@@ -23,7 +26,7 @@ class SourceType(Enum):
     TSUNAMI = 9
 
     @classmethod
-    def as_strings(cls, source_type):
+    def as_strings(cls, source_type: "SourceType") -> str | list[str] | None:
         """Get the string value based on the type of source
 
         :param source_type: Type of source from the enumeration
@@ -52,7 +55,7 @@ class SourceType(Enum):
 class Source:
     """The source is a grouping or categorization of buoy sources."""
 
-    def __init__(self, name: str, description: str = None):
+    def __init__(self, name: str, description: str | None = None) -> None:
         """
         :param name: Name of the data source or grouping of data
         :param description: Description tag of the data source
@@ -65,11 +68,11 @@ class Source:
         # Each buoy should have a unique name to use as the key
         self._buoys = {}
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Return the number of buoys in this source"""
         return len(self._buoys)
 
-    def __copy__(self):
+    def __copy__(self) -> "Source":
         """Override the copy function to only keep specific
         values. Notice that the buoys are not kept
         """
@@ -84,7 +87,7 @@ class Source:
         result.__dict__.update(source_dict)
         return result
 
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo: dict) -> "Source":
         """Override the deepcopy for this instance to include
         all private variables
         """
@@ -102,14 +105,14 @@ class Source:
             setattr(result, key, deepcopy(value, memo))
         return result
 
-    def __str__(self):
+    def __str__(self) -> str:
         """String representation of this instance
 
         :return: string representation of the source
         """
         return self.name
 
-    def __contains__(self, item):
+    def __contains__(self, item: Buoy | int | str) -> bool:
         """Determine if the item buoy exists in our dictionary.
         When `item` is a `Buoy`, check if the hash of the item is in the dict.
         when `item` is an int, assume this is the hash and check for it in the dict.
@@ -126,14 +129,14 @@ class Source:
             return next((True for k, v in self._buoys.items() if item == v.station), False)
         return False
 
-    def __iter__(self):
+    def __iter__(self) -> "Iterator[Buoy]":
         """Override iterate to provide the user with the buoys in this instance.
         Yield the `Buoy` objects in this instance.
         """
         for _key, value in self._buoys.items():
             yield value
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         """Determine if this instance is the same as the other `source`
 
         :return: True if name and description match
@@ -144,7 +147,7 @@ class Source:
             and self.description == other.description
         )
 
-    def __ne__(self, other):
+    def __ne__(self, other: object) -> bool:
         """See __eq__ for more information
 
         :return: True if the name or description do not match
@@ -152,14 +155,14 @@ class Source:
         return not self.__eq__(other)
 
     @property
-    def buoys(self):
+    def buoys(self) -> dict[int, Buoy]:
         """Buoys Property for this instance
 
         :return: Copy of the current set of buoys contained in this instance
         """
         return self._buoys.copy()
 
-    def add_buoy(self, buoy):
+    def add_buoy(self, buoy: Buoy) -> bool:
         """Add a buoy to this instance
 
         .. note:: Buoy names are case sensitive to ensure they are unique
@@ -172,7 +175,7 @@ class Source:
             return True
         return False
 
-    def get_buoy(self, station):
+    def get_buoy(self, station: str) -> Buoy | None:
         """Get a buoy where the station matches the `station` of the Buoy
 
         .. note:: Buoy names are case sensitive to ensure they are unique
@@ -182,7 +185,7 @@ class Source:
         """
         return next((v for k, v in self._buoys.items() if v.station == station), None)
 
-    def to_json(self):
+    def to_json(self) -> dict:
         """Convert this instance to a json dictionary"""
         return {
             "name": self.name,
@@ -191,7 +194,7 @@ class Source:
         }
 
     @staticmethod
-    def from_json(json_dict):
+    def from_json(json_dict: dict) -> "Source":
         """Create/Fill/Return an instance from a json dictionary"""
         src = Source("nautical_source")
         src.from_dict(json_dict)
@@ -201,7 +204,7 @@ class Source:
 
         return src
 
-    def from_dict(self, source_dict):
+    def from_dict(self, source_dict: dict) -> None:
         """Fill in instance from a dictionary"""
         if "name" in source_dict and source_dict["name"]:
             self.name = source_dict["name"]

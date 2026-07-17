@@ -1,12 +1,14 @@
+from __future__ import annotations
+
 from nautical.location import Point
 from nautical.log import get_logger
 from nautical.noaa.buoy import BuoyData
 from nautical.time import NauticalTime, TimeFormat
 
-log = get_logger()
+log = get_logger(__name__)
 
 
-def parse_winds(wind_data):
+def parse_winds(wind_data: str) -> dict[str, float | None]:
     """Parse the wind information. The wind data includes
     a direction, speed in knots, as well as the gust speed
 
@@ -33,7 +35,7 @@ def parse_winds(wind_data):
     return {"wspd": wind_speed, "gst": gusts}
 
 
-def parse_location(location_data):
+def parse_location(location_data: str) -> dict:
     """Parse the latitude and longitude values out of the
     the string that was passed in. The latitude and longitude
     should contain the NSEW strings describing their sign.
@@ -42,7 +44,7 @@ def parse_location(location_data):
     :return: dictionary containing the location point (when valid)
     """
 
-    def _describe(data):
+    def _describe(data: str) -> tuple[str | None, float, str | None]:
         """Describe or determine lat vs lon, positivity, and
         the value that needs to be calculated.
         """
@@ -85,7 +87,7 @@ def parse_location(location_data):
     return location_dict
 
 
-def parse_time(time_data):
+def parse_time(time_data: str) -> dict:
     """Parse the month/day/year time out of the time
     data string from CDATA.
 
@@ -147,7 +149,7 @@ aliases = {
 alias_func = {"winds": parse_winds, "location": parse_location}
 
 
-def parse_cdata(cdata):
+def parse_cdata(cdata: str) -> dict:
     """Parse the CDATA string that contains information about this
     presumed buoy. The data here will be used as supplemental information
     as some buoys cannot be scraped online (no valid or useable data).
@@ -188,7 +190,7 @@ def parse_cdata(cdata):
     return {k: v for k, v in parsed_cdata_dict.items() if v is not None}
 
 
-def fill_buoy_with_cdata(buoy, cdata):
+def fill_buoy_with_cdata(buoy: "Buoy", cdata: str) -> None:
     """Parse the CDATA string that contains information about this
     presumed buoy. The data here will be used as supplemental information
     as some buoys cannot be scraped online (no valid or useable data).

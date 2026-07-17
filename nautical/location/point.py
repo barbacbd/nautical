@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 from haversine import Unit, haversine
 
 from nautical.log import get_logger
 from nautical.units import DistanceUnits
 
-log = get_logger()
+log = get_logger(__name__)
 
 
 class Point:
@@ -25,27 +27,27 @@ class Point:
         self.z = self.altitude
 
     @property
-    def latitude(self):
+    def latitude(self) -> float:
         """Latitude Property (degrees)
         :return: latitude (degrees)
         """
         return self._latitude
 
     @property
-    def longitude(self):
+    def longitude(self) -> float:
         """Longitude Property (degrees)
         :return: longitude (degrees)
         """
         return self._longitude
 
     @property
-    def altitude(self):
+    def altitude(self) -> float:
         """Altitude Property (meters)
         :return: altitude (meters)
         """
         return self._altitude
 
-    def as_tuple(self):
+    def as_tuple(self) -> tuple[float, float]:
         """Get the values of the object as a simple tuple. The
         lat and lon are used but not the altitude. The altitude
         is omitted for use with haverine.
@@ -54,14 +56,14 @@ class Point:
         """
         return self.latitude, self.longitude
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Python version of the to string function. Turn this object into a string
 
         :return: string representation of this object
         """
         return f"{self.x}, {self.y}, {self.z}"
 
-    def to_json(self):
+    def to_json(self) -> dict[str, float]:
         """Convert the instance to a json dictionary"""
         return {
             "latitude": self._latitude,
@@ -70,19 +72,19 @@ class Point:
         }
 
     @staticmethod
-    def from_json(json_dict):
+    def from_json(json_dict: dict[str, float]) -> "Point":
         """Fill the instance from a json dictionary"""
         loc = Point()
         loc.from_dict(json_dict)
         return loc
 
-    def from_dict(self, point_dict):
+    def from_dict(self, point_dict: dict[str, float]) -> None:
         """Fill the instance from a json dictionary"""
         self._latitude = point_dict.get("latitude", self._latitude)
         self._longitude = point_dict.get("longitude", self._longitude)
         self._altitude = point_dict.get("altitude", self._altitude)
 
-    def distance(self, other, units=DistanceUnits.METERS):
+    def distance(self, other: "Point", units: DistanceUnits = DistanceUnits.METERS) -> float:
         """Get the distance using the Haversine function. The function will
         determine the distance between this instance and another `Point`.
 
@@ -103,7 +105,7 @@ class Point:
 
         return haversine(self.as_tuple(), other.as_tuple(), hav_units)
 
-    def in_range(self, other, distance, units=DistanceUnits.METERS):
+    def in_range(self, other: "Point", distance: float, units: DistanceUnits = DistanceUnits.METERS) -> bool:
         """Deteremine if the points are within a specific distance of eachother.
 
         :param other: The other `Point`
@@ -118,7 +120,7 @@ class Point:
             return False
 
     @staticmethod
-    def parse(data):
+    def parse(data: str) -> "Point":
         """Parse the string containing lon, lat, alt [optional] values respectively.
 
         :param data: A string containing lon, lat, altitude.
@@ -140,7 +142,7 @@ class Point:
             raise  # save stack information
 
     @staticmethod
-    def parse_noaa_kml_format(data):
+    def parse_noaa_kml_format(data: str) -> "Point":
         """Parse the string containing lon, lat, alt [optional] values respectively.
         See `Point.parse` for implementation and notes.
         """

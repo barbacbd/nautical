@@ -6,17 +6,17 @@ from ..units import TimeUnits, convert_time
 __DT_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
-def get_current_time():
+def get_current_time() -> datetime:
     """Get current time in UTC timezone format"""
     return datetime.now().replace(tzinfo=timezone.utc)
 
 
-def get_time_str(dt_obj=get_current_time()):
+def get_time_str(dt_obj: datetime = get_current_time()) -> str:
     """Get the current time as a string"""
     return datetime.strftime(dt_obj, __DT_FORMAT)
 
 
-def get_time_diff(date_time_stamp: str, units=TimeUnits.MINUTES):
+def get_time_diff(date_time_stamp: str, units: TimeUnits = TimeUnits.MINUTES) -> int:
     """Pass in a string that contains the date and timestamp formatted in the same manner
     as `__DT_FORMAT` (see above for more information). The resulting time difference
     from now is returned with the units provided. All values _should_ use utc time.

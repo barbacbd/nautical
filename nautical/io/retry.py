@@ -5,14 +5,18 @@ This module provides intelligent retry mechanisms with exponential backoff,
 rate limit detection, and respect for HTTP Retry-After headers.
 """
 
+from __future__ import annotations
+
 import time
+from collections.abc import Callable
 from functools import wraps
+from typing import Any
 from socket import timeout as SocketTimeout
 from urllib.error import HTTPError, URLError
 
 from nautical.log import get_logger
 
-log = get_logger()
+log = get_logger(__name__)
 
 
 class RetryConfig:
@@ -29,13 +33,13 @@ class RetryConfig:
 
     def __init__(
         self,
-        max_retries=3,
-        initial_delay=1.0,
-        max_delay=60.0,
-        backoff_factor=2.0,
-        retry_on_status=None,
-        respect_retry_after=True,
-    ):
+        max_retries: int = 3,
+        initial_delay: float = 1.0,
+        max_delay: float = 60.0,
+        backoff_factor: float = 2.0,
+        retry_on_status: set[int] | None = None,
+        respect_retry_after: bool = True,
+    ) -> None:
         self.max_retries = max_retries
         self.initial_delay = initial_delay
         self.max_delay = max_delay
@@ -59,7 +63,7 @@ class RateLimiter:
         window_seconds: Time window in seconds (default: 60)
     """
 
-    def __init__(self, requests_per_window=30, window_seconds=60):
+    def __init__(self, requests_per_window: int = 30, window_seconds: int = 60) -> None:
         """Initialize rate limiter.
 
         Args:
@@ -72,7 +76,7 @@ class RateLimiter:
         self.last_update = time.time()
         self.min_interval = window_seconds / requests_per_window
 
-    def acquire(self):
+    def acquire(self) -> None:
         """Acquire a token, blocking if necessary.
 
         This method will sleep if no tokens are available, waiting until
@@ -91,7 +95,7 @@ class RateLimiter:
         if self.tokens < 1:
             # Need to wait for a token
             sleep_time = (1 - self.tokens) * self.window_seconds / self.requests_per_window
-            log.debug(f"Rate limit: sleeping {sleep_time:.2f}s for token")
+            log.debug("Rate limit: sleeping %.2fs for token", sleep_time)
             time.sleep(sleep_time)
             self.tokens = 1
             self.last_update = time.time()
@@ -109,7 +113,7 @@ class RateLimiter:
 _global_rate_limiter = RateLimiter(requests_per_window=30, window_seconds=60)
 
 
-def get_retry_delay(attempt, config, retry_after=None):
+def get_retry_delay(attempt: int, config: RetryConfig, retry_after: str | int | None = None) -> float:
     """Calculate delay before next retry attempt.
 
     Args:
@@ -125,11 +129,11 @@ def get_retry_delay(attempt, config, retry_after=None):
         try:
             # Retry-After can be seconds or HTTP-date
             delay = int(retry_after)
-            log.info(f"Server requested retry after {delay}s")
+            log.info("Server requested retry after %ds", delay)
             return min(delay, config.max_delay)
         except ValueError:
             # HTTP-date format - would need to parse, but just use default
-            log.warning(f"Could not parse Retry-After header: {retry_after}")
+            log.warning("Could not parse Retry-After header: %s", retry_after)
 
     # Exponential backoff: initial_delay * (backoff_factor ^ attempt)
     delay = config.initial_delay * (config.backoff_factor**attempt)
@@ -146,7 +150,7 @@ def get_retry_delay(attempt, config, retry_after=None):
     return min(delay, config.max_delay)
 
 
-def should_retry(error, config):
+def should_retry(error: Exception, config: RetryConfig) -> tuple[bool, str | None]:
     """Determine if an error should trigger a retry.
 
     Args:
@@ -165,17 +169,17 @@ def should_retry(error, config):
 
         # 429 (Too Many Requests) should always be retried
         if error.code == 429:
-            log.warning(f"Rate limited (HTTP 429)")
+            log.warning("Rate limited (HTTP 429)")
             return True, retry_after
 
         # Check if status code is in retry list
         if error.code in config.retry_on_status:
-            log.warning(f"Retryable HTTP error: {error.code}")
+            log.warning("Retryable HTTP error: %d", error.code)
             return True, retry_after
 
         # Don't retry client errors (4xx except 429)
         if 400 <= error.code < 500:
-            log.info(f"Client error {error.code}, not retrying")
+            log.info("Client error %d, not retrying", error.code)
             return False, None
 
     # Network timeouts and connection errors should be retried
@@ -186,7 +190,7 @@ def should_retry(error, config):
     return False, None
 
 
-def with_retry(config=None, rate_limiter=None):
+def with_retry(config: RetryConfig | None = None, rate_limiter: RateLimiter | None = None) -> Callable:
     """Decorator to add retry logic to a function.
 
     Args:
@@ -226,15 +230,15 @@ def with_retry(config=None, rate_limiter=None):
 
                     if not retry or attempt >= config.max_retries:
                         # Don't retry, or out of retries
-                        log.error(f"Request failed after {attempt + 1} attempts: {e}")
+                        log.error("Request failed after %d attempts: %s", attempt + 1, e)
                         raise
 
                     # Calculate delay
                     delay = get_retry_delay(attempt, config, retry_after)
 
                     log.info(
-                        f"Retry {attempt + 1}/{config.max_retries} "
-                        f"after {delay:.1f}s: {type(e).__name__}"
+                        "Retry %d/%d after %.1fs: %s",
+                        attempt + 1, config.max_retries, delay, type(e).__name__,
                     )
 
                     time.sleep(delay)
@@ -248,7 +252,7 @@ def with_retry(config=None, rate_limiter=None):
     return decorator
 
 
-def retry_request(func, config=None, rate_limiter=None, *args, **kwargs):
+def retry_request(func: Callable, config: RetryConfig | None = None, rate_limiter: RateLimiter | None = None, *args: Any, **kwargs: Any) -> Any:
     """Retry a function call with retry logic.
 
     Alternative to decorator when you can't use @with_retry.

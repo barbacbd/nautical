@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from copy import copy
 from warnings import warn
 
@@ -8,7 +10,7 @@ from nautical.noaa.buoy.buoy_data import BuoyData
 class Buoy:
     # pylint: disable=too-many-instance-attributes
 
-    def __init__(self, station, description: str = None, location=None) -> None:
+    def __init__(self, station: str, description: str | None = None, location: Point | None = None) -> None:
         """
         :param station: ID of the station
         :param description: snippet of information to describe this station
@@ -27,7 +29,7 @@ class Buoy:
         self.valid = False
 
     @property
-    def location(self):
+    def location(self) -> Point | None:
         """Location Property
 
         :return: Copy of the location (Point)
@@ -35,7 +37,7 @@ class Buoy:
         return copy(self._location)
 
     @location.setter
-    def location(self, loc):
+    def location(self, loc: Point) -> None:
         """Location setter/validity checker
 
         :param loc: Location or Point object to be set for the location of this instance
@@ -44,7 +46,7 @@ class Buoy:
             self._location = loc
 
     @property
-    def data(self):
+    def data(self) -> BuoyData | None:
         """Copy of `present` Property. This is an expansion function
         for use when the `past` was deprecated.
 
@@ -53,7 +55,7 @@ class Buoy:
         return self.present
 
     @property
-    def present(self):
+    def present(self) -> BuoyData | None:
         """Present Property, the present data stored in this instance.
         This is the most recent set of buoy data that was retrieved.
 
@@ -62,12 +64,12 @@ class Buoy:
         return copy(self._present)
 
     @data.setter
-    def data(self, present_data):
+    def data(self, present_data: BuoyData) -> None:
         """Data Setter/validity checker. See `present` setter for more information."""
         self.present = present_data
 
     @present.setter
-    def present(self, present_data):
+    def present(self, present_data: BuoyData) -> None:
         """Present Property Setter/validity Checker.
         If this instance of present data is a BuoyData object and the time is
         more recent that the previous present data, then the old present data
@@ -85,7 +87,7 @@ class Buoy:
             self._present = present_data
 
     @property
-    def past(self):
+    def past(self) -> list[BuoyData]:
         """Past Property.
 
         :return: all past instances of Buoy Data objects stored in this instance.
@@ -94,7 +96,7 @@ class Buoy:
         return self._past[:]
 
     @past.setter
-    def past(self, past_data):
+    def past(self, past_data: BuoyData | list[BuoyData]) -> None:
         """The user may pass in a single instance of NOAAData or a list of these
         objects to fill in the past data with.
 
@@ -108,7 +110,7 @@ class Buoy:
                 if isinstance(data, BuoyData):
                     self._update_past(data)
 
-    def _update_past(self, past_data):
+    def _update_past(self, past_data: BuoyData) -> None:
         """Attempt to update the past data, but make sure that this particular
         NOAA data does not already have a time entry that matches.
 
@@ -119,7 +121,7 @@ class Buoy:
         if not data:
             self._past.append(past_data)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """If the location of this buoy is known return the location and the name,
         otherwise just return the name
 
@@ -129,7 +131,7 @@ class Buoy:
             return str(self.station)
         return f"{self.station} at {str(self._location)}"
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         """The stations are considered equal if their station ID is the same as the
         station IDs are meant to be unique. The special case is `SHIP`.
 
@@ -138,14 +140,14 @@ class Buoy:
         """
         return isinstance(other, type(self)) and self.station == other.station
 
-    def __ne__(self, other):
+    def __ne__(self, other: object) -> bool:
         """See __eq__ for more information.
 
         :return: The opposite of __eq__ (==)
         """
         return not self.__eq__(other)
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         """The reason behind a private station and description is that they are used for the
         hash function. The hash shouldn't be able to change during execution.
 
@@ -157,7 +159,7 @@ class Buoy:
             else hash(str(self.station))
         )
 
-    def to_json(self):
+    def to_json(self) -> dict:
         """Create a json dictionary representation of this instance"""
         json_dict = {
             "station": self.station,
@@ -169,7 +171,7 @@ class Buoy:
         return json_dict
 
     @staticmethod
-    def from_json(json_dict):
+    def from_json(json_dict: dict) -> "Buoy":
         """Return a Buoy object created from a json dictionary"""
         buoy = Buoy("nautical_example")
         buoy.from_dict(json_dict)
@@ -179,7 +181,7 @@ class Buoy:
 
         return buoy
 
-    def from_dict(self, buoy_dict):
+    def from_dict(self, buoy_dict: dict) -> None:
         """Fill this instance from a dictionary"""
         if "station" in buoy_dict and buoy_dict["station"]:
             self.station = buoy_dict["station"]

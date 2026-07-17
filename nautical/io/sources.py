@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from copy import copy, deepcopy
 from urllib.error import URLError
 from urllib.request import urlopen
@@ -12,10 +14,10 @@ from nautical.noaa.buoy.source import Source, SourceType
 from .buoy import fill_buoy
 from .cdata import fill_buoy_with_cdata
 
-log = get_logger()
+log = get_logger(__name__)
 
 
-def get_buoy_sources(source_types=SourceType.ALL):
+def get_buoy_sources(source_types: SourceType | list[SourceType] = SourceType.ALL) -> dict[str, Source]:
     """NOAA is kind enough to provide all of names, ids, and other information about ALL
     of their known buoys in a kml document hosted at the link provided
     (https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml). Read through this document and
@@ -86,7 +88,7 @@ def get_buoy_sources(source_types=SourceType.ALL):
     return sources
 
 
-def validate_sources(source_data, remove_invalid=True):
+def validate_sources(source_data: dict[str, Source], remove_invalid: bool = True) -> dict[str, Source]:
     """This function is presumed to be executed after `get_buoy_sources`.
     The results of the previous function meet the requirements for the
     formatted parameter here. The function will attempt to parse all

@@ -1,14 +1,16 @@
+from __future__ import annotations
+
 from nautical.log import get_logger
 
 from .enums import Midday
 from .nautical_time import NauticalTime
 
-log = get_logger()
+log = get_logger(__name__)
 # constant value from HTML to create a non-breaking space value
 NON_BREAKING_SPACE = "&nbsp;"
 
 
-def convert_noaa_time(orig: str):
+def convert_noaa_time(orig: str) -> NauticalTime | None:
     """Convert the time value read in from the table that NOAA has hosted.
     The time string is formatted/encoded with HTML data. We need to remove that data
     then split the time up.

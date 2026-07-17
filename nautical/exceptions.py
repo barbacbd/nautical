@@ -33,6 +33,8 @@ Exception Hierarchy:
         └── DistanceCalculationError
 """
 
+from __future__ import annotations
+
 
 class NauticalError(Exception):
     """Base exception for all nautical package errors.
@@ -65,7 +67,7 @@ class InvalidBuoyDataError(DataError, ValueError):
         field: The specific field that caused the error (if applicable)
     """
 
-    def __init__(self, message, station=None, field=None):
+    def __init__(self, message: str, station: str | None = None, field: str | None = None) -> None:
         super().__init__(message)
         self.station = station
         self.field = field
@@ -114,7 +116,7 @@ class InvalidSourceDataError(DataError, ValueError):
         source_name: Name of the source (if available)
     """
 
-    def __init__(self, message, source_name=None):
+    def __init__(self, message: str, source_name: str | None = None) -> None:
         super().__init__(message)
         self.source_name = source_name
 
@@ -132,7 +134,7 @@ class CDataParsingError(ParsingError):
         raw_data: The raw CDATA that failed to parse (truncated if too long)
     """
 
-    def __init__(self, message, raw_data=None):
+    def __init__(self, message: str, raw_data: str | None = None) -> None:
         super().__init__(message)
         # Truncate raw_data if it's too long to avoid huge error messages
         if raw_data and len(str(raw_data)) > 200:
@@ -172,7 +174,7 @@ class InvalidUnitsError(ConversionError, KeyError):
         valid_units: List of valid units for the given type (if available)
     """
 
-    def __init__(self, message, unit=None, valid_units=None):
+    def __init__(self, message: str, unit: object = None, valid_units: list | None = None) -> None:
         super().__init__(message)
         self.unit = unit
         self.valid_units = valid_units
@@ -190,7 +192,7 @@ class UnitMismatchError(ConversionError, TypeError):
         to_unit: The target unit type
     """
 
-    def __init__(self, message, from_unit=None, to_unit=None):
+    def __init__(self, message: str, from_unit: object = None, to_unit: object = None) -> None:
         super().__init__(message)
         self.from_unit = from_unit
         self.to_unit = to_unit
@@ -228,7 +230,7 @@ class BuoyNotFoundError(NetworkError, ValueError):
         url: The URL that was attempted (if available)
     """
 
-    def __init__(self, message, station=None, url=None):
+    def __init__(self, message: str, station: str | None = None, url: str | None = None) -> None:
         super().__init__(message)
         self.station = station
         self.url = url
@@ -243,7 +245,13 @@ class NOAAServiceError(NetworkError):
         original_error: The underlying exception
     """
 
-    def __init__(self, message, url=None, status_code=None, original_error=None):
+    def __init__(
+        self,
+        message: str,
+        url: str | None = None,
+        status_code: int | None = None,
+        original_error: Exception | None = None,
+    ) -> None:
         super().__init__(message)
         self.url = url
         self.status_code = status_code
@@ -258,7 +266,7 @@ class NetworkTimeoutError(NetworkError):
         timeout: The timeout value in seconds
     """
 
-    def __init__(self, message, url=None, timeout=None):
+    def __init__(self, message: str, url: str | None = None, timeout: float | None = None) -> None:
         super().__init__(message)
         self.url = url
         self.timeout = timeout
@@ -284,7 +292,7 @@ class CacheNotFoundError(CacheError, FileNotFoundError):
         cache_path: The path to the cache file that was not found
     """
 
-    def __init__(self, message, cache_path=None):
+    def __init__(self, message: str, cache_path: str | None = None) -> None:
         super().__init__(message)
         self.cache_path = cache_path
 
@@ -297,7 +305,9 @@ class CacheWriteError(CacheError, IOError):
         original_error: The underlying exception
     """
 
-    def __init__(self, message, cache_path=None, original_error=None):
+    def __init__(
+        self, message: str, cache_path: str | None = None, original_error: Exception | None = None
+    ) -> None:
         super().__init__(message)
         self.cache_path = cache_path
         self.original_error = original_error
@@ -311,7 +321,9 @@ class CacheReadError(CacheError, IOError):
         original_error: The underlying exception
     """
 
-    def __init__(self, message, cache_path=None, original_error=None):
+    def __init__(
+        self, message: str, cache_path: str | None = None, original_error: Exception | None = None
+    ) -> None:
         super().__init__(message)
         self.cache_path = cache_path
         self.original_error = original_error
@@ -337,7 +349,7 @@ class InvalidCoordinatesError(LocationError, ValueError):
         coordinates: The invalid coordinate string or tuple
     """
 
-    def __init__(self, message, coordinates=None):
+    def __init__(self, message: str, coordinates: str | tuple | None = None) -> None:
         super().__init__(message)
         self.coordinates = coordinates
 
@@ -356,7 +368,14 @@ class OutOfBoundsError(LocationError, ValueError):
         bounds: The valid bounds as a tuple (min, max)
     """
 
-    def __init__(self, message, latitude=None, longitude=None, value=None, bounds=None):
+    def __init__(
+        self,
+        message: str,
+        latitude: float | None = None,
+        longitude: float | None = None,
+        value: float | None = None,
+        bounds: tuple[float, float] | None = None,
+    ) -> None:
         super().__init__(message)
         self.latitude = latitude
         self.longitude = longitude
@@ -376,7 +395,13 @@ class DistanceCalculationError(LocationError):
         original_error: The underlying exception
     """
 
-    def __init__(self, message, point1=None, point2=None, original_error=None):
+    def __init__(
+        self,
+        message: str,
+        point1: object = None,
+        point2: object = None,
+        original_error: Exception | None = None,
+    ) -> None:
         super().__init__(message)
         self.point1 = point1
         self.point2 = point2

@@ -15,7 +15,7 @@ _SeaStates = {
 }
 
 
-def sea_state(wvht: float, units: DistanceUnits = DistanceUnits.METERS):
+def sea_state(wvht: float, units: DistanceUnits = DistanceUnits.METERS) -> int:
     """If the provided wave height is not in meters, convert the wave height to
     meters and determine the minimum seastate that meets the requirements.
 

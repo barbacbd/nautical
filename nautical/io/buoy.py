@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from re import sub
 
 from bs4 import BeautifulSoup
@@ -7,10 +9,10 @@ from nautical.log import get_logger
 from nautical.noaa.buoy.buoy import Buoy
 from nautical.noaa.buoy.buoy_data import BuoyData
 
-log = get_logger()
+log = get_logger(__name__)
 
 
-def create_buoy(buoy):
+def create_buoy(buoy: str) -> Buoy | None:
     """Provide a full workup for a specific buoy. If the buoy is None or it cannot
     be found then the data returned will be considered invalid as None
 
@@ -29,7 +31,7 @@ def create_buoy(buoy):
     return buoy_data
 
 
-def fill_buoy(buoy):
+def fill_buoy(buoy: Buoy) -> None:
     """Pass in a Buoy object that needs to be filled in with the current data.
     The buoy object will have the validity set if the results were successful
 
@@ -46,7 +48,7 @@ def fill_buoy(buoy):
     buoy.present = current_buoy_data
 
 
-def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
+def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str | list[str]) -> bool:
     """Search the beautiful soup object for a TABLE containing the search string. The
     function will grab the data from the table and create a NOAAData object and return the data
 
@@ -86,9 +88,8 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str):
                         buoy_variables_set += 1
                     except (IndexError, TypeError, AttributeError) as error:
                         log.error(
-                            "{} - key_field: {}, key: {}, value: {}".format(
-                                error, key_data, key, value
-                            )
+                            "%s - key_field: %s, key: %s, value: %s",
+                            error, key_data, key, value,
                         )
 
     # no variables set indicates errors or invalid buoy

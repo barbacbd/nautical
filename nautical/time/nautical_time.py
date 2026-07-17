@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .enums import Midday, TimeFormat
 
 
@@ -8,7 +10,7 @@ class NauticalTime:
 
     __slots__ = ["_format", "_midday", "_minutes", "_hours"]
 
-    def __init__(self, fmt: TimeFormat = TimeFormat.HOUR_12):
+    def __init__(self, fmt: TimeFormat = TimeFormat.HOUR_12) -> None:
         """
         :param fmt: format for the time 12 vs 24 hour (default is TimeFormat.HOUR_12)
         """
@@ -18,7 +20,7 @@ class NauticalTime:
         self._hours = 0
 
     @property
-    def minutes(self):
+    def minutes(self) -> int:
         """Minutes Property
 
         :return: current minutes
@@ -26,7 +28,7 @@ class NauticalTime:
         return self._minutes
 
     @property
-    def hours(self):
+    def hours(self) -> int | tuple[int, Midday]:
         """Hours Property with instance format applied
 
         :return: current hour (am/pm if exists)
@@ -36,7 +38,7 @@ class NauticalTime:
         return self._hours % self._format.value
 
     @property
-    def fmt(self):
+    def fmt(self) -> TimeFormat:
         """Format Property, see `enums.TimeFormat` for more information.
 
         :return: current format (12 vs 24 hour)
@@ -44,7 +46,7 @@ class NauticalTime:
         return self._format
 
     @fmt.setter
-    def fmt(self, val):
+    def fmt(self, val: TimeFormat) -> None:
         """Adjust the hours and the midday (meridian) value accordingly
 
         :param val: TimeFormat that should be different that the current format.
@@ -62,7 +64,7 @@ class NauticalTime:
                 self._midday = None
 
     @minutes.setter
-    def minutes(self, minutes):
+    def minutes(self, minutes: int) -> None:
         """Minutes setter/validity checker.
 
         :param minutes: minutes provided should be no less than 0 and no greater than 59
@@ -71,7 +73,7 @@ class NauticalTime:
             self._minutes = minutes
 
     @hours.setter
-    def hours(self, data):
+    def hours(self, data: int | tuple[int, Midday | None]) -> None:
         """Make sure that the hours are valid. If the time is afternoon
         but the hours are less than 12 in a 12-hour format add 12 to
         convert to the 24 hour format, all other values are considered valid
@@ -98,7 +100,7 @@ class NauticalTime:
             else:
                 self._hours = hours
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return the 24 hour version of the hour and minutes. This class does not
         deal in seconds as the seconds are not provided by NOAA.
 

@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from collections.abc import Iterator
 from datetime import datetime, timezone
 from typing import Any
 
@@ -14,7 +17,7 @@ from nautical.units import (
     TimeUnits,
 )
 
-log = get_logger()
+log = get_logger(__name__)
 
 # Not sure why but this is the default value for NOAA data that is not present.
 # There may be times where we check against this value for validity/availability
@@ -76,7 +79,7 @@ buoy_vars = [
 ]
 
 
-def _find_parameter_units(key: str) -> str:
+def _find_parameter_units(key: str) -> object | None:
     """Function that will attempt to find the units associated
     with the key. If no units are found, None is returned.
 
@@ -115,7 +118,7 @@ class BuoyData:
 
     __slots__ = buoy_vars
 
-    def __init__(self):
+    def __init__(self) -> None:
         # initialize all slots to None
         for slot in self.__slots__:
             setattr(self, slot, None)
@@ -133,7 +136,7 @@ class BuoyData:
         self.time.hours = int(datetime.now().hour)
 
     @property
-    def epoch_time(self):
+    def epoch_time(self) -> int:
         """Epoch time property. Converts the nautical time to the epoch time.
         The function assumes that the data is in UTC time.
 
@@ -155,11 +158,11 @@ class BuoyData:
             )
         return 0
 
-    def __contains__(self, item):
+    def __contains__(self, item: str) -> bool:
         """Returns True when the value exists and is set"""
         return item in self.__slots__ and getattr(self, item, None) is not None
 
-    def __iter__(self):
+    def __iter__(self) -> "Iterator[tuple[str, Any]]":
         """Provide a user friendly mapping of variable names to values stored
         in this Buoy Data Object
         """
@@ -169,7 +172,7 @@ class BuoyData:
             if val:
                 yield slot, val
 
-    def to_json(self):
+    def to_json(self) -> dict:
         """Return the object as a json dict"""
         output = {k: v for k, v in self if k != "time"}
         if self.time:
@@ -177,13 +180,13 @@ class BuoyData:
         return output
 
     @staticmethod
-    def from_json(json_data):
+    def from_json(json_data: dict) -> "BuoyData":
         """Fill an instance from the json_data."""
         bd = BuoyData()
         bd.from_dict(json_data)
         return bd
 
-    def from_dict(self, buoy_data_dict: dict[str, Any]):
+    def from_dict(self, buoy_data_dict: dict[str, Any]) -> None:
         """Fill this object from the data stored in a dictionary where
         the key should match a slot or object variable
 
@@ -192,7 +195,7 @@ class BuoyData:
         for key, value in buoy_data_dict.items():
             self.set(key, value)
 
-    def set(self, key, value):
+    def set(self, key: str, value: Any) -> None:
         """Set a key, value pair. This function is intended to replace
         `__setattr__` for simplcity. The function will also attempt to convert
         the noaa time to a formatted time that is readable.
