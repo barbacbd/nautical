@@ -1,7 +1,7 @@
 # Github Documentation Generation
 
 The document provides instructions for generating the python documentation for the `Nautical` package.
-The documentation can be found [here](https://barbacbd.github.io/nautical/build/html/index.html). 
+The documentation can be found [here](https://barbacbd.github.io/nautical/build/html/index.html).
 
 # Location
 

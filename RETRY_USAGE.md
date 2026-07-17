@@ -215,7 +215,7 @@ from nautical.io.retry import with_retry, RetryConfig
 def fetch_all_buoys(station_ids):
     """Fetch multiple buoys with automatic retry and rate limiting."""
     buoys = []
-    
+
     for station_id in station_ids:
         try:
             # create_buoy internally uses get_url_source which has retry
@@ -225,7 +225,7 @@ def fetch_all_buoys(station_ids):
         except Exception as e:
             print(f"Failed to fetch {station_id}: {e}")
             continue
-    
+
     return buoys
 
 stations = ["44099", "44025", "44013"]
@@ -262,7 +262,7 @@ def fetch_with_fallback(station_id):
     try:
         # Try live data (with automatic retry)
         return get_url_source(f"https://...?station={station_id}")
-    
+
     except HTTPError as e:
         if e.code == 429:
             print(f"Rate limited for {station_id}, using cache")
@@ -270,7 +270,7 @@ def fetch_with_fallback(station_id):
             print(f"Server error for {station_id}, using cache")
         else:
             print(f"Request failed: {e}")
-        
+
         # Fallback to cache
         return load_from_cache(station_id)
 ```
@@ -373,7 +373,7 @@ import time
 def collect_buoy_data(station_ids):
     """Collect data from many buoys over time."""
     results = {}
-    
+
     for station_id in station_ids:
         try:
             # Automatic retry + rate limiting
@@ -381,7 +381,7 @@ def collect_buoy_data(station_ids):
             results[station_id] = buoy
         except Exception as e:
             print(f"Skipping {station_id}: {e}")
-    
+
     return results
 
 # Rate limiter ensures we don't overwhelm the server
@@ -403,7 +403,7 @@ while True:
             process_data(my_buoy)
     except Exception as e:
         log.error(f"Failed to update buoy: {e}")
-    
+
     time.sleep(300)  # 5 minutes
 ```
 

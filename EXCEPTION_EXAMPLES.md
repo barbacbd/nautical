@@ -43,7 +43,7 @@ def convert_temperature(value, init_units, final_units):
             unit=init_units,
             valid_units=list(TemperatureUnits)
         )
-    
+
     if not isinstance(final_units, TemperatureUnits):
         raise InvalidUnitsError(
             f"Invalid final temperature unit: {final_units!r}. "
@@ -51,7 +51,7 @@ def convert_temperature(value, init_units, final_units):
             unit=final_units,
             valid_units=list(TemperatureUnits)
         )
-    
+
     _temp = value if init_units in (TemperatureUnits.DEG_F,) else (9.0 / 5.0 * value) + 32.0
     return _temp if final_units in (TemperatureUnits.DEG_F,) else (_temp - 32) * 5.0 / 9.0
 ```
@@ -65,7 +65,7 @@ def convert_time(value, init_units, final_units):
     :param init_units: initial units for time
     :param final_units: desired time units
     :return: value converted from the initial units to the final units
-    :raises KeyError: 
+    :raises KeyError:
     '''
     try:
         return value * TimeLookup[init_units] / TimeLookup[final_units]
@@ -126,7 +126,7 @@ def convert(value, init_units, final_units):
         if callable(func):
             return func(value, init_units, final_units)
 
-    raise TypeError  # two types did not match 
+    raise TypeError  # two types did not match
 ```
 
 ### After
@@ -149,7 +149,7 @@ def convert(value, init_units, final_units):
             f"None values not allowed. Got: value={value!r}, "
             f"init_units={init_units!r}, final_units={final_units!r}"
         )
-    
+
     if not isinstance(final_units, type(init_units)):
         raise UnitMismatchError(
             f"Cannot convert between incompatible unit types: "
@@ -157,13 +157,13 @@ def convert(value, init_units, final_units):
             from_unit=init_units,
             to_unit=final_units
         )
-    
+
     func = ConversionLookup.get(type(init_units), None)
     if not callable(func):
         raise UnsupportedConversionError(
             f"No conversion function available for {type(init_units).__name__}"
         )
-    
+
     return func(value, init_units, final_units)
 ```
 
@@ -174,8 +174,8 @@ def convert(value, init_units, final_units):
 ### Before (lines 25-41)
 ```python
 def get_url_source(url_name):
-    '''If you already know the url_name or if you have run through the 
-    get_noaa_forecast_url(), then you can send in the url here. Get the source 
+    '''If you already know the url_name or if you have run through the
+    get_noaa_forecast_url(), then you can send in the url here. Get the source
     information for the url and place the information into a BeautifulSoup
     object, so that we can do any lookups of the data that we need.
 
@@ -213,19 +213,19 @@ def get_url_source(url_name):
     '''
     if not url_name:
         raise ValueError("url_name cannot be None or empty")
-    
+
     try:
         open_url = urlopen(url_name, timeout=30)
         soup = BeautifulSoup(open_url.read(), features="lxml")
         return soup
-    
+
     except HTTPError as e:
         if e.code == 404:
             # Extract station ID from URL if possible
             station = None
             if "station=" in url_name:
                 station = url_name.split("station=")[-1].split("&")[0]
-            
+
             raise BuoyNotFoundError(
                 f"Buoy station not found: {station or 'unknown'}",
                 station=station,
@@ -238,14 +238,14 @@ def get_url_source(url_name):
                 status_code=e.code,
                 original_error=e
             ) from e
-    
+
     except (URLError, SocketTimeout) as e:
         raise NetworkTimeoutError(
             f"Request to NOAA service timed out: {url_name}",
             url=url_name,
             timeout=30
         ) from e
-    
+
     except (AttributeError, TypeError, ValueError) as e:
         raise NOAAServiceError(
             f"Failed to parse NOAA response: {e}",
@@ -263,7 +263,7 @@ def get_url_source(url_name):
 def parse_winds(wind_data):
     '''Parse the wind information. The wind data includes
     a direction, speed in knots, as well as the gust speed
-    
+
     :param wind_data: String containing the wind string
     :return: Dictionary containing the windspeed and gust information
     '''
@@ -294,7 +294,7 @@ from nautical.exceptions import InvalidWindDataError
 
 def parse_winds(wind_data):
     '''Parse the wind information from CDATA.
-    
+
     :param wind_data: String containing wind direction and speeds
     :return: Dictionary containing the windspeed and gust information
     :raises InvalidWindDataError: If wind_data cannot be parsed or is invalid
@@ -303,7 +303,7 @@ def parse_winds(wind_data):
         raise InvalidWindDataError(
             f"Wind data must be a non-empty string, got: {wind_data!r}"
         )
-    
+
     split_wind_data = wind_data.split()
     wind_speed = None
     gusts = None
@@ -321,7 +321,7 @@ def parse_winds(wind_data):
             # Skip non-numeric values (e.g., direction indicators)
             log.debug(f"Skipping non-numeric wind data: {data_point}")
             continue
-    
+
     # Validate that we got at least wind speed
     if wind_speed is None:
         raise InvalidWindDataError(
@@ -357,7 +357,7 @@ from nautical.exceptions import OutOfBoundsError
 
 def set_latitude(self, latitude):
     '''Set the latitude with validation.
-    
+
     :param latitude: Latitude in degrees
     :raises OutOfBoundsError: If latitude is outside valid range (-90, 90)
     :raises TypeError: If latitude is not numeric
@@ -366,7 +366,7 @@ def set_latitude(self, latitude):
         lat = float(latitude)
     except (TypeError, ValueError) as e:
         raise TypeError(f"Latitude must be numeric, got: {latitude!r}") from e
-    
+
     if lat > 90 or lat < -90:
         raise OutOfBoundsError(
             f"Latitude must be in range (-90, 90), got: {lat}",
@@ -374,13 +374,13 @@ def set_latitude(self, latitude):
             value=lat,
             bounds=(-90, 90)
         )
-    
+
     self.latitude = lat
 
 
 def set_longitude(self, longitude):
     '''Set the longitude with validation.
-    
+
     :param longitude: Longitude in degrees
     :raises OutOfBoundsError: If longitude is outside valid range (-180, 180)
     :raises TypeError: If longitude is not numeric
@@ -389,7 +389,7 @@ def set_longitude(self, longitude):
         lon = float(longitude)
     except (TypeError, ValueError) as e:
         raise TypeError(f"Longitude must be numeric, got: {longitude!r}") from e
-    
+
     if lon > 180 or lon < -180:
         raise OutOfBoundsError(
             f"Longitude must be in range (-180, 180), got: {lon}",
@@ -397,7 +397,7 @@ def set_longitude(self, longitude):
             value=lon,
             bounds=(-180, 180)
         )
-    
+
     self.longitude = lon
 ```
 
@@ -433,12 +433,12 @@ def fetch_buoy_with_retry(station_id, max_retries=3):
     for attempt in range(max_retries):
         try:
             return create_buoy(station_id)
-        
+
         except BuoyNotFoundError as e:
             # Don't retry - buoy doesn't exist
             print(f"Buoy {e.station} not found")
             return None
-        
+
         except NetworkTimeoutError as e:
             # Retry with exponential backoff
             if attempt < max_retries - 1:
@@ -448,13 +448,13 @@ def fetch_buoy_with_retry(station_id, max_retries=3):
             else:
                 print(f"Failed after {max_retries} attempts")
                 raise
-        
+
         except InvalidBuoyDataError as e:
             # Data is corrupted - log and try cache
             print(f"Invalid data for {e.station}: {e}")
             # Try to load from cache instead
             return load_from_cache(station_id)
-        
+
         except NOAAServiceError as e:
             # Service is down - wait longer
             if attempt < max_retries - 1:
@@ -463,7 +463,7 @@ def fetch_buoy_with_retry(station_id, max_retries=3):
                 time.sleep(wait)
             else:
                 raise
-        
+
         except NauticalError as e:
             # Unknown nautical error
             print(f"Unexpected nautical error: {e}")
@@ -485,10 +485,10 @@ def test_convert_temperature_invalid_init_units():
     '''Test that InvalidUnitsError is raised for invalid init_units.'''
     with pytest.raises(InvalidUnitsError) as exc_info:
         convert_temperature(100, "invalid", TemperatureUnits.DEG_C)
-    
+
     # Check error message
     assert "Invalid initial temperature unit" in str(exc_info.value)
-    
+
     # Check attributes
     assert exc_info.value.unit == "invalid"
     assert exc_info.value.valid_units is not None
@@ -498,7 +498,7 @@ def test_convert_temperature_invalid_final_units():
     '''Test that InvalidUnitsError is raised for invalid final_units.'''
     with pytest.raises(InvalidUnitsError) as exc_info:
         convert_temperature(100, TemperatureUnits.DEG_F, None)
-    
+
     assert exc_info.value.unit is None
 
 
@@ -507,7 +507,7 @@ def test_exception_inheritance():
     # InvalidUnitsError inherits from KeyError
     with pytest.raises(KeyError):
         convert_temperature(100, "bad", TemperatureUnits.DEG_C)
-    
+
     # More specific catch works too
     with pytest.raises(InvalidUnitsError):
         convert_temperature(100, "bad", TemperatureUnits.DEG_C)

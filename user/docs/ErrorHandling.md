@@ -75,33 +75,33 @@ def fetch_buoy_safe(station_id):
     """Fetch buoy data with comprehensive error handling."""
     try:
         buoy = create_buoy(station_id)
-        
+
         if not buoy or not buoy.valid:
             print(f"Warning: Buoy {station_id} returned invalid data")
             return None
-            
+
         return buoy
-        
+
     except BuoyNotFoundError as e:
         # Station doesn't exist - don't retry
         print(f"Buoy station '{e.station}' not found at {e.url}")
         print("Please verify the station ID is correct")
         return None
-        
+
     except NetworkTimeoutError as e:
         # Network timeout - can retry
         print(f"Request to {e.url} timed out after {e.timeout}s")
         print("The NOAA service may be slow or unavailable")
         # Caller can implement retry logic
         raise
-        
+
     except NOAAServiceError as e:
         # NOAA service error
         print(f"NOAA service error (HTTP {e.status_code}): {e}")
         if e.status_code >= 500:
             print("NOAA servers may be experiencing issues - try again later")
         raise
-        
+
     except InvalidBuoyDataError as e:
         # Data parsing failed
         print(f"Failed to parse buoy data for {e.station}")
@@ -109,7 +109,7 @@ def fetch_buoy_safe(station_id):
             print(f"Problem with field: {e.field}")
         # Try to load from cache as fallback
         return load_from_cache(station_id)
-        
+
     except NauticalError as e:
         # Catch-all for other nautical errors
         print(f"Unexpected error fetching buoy: {e}")
@@ -125,11 +125,11 @@ from nautical.exceptions import NetworkTimeoutError, NOAAServiceError
 def fetch_buoy_with_retry(station_id, max_retries=3, timeout=30):
     """Fetch buoy data with exponential backoff retry."""
     last_error = None
-    
+
     for attempt in range(max_retries):
         try:
             return create_buoy(station_id)
-            
+
         except NetworkTimeoutError as e:
             last_error = e
             if attempt < max_retries - 1:
@@ -137,7 +137,7 @@ def fetch_buoy_with_retry(station_id, max_retries=3, timeout=30):
                 print(f"Timeout (attempt {attempt + 1}/{max_retries}), "
                       f"retrying in {wait}s...")
                 time.sleep(wait)
-            
+
         except NOAAServiceError as e:
             last_error = e
             # Only retry on server errors (5xx), not client errors (4xx)
@@ -152,7 +152,7 @@ def fetch_buoy_with_retry(station_id, max_retries=3, timeout=30):
             else:
                 # Don't retry client errors
                 raise
-    
+
     # All retries exhausted
     if last_error:
         raise last_error
@@ -174,19 +174,19 @@ def safe_convert(value, from_unit, to_unit):
     """Convert units with error handling."""
     try:
         return convert(value, from_unit, to_unit)
-        
+
     except InvalidUnitsError as e:
         print(f"Invalid unit: {e.unit}")
         if e.valid_units:
             print(f"Valid units: {e.valid_units}")
         return None
-        
+
     except UnitMismatchError as e:
         print(f"Cannot convert {type(e.from_unit).__name__} "
               f"to {type(e.to_unit).__name__}")
         print("Units must be of the same type (e.g., both temperature)")
         return None
-        
+
     except ConversionError as e:
         print(f"Conversion failed: {e}")
         return None
@@ -214,19 +214,19 @@ def load_cached_buoys(cache_file=None):
     """Load buoys from cache with error handling."""
     try:
         return load(cache_file)
-        
+
     except CacheNotFoundError as e:
         print(f"Cache file not found: {e.cache_path}")
         print("Creating new cache...")
         return {}
-        
+
     except CacheReadError as e:
         print(f"Failed to read cache: {e.cache_path}")
         if e.original_error:
             print(f"Underlying error: {e.original_error}")
         # Corrupt cache - delete and start fresh
         return {}
-        
+
     except CacheError as e:
         print(f"Cache error: {e}")
         return {}
@@ -236,7 +236,7 @@ def save_to_cache(data, cache_file=None):
     try:
         dumps(data, cache_file)
         print("Cache saved successfully")
-        
+
     except CacheWriteError as e:
         print(f"Failed to write cache: {e.cache_path}")
         if e.original_error:
@@ -262,17 +262,17 @@ def create_point_safe(lat, lon):
     try:
         point = Point(lat, lon)
         return point
-        
+
     except OutOfBoundsError as e:
         print(f"Coordinate out of bounds: {e.value}")
         if e.bounds:
             print(f"Valid range: {e.bounds}")
         return None
-        
+
     except InvalidCoordinatesError as e:
         print(f"Invalid coordinates: {e.coordinates}")
         return None
-        
+
     except LocationError as e:
         print(f"Location error: {e}")
         return None
@@ -284,13 +284,13 @@ def calculate_distance_safe(point1, point2):
         if err:
             raise err
         return distance
-        
+
     except DistanceCalculationError as e:
         print(f"Distance calculation failed between {e.point1} and {e.point2}")
         if e.original_error:
             print(f"Reason: {e.original_error}")
         return None
-        
+
     except LocationError as e:
         print(f"Location error: {e}")
         return None
@@ -329,7 +329,7 @@ try:
 except BuoyNotFoundError as e:
     # Good - use exception attributes
     log_error(f"Station {e.station} not found at {e.url}")
-    
+
     # Not as good - less informative
     log_error(str(e))
 ```

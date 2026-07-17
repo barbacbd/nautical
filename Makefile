@@ -1,4 +1,7 @@
-.PHONY: install test test-py test-go lint lint-py format format-py format-go format-check format-check-py format-check-go coverage coverage-py coverage-go clean
+.PHONY: setup install test test-py test-go lint lint-py format format-py format-go format-check format-check-py format-check-go coverage coverage-py coverage-go clean
+
+setup: install
+	pre-commit install
 
 install:
 	pip install ".[test]" --upgrade

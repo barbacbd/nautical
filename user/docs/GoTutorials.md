@@ -1,6 +1,6 @@
 # Nautical GO Tutorials
 
-The document contains the tutorials/examples for the GO package. 
+The document contains the tutorials/examples for the GO package.
 <br>
 <br>
 **Note**: _If you are familiar with the python package, please be advised that the go package is structured differently because of the required imports_.
@@ -90,7 +90,7 @@ geometry := []Point{
 }
 
 pointToCheck := Point{
-    Latitude: latitude, 
+    Latitude: latitude,
     Longitude: longitude
 }
 
@@ -100,7 +100,7 @@ if err != nil {
 }
 
 if inArea {
-    // do something 
+    // do something
 } else {
     // do something else
 }
@@ -113,10 +113,10 @@ geometry := []Point{
     Point{}, Point{}, Point{}, Point{}
 }
 buoy := Buoy{
-    Station: "test", 
-    Description: "this is a test", 
+    Station: "test",
+    Description: "this is a test",
     Location: Point{
-        Latitude:latitude, 
+        Latitude:latitude,
         Longitude: longitude
     }
 }
@@ -127,7 +127,7 @@ if err != nil {
 }
 
 if inArea {
-    // do something 
+    // do something
 } else {
     // do something else
 }
@@ -143,12 +143,12 @@ geometry := []Point{
 }
 
 pointOne := Point{
-    Latitude: latitude, 
+    Latitude: latitude,
     Longitude: longitude
 }
 
 pointTwo := Point{
-    Latitude: latitude, 
+    Latitude: latitude,
     Longitude: longitude
 }
 
@@ -170,7 +170,7 @@ if inRange {
 <br>
 <br>
 
-# Cache 
+# Cache
 
 The following sections are provided as examples in the [cache package](https://github.com/barbacbd/nautical/blob/master/pkg/cache/).
 

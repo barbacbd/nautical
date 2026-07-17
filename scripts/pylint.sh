@@ -4,7 +4,7 @@
 # This script is meant to execute from the home
 # directory of the project. It will establish
 # a python virtual environment, run the
-# Static Code Analysis for the project and 
+# Static Code Analysis for the project and
 # teardown the virtual environment.
 #----------------------------------------------
 
@@ -21,7 +21,7 @@ if [[ "$pyv" < "3.9" ]]; then
 fi
 
 # determine if we created the virtual environment or someone else did
-[ -d "venv" ] && created=0 ||  created=1 
+[ -d "venv" ] && created=0 ||  created=1
 if [ -d "venv" ]; then
     echo "virtual environment detected. Initializing ..."
     echo "";
@@ -35,7 +35,7 @@ source venv/bin/activate;
 # install the python package with test dependencies
 pip install ".[test]" --upgrade;
 
-[ -f ".pylintrc" ] && created_pylintrc=0 ||  created_pylintrc=1 
+[ -f ".pylintrc" ] && created_pylintrc=0 ||  created_pylintrc=1
 if [ ! -f ".pylintrc" ]; then
     echo "Pulling pylintrc file ...";
     wget https://raw.githubusercontent.com/barbacbd/tools/main/lint/python/.pylintrc;
@@ -57,7 +57,3 @@ if [[ $created == 1 ]]; then
     echo "Removing venv ...";
     rm -rf venv
 fi
-
-
-
-

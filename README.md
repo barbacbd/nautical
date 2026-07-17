@@ -6,7 +6,7 @@
 </h1>
 
 <h2 align="center">
-  
+
 [![Build-Linux](https://github.com/barbacbd/nautical/actions/workflows/python-app-linux.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-linux.yml) [![Build-OSX](https://github.com/barbacbd/nautical/actions/workflows/python-app-osx.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-osx.yml) [![Build-Windows](https://github.com/barbacbd/nautical/actions/workflows/python-app-windows.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-windows.yml)
 
 [![PyPI version fury.io](https://badge.fury.io/py/nautical.svg)](https://pypi.python.org/pypi/nautical/) [![GitHub latest commit](https://badgen.net/github/last-commit/barbacbd/nautical)](https://github.com/barbacbd/nautical/commit/) ![Python Code Coverage](https://raw.githubusercontent.com/barbacbd/nautical/master/.cov/coverage-badge.svg)
@@ -15,11 +15,11 @@
 
 # Description
 
-Ahoy! Whether you've got your sea legs under yeh', or you're just looking to get those toes wet, you have discovered Nautical. Nautical is a web scraper that allows its users to parse real time data from [NOAA's](https://www.ndbc.noaa.gov/) buoys. You can try Nautical as a python or GO package! Nautical was created for research and data logging purposes, but there are many more possibilities for users to discover. 
+Ahoy! Whether you've got your sea legs under yeh', or you're just looking to get those toes wet, you have discovered Nautical. Nautical is a web scraper that allows its users to parse real time data from [NOAA's](https://www.ndbc.noaa.gov/) buoys. You can try Nautical as a python or GO package! Nautical was created for research and data logging purposes, but there are many more possibilities for users to discover.
 
 **Python**: The package includes custom exception classes for better error handling. See the [error handling tutorial](https://github.com/barbacbd/nautical/blob/master/user/docs/PythonTutorials.md#error-handling) for examples of handling network errors, invalid data, and other common scenarios.
 
-If you would like to view the python documentation follow the [link to nautical's python documentation](https://barbacbd.github.io/nautical/build/html/index.html). 
+If you would like to view the python documentation follow the [link to nautical's python documentation](https://barbacbd.github.io/nautical/build/html/index.html).
 
 If you would like to view the GO documentation follow the [link to nautical's GO documentation](https://pkg.go.dev/github.com/barbacbd/nautical).
 
@@ -43,11 +43,11 @@ If you would like to view the GO documentation follow the [link to nautical's GO
 
 # Features
 
-The following are a set of features and/or data that can be accessed via the package. 
+The following are a set of features and/or data that can be accessed via the package.
 
 ## Sources
 
-A source is a group of buoys. The source can be thought of as a sponsor or owner of the group/set of buoys. The source may be used as an indicator of the type of data that is stored in a buoy object. 
+A source is a group of buoys. The source can be thought of as a sponsor or owner of the group/set of buoys. The source may be used as an indicator of the type of data that is stored in a buoy object.
 
 **Note**: The `TAO` and `Tsunami` sources are not available in any regard.
 
@@ -90,7 +90,7 @@ The cache can be used to save and load information about buoys and sources. The 
 
 **Note**: _[Nautical cache](https://github.com/barbacbd/nautical/blob/master/nautical/cache/) was added in version 3.1.0_.
 
-# Prerequisites 
+# Prerequisites
 
 The python package requires `python>=3.8`. You can use a package manager to install a version of python that satifies the requirements, or you may manually install python from the [website](https://www.python.org/downloads/).
 <br>
@@ -115,7 +115,7 @@ Follow the link to view the [tutorials for the go package](https://github.com/ba
 
 # Testing
 
-## Python 
+## Python
 
 All python tests are located in the [tests](https://github.com/barbacbd/nautical/tree/master/tests) directory.
 

@@ -51,7 +51,7 @@ Define all custom exception classes with helpful docstrings and optional context
 
 #### `nautical/io/web.py`
 - **Current**: Catches `(AttributeError, TypeError, ValueError, HTTPError)` and re-raises
-- **Proposed**: 
+- **Proposed**:
   - Wrap in `NOAAServiceError` with URL and error details
   - Use `BuoyNotFoundError` for 404 responses
   - Use `NetworkTimeoutError` for timeout scenarios
@@ -142,7 +142,7 @@ except KeyError as e:
 ### 5. Backward Compatibility
 To maintain backward compatibility during transition:
 - Make custom exceptions inherit from the original exception types where appropriate
-  - `InvalidUnitsError(ValueError, NauticalError)` 
+  - `InvalidUnitsError(ValueError, NauticalError)`
   - `InvalidCoordinatesError(ValueError, NauticalError)`
 - This allows existing except clauses to still catch them
 

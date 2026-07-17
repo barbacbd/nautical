@@ -18,6 +18,7 @@ Both Python and Go packages mirror the same module layout: `cache`, `io`, `locat
 ## Quick reference
 
 ```sh
+make setup         # install package + activate pre-commit hooks
 make install       # pip install ".[test]" --upgrade
 make test          # run both Python and Go tests
 make test-py       # pytest --cov=tests
@@ -45,7 +46,7 @@ go tool cover -func=coverage.out
 
 ## CI
 
-- **Python**: tests run on Ubuntu, macOS, and Windows across Python 3.8–3.13
+- **Python**: tests run on Ubuntu, macOS, and Windows across Python 3.9–3.13
 - **Go**: tests run on Ubuntu with race detector enabled
 - **Coverage**: badge workflows auto-commit to `master` on push
 - **Deploy**: PyPI publish triggered by GitHub release events
@@ -60,4 +61,4 @@ go tool cover -func=coverage.out
 - Retry/rate-limiting decorator (`@with_retry`) for web requests — see `RETRY_USAGE.md`
 - Go structs use JSON/XML struct tags for serialization
 - Formatting enforced via `ruff` (Python) and `gofmt` (Go) — CI checks on push and PRs
-- No pre-commit hooks configured
+- Pre-commit hooks configured (`.pre-commit-config.yaml`) — run `make setup` to activate

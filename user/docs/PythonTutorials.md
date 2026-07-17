@@ -209,7 +209,7 @@ validated_sources = validate_sources(sources)
 
 The default configuration (above) will filter out any buoys that were not valid when they were filled
 using `fill_buoy`. If the user wishes to keep all buoys, pass `False` as the second argument to the function.
-In the event that a source has _no valid buoys_, the source will *not* be returned in the new dictionary. 
+In the event that a source has _no valid buoys_, the source will *not* be returned in the new dictionary.
 
 
 # Location
@@ -290,7 +290,7 @@ if point_1.in_range(point_2, 1000.0):
 ```
 
 
-# Cache 
+# Cache
 
 The following sections are provided as examples in the [cache module](https://github.com/barbacbd/nautical/blob/master/nautical/cache/).
 
@@ -304,7 +304,7 @@ from nautical.cache import dump
 from nautical.noaa.buoy import Buoy, Source
 
 buoy1 = Buoy.from_json(
-   {   
+   {
             "data": {
                'wdir': "ESE", 'wspd': 10.2, 'gst': 15.9,
                'wspd10m': 10.4, 'wspd20m': 13.4,
@@ -324,7 +324,7 @@ buoy1 = Buoy.from_json(
             }
       }
 )
-        
+
 source1 = Source.from_json(
    {
       "buoys": [
@@ -339,7 +339,7 @@ source1 = Source.from_json(
                   'pres': 1.8, 'ptdy': 1.8,
                   'atmp': 76.5, 'wtmp': 65.3, 'otmp': 65.3, 'dewp': 85.0,
                   'time': '09:34:00', 'dd': 10, 'mm': 1, 'year': 2020
-               }            
+               }
             }
       ],
       "name": "TestSource",
@@ -349,7 +349,7 @@ source1 = Source.from_json(
 
 ```
 
-Add the data to a dictionary that will contain the cached data to be saved. 
+Add the data to a dictionary that will contain the cached data to be saved.
 The following keys are allowed:
 - "BUOYS"
 - "SOURCES"
@@ -358,7 +358,7 @@ The following keys are allowed:
 **Note**: _See the [CacheData enumeration](https://github.com/barbacbd/nautical/blob/master/nautical/cache/file.py#l25) for more information_.
 <br>
 <br>
-```python    
+```python
 cache_data = {
    CacheData.BUOYS.name: [buoy1, buoy2],
    CacheData.SOURCES.name: [source1, source2]

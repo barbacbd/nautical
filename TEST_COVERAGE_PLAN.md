@@ -72,7 +72,7 @@ func TestGetAliases(t *testing.T) {
         Field2 int    `json:"field2"`
         Field3 bool   `json:"field3,omitempty"`
     }
-    
+
     aliases := GetAliases(TestStruct{})
     // Verify alias map is correct
 }
@@ -116,19 +116,19 @@ func TestFilterSourcesByType(t *testing.T) {
 // pkg/time/nautical_time_test.go
 func TestNauticalTimeGettersSetters(t *testing.T) {
     nt := &NauticalTime{}
-    
+
     // Test SetMinutes
     nt.SetMinutes(30)
     assert.Equal(t, 30, nt.Minutes)
-    
+
     // Test GetHours
     nt.Hours = 14
     assert.Equal(t, 14, nt.GetHours())
-    
+
     // Test SetHours with validation
     err := nt.SetHours(25) // Invalid
     assert.Error(t, err)
-    
+
     // Test SetFormat
     nt.SetFormat(HOUR_24)
     assert.Equal(t, HOUR_24, nt.Format)
@@ -165,11 +165,11 @@ func TestFindCacheDir(t *testing.T) {
     // Test with NAUTICAL_CACHE_DIR env var set
     os.Setenv("NAUTICAL_CACHE_DIR", "/tmp/test-cache")
     defer os.Unsetenv("NAUTICAL_CACHE_DIR")
-    
+
     dir, err := FindCacheDir()
     assert.NoError(t, err)
     assert.Equal(t, "/tmp/test-cache", dir)
-    
+
     // Test default behavior per OS
     os.Unsetenv("NAUTICAL_CACHE_DIR")
     dir, err = FindCacheDir()
@@ -180,11 +180,11 @@ func TestFindCacheDir(t *testing.T) {
 func TestCopyCurrentCacheWithTimestamp(t *testing.T) {
     // Create test cache
     cache := &NauticalCacheData{Filename: "/tmp/test.json"}
-    
+
     // Copy with timestamp
     err := cache.CopyCurrentCacheWithTimestamp()
     assert.NoError(t, err)
-    
+
     // Verify new filename contains timestamp
     assert.Contains(t, cache.Filename, "test")
     assert.Regexp(t, `\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}`, cache.Filename)
@@ -248,14 +248,14 @@ def test_get_url_source_rate_limiting():
 def test_create_buoy_raises_buoy_not_found():
     """Test that invalid buoy raises BuoyNotFoundError."""
     from nautical.exceptions import BuoyNotFoundError
-    
+
     with pytest.raises(BuoyNotFoundError):
         create_buoy("INVALID_BUOY_ID_12345")
 
 def test_convert_units_raises_invalid_units():
     """Test that invalid units raise InvalidUnitsError."""
     from nautical.exceptions import InvalidUnitsError
-    
+
     with pytest.raises(InvalidUnitsError):
         convert_temperature(100, "invalid", TemperatureUnits.DEG_C)
 ```
@@ -284,7 +284,7 @@ func TestParseWithErrors(t *testing.T) {
 func TestNilInputs(t *testing.T) {
     _, err := GetDistance(nil, &Point{})
     assert.Error(t, err)
-    
+
     _, err = InRange(nil, nil, 100.0)
     assert.Error(t, err)
 }
@@ -295,7 +295,7 @@ func TestBoundaryConditions(t *testing.T) {
     p := Point{}
     err := p.SetLatitude(90.0)  // Max valid
     assert.NoError(t, err)
-    
+
     err = p.SetLatitude(90.1)   // Just over
     assert.Error(t, err)
 }
@@ -312,15 +312,15 @@ def test_full_buoy_workflow():
     # 1. Fetch buoy data
     buoy = create_buoy("44099")
     assert buoy.valid
-    
+
     # 2. Save to cache
     cache_data = {CacheData.BUOYS.name: [buoy]}
     dumps(cache_data)
-    
+
     # 3. Load from cache
     loaded = load()
     assert len(loaded[CacheData.BUOYS.name]) == 1
-    
+
     # 4. Verify data matches
     assert loaded[CacheData.BUOYS.name][0].station == "44099"
 
@@ -328,7 +328,7 @@ def test_source_filtering_workflow():
     """Test fetching and filtering sources."""
     sources = get_buoy_sources()
     assert len(sources) > 0
-    
+
     filtered = FilterSourcesByType(sources, SourceType.SHIPS)
     for source in filtered:
         assert source.type == SourceType.SHIPS
@@ -340,7 +340,7 @@ def test_source_filtering_workflow():
 func BenchmarkGetDistance(b *testing.B) {
     p1 := Point{Latitude: 36.0, Longitude: -75.0}
     p2 := Point{Latitude: 37.0, Longitude: -76.0}
-    
+
     for i := 0; i < b.N; i++ {
         _, _ = p1.GetDistance(&p2)
     }
@@ -352,7 +352,7 @@ func TestLargeDataSet(t *testing.T) {
     for i := range buoys {
         buoys[i] = Buoy{Station: fmt.Sprintf("TEST%d", i)}
     }
-    
+
     // Verify cache can handle it
     cache := NauticalCache{Buoys: buoys}
     // ... test operations

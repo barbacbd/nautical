@@ -23,7 +23,7 @@ if [[ "$pyv" < "3.9" ]]; then
 fi
 
 # determine if we created the virtual environment or someone else did
-[ -d "venv" ] && created=0 ||  created=1 
+[ -d "venv" ] && created=0 ||  created=1
 if [ -d "venv" ]; then
     echo "virtual environment detected. Initializing ..."
     echo "";

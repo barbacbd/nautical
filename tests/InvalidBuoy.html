@@ -55,10 +55,10 @@
   	var currentstnname = '';
   	var currentstndata = 'n';
     require([
-			"esri/map", 
-			"dojo/dom", 
-			"dojo/on", 
-			"dojo/dom-class", 
+			"esri/map",
+			"dojo/dom",
+			"dojo/on",
+			"dojo/dom-class",
 			"dijit/TooltipDialog",
 			"dijit/popup",
 			"esri/config",
@@ -72,7 +72,7 @@
 			"dojo/_base/array",
 			"dojo/cookie",
 			"dojo/has",
-			"dojo/domReady!"], 
+			"dojo/domReady!"],
 			function(Map,dom,on,domClass,TooltipDialog,dijitPopup,Config,Graphic,esriLang,FeatureLayer,ArcGISTiledMapServiceLayer,Point,esriRequest,domStyle,array,cookie,has) {
     	var touchscreen = false;
     	if (has("touch")) { touchscreen = true; }
@@ -113,7 +113,7 @@
 		        }
 		    }
 		}
-		
+
         function changeLayer(layerChosen,layerName) {
         	setSelectedValue(dom.byId("basemap-selected"),layerName);
         	var satellite_ref_layer = "";
@@ -145,7 +145,7 @@
 		    			  changeLayer(bmList[x],x)
 		    		  }
 		    	  }
-		      }      
+		      }
 		});
 		var featureCollection = {
   				"layerDefinition": null,
@@ -267,7 +267,7 @@
 					 map.on("layers-add-result", function(results) {
           	requestStations();
         	});
-					map.addLayers([featureLayer]);	
+					map.addLayers([featureLayer]);
 
           dialog = new TooltipDialog({
 						id: "tooltipDialog",
@@ -277,7 +277,7 @@
           map.on("load", function(){
 	          map.graphics.enableMouseEvents();
 	        });
-          
+
           if (!touchscreen) {
 	       	  featureLayer.on("mouse-over", function(evt){
 	        	  if (evt.graphic.attributes.id != currentstnid) { map.setMapCursor('pointer'); }
@@ -286,7 +286,7 @@
 	        	  dialog.setContent(content);
 	        	  domStyle.set(dialog.domNode, "opacity", 0.85);
 	        	  dijitPopup.open({
-	        		  popup: dialog, 
+	        		  popup: dialog,
 	        		  x: evt.pageX,
 	        		  y: evt.pageY
 	        	  });
@@ -296,7 +296,7 @@
 				map.setMapCursor('default');
 			});
           }
-				
+
 	featureLayer.on("click",function(evt) {
 		if (evt.graphic.attributes.seq == null) {
 			if (evt.graphic.attributes.id == currentstnid) { return; }
@@ -305,7 +305,7 @@
 			location.href = "http://tao.ndbc.noaa.gov/refreshed/site.php?site="+evt.graphic.attributes.seq;
 		}
 	});
-					
+
         function closeDialog() {
 	          map.graphics.clear();
   	        dijitPopup.close(dialog);
@@ -363,7 +363,7 @@
 		function requestFailed(error, io){
 			alert("Unable to load map data at this time!");
 		}
-      
+
 	});
 //]]>
 //-->
@@ -464,9 +464,9 @@
 	<div id="notices" class="noprint">
 		<!-- Put notices here -->
         </div>
-		
+
                 <h1 style="text-align:center; margin:3px;">Station 13009  - Lambada</h1>
-                
+
 
 <!-- End Side Navbar -->
 
@@ -576,7 +576,7 @@
 	<div class="dijitTooltipContainer" role="presentation">
 		<div data-dojo-attach-point="contentsNode" class="dijitTooltipContents dijitTooltipFocusNode">
 			<div data-dojo-attach-point="containerNode"><b>Station </b> - </div>
-			
+
 		</div>
 	</div>
 	<div class="dijitTooltipConnector" role="presentation" data-dojo-attach-point="connectorNode"></div>

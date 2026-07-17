@@ -1,6 +1,6 @@
 name: Publish Python 🐍 distributions 📦 to PyPI
 
-on: 
+on:
   release:
     types: [released]
 
@@ -36,4 +36,3 @@ jobs:
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
-      
