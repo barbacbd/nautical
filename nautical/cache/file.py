@@ -19,7 +19,6 @@ from ..noaa.buoy import Buoy, Source
 from ..time import get_time_str
 
 log = get_logger(__name__)
-log.warning("First time imports should call nautical.cache.setup()")
 
 __CACHE_FILE = "nautical_cache.json"
 NAUTICAL_CACHE_DIR = getenv("NAUTICAL_CACHE_DIR", user_cache_dir("nautical"))
