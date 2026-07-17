@@ -80,6 +80,67 @@ def test_parse_noaa_bad_latitude():
         p1 = Point.parse_noaa_kml_format("-110.123, sdffgsdfg, 123.67")
 
 
+def test_latitude_out_of_bounds_constructor():
+    """Latitude > 90 should raise InvalidCoordinatesError"""
+    with pytest.raises(InvalidCoordinatesError):
+        Point(91, 0)
+
+
+def test_latitude_negative_out_of_bounds_constructor():
+    """Latitude < -90 should raise InvalidCoordinatesError"""
+    with pytest.raises(InvalidCoordinatesError):
+        Point(-91, 0)
+
+
+def test_longitude_out_of_bounds_constructor():
+    """Longitude > 180 should raise InvalidCoordinatesError"""
+    with pytest.raises(InvalidCoordinatesError):
+        Point(0, 181)
+
+
+def test_longitude_negative_out_of_bounds_constructor():
+    """Longitude < -180 should raise InvalidCoordinatesError"""
+    with pytest.raises(InvalidCoordinatesError):
+        Point(0, -181)
+
+
+def test_latitude_boundary_values():
+    """Boundary values -90 and 90 should be accepted"""
+    p1 = Point(90, 0)
+    assert p1.latitude == 90
+    p2 = Point(-90, 0)
+    assert p2.latitude == -90
+
+
+def test_longitude_boundary_values():
+    """Boundary values -180 and 180 should be accepted"""
+    p1 = Point(0, 180)
+    assert p1.longitude == 180
+    p2 = Point(0, -180)
+    assert p2.longitude == -180
+
+
+def test_latitude_setter_out_of_bounds():
+    """Setting latitude out of bounds via setter should raise"""
+    p = Point(0, 0)
+    with pytest.raises(InvalidCoordinatesError):
+        p.latitude = 91
+
+
+def test_longitude_setter_out_of_bounds():
+    """Setting longitude out of bounds via setter should raise"""
+    p = Point(0, 0)
+    with pytest.raises(InvalidCoordinatesError):
+        p.longitude = -181
+
+
+def test_from_dict_out_of_bounds():
+    """from_dict with invalid coordinates should raise"""
+    p = Point(0, 0)
+    with pytest.raises(InvalidCoordinatesError):
+        p.from_dict({"latitude": 100, "longitude": 0})
+
+
 def test_haversine_valid():
     """Test a known distance between two points and determine that it is
     correct with base units
