@@ -19,13 +19,6 @@ class Point:
         self._longitude = lon
         self._altitude = alt
 
-        # pylint: disable=invalid-name
-        self.x = self.latitude
-        # pylint: disable=invalid-name
-        self.y = self.longitude
-        # pylint: disable=invalid-name
-        self.z = self.altitude
-
     @property
     def latitude(self) -> float:
         """Latitude Property (degrees)
@@ -45,6 +38,18 @@ class Point:
         """Altitude Property (meters)
         :return: altitude (meters)
         """
+        return self._altitude
+
+    @property
+    def x(self) -> float:
+        return self._latitude
+
+    @property
+    def y(self) -> float:
+        return self._longitude
+
+    @property
+    def z(self) -> float:
         return self._altitude
 
     def as_tuple(self) -> tuple[float, float]:
