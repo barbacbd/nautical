@@ -49,7 +49,7 @@ def get_buoy_sources(source_types: SourceType | list[SourceType] = SourceType.AL
 
     try:
         # The known public link to all NOAA Buoys
-        fileobject = urlopen("https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml")
+        fileobject = urlopen("https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml", timeout=30)
     except URLError:
         return sources
 
@@ -59,7 +59,11 @@ def get_buoy_sources(source_types: SourceType | list[SourceType] = SourceType.AL
     real_kml = root.Document.NetworkLink.Link.href
 
     if real_kml:
-        real_fileobject = urlopen(str(real_kml))
+        try:
+            real_fileobject = urlopen(str(real_kml), timeout=30)
+        except URLError:
+            log.error("Failed to fetch KML from %s", real_kml)
+            return sources
         real_root = parser.parse(real_fileobject).getroot()
 
         for category in real_root.Document.Folder.Folder:
