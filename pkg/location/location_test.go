@@ -1,8 +1,10 @@
 package location
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/barbacbd/nautical/pkg/units"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestConvertPoint(t *testing.T) {
@@ -322,6 +324,35 @@ func TestPointString(t *testing.T) {
 			assert.Equal(t, tc.expected, result)
 		})
 	}
+}
+
+func TestGetDistanceIn(t *testing.T) {
+	p1 := Point{Latitude: 36.0, Longitude: -75.0}
+	p2 := Point{Latitude: 37.0, Longitude: -76.0}
+
+	km, err := p1.GetDistanceIn(&p2, units.KILOMETERS)
+	assert.NoError(t, err)
+	assert.InDelta(t, 142.665, km, 0.01)
+
+	nm, err := p1.GetDistanceIn(&p2, units.NAUTICAL_MILES)
+	assert.NoError(t, err)
+	assert.InDelta(t, 77.03, nm, 0.1)
+
+	_, err = p1.GetDistanceIn(&p2, 999)
+	assert.Error(t, err)
+}
+
+func TestInRangeIn(t *testing.T) {
+	p1 := Point{Latitude: 36.0, Longitude: -75.0}
+	p2 := Point{Latitude: 37.0, Longitude: -76.0}
+
+	inRange, err := p1.InRangeIn(&p2, 200.0, units.KILOMETERS)
+	assert.NoError(t, err)
+	assert.True(t, inRange)
+
+	inRange, err = p1.InRangeIn(&p2, 50.0, units.KILOMETERS)
+	assert.NoError(t, err)
+	assert.False(t, inRange)
 }
 
 func TestPointXYZ(t *testing.T) {

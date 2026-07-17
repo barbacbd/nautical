@@ -118,6 +118,15 @@ func (p *Point) GetDistance(other *Point) (float64, error) {
 	return meters, nil
 }
 
+// GetDistanceIn returns the distance between two points in the specified units.
+func (p *Point) GetDistanceIn(other *Point, distanceUnits int) (float64, error) {
+	meters, err := p.GetDistance(other)
+	if err != nil {
+		return 0, err
+	}
+	return units.ConvertDistance(meters, units.METERS, distanceUnits)
+}
+
 // InRange will determine if this point is in range of another point. The range
 // is provided as distance, and the units are assumed to be meters.
 func (p *Point) InRange(other *Point, distance float64) (bool, error) {
@@ -126,5 +135,15 @@ func (p *Point) InRange(other *Point, distance float64) (bool, error) {
 		return false, err
 	}
 
+	return distance >= dist, nil
+}
+
+// InRangeIn determines if this point is within the given distance of another
+// point, where the distance is expressed in the specified units.
+func (p *Point) InRangeIn(other *Point, distance float64, distanceUnits int) (bool, error) {
+	dist, err := p.GetDistanceIn(other, distanceUnits)
+	if err != nil {
+		return false, err
+	}
 	return distance >= dist, nil
 }
