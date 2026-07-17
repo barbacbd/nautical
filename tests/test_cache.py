@@ -12,7 +12,7 @@ from nautical.cache.file import NAUTICAL_CACHE_DIR, NAUTICAL_CACHE_FILE
 from nautical.noaa.buoy import Buoy, Source
 
 
-@pytest.mark.first
+@pytest.mark.order(1)
 def test_setup():
     """Test the correct creation of the cache directory"""
 
@@ -275,7 +275,7 @@ def test_load_time(subtests):
             assert isinstance(buoy, Buoy)
 
 
-@pytest.mark.last
+@pytest.mark.order(8)
 def test_remove_tmp_files():
     """Remove any temporary files that were created during testing"""
     if exists(NAUTICAL_CACHE_DIR):

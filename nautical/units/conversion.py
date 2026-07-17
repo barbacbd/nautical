@@ -1,6 +1,6 @@
 from nautical.log import get_logger
 
-from . import DistanceUnits, PressureUnits, SpeedUnits, TemperatureUnits, TimeUnits
+from .units import DistanceUnits, PressureUnits, SpeedUnits, TemperatureUnits, TimeUnits
 
 log = get_logger()
 
