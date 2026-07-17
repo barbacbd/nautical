@@ -6,7 +6,6 @@ require (
 	github.com/anaskhan96/soup v1.2.5
 	github.com/stretchr/testify v1.11.1
 	github.com/umahmood/haversine v0.0.0-20151105152445-808ab04add26
-	k8s.io/apimachinery v0.27.2
 )
 
 require (
