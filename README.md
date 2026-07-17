@@ -1,147 +1,142 @@
 <h1 align="center">
   <a href="https://github.com/barbacbd/nautical">
-    <img src="https://raw.githubusercontent.com/barbacbd/nautical/master/.images/buoy.jpg" width="256" height="256" border-radius="50%" >
+    <img src="https://raw.githubusercontent.com/barbacbd/nautical/master/.images/buoy.jpg" width="200" height="200">
   </a>
-  <br>Nautical</br>
+  <br>Nautical<br>
+  <sub>Real-time ocean data from NOAA buoys — Python & Go</sub>
 </h1>
 
-<h2 align="center">
+<p align="center">
 
-[![Build-Linux](https://github.com/barbacbd/nautical/actions/workflows/python-app-linux.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-linux.yml) [![Build-OSX](https://github.com/barbacbd/nautical/actions/workflows/python-app-osx.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-osx.yml) [![Build-Windows](https://github.com/barbacbd/nautical/actions/workflows/python-app-windows.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-windows.yml)
+[![Build-Linux](https://github.com/barbacbd/nautical/actions/workflows/python-app-linux.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-linux.yml)
+[![Build-OSX](https://github.com/barbacbd/nautical/actions/workflows/python-app-osx.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-osx.yml)
+[![Build-Windows](https://github.com/barbacbd/nautical/actions/workflows/python-app-windows.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/python-app-windows.yml)
+[![PyPI version fury.io](https://badge.fury.io/py/nautical.svg)](https://pypi.python.org/pypi/nautical/)
+![Python Code Coverage](https://raw.githubusercontent.com/barbacbd/nautical/master/.cov/coverage-badge.svg)
 
-[![PyPI version fury.io](https://badge.fury.io/py/nautical.svg)](https://pypi.python.org/pypi/nautical/) [![GitHub latest commit](https://badgen.net/github/last-commit/barbacbd/nautical)](https://github.com/barbacbd/nautical/commit/) ![Python Code Coverage](https://raw.githubusercontent.com/barbacbd/nautical/master/.cov/coverage-badge.svg)
+[![Go](https://github.com/barbacbd/nautical/actions/workflows/go.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/go.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/barbacbd/nautical.svg)](https://pkg.go.dev/github.com/barbacbd/nautical)
+![Go Code Coverage](https://raw.githubusercontent.com/barbacbd/nautical/master/.cov-go/coverage-badge.svg)
 
-[![Go](https://github.com/barbacbd/nautical/actions/workflows/go.yml/badge.svg)](https://github.com/barbacbd/nautical/actions/workflows/go.yml) [![Go Reference](https://pkg.go.dev/badge/github.com/barbacbd/nautical.svg)](https://pkg.go.dev/github.com/barbacbd/nautical) ![Go Code Coverage](https://raw.githubusercontent.com/barbacbd/nautical/master/.cov-go/coverage-badge.svg)
+</p>
 
-# Description
+Nautical is a library for scraping and parsing real-time and historical oceanographic data from [NOAA's National Data Buoy Center](https://www.ndbc.noaa.gov/). It supports both **Python** and **Go**, and was built for research, data logging, and monitoring — but there are many more possibilities to discover.
 
-Ahoy! Whether you've got your sea legs under yeh', or you're just looking to get those toes wet, you have discovered Nautical. Nautical is a web scraper that allows its users to parse real time data from [NOAA's](https://www.ndbc.noaa.gov/) buoys. You can try Nautical as a python or GO package! Nautical was created for research and data logging purposes, but there are many more possibilities for users to discover.
+## Installation
 
-**Python**: The package includes custom exception classes for better error handling. See the [error handling tutorial](https://github.com/barbacbd/nautical/blob/master/user/docs/PythonTutorials.md#error-handling) for examples of handling network errors, invalid data, and other common scenarios.
+**Python** (requires 3.9+):
 
-If you would like to view the python documentation follow the [link to nautical's python documentation](https://barbacbd.github.io/nautical/build/html/index.html).
+```bash
+pip install nautical
+```
 
-If you would like to view the GO documentation follow the [link to nautical's GO documentation](https://pkg.go.dev/github.com/barbacbd/nautical).
+**Go** (requires 1.18+):
 
+```bash
+go get github.com/barbacbd/nautical
+```
 
-# Table of Contents
+## Quick Start
 
-   * [Features](#features)
-      * [Buoys](#buoys)
-      * [Sources](#sources)
-      * [Data Caching](#data-caching)
-   * [Prerequisites](#prerequisites)
-   * [Casting Off](#casting-off)
-   * [Tutorials](#tutorials)
-   * [Testing](#testing)
-      * [Python](#python)
-      * [Golang](#go)
-   * [Contributing](#contributing)
-      * [Contribution Flow](#contribution-flow)
-      * [Suggested Commit Message Format](#suggested-commit-message-format)
-   * [Copyright](#copyright)
+```python
+from nautical.io.buoy import create_buoy
 
-# Features
+# Fetch live data for a buoy station
+buoy = create_buoy("44099")
 
-The following are a set of features and/or data that can be accessed via the package.
+if buoy and buoy.valid:
+    # Iterate over all available measurements
+    for name, value in buoy.data:
+        print(f"{name}: {value}")
+```
 
-## Sources
+```go
+buoy, err := noaa.CreateBuoy("44099")
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Println(buoy)
+```
 
-A source is a group of buoys. The source can be thought of as a sponsor or owner of the group/set of buoys. The source may be used as an indicator of the type of data that is stored in a buoy object.
+## Features
 
-**Note**: The `TAO` and `Tsunami` sources are not available in any regard.
+### Buoy Data
 
+A buoy may contain any of the following measurements:
 
-## Buoys
-
-A buoy _may_ contain, but are not limitted to, any of the following variables.
-
-| Data | Abbreviation |Units |
+| Data | Abbreviation | Units |
 | ---- | ---- | ---- |
-| Wind Speed | wspd | Knots |
-| Gust | gst | Knots |
-| Wave Height | wvht | Feet |
-| Dominant Wave Period | dpd | Seconds |
-| Average Wave Period | apd | Seconds |
-| Pressure | pres | PSI |
-| Pressure Tendency | ptdy | PSI |
-| Air Temperature | atmp | Fahrenheit |
-| Water Temperature | wtmp | Fahrenheit |
-| Dew Point | dewp | Fahrenheigt |
-| Salinity | sal | PSU |
-| Visibility | vis | Nautical Miles |
-| Tide | tide | Feet |
-| Swell Height | swh | Feet |
-| Swell Wave Period | swp | Seconds |
-| Wind Wave Height | wwh | Feet |
-| Wind Wave Period | wwp | Seconds |
-| Ocean Temperature | otmp | Fahrenheit |
-| Wind Speed 10m Interval | wspd10m | Knots |
-| Wind Speed 20m Interval | wspd10m | Knots |
-| Depth | depth | Feet |
+| Wind Speed | `wspd` | Knots |
+| Gust | `gst` | Knots |
+| Wave Height | `wvht` | Feet |
+| Dominant Wave Period | `dpd` | Seconds |
+| Average Wave Period | `apd` | Seconds |
+| Pressure | `pres` | PSI |
+| Pressure Tendency | `ptdy` | PSI |
+| Air Temperature | `atmp` | Fahrenheit |
+| Water Temperature | `wtmp` | Fahrenheit |
+| Dew Point | `dewp` | Fahrenheit |
+| Salinity | `sal` | PSU |
+| Visibility | `vis` | Nautical Miles |
+| Tide | `tide` | Feet |
+| Swell Height | `swh` | Feet |
+| Swell Wave Period | `swp` | Seconds |
+| Wind Wave Height | `wwh` | Feet |
+| Wind Wave Period | `wwp` | Seconds |
+| Ocean Temperature | `otmp` | Fahrenheit |
+| Wind Speed 10m | `wspd10m` | Knots |
+| Wind Speed 20m | `wspd20m` | Knots |
+| Depth | `depth` | Feet |
 
-## Data Caching
+### Sources
 
-The cache can be used to save and load information about buoys and sources. The feature enables users to locally store and retrieve older information. NOAA refreshes the online data roughly every 30 minutes. The cache package can be used to throttle data retrieval calls to ensure the user is not wasting system resources when data has not been updated by NOAA.
+A source is a group of buoys organized by sponsor or owner. Use sources to discover available buoys by category.
 
-- Create cache files
-- Copy cache files to new names (with timestamps or custom names)
-- Load Cache files to Nautical Objects.
+```python
+from nautical.io.sources import get_buoy_sources
 
-**Note**: _[Nautical cache](https://github.com/barbacbd/nautical/blob/master/nautical/cache/) was added in version 3.1.0_.
-
-# Prerequisites
-
-The python package requires `python>=3.8`. You can use a package manager to install a version of python that satifies the requirements, or you may manually install python from the [website](https://www.python.org/downloads/).
-<br>
-<br>
-The GO package requires `golang>=1.18`. To install go please visit the official [website](https://go.dev/doc/install).
-
-**Note**: _The GO requirement is not strict, but previous versions have Not been tested_.
-
-# Casting Off
-
-- Ensure your system meets the [prerequisites](#prerequisites).
-- Clone or Fork the repository.
-- Run the [package tests](#testing)
-
-# Tutorials
-
-Follow the link to view the [tutorials for the python package](https://github.com/barbacbd/nautical/blob/master/user/docs/PythonTutorials.md).
-
-Follow the link to view the [error handling guide for python](https://github.com/barbacbd/nautical/blob/master/user/docs/ErrorHandling.md).
-
-Follow the link to view the [tutorials for the go package](https://github.com/barbacbd/nautical/blob/master/user/docs/GoTutorials.md).
-
-# Testing
-
-## Python
-
-All python tests are located in the [tests](https://github.com/barbacbd/nautical/tree/master/tests) directory.
-
-```bash
-python 3.x -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-pip install -r test_requirements.txt
-pytest --cov=tests
+sources = get_buoy_sources()
+for name, source in sources.items():
+    print(f"{name}: {len(source)} buoys")
 ```
 
-**Note**: _The virtual environment and coverage are optional_.
+### Data Caching
 
-## GO
+Save and reload buoy data locally. NOAA refreshes data roughly every 30 minutes — the cache lets you avoid redundant network calls.
 
-All golang tests are located with the golang source in [pkg](https://github.com/barbacbd/nautical/tree/master/pkg). The following should be executed from the project home directory.
+```python
+from nautical.cache import dumps, load
 
-```bash
-go get -u
-go test -v ./...
+# Save current data
+dumps(data)
+
+# Load it back later
+cached = load()
 ```
 
-# Contributing
+## Documentation
 
-For more information on contributing to the project, please see [contributing](https://github.com/barbacbd/nautical/tree/master/.github/CONTRIBUTING.md).
+- [Python API Reference](https://barbacbd.github.io/nautical/) — auto-generated from source
+- [Go API Reference](https://pkg.go.dev/github.com/barbacbd/nautical) — hosted on pkg.go.dev
+- [Python Tutorials](https://github.com/barbacbd/nautical/blob/master/user/docs/PythonTutorials.md)
+- [Go Tutorials](https://github.com/barbacbd/nautical/blob/master/user/docs/GoTutorials.md)
+- [Error Handling Guide](https://github.com/barbacbd/nautical/blob/master/user/docs/ErrorHandling.md)
 
-# Copyright
+## Development
 
-Copyright © 2022, Brent Barbachem. Released under the [MIT License](https://raw.githubusercontent.com/barbacbd/nautical/master/LICENSE.txt).
+```bash
+make setup         # install + activate pre-commit hooks
+make test          # run Python and Go tests
+make lint          # pylint
+make format        # auto-fix formatting (ruff + gofmt)
+make docs          # build Sphinx API docs locally
+make clean         # remove build artifacts
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](https://github.com/barbacbd/nautical/tree/master/.github/CONTRIBUTING.md) for guidelines and commit message conventions.
+
+## License
+
+Copyright © 2022–2026, Brent Barbachem. Released under the [MIT License](https://raw.githubusercontent.com/barbacbd/nautical/master/LICENSE.txt).
