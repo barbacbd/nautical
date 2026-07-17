@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nautical"
+dynamic = ["version"]
+description = "The nautical package provides users with access to historical and real time nautical information."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+authors = [
+    { name = "Brent Barbachem", email = "barbacbd@gmail.com" },
+]
+maintainers = [
+    { name = "Brent Barbachem", email = "barbacbd@gmail.com" },
+]
+keywords = ["nautical", "noaa", "ocean", "water"]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development",
+]
+dependencies = [
+    "appdirs",
+    "bs4",
+    "lxml",
+    "pykml",
+    "pyYAML",
+    "requests",
+    "haversine",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "coverage",
+    "pytest-cov",
+    "mock",
+    "pylint",
+    "pytest-order",
+    "pytest-subtests",
+]
+
+[project.urls]
+Homepage = "https://github.com/barbacbd/nautical"
+Repository = "https://github.com/barbacbd/nautical"
+
+[tool.setuptools.dynamic]
+version = { attr = "nautical.release.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["nautical*"]
+exclude = ["scripts*", "tests*", "user*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.pylint.main]
+ignore-patterns = [".*\\.go$"]

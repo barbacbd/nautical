@@ -32,11 +32,8 @@ fi
 # activate the virtual environment
 source venv/bin/activate;
 
-# install the python package
-pip install . --upgrade;
-
-# install the python requirements for testing.
-pip install -r test_requirements.txt;
+# install the python package with test dependencies
+pip install ".[test]" --upgrade;
 
 [ -f ".pylintrc" ] && created_pylintrc=0 ||  created_pylintrc=1 
 if [ ! -f ".pylintrc" ]; then

@@ -26,12 +26,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Local install
+      - name: Install package with test dependencies
         run: |
-          python -m pip install . --upgrade
-      - name: Install Test Deps
-        run: |
-          python -m pip install -r test_requirements.txt
+          python -m pip install ".[test]" --upgrade
       - name: Tests
         run: |
           pytest --cov=tests

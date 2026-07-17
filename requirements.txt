@@ -1,8 +1,0 @@
-appdirs
-bs4
-lxml
-pykml
-pyYAML
-requests
-haversine
-

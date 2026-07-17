@@ -34,11 +34,8 @@ fi
 # activate the virtual environment
 source venv/bin/activate;
 
-# install the python package
-pip install . --upgrade;
-
-# install the python requirements for testing.
-pip install -r test_requirements.txt;
+# install the python package with test dependencies
+pip install ".[test]" --upgrade;
 
 # Run the python tests for this package
 pytest --cov=tests
