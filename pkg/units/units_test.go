@@ -565,6 +565,18 @@ func TestTempConversion(t *testing.T) {
 		expectedValue: 95.41399999999999,
 		finalUnits:    DEG_F,
 	}, {
+		name:          "Same units DEG_F to DEG_F",
+		initValue:     72.0,
+		initUnits:     DEG_F,
+		expectedValue: 72.0,
+		finalUnits:    DEG_F,
+	}, {
+		name:          "Same units DEG_C to DEG_C",
+		initValue:     22.0,
+		initUnits:     DEG_C,
+		expectedValue: 22.0,
+		finalUnits:    DEG_C,
+	}, {
 		name:          "Invalid initial units",
 		initValue:     100,
 		initUnits:     100,

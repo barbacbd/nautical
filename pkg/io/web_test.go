@@ -1,6 +1,8 @@
 package io
 
 import (
+	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -40,4 +42,26 @@ func TestGetNOAAForecastURL(t *testing.T) {
 			assert.Equal(t, tc.expected, result)
 		})
 	}
+}
+
+func TestGetURLSource(t *testing.T) {
+	t.Run("Valid HTML page", func(t *testing.T) {
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "text/html")
+			w.Write([]byte("<html><body><h1>Test Page</h1></body></html>"))
+		}))
+		defer ts.Close()
+
+		root, err := GetURLSource(ts.URL)
+		assert.NoError(t, err)
+		assert.NotNil(t, root)
+
+		h1 := root.Find("h1")
+		assert.Equal(t, "Test Page", h1.Text())
+	})
+
+	t.Run("Invalid URL", func(t *testing.T) {
+		_, err := GetURLSource("http://127.0.0.1:1")
+		assert.Error(t, err)
+	})
 }

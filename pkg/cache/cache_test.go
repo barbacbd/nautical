@@ -163,6 +163,82 @@ func TestNauticalCacheCopy(t *testing.T) {
 	TearDown()
 }
 
+func TestCopyCurrentCacheWithTimestamp(t *testing.T) {
+	nauticalCache, err := Setup(30)
+	if err != nil {
+		TearDown()
+		t.Fatal(err)
+	}
+
+	if err := nauticalCache.Dump(); err != nil {
+		TearDown()
+		t.Fatal(err)
+	}
+
+	originalFile := nauticalCache.Filename
+	err = nauticalCache.CopyCurrentCacheWithTimestamp()
+	assert.NoError(t, err)
+	assert.NotEqual(t, originalFile, nauticalCache.Filename)
+
+	_, err = os.Stat(nauticalCache.Filename)
+	assert.NoError(t, err)
+
+	TearDown()
+}
+
+func TestFindCacheDir(t *testing.T) {
+	t.Run("From environment variable", func(t *testing.T) {
+		os.Setenv("NAUTICAL_CACHE_DIR", "/tmp/nautical_test_dir")
+		defer os.Unsetenv("NAUTICAL_CACHE_DIR")
+
+		dir, err := FindCacheDir()
+		assert.NoError(t, err)
+		assert.Equal(t, "/tmp/nautical_test_dir", dir)
+	})
+
+	t.Run("From OS default", func(t *testing.T) {
+		os.Unsetenv("NAUTICAL_CACHE_DIR")
+
+		dir, err := FindCacheDir()
+		assert.NoError(t, err)
+		assert.NotEmpty(t, dir)
+		assert.Contains(t, dir, "nautical")
+	})
+}
+
+func TestFindCacheFile(t *testing.T) {
+	os.Setenv("NAUTICAL_CACHE_DIR", "/tmp/nautical_test")
+	defer os.Unsetenv("NAUTICAL_CACHE_DIR")
+
+	file, err := FindCacheFile()
+	assert.NoError(t, err)
+	assert.Equal(t, "/tmp/nautical_test/nautical_cache.json", file)
+}
+
+func TestLoadNonExistent(t *testing.T) {
+	_, err := Load("/tmp/nautical_nonexistent_file_12345.json")
+	assert.Error(t, err)
+}
+
+func TestDumpAndLoad(t *testing.T) {
+	nauticalCache, err := Setup(30)
+	if err != nil {
+		TearDown()
+		t.Fatal(err)
+	}
+
+	err = nauticalCache.Dump()
+	assert.NoError(t, err)
+
+	loaded, err := Load(nauticalCache.Filename)
+	assert.NoError(t, err)
+	assert.Equal(t, len(nauticalCache.CachedData.Buoys), len(loaded.CachedData.Buoys))
+	assert.Equal(t, len(nauticalCache.CachedData.Sources), len(loaded.CachedData.Sources))
+	assert.Equal(t, nauticalCache.CachedData.Time, loaded.CachedData.Time)
+
+	TearDown()
+}
+
 func TestShouldUpdate(t *testing.T) {
 	tests := []struct {
 		name     string
