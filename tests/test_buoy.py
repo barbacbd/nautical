@@ -4,6 +4,7 @@ from uuid import uuid4
 
 import pytest
 
+from nautical.exceptions import InvalidSourceDataError, JSONParsingError
 from nautical.location import Point
 from nautical.noaa.buoy import Buoy, BuoyData, Source, SourceType
 from nautical.time import NauticalTime
@@ -365,7 +366,7 @@ def test_buoy_json_not_all_available_no_station():
     """
     original_json = {"valid": True, "location": {"latitude": 36.0, "longitude": -75.34}}
 
-    with pytest.raises(KeyError):
+    with pytest.raises(JSONParsingError):
         buoy = Buoy.from_json(original_json)
 
 
@@ -462,7 +463,7 @@ def test_source_json_missing_name():
         "description": "Test Source",
     }
 
-    with pytest.raises(KeyError):
+    with pytest.raises(InvalidSourceDataError):
         source = Source.from_json(original_json)
 
 

@@ -1,3 +1,4 @@
+from nautical.exceptions import InvalidCoordinatesError
 from nautical.units import DistanceUnits
 
 from .point import Point
@@ -12,7 +13,7 @@ def haversine(point_one, point_two, units=DistanceUnits.METERS) -> float:
     :return: Distance between the points, in units
     """
     if not isinstance(point_one, Point):
-        raise TypeError("The first parameter must be a Point object")
+        raise InvalidCoordinatesError("The first parameter must be a Point object")
     return point_one.distance(point_two, units)
 
 
@@ -41,9 +42,9 @@ def in_range(point_one, point_two, distance, units=DistanceUnits.METERS):
     :return: True when the distance between P1 and P2 is less than (or equal to) distance_m
     """
     if not isinstance(point_one, Point):
-        raise TypeError("The first parameter must be a Point object")
+        raise InvalidCoordinatesError("The first parameter must be a Point object")
     if not isinstance(point_two, Point):
-        raise TypeError("The second parameter must be a Point object")
+        raise InvalidCoordinatesError("The second parameter must be a Point object")
     return point_one.in_range(point_two, distance, units)
 
 
@@ -104,17 +105,17 @@ def in_area(geometry, point):
     :return: True when the value lies in the geometry, false otherwise
     """
     if not isinstance(point, Point):
-        raise TypeError("The second parameter must be a Point object")
+        raise InvalidCoordinatesError("The second parameter must be a Point object")
 
     if len(geometry) < 2:
-        raise TypeError("Geometry must be a set of points with a length of 2 or more")
+        raise InvalidCoordinatesError("Geometry must be a set of points with a length of 2 or more")
 
     if len(geometry) == 2:
         geo_points = _create_square(geometry)
     else:
         for pnt in geometry:
             if not isinstance(pnt, Point):
-                raise TypeError("All values of geometry must be Point objects")
+                raise InvalidCoordinatesError("All values of geometry must be Point objects")
 
         geo_points = geometry
 

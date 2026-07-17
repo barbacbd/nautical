@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 
+from ..exceptions import InvalidTimeDataError
 from ..units import TimeUnits, convert_time
 
 # Datetime string format for all date time values
@@ -31,6 +32,6 @@ def get_time_diff(date_time_stamp: str, units: TimeUnits = TimeUnits.MINUTES) ->
     time_diff_seconds = (now - assumed_past_time).total_seconds()
 
     if time_diff_seconds < 0:
-        raise ValueError("Time provided to get_wait_time_diff is in the future")
+        raise InvalidTimeDataError("Time provided to get_wait_time_diff is in the future")
 
     return int(convert_time(time_diff_seconds, TimeUnits.SECONDS, units))

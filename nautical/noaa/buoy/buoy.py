@@ -3,6 +3,7 @@ from __future__ import annotations
 from copy import copy
 from warnings import warn
 
+from nautical.exceptions import InvalidBuoyDataError, JSONParsingError
 from nautical.location.point import Point
 from nautical.noaa.buoy.buoy_data import BuoyData
 
@@ -82,7 +83,7 @@ class Buoy:
                 if present_data.epoch_time > self._present.epoch_time:
                     self._update_past(self._present)
                 else:
-                    raise ValueError("Failed to set present data, time is in the past.")
+                    raise InvalidBuoyDataError("Failed to set present data, time is in the past.", station=self.station)
 
             self._present = present_data
 
@@ -177,7 +178,7 @@ class Buoy:
         buoy.from_dict(json_dict)
 
         if buoy.station == "nautical_example":
-            raise KeyError("Failed to set station during Buoy::from_json")
+            raise JSONParsingError("Failed to set station during Buoy::from_json")
 
         return buoy
 

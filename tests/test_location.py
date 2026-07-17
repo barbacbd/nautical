@@ -2,6 +2,11 @@ from math import fabs
 
 import pytest
 
+from nautical.exceptions import (
+    DistanceCalculationError,
+    InvalidCoordinatesError,
+    UnsupportedConversionError,
+)
 from nautical.location.point import Point
 from nautical.location.util import haversine, in_area, in_range, in_range_ll
 from nautical.units import DistanceUnits, TimeUnits
@@ -91,25 +96,25 @@ def test_haversine_new_units_valid():
 
 def test_haversine_invalid_units():
     """Test haversine by providing incorrect type of units"""
-    with pytest.raises(TypeError):
+    with pytest.raises(DistanceCalculationError):
         assert haversine(Point(36, -75), Point(37, -76), TimeUnits.SECONDS)
 
 
 def test_haversine_centimeters():
     """Centimeters is not supported and should return None"""
-    with pytest.raises(AttributeError):
+    with pytest.raises(UnsupportedConversionError):
         assert haversine(Point(36, -75), Point(37, -76), DistanceUnits.CENTIMETERS) is None
 
 
 def test_haversine_p2_incorrect():
     """Test providing a value for P2 that is not a point"""
-    with pytest.raises(TypeError):
+    with pytest.raises(DistanceCalculationError):
         assert haversine(Point(36, -75), 123)
 
 
 def test_haversine_p1_incorrect():
     """Test providing type for p1 is incorrect"""
-    with pytest.raises(TypeError):
+    with pytest.raises(InvalidCoordinatesError):
         assert haversine(1234, Point(36, -75))
 
 
@@ -139,19 +144,19 @@ def test_in_range_false_base_units():
 
 def test_in_range_invalid_p2_not_point():
     """P2 is not a point throws an error in comparison"""
-    with pytest.raises(TypeError):
+    with pytest.raises(InvalidCoordinatesError):
         assert not in_range(Point(36, -75), "erser", 140000)
 
 
 def test_in_range_invalid_p1_not_point():
     """P1 is not a point throws an error in comparison"""
-    with pytest.raises(TypeError):
+    with pytest.raises(InvalidCoordinatesError):
         assert not in_range("serser", Point(36, -75), 140000)
 
 
 def test_in_range_unsupported_units():
     """Test in range using an unsupported type = Centimeters"""
-    with pytest.raises(TypeError):
+    with pytest.raises(InvalidCoordinatesError):
         assert not in_range("serser", Point(36, -75), 140000, DistanceUnits.CENTIMETERS)
 
 

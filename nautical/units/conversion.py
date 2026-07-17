@@ -1,3 +1,4 @@
+from nautical.exceptions import InvalidUnitsError, UnitMismatchError
 from nautical.log import get_logger
 
 from .units import DistanceUnits, PressureUnits, SpeedUnits, TemperatureUnits, TimeUnits
@@ -53,7 +54,7 @@ def convert_temperature(value: float, init_units: TemperatureUnits, final_units:
     if not isinstance(init_units, TemperatureUnits) or not isinstance(
         final_units, TemperatureUnits
     ):
-        raise KeyError
+        raise InvalidUnitsError("Invalid temperature units provided")
     _temp = value if init_units in (TemperatureUnits.DEG_F,) else (9.0 / 5.0 * value) + 32.0
     return _temp if final_units in (TemperatureUnits.DEG_F,) else (_temp - 32) * 5.0 / 9.0
 
@@ -150,4 +151,4 @@ def convert(value: float, init_units: object, final_units: object) -> float:
         if callable(func):
             return func(value, init_units, final_units)
 
-    raise TypeError  # two types did not match
+    raise UnitMismatchError("Unit types do not match", from_unit=init_units, to_unit=final_units)

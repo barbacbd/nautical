@@ -4,6 +4,7 @@ from collections.abc import Iterator
 from copy import deepcopy
 from enum import Enum
 
+from nautical.exceptions import InvalidSourceDataError
 from nautical.log import get_logger
 from nautical.noaa.buoy.buoy_data import BuoyData
 
@@ -61,7 +62,7 @@ class Source:
         :param description: Description tag of the data source
         """
         if not name:
-            raise NotImplementedError(f"Invalid name provided to {self.__class__.__name__}")
+            raise InvalidSourceDataError(f"Invalid name provided to {self.__class__.__name__}")
         self.name = name
         self.description = description
 
@@ -200,7 +201,7 @@ class Source:
         src.from_dict(json_dict)
 
         if src.name == "nautical_source":
-            raise KeyError("Failed to set name during Source::from_json")
+            raise InvalidSourceDataError("Failed to set name during Source::from_json")
 
         return src
 

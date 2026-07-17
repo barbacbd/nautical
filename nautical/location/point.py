@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from haversine import Unit, haversine
 
+from nautical.exceptions import DistanceCalculationError, UnsupportedConversionError
 from nautical.log import get_logger
 from nautical.units import DistanceUnits
 
@@ -98,12 +99,12 @@ class Point:
         :return: Distance between the points in units specified
         """
         if not isinstance(units, DistanceUnits):
-            raise TypeError(f"DistanceUnits not found: {str(type(units))}")
+            raise DistanceCalculationError(f"DistanceUnits not found: {str(type(units))}")
         if not isinstance(other, Point):
-            raise TypeError("Distance should be calculated between two points")
+            raise DistanceCalculationError("Distance should be calculated between two points")
 
         if units == DistanceUnits.CENTIMETERS:
-            raise AttributeError("Centimeters not accepted")
+            raise UnsupportedConversionError("Centimeters not accepted")
 
         hav_units = getattr(Unit, str(units.name), Unit.METERS)
         log.debug("haversine executed with units: %s", hav_units.name)

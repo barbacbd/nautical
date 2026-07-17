@@ -13,6 +13,7 @@ from os.path import exists, join
 
 from appdirs import user_cache_dir
 
+from ..exceptions import CacheWriteError
 from ..log import get_logger
 from ..noaa.buoy import Buoy, Source
 from ..time import get_time_str
@@ -117,7 +118,7 @@ def dumps(data: dict, filename: str = NAUTICAL_CACHE_FILE) -> None:
         remove(filename)
 
     if not isinstance(data, dict):
-        raise TypeError("dumps requires data to be a dictionary")
+        raise CacheWriteError("dumps requires data to be a dictionary")
 
     _data = {}
     _data[CacheData.TIME.name] = get_time_str()
