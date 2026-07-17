@@ -1,10 +1,10 @@
 package util
 
 import (
-    "reflect"
-    "strings"
+	"reflect"
+	"strings"
 
-    "k8s.io/apimachinery/pkg/util/sets"
+	"k8s.io/apimachinery/pkg/util/sets"
 )
 
 func GetAliases(iface interface{}) sets.Set[string] {

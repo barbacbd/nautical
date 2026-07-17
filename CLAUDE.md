@@ -23,6 +23,8 @@ make test          # run both Python and Go tests
 make test-py       # pytest --cov=tests
 make test-go       # go test -v ./...
 make lint          # pylint (downloads .pylintrc if missing)
+make format        # auto-fix formatting (ruff for Python, gofmt for Go)
+make format-check  # check formatting without modifying files (used in CI)
 make coverage      # tests with detailed coverage for both languages
 make clean         # remove build artifacts and caches
 ```
@@ -57,5 +59,5 @@ go tool cover -func=coverage.out
 - Custom exception hierarchy in `nautical/exceptions.py` (24 classes) — see `EXCEPTION_DESIGN.md`
 - Retry/rate-limiting decorator (`@with_retry`) for web requests — see `RETRY_USAGE.md`
 - Go structs use JSON/XML struct tags for serialization
-- No auto-formatter enforced — no `black`, `isort`, or `gofmt` CI checks currently
+- Formatting enforced via `ruff` (Python) and `gofmt` (Go) — CI checks on push and PRs
 - No pre-commit hooks configured

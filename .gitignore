@@ -8,3 +8,4 @@ nautical_venv/*
 *.pylintrc
 .coverage
 *.egg-info/
+.ruff_cache/

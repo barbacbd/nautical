@@ -40,6 +40,7 @@ class NauticalError(Exception):
     All custom exceptions in the nautical package inherit from this class,
     allowing users to catch all nautical-specific errors with a single except clause.
     """
+
     pass
 
 
@@ -47,8 +48,10 @@ class NauticalError(Exception):
 # Data Errors - Issues with buoy data, sources, or parsing
 # =============================================================================
 
+
 class DataError(NauticalError):
     """Base exception for data validation and parsing errors."""
+
     pass
 
 
@@ -61,6 +64,7 @@ class InvalidBuoyDataError(DataError, ValueError):
         station: The buoy station ID (if available)
         field: The specific field that caused the error (if applicable)
     """
+
     def __init__(self, message, station=None, field=None):
         super().__init__(message)
         self.station = station
@@ -75,6 +79,7 @@ class InvalidWindDataError(InvalidBuoyDataError):
         - Invalid wind direction format
         - Gust data in unexpected format
     """
+
     pass
 
 
@@ -86,6 +91,7 @@ class InvalidLocationDataError(InvalidBuoyDataError):
         - Invalid coordinate format
         - Coordinates with wrong sign indicators
     """
+
     pass
 
 
@@ -97,6 +103,7 @@ class InvalidTimeDataError(InvalidBuoyDataError):
         - Missing date components
         - Invalid time format
     """
+
     pass
 
 
@@ -106,6 +113,7 @@ class InvalidSourceDataError(DataError, ValueError):
     Attributes:
         source_name: Name of the source (if available)
     """
+
     def __init__(self, message, source_name=None):
         super().__init__(message)
         self.source_name = source_name
@@ -113,6 +121,7 @@ class InvalidSourceDataError(DataError, ValueError):
 
 class ParsingError(DataError):
     """Base exception for parsing failures."""
+
     pass
 
 
@@ -122,6 +131,7 @@ class CDataParsingError(ParsingError):
     Attributes:
         raw_data: The raw CDATA that failed to parse (truncated if too long)
     """
+
     def __init__(self, message, raw_data=None):
         super().__init__(message)
         # Truncate raw_data if it's too long to avoid huge error messages
@@ -137,6 +147,7 @@ class JSONParsingError(ParsingError, ValueError):
     This exception inherits from ValueError for backward compatibility with
     json.loads() error handling patterns.
     """
+
     pass
 
 
@@ -144,8 +155,10 @@ class JSONParsingError(ParsingError, ValueError):
 # Conversion Errors - Issues with unit conversions
 # =============================================================================
 
+
 class ConversionError(NauticalError):
     """Base exception for unit conversion errors."""
+
     pass
 
 
@@ -158,6 +171,7 @@ class InvalidUnitsError(ConversionError, KeyError):
         unit: The invalid unit that was provided
         valid_units: List of valid units for the given type (if available)
     """
+
     def __init__(self, message, unit=None, valid_units=None):
         super().__init__(message)
         self.unit = unit
@@ -175,6 +189,7 @@ class UnitMismatchError(ConversionError, TypeError):
         from_unit: The source unit type
         to_unit: The target unit type
     """
+
     def __init__(self, message, from_unit=None, to_unit=None):
         super().__init__(message)
         self.from_unit = from_unit
@@ -187,6 +202,7 @@ class UnsupportedConversionError(ConversionError):
     This is different from UnitMismatchError - the units may be compatible types,
     but the specific conversion is not implemented.
     """
+
     pass
 
 
@@ -194,8 +210,10 @@ class UnsupportedConversionError(ConversionError):
 # Network Errors - Issues with web scraping and NOAA API access
 # =============================================================================
 
+
 class NetworkError(NauticalError):
     """Base exception for network and web scraping errors."""
+
     pass
 
 
@@ -209,6 +227,7 @@ class BuoyNotFoundError(NetworkError, ValueError):
         station: The buoy station ID that was not found
         url: The URL that was attempted (if available)
     """
+
     def __init__(self, message, station=None, url=None):
         super().__init__(message)
         self.station = station
@@ -223,6 +242,7 @@ class NOAAServiceError(NetworkError):
         status_code: HTTP status code (if available)
         original_error: The underlying exception
     """
+
     def __init__(self, message, url=None, status_code=None, original_error=None):
         super().__init__(message)
         self.url = url
@@ -237,6 +257,7 @@ class NetworkTimeoutError(NetworkError):
         url: The URL that timed out
         timeout: The timeout value in seconds
     """
+
     def __init__(self, message, url=None, timeout=None):
         super().__init__(message)
         self.url = url
@@ -247,8 +268,10 @@ class NetworkTimeoutError(NetworkError):
 # Cache Errors - Issues with cache file operations
 # =============================================================================
 
+
 class CacheError(NauticalError):
     """Base exception for cache-related errors."""
+
     pass
 
 
@@ -260,6 +283,7 @@ class CacheNotFoundError(CacheError, FileNotFoundError):
     Attributes:
         cache_path: The path to the cache file that was not found
     """
+
     def __init__(self, message, cache_path=None):
         super().__init__(message)
         self.cache_path = cache_path
@@ -272,6 +296,7 @@ class CacheWriteError(CacheError, IOError):
         cache_path: The path to the cache file
         original_error: The underlying exception
     """
+
     def __init__(self, message, cache_path=None, original_error=None):
         super().__init__(message)
         self.cache_path = cache_path
@@ -285,6 +310,7 @@ class CacheReadError(CacheError, IOError):
         cache_path: The path to the cache file
         original_error: The underlying exception
     """
+
     def __init__(self, message, cache_path=None, original_error=None):
         super().__init__(message)
         self.cache_path = cache_path
@@ -295,8 +321,10 @@ class CacheReadError(CacheError, IOError):
 # Location Errors - Issues with geographic coordinates and calculations
 # =============================================================================
 
+
 class LocationError(NauticalError):
     """Base exception for location and coordinate errors."""
+
     pass
 
 
@@ -308,6 +336,7 @@ class InvalidCoordinatesError(LocationError, ValueError):
     Attributes:
         coordinates: The invalid coordinate string or tuple
     """
+
     def __init__(self, message, coordinates=None):
         super().__init__(message)
         self.coordinates = coordinates
@@ -326,6 +355,7 @@ class OutOfBoundsError(LocationError, ValueError):
         value: The out-of-bounds value
         bounds: The valid bounds as a tuple (min, max)
     """
+
     def __init__(self, message, latitude=None, longitude=None, value=None, bounds=None):
         super().__init__(message)
         self.latitude = latitude
@@ -345,6 +375,7 @@ class DistanceCalculationError(LocationError):
         point2: The second point
         original_error: The underlying exception
     """
+
     def __init__(self, message, point1=None, point2=None, original_error=None):
         super().__init__(message)
         self.point1 = point1

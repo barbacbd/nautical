@@ -1,18 +1,18 @@
 from datetime import datetime, timezone
-from typing import Dict, Any
+from typing import Any, Dict
+
 from nautical.log import get_logger
 from nautical.time.conversion import convert_noaa_time
+from nautical.time.enums import Midday, TimeFormat
 from nautical.time.nautical_time import NauticalTime
-from nautical.time.enums import TimeFormat, Midday
 from nautical.units import (
-    SpeedUnits,
     DistanceUnits,
-    TimeUnits,
     PressureUnits,
-    TemperatureUnits, 
-    SalinityUnits
+    SalinityUnits,
+    SpeedUnits,
+    TemperatureUnits,
+    TimeUnits,
 )
-
 
 log = get_logger()
 
@@ -23,36 +23,66 @@ UNAVAILABLE_NOAA_DATA = "-"
 # list of known buoy variable names.
 buoy_vars = [
     # date/time
-    'year', 'mm', 'dd', 'time',
+    "year",
+    "mm",
+    "dd",
+    "time",
     # wind data
-    'wdir', 'wspd', 'gst', 'mwd', 'wspd10m', 'wspd20m',
+    "wdir",
+    "wspd",
+    "gst",
+    "mwd",
+    "wspd10m",
+    "wspd20m",
     # wave data
-    'wvht', 'dpd', 'apd', 'wwh', 'wwp', 'wwd',
-    'swh', 'swp', 'swd',
+    "wvht",
+    "dpd",
+    "apd",
+    "wwh",
+    "wwp",
+    "wwd",
+    "swh",
+    "swp",
+    "swd",
     # pressure
-    'pres', 'ptdy',
+    "pres",
+    "ptdy",
     # temperature
-    'atmp', 'wtmp', 'dewp', 'otmp', 'chill', 'heat',
+    "atmp",
+    "wtmp",
+    "dewp",
+    "otmp",
+    "chill",
+    "heat",
     # salinity
-    'sal', 'ph',
+    "sal",
+    "ph",
     # oxygen
-    'o2pct', 'o2ppm',
+    "o2pct",
+    "o2ppm",
     # distance
-    'depth', 'nmi', 'vis', 'tide',
+    "depth",
+    "nmi",
+    "vis",
+    "tide",
     # other
-    'steepness', 
-    'clcon', 'turb', 'cond',
-    'srad1', 'swrad', 'lwrad'
+    "steepness",
+    "clcon",
+    "turb",
+    "cond",
+    "srad1",
+    "swrad",
+    "lwrad",
 ]
 
 
 def _find_parameter_units(key: str) -> str:
-    '''Function that will attempt to find the units associated 
+    """Function that will attempt to find the units associated
     with the key. If no units are found, None is returned.
 
     :param key: Name of the parameter
     :return: string of the type of units if there are units associated with the parameter.
-    '''
+    """
     return {
         "wspd": SpeedUnits.KNOTS,
         "gst": SpeedUnits.KNOTS,
@@ -79,10 +109,9 @@ def _find_parameter_units(key: str) -> str:
 
 
 class BuoyData:
-
-    '''Class to contain all information included in a NOAA data
+    """Class to contain all information included in a NOAA data
     point for a buoy. A buoy can also include weather stations.
-    '''
+    """
 
     __slots__ = buoy_vars
 
@@ -105,11 +134,11 @@ class BuoyData:
 
     @property
     def epoch_time(self):
-        '''Epoch time property. Converts the nautical time to the epoch time. 
-        The function assumes that the data is in UTC time. 
+        """Epoch time property. Converts the nautical time to the epoch time.
+        The function assumes that the data is in UTC time.
 
         :return: Seconds since the epoch in UTC, 0 on failure
-        '''
+        """
         if self.year and self.mm and self.dd and self.time:
             # convert the hours values based on the time format
             hours = self.time.hours
@@ -119,57 +148,58 @@ class BuoyData:
                 else:
                     hours = hours[0]
             # convert the time using datetime, set the timezone to UTC
-            return int(datetime(
-                self.year, self.mm, self.dd, hours, self.time.minutes
-            ).replace(tzinfo=timezone.utc).timestamp())
+            return int(
+                datetime(self.year, self.mm, self.dd, hours, self.time.minutes)
+                .replace(tzinfo=timezone.utc)
+                .timestamp()
+            )
         return 0
 
     def __contains__(self, item):
-        '''Returns True when the value exists and is set'''
-        return item in self.__slots__ and \
-            getattr(self, item, None) is not None
+        """Returns True when the value exists and is set"""
+        return item in self.__slots__ and getattr(self, item, None) is not None
 
     def __iter__(self):
-        '''Provide a user friendly mapping of variable names to values stored 
+        """Provide a user friendly mapping of variable names to values stored
         in this Buoy Data Object
-        '''
+        """
         for slot in self.__slots__:
             val = getattr(self, slot, None)
 
             if val:
                 yield slot, val
-    
+
     def to_json(self):
-        '''Return the object as a json dict'''
+        """Return the object as a json dict"""
         output = {k: v for k, v in self if k != "time"}
         if self.time:
             output["time"] = str(self.time)
         return output
-    
+
     @staticmethod
     def from_json(json_data):
-        '''Fill an instance from the json_data.'''
+        """Fill an instance from the json_data."""
         bd = BuoyData()
         bd.from_dict(json_data)
         return bd
 
     def from_dict(self, buoy_data_dict: Dict[str, Any]):
-        '''Fill this object from the data stored in a dictionary where 
+        """Fill this object from the data stored in a dictionary where
         the key should match a slot or object variable
 
         :param buoy_data_dict: Dictionary containing the data about this buoy
-        '''
+        """
         for key, value in buoy_data_dict.items():
             self.set(key, value)
 
     def set(self, key, value):
-        '''Set a key, value pair. This function is intended to replace
+        """Set a key, value pair. This function is intended to replace
         `__setattr__` for simplcity. The function will also attempt to convert
         the noaa time to a formatted time that is readable.
 
         :param key: the internal variable name
         :param value: the value we wish to set the variable to
-        '''
+        """
         if isinstance(value, str) and UNAVAILABLE_NOAA_DATA == value.strip():
             return
 

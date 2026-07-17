@@ -112,44 +112,44 @@ func TestSetHours(t *testing.T) {
 
 func TestSetFormat(t *testing.T) {
 	tests := []struct {
-		name          string
-		initial       NauticalTime
-		format        int
-		expectedHours int
+		name           string
+		initial        NauticalTime
+		format         int
+		expectedHours  int
 		expectedMidday int
-		wantErr       bool
+		wantErr        bool
 	}{
 		{
-			name:          "24-hour to 12-hour AM",
-			initial:       NauticalTime{Hours: 9, Format: HOUR_24},
-			format:        HOUR_12,
-			expectedHours: 9,
+			name:           "24-hour to 12-hour AM",
+			initial:        NauticalTime{Hours: 9, Format: HOUR_24},
+			format:         HOUR_12,
+			expectedHours:  9,
 			expectedMidday: AM,
-			wantErr:       false,
+			wantErr:        false,
 		},
 		{
-			name:          "24-hour to 12-hour PM",
-			initial:       NauticalTime{Hours: 14, Format: HOUR_24},
-			format:        HOUR_12,
-			expectedHours: 2,
+			name:           "24-hour to 12-hour PM",
+			initial:        NauticalTime{Hours: 14, Format: HOUR_24},
+			format:         HOUR_12,
+			expectedHours:  2,
 			expectedMidday: PM,
-			wantErr:       false,
+			wantErr:        false,
 		},
 		{
-			name:          "12-hour PM to 24-hour",
-			initial:       NauticalTime{Hours: 2, Format: HOUR_12, Midday: PM},
-			format:        HOUR_24,
-			expectedHours: 14,
+			name:           "12-hour PM to 24-hour",
+			initial:        NauticalTime{Hours: 2, Format: HOUR_12, Midday: PM},
+			format:         HOUR_24,
+			expectedHours:  14,
 			expectedMidday: 0,
-			wantErr:       false,
+			wantErr:        false,
 		},
 		{
-			name:          "12-hour AM to 24-hour",
-			initial:       NauticalTime{Hours: 9, Format: HOUR_12, Midday: AM},
-			format:        HOUR_24,
-			expectedHours: 9,
+			name:           "12-hour AM to 24-hour",
+			initial:        NauticalTime{Hours: 9, Format: HOUR_12, Midday: AM},
+			format:         HOUR_24,
+			expectedHours:  9,
 			expectedMidday: 0,
-			wantErr:       false,
+			wantErr:        false,
 		},
 		{
 			name:    "Invalid format",

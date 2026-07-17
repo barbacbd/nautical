@@ -23,7 +23,6 @@ var (
 	aliases = util.GetAliases(BuoyData{})
 )
 
-
 // Buoy represents a NOAA buoy.
 type Buoy struct {
 	// Station is the station ID or ID of the buoy

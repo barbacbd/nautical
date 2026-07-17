@@ -2,7 +2,7 @@ package io
 
 import (
 	"fmt"
-	
+
 	"github.com/anaskhan96/soup"
 )
 

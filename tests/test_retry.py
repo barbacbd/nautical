@@ -1,22 +1,24 @@
 """
 Tests for retry logic and rate limiting.
 """
-import pytest
+
 import time
+from socket import timeout as SocketTimeout
 from unittest.mock import Mock, patch
 from urllib.error import HTTPError, URLError
-from socket import timeout as SocketTimeout
+
+import pytest
 
 from nautical.io.retry import (
-    RetryConfig,
+    AGGRESSIVE_RETRY,
+    CONSERVATIVE_RETRY,
+    NO_RETRY,
     RateLimiter,
+    RetryConfig,
     get_retry_delay,
+    retry_request,
     should_retry,
     with_retry,
-    retry_request,
-    CONSERVATIVE_RETRY,
-    AGGRESSIVE_RETRY,
-    NO_RETRY,
 )
 
 
@@ -37,11 +39,7 @@ class TestRetryConfig:
 
     def test_custom_config(self):
         """Test custom configuration."""
-        config = RetryConfig(
-            max_retries=5,
-            initial_delay=2.0,
-            retry_on_status=[429, 503]
-        )
+        config = RetryConfig(max_retries=5, initial_delay=2.0, retry_on_status=[429, 503])
         assert config.max_retries == 5
         assert config.initial_delay == 2.0
         assert config.retry_on_status == {429, 503}
@@ -328,15 +326,11 @@ class TestRetryRequestFunction:
 
     def test_retry_request_success(self):
         """Test retry_request with successful function."""
+
         def mock_func(value):
             return value * 2
 
-        result = retry_request(
-            mock_func,
-            config=NO_RETRY,
-            rate_limiter=None,
-            value=5
-        )
+        result = retry_request(mock_func, config=NO_RETRY, rate_limiter=None, value=5)
 
         assert result == 10
 
@@ -352,9 +346,7 @@ class TestRetryRequestFunction:
             return "success"
 
         result = retry_request(
-            mock_func,
-            config=RetryConfig(max_retries=3, initial_delay=0.01),
-            rate_limiter=None
+            mock_func, config=RetryConfig(max_retries=3, initial_delay=0.01), rate_limiter=None
         )
 
         assert result == "success"

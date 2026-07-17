@@ -1,0 +1,36 @@
+name: Format Check
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    types:
+      - opened
+      - edited
+
+jobs:
+  python-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install ruff
+        run: pip install ruff
+      - name: Check formatting
+        run: ruff format --check .
+      - name: Check import sorting
+        run: ruff check --select I .
+
+  go-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25"
+      - name: Check formatting
+        run: test -z "$(gofmt -l pkg/ nautical.go)" || { echo "gofmt needed on:"; gofmt -l pkg/ nautical.go; exit 1; }

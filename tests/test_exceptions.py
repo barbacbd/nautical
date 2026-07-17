@@ -4,34 +4,36 @@ Tests for custom exception hierarchy.
 These tests verify that custom exceptions are properly defined,
 have the expected inheritance, and maintain backward compatibility.
 """
+
 import pytest
+
 from nautical.exceptions import (
-    NauticalError,
-    DataError,
-    InvalidBuoyDataError,
-    InvalidWindDataError,
-    InvalidLocationDataError,
-    InvalidTimeDataError,
-    InvalidSourceDataError,
-    ParsingError,
-    CDataParsingError,
-    JSONParsingError,
-    ConversionError,
-    InvalidUnitsError,
-    UnitMismatchError,
-    UnsupportedConversionError,
-    NetworkError,
     BuoyNotFoundError,
-    NOAAServiceError,
-    NetworkTimeoutError,
     CacheError,
     CacheNotFoundError,
-    CacheWriteError,
     CacheReadError,
-    LocationError,
-    InvalidCoordinatesError,
-    OutOfBoundsError,
+    CacheWriteError,
+    CDataParsingError,
+    ConversionError,
+    DataError,
     DistanceCalculationError,
+    InvalidBuoyDataError,
+    InvalidCoordinatesError,
+    InvalidLocationDataError,
+    InvalidSourceDataError,
+    InvalidTimeDataError,
+    InvalidUnitsError,
+    InvalidWindDataError,
+    JSONParsingError,
+    LocationError,
+    NauticalError,
+    NetworkError,
+    NetworkTimeoutError,
+    NOAAServiceError,
+    OutOfBoundsError,
+    ParsingError,
+    UnitMismatchError,
+    UnsupportedConversionError,
 )
 
 
@@ -127,32 +129,20 @@ class TestExceptionAttributes:
 
     def test_invalid_units_error_attributes(self):
         """Test InvalidUnitsError attributes."""
-        exc = InvalidUnitsError(
-            "Test message",
-            unit="bad_unit",
-            valid_units=["unit1", "unit2"]
-        )
+        exc = InvalidUnitsError("Test message", unit="bad_unit", valid_units=["unit1", "unit2"])
         assert exc.unit == "bad_unit"
         assert exc.valid_units == ["unit1", "unit2"]
         assert "Test message" in str(exc)
 
     def test_unit_mismatch_error_attributes(self):
         """Test UnitMismatchError attributes."""
-        exc = UnitMismatchError(
-            "Type mismatch",
-            from_unit="temperature",
-            to_unit="distance"
-        )
+        exc = UnitMismatchError("Type mismatch", from_unit="temperature", to_unit="distance")
         assert exc.from_unit == "temperature"
         assert exc.to_unit == "distance"
 
     def test_buoy_not_found_error_attributes(self):
         """Test BuoyNotFoundError attributes."""
-        exc = BuoyNotFoundError(
-            "Buoy not found",
-            station="TEST123",
-            url="http://example.com"
-        )
+        exc = BuoyNotFoundError("Buoy not found", station="TEST123", url="http://example.com")
         assert exc.station == "TEST123"
         assert exc.url == "http://example.com"
 
@@ -160,10 +150,7 @@ class TestExceptionAttributes:
         """Test NOAAServiceError attributes."""
         original = ValueError("original error")
         exc = NOAAServiceError(
-            "Service error",
-            url="http://example.com",
-            status_code=500,
-            original_error=original
+            "Service error", url="http://example.com", status_code=500, original_error=original
         )
         assert exc.url == "http://example.com"
         assert exc.status_code == 500
@@ -171,12 +158,7 @@ class TestExceptionAttributes:
 
     def test_out_of_bounds_error_attributes(self):
         """Test OutOfBoundsError attributes."""
-        exc = OutOfBoundsError(
-            "Latitude out of range",
-            latitude=100,
-            value=100,
-            bounds=(-90, 90)
-        )
+        exc = OutOfBoundsError("Latitude out of range", latitude=100, value=100, bounds=(-90, 90))
         assert exc.latitude == 100
         assert exc.value == 100
         assert exc.bounds == (-90, 90)
@@ -184,11 +166,7 @@ class TestExceptionAttributes:
     def test_cache_error_attributes(self):
         """Test cache error attributes."""
         original = IOError("disk full")
-        exc = CacheWriteError(
-            "Write failed",
-            cache_path="/tmp/cache.json",
-            original_error=original
-        )
+        exc = CacheWriteError("Write failed", cache_path="/tmp/cache.json", original_error=original)
         assert exc.cache_path == "/tmp/cache.json"
         assert exc.original_error is original
 
@@ -285,16 +263,32 @@ class TestExceptionDocumentation:
     def test_all_exceptions_have_docstrings(self):
         """Test that all exception classes have docstrings."""
         exceptions = [
-            NauticalError, DataError, InvalidBuoyDataError,
-            InvalidWindDataError, InvalidLocationDataError,
-            InvalidTimeDataError, InvalidSourceDataError,
-            ParsingError, CDataParsingError, JSONParsingError,
-            ConversionError, InvalidUnitsError, UnitMismatchError,
-            UnsupportedConversionError, NetworkError, BuoyNotFoundError,
-            NOAAServiceError, NetworkTimeoutError, CacheError,
-            CacheNotFoundError, CacheWriteError, CacheReadError,
-            LocationError, InvalidCoordinatesError, OutOfBoundsError,
-            DistanceCalculationError
+            NauticalError,
+            DataError,
+            InvalidBuoyDataError,
+            InvalidWindDataError,
+            InvalidLocationDataError,
+            InvalidTimeDataError,
+            InvalidSourceDataError,
+            ParsingError,
+            CDataParsingError,
+            JSONParsingError,
+            ConversionError,
+            InvalidUnitsError,
+            UnitMismatchError,
+            UnsupportedConversionError,
+            NetworkError,
+            BuoyNotFoundError,
+            NOAAServiceError,
+            NetworkTimeoutError,
+            CacheError,
+            CacheNotFoundError,
+            CacheWriteError,
+            CacheReadError,
+            LocationError,
+            InvalidCoordinatesError,
+            OutOfBoundsError,
+            DistanceCalculationError,
         ]
 
         for exc_class in exceptions:

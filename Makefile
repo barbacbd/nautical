@@ -1,4 +1,4 @@
-.PHONY: install test test-py test-go lint lint-py coverage coverage-py coverage-go clean
+.PHONY: install test test-py test-go lint lint-py format format-py format-go format-check format-check-py format-check-go coverage coverage-py coverage-go clean
 
 install:
 	pip install ".[test]" --upgrade
@@ -10,6 +10,24 @@ test-py:
 
 test-go:
 	go test -v ./...
+
+format: format-py format-go
+
+format-py:
+	ruff format .
+	ruff check --fix .
+
+format-go:
+	gofmt -w pkg/ nautical.go
+
+format-check: format-check-py format-check-go
+
+format-check-py:
+	ruff format --check .
+	ruff check .
+
+format-check-go:
+	@test -z "$$(gofmt -l pkg/ nautical.go)" || { echo "gofmt needed on:"; gofmt -l pkg/ nautical.go; exit 1; }
 
 lint: lint-py
 

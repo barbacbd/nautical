@@ -2,9 +2,10 @@ import logging
 
 
 class NauticalLogFormatter(logging.Formatter):
-    '''Formatter class that will be used for formatting nautical
+    """Formatter class that will be used for formatting nautical
     information. The formatter will add color as well as an image
-    '''
+    """
+
     green = "\x1b[32;20m"
     blue = "\x1b[34;20m"
     yellow = "\x1b[33;20m"
@@ -18,7 +19,7 @@ class NauticalLogFormatter(logging.Formatter):
         logging.INFO: green + fmt + reset,
         logging.WARNING: yellow + fmt + reset,
         logging.ERROR: red + fmt + reset,
-        logging.CRITICAL: purple + fmt + reset
+        logging.CRITICAL: purple + fmt + reset,
     }
 
     def format(self, record):
@@ -27,14 +28,14 @@ class NauticalLogFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def get_logger(name='nautical', verbosity=logging.CRITICAL):
-    '''Wrap the logging.getLogger functionality to apply nautical 
+def get_logger(name="nautical", verbosity=logging.CRITICAL):
+    """Wrap the logging.getLogger functionality to apply nautical
     based logging information.
 
     :param name: Name of the logger
     :param verbosity: Level of verbosity for the logger
     :return: logging.log formatted with the NauticalLogFormatter
-    '''
+    """
     log = logging.getLogger(name)
     log.setLevel(verbosity)
 

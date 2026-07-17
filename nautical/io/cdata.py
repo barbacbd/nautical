@@ -1,26 +1,24 @@
-from nautical.time import NauticalTime, TimeFormat
-from nautical.log import get_logger
 from nautical.location import Point
+from nautical.log import get_logger
 from nautical.noaa.buoy import BuoyData
-
+from nautical.time import NauticalTime, TimeFormat
 
 log = get_logger()
 
 
 def parse_winds(wind_data):
-    '''Parse the wind information. The wind data includes
+    """Parse the wind information. The wind data includes
     a direction, speed in knots, as well as the gust speed
-    
+
     :param wind_data: String containing the wind string
     :return: Dictionary containing the windspeed and gust information
-    '''
+    """
     split_wind_data = wind_data.split()
 
     wind_speed = None
     gusts = None
 
     for data_point in split_wind_data:
-
         try:
             float_value = float(data_point)
 
@@ -36,17 +34,18 @@ def parse_winds(wind_data):
 
 
 def parse_location(location_data):
-    '''Parse the latitude and longitude values out of the
+    """Parse the latitude and longitude values out of the
     the string that was passed in. The latitude and longitude
     should contain the NSEW strings describing their sign.
 
     :param location_data: String data contain latitude and longitude values
     :return: dictionary containing the location point (when valid)
-    '''
+    """
+
     def _describe(data):
-        '''Describe or determine lat vs lon, positivity, and
-        the value that needs to be calculated. 
-        '''
+        """Describe or determine lat vs lon, positivity, and
+        the value that needs to be calculated.
+        """
         _lookup = {
             "n": ("latitude", 1.0),
             "s": ("latitude", -1.0),
@@ -57,7 +56,7 @@ def parse_location(location_data):
 
         for key, value in _lookup.items():
             if key in _data:
-                return value[0], value[1], _data.replace(key, '')
+                return value[0], value[1], _data.replace(key, "")
         return None, 0.0, None
 
     location_dict = {}  # base/default return
@@ -87,12 +86,12 @@ def parse_location(location_data):
 
 
 def parse_time(time_data):
-    '''Parse the month/day/year time out of the time
+    """Parse the month/day/year time out of the time
     data string from CDATA.
 
     :param time_data: String containing all time and date information
     :return: dictionary mm, dd, year, time where time is NauticalTime
-    '''
+    """
     nautical_time = None
     month = None
     day = None
@@ -133,7 +132,7 @@ aliases = {
     # ptdy
     "air temperature": "atmp",
     "water temperature": "wtmp",
-    "dew point": "dewp",        
+    "dew point": "dewp",
     "salinity": "sal",
     "visibility": "vis",
     "tide": "tide",
@@ -141,31 +140,27 @@ aliases = {
     "swell wave period": "swp",
     "wind wave height": "wwh",
     "wind wave period": "wwp",
-    "wind speed": "wspd"
+    "wind speed": "wspd",
 }
 
 # The alias is actually multiple values, so let's use a function to parse
-alias_func = {
-    "winds": parse_winds,
-    "location": parse_location
-}
+alias_func = {"winds": parse_winds, "location": parse_location}
 
 
 def parse_cdata(cdata):
-    '''Parse the CDATA string that contains information about this 
+    """Parse the CDATA string that contains information about this
     presumed buoy. The data here will be used as supplemental information
     as some buoys cannot be scraped online (no valid or useable data).
 
     :param cdata: String containing the CDATA or description element from kml
     :return: Dictionary containing all parsed fields.
-    '''
+    """
     parsed_cdata_dict = {}
 
     # data is separated by line breaks, cut there
     xml_data = cdata.split("<br />")
 
     for xd_val in xml_data:
-
         # remove the tags
         elements = [x for x in xd_val.strip().replace("<b>", "").split("</b>") if x]
         # no elements found, don't bother searching
@@ -194,14 +189,14 @@ def parse_cdata(cdata):
 
 
 def fill_buoy_with_cdata(buoy, cdata):
-    '''Parse the CDATA string that contains information about this 
+    """Parse the CDATA string that contains information about this
     presumed buoy. The data here will be used as supplemental information
     as some buoys cannot be scraped online (no valid or useable data).
 
     :param buoy: nautical.noaa.buoy.Buoy
     :param cdata: String containing the CDATA or description element from kml
     :return: Buoy object
-    '''
+    """
     buoy_data = BuoyData()
 
     parsed_cdata = parse_cdata(cdata)

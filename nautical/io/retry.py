@@ -4,12 +4,13 @@ Retry logic and rate limiting for web requests.
 This module provides intelligent retry mechanisms with exponential backoff,
 rate limit detection, and respect for HTTP Retry-After headers.
 """
-import time
-from urllib.error import HTTPError, URLError
-from socket import timeout as SocketTimeout
-from functools import wraps
-from nautical.log import get_logger
 
+import time
+from functools import wraps
+from socket import timeout as SocketTimeout
+from urllib.error import HTTPError, URLError
+
+from nautical.log import get_logger
 
 log = get_logger()
 
@@ -33,7 +34,7 @@ class RetryConfig:
         max_delay=60.0,
         backoff_factor=2.0,
         retry_on_status=None,
-        respect_retry_after=True
+        respect_retry_after=True,
     ):
         self.max_retries = max_retries
         self.initial_delay = initial_delay
@@ -83,7 +84,7 @@ class RateLimiter:
         # Refill tokens based on time passed
         self.tokens = min(
             self.requests_per_window,
-            self.tokens + (time_passed * self.requests_per_window / self.window_seconds)
+            self.tokens + (time_passed * self.requests_per_window / self.window_seconds),
         )
         self.last_update = now
 
@@ -131,13 +132,14 @@ def get_retry_delay(attempt, config, retry_after=None):
             log.warning(f"Could not parse Retry-After header: {retry_after}")
 
     # Exponential backoff: initial_delay * (backoff_factor ^ attempt)
-    delay = config.initial_delay * (config.backoff_factor ** attempt)
+    delay = config.initial_delay * (config.backoff_factor**attempt)
 
     # Cap at max_delay
     delay = min(delay, config.max_delay)
 
     # Add jitter (random ±20%) to avoid thundering herd
     import random
+
     jitter = delay * 0.2 * (random.random() * 2 - 1)  # -20% to +20%
     delay = max(0, delay + jitter)
 
@@ -162,8 +164,8 @@ def should_retry(error, config):
     if isinstance(error, HTTPError):
         # Extract Retry-After header if present
         retry_after = None
-        if hasattr(error, 'headers') and error.headers:
-            retry_after = error.headers.get('Retry-After')
+        if hasattr(error, "headers") and error.headers:
+            retry_after = error.headers.get("Retry-After")
 
         # 429 (Too Many Requests) should always be retried
         if error.code == 429:
@@ -242,6 +244,7 @@ def with_retry(config=None, rate_limiter=None):
                 raise last_error
 
         return wrapper
+
     return decorator
 
 
@@ -281,19 +284,11 @@ def retry_request(func, config=None, rate_limiter=None, *args, **kwargs):
 
 # Conservative: For sensitive endpoints or when being respectful
 CONSERVATIVE_RETRY = RetryConfig(
-    max_retries=3,
-    initial_delay=2.0,
-    max_delay=60.0,
-    backoff_factor=2.0
+    max_retries=3, initial_delay=2.0, max_delay=60.0, backoff_factor=2.0
 )
 
 # Aggressive: For time-critical requests (use with caution)
-AGGRESSIVE_RETRY = RetryConfig(
-    max_retries=5,
-    initial_delay=0.5,
-    max_delay=30.0,
-    backoff_factor=1.5
-)
+AGGRESSIVE_RETRY = RetryConfig(max_retries=5, initial_delay=0.5, max_delay=30.0, backoff_factor=1.5)
 
 # No retry: For testing or when retries are not desired
 NO_RETRY = RetryConfig(max_retries=0)

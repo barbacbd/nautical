@@ -171,32 +171,32 @@ func TestAddBuoy(t *testing.T) {
 func TestFillBuoy(t *testing.T) {
 
 	tests := []struct {
-		name               string
-		filename           string
-		search             []string
-		waveHeight         float64
-		airTemp            float64
-		waterTemp          float64
-		salinity           float64
-		windSpeed          float64
-		windDirection      string
-		gust               float64
-		windSpeed10Min     float64
-		windSpeed20Min     float64
-		errString          string
+		name           string
+		filename       string
+		search         []string
+		waveHeight     float64
+		airTemp        float64
+		waterTemp      float64
+		salinity       float64
+		windSpeed      float64
+		windDirection  string
+		gust           float64
+		windSpeed10Min float64
+		windSpeed20Min float64
+		errString      string
 	}{{
-		name:               "Valid Buoy Loading",
-		filename:           "../../../tests/ValidBuoy.html",
-		search:             []string{"Conditions at 44072", "Detailed Wave Summary"},
-		waveHeight:         0.3,
-		airTemp:            64.0,
-		waterTemp:          67.6,
-		salinity:           19.98,
-		windSpeed:          9.7, 
-		windDirection:      "NNE",
-		gust:               11.7,
-		windSpeed10Min:     9.7,
-		windSpeed20Min:     11.7,
+		name:           "Valid Buoy Loading",
+		filename:       "../../../tests/ValidBuoy.html",
+		search:         []string{"Conditions at 44072", "Detailed Wave Summary"},
+		waveHeight:     0.3,
+		airTemp:        64.0,
+		waterTemp:      67.6,
+		salinity:       19.98,
+		windSpeed:      9.7,
+		windDirection:  "NNE",
+		gust:           11.7,
+		windSpeed10Min: 9.7,
+		windSpeed20Min: 11.7,
 	}, {
 		name:      "Invalid Buoy Loading",
 		filename:  "../../../tests/InvalidBuoy.html",

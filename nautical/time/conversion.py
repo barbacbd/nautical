@@ -1,7 +1,7 @@
 from nautical.log import get_logger
+
 from .enums import Midday
 from .nautical_time import NauticalTime
-
 
 log = get_logger()
 # constant value from HTML to create a non-breaking space value
@@ -9,13 +9,13 @@ NON_BREAKING_SPACE = "&nbsp;"
 
 
 def convert_noaa_time(orig: str):
-    '''Convert the time value read in from the table that NOAA has hosted.
+    """Convert the time value read in from the table that NOAA has hosted.
     The time string is formatted/encoded with HTML data. We need to remove that data
     then split the time up.
 
     :param orig: original string representation of time
     :return: NauticalTime object if it could be created, otherwise None will be returned
-    '''
+    """
     split_str = orig.strip().split(NON_BREAKING_SPACE)
 
     nautical_time = None
@@ -45,7 +45,7 @@ def convert_noaa_time(orig: str):
             time_str = orig
 
     split_time = time_str.split(":")
-    
+
     # Time is assumed in the format HH:MM:[SS] Where seconds is optional and not used
     if len(split_time) >= 2:
         nautical_time = NauticalTime()
@@ -56,5 +56,5 @@ def convert_noaa_time(orig: str):
         except ValueError as error:
             log.error(error)
             return None
-    
+
     return nautical_time

@@ -1,18 +1,18 @@
-from .units import (
-    TimeUnits,
-    TemperatureUnits,
-    SpeedUnits,
-    DistanceUnits,
-    PressureUnits,
-    SalinityUnits
-)
 from .conversion import (
     convert,
+    convert_distance,
+    convert_pressure,
+    convert_speed,
     convert_temperature,
     convert_time,
-    convert_distance,
-    convert_speed,
-    convert_pressure
+)
+from .units import (
+    DistanceUnits,
+    PressureUnits,
+    SalinityUnits,
+    SpeedUnits,
+    TemperatureUnits,
+    TimeUnits,
 )
 
 __all__ = [
@@ -27,5 +27,5 @@ __all__ = [
     "DistanceUnits",
     "PressureUnits",
     "convert_pressure",
-    "SalinityUnits"
+    "SalinityUnits",
 ]
