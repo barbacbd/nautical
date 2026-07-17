@@ -59,8 +59,8 @@ go tool cover -func=coverage.out
 - Python uses `__slots__` on `BuoyData` for memory efficiency
 - Properties with getters/setters for validation on `Buoy` and `Point`
 - `copy`/`deepcopy` used to prevent mutation of internal state through the public API
-- Custom exception hierarchy in `nautical/exceptions.py` (24 classes) — see `EXCEPTION_DESIGN.md`
-- Retry/rate-limiting decorator (`@with_retry`) for web requests — see `RETRY_USAGE.md`
+- Custom exception hierarchy in `nautical/exceptions.py` (24 classes) — see `user/docs/ExceptionDesign.md`
+- Retry/rate-limiting decorator (`@with_retry`) for web requests — see `user/docs/RetryUsage.md`
 - Go structs use JSON/XML struct tags for serialization
 - Formatting enforced via `ruff` (Python) and `gofmt` (Go) — CI checks on push and PRs
 - Pre-commit hooks configured (`.pre-commit-config.yaml`) — run `make setup` to activate
