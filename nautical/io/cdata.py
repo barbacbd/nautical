@@ -82,7 +82,10 @@ def parse_location(location_data: str) -> dict:
             log.debug(error)
 
     if None not in (latitude, longitude):
-        location_dict["location"] = Point(latitude, longitude)
+        try:
+            location_dict["location"] = Point(latitude, longitude)
+        except (ValueError, TypeError):
+            log.debug("Invalid coordinates: lat=%s, lon=%s", latitude, longitude)
 
     return location_dict
 

@@ -2,7 +2,11 @@ from __future__ import annotations
 
 from haversine import Unit, haversine
 
-from nautical.exceptions import DistanceCalculationError, UnsupportedConversionError
+from nautical.exceptions import (
+    DistanceCalculationError,
+    InvalidCoordinatesError,
+    UnsupportedConversionError,
+)
 from nautical.log import get_logger
 from nautical.units import DistanceUnits
 
@@ -16,9 +20,11 @@ class Point:
         """The latitude, longitude, and altitude are supplied to
         the base class as the x, y, z parameters respectively.
         """
-        self._latitude = lat
-        self._longitude = lon
+        self._latitude = 0.0
+        self._longitude = 0.0
         self._altitude = alt
+        self.latitude = lat
+        self.longitude = lon
 
     @property
     def latitude(self) -> float:
@@ -27,12 +33,24 @@ class Point:
         """
         return self._latitude
 
+    @latitude.setter
+    def latitude(self, value: float) -> None:
+        if value < -90 or value > 90:
+            raise InvalidCoordinatesError(f"latitude not in range (-90, 90): {value}")
+        self._latitude = value
+
     @property
     def longitude(self) -> float:
         """Longitude Property (degrees)
         :return: longitude (degrees)
         """
         return self._longitude
+
+    @longitude.setter
+    def longitude(self, value: float) -> None:
+        if value < -180 or value > 180:
+            raise InvalidCoordinatesError(f"longitude not in range (-180, 180): {value}")
+        self._longitude = value
 
     @property
     def altitude(self) -> float:
@@ -86,8 +104,10 @@ class Point:
 
     def from_dict(self, point_dict: dict[str, float]) -> None:
         """Fill the instance from a json dictionary"""
-        self._latitude = point_dict.get("latitude", self._latitude)
-        self._longitude = point_dict.get("longitude", self._longitude)
+        if "latitude" in point_dict:
+            self.latitude = point_dict["latitude"]
+        if "longitude" in point_dict:
+            self.longitude = point_dict["longitude"]
         self._altitude = point_dict.get("altitude", self._altitude)
 
     def distance(self, other: "Point", units: DistanceUnits = DistanceUnits.METERS) -> float:

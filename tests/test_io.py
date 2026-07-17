@@ -239,13 +239,10 @@ def test_cdata_bad_location_string():
 
 
 def test_cdata_valid_location_string_bad_values():
-    """Test that the string is parsed but the values
-    are not within the valid limits of lat and lon
-    """
+    """Test that out-of-bounds lat/lon values are rejected"""
     data = "99.7N 187.34W"
     parsed_data_dict = parse_location(data)
-    assert parsed_data_dict["location"].latitude == 99.7
-    assert parsed_data_dict["location"].longitude == -187.34
+    assert "location" not in parsed_data_dict
 
 
 def test_cdata_no_latitude():
