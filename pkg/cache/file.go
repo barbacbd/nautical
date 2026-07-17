@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/user"
 	"runtime"
@@ -140,7 +139,7 @@ func (cache *NauticalCacheData) CopyCurrentCacheWithTimestamp() error {
 
 // Load will load the data from a file into the NauticalCacheData
 func Load(filename string) (*NauticalCacheData, error) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
@@ -160,7 +159,7 @@ func (cache *NauticalCacheData) Dump() error {
 	if err != nil {
 		return err
 	}
-	if err = ioutil.WriteFile(cache.Filename, content, 0666); err != nil {
+	if err = os.WriteFile(cache.Filename, content, 0666); err != nil {
 		return err
 	}
 	return nil

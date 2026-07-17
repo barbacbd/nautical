@@ -3,7 +3,6 @@ package buoy
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -215,7 +214,7 @@ func TestFillBuoy(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 
 			fullFilePath := fmt.Sprintf("%s/%s", path, tc.filename)
-			body, err := ioutil.ReadFile(fullFilePath)
+			body, err := os.ReadFile(fullFilePath)
 			if err != nil {
 				t.Fail()
 			}

@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -153,7 +152,7 @@ func GetBuoySources() ([]*Source, error) {
 		return nil, err
 	}
 	defer xmlFile.Close()
-	byteValue, _ := ioutil.ReadAll(xmlFile)
+	byteValue, _ := io.ReadAll(xmlFile)
 	var myXMLDoc XMLDoc
 	xml.Unmarshal(byteValue, &myXMLDoc)
 
