@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from datetime import datetime, timezone
+from enum import Enum
 from typing import Any
 
 from nautical.log import get_logger
@@ -79,7 +80,7 @@ buoy_vars = [
 ]
 
 
-def _find_parameter_units(key: str) -> object | None:
+def _find_parameter_units(key: str) -> Enum | None:
     """Function that will attempt to find the units associated
     with the key. If no units are found, None is returned.
 
