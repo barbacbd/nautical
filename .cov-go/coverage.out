@@ -167,7 +167,7 @@ github.com/barbacbd/nautical/pkg/noaa/buoy/cdata.go:100.26,102.3 1 2
 github.com/barbacbd/nautical/pkg/noaa/buoy/cdata.go:104.2,104.29 1 4
 github.com/barbacbd/nautical/pkg/noaa/buoy/cdata.go:109.61,110.65 1 8
 github.com/barbacbd/nautical/pkg/noaa/buoy/cdata.go:110.65,112.39 2 13
-github.com/barbacbd/nautical/pkg/noaa/buoy/cdata.go:112.39,113.40 1 31
+github.com/barbacbd/nautical/pkg/noaa/buoy/cdata.go:112.39,113.40 1 34
 github.com/barbacbd/nautical/pkg/noaa/buoy/cdata.go:113.40,115.5 1 12
 github.com/barbacbd/nautical/pkg/noaa/buoy/cdata.go:117.3,117.75 1 1
 github.com/barbacbd/nautical/pkg/noaa/buoy/cdata.go:120.2,127.41 7 8
@@ -274,7 +274,7 @@ github.com/barbacbd/nautical/pkg/noaa/buoy/source.go:250.45,252.4 1 0
 github.com/barbacbd/nautical/pkg/noaa/buoy/source.go:254.2,254.12 1 2
 github.com/barbacbd/nautical/pkg/sea_state/types.go:26.42,32.36 2 11
 github.com/barbacbd/nautical/pkg/sea_state/types.go:32.36,33.44 1 110
-github.com/barbacbd/nautical/pkg/sea_state/types.go:33.44,35.4 1 17
+github.com/barbacbd/nautical/pkg/sea_state/types.go:33.44,35.4 1 14
 github.com/barbacbd/nautical/pkg/sea_state/types.go:38.2,38.17 1 11
 github.com/barbacbd/nautical/pkg/time/conversion.go:18.69,24.24 4 8
 github.com/barbacbd/nautical/pkg/time/conversion.go:24.24,25.10 1 3
