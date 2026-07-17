@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 from nautical.log import get_logger
 from nautical.time.conversion import convert_noaa_time
@@ -183,7 +183,7 @@ class BuoyData:
         bd.from_dict(json_data)
         return bd
 
-    def from_dict(self, buoy_data_dict: Dict[str, Any]):
+    def from_dict(self, buoy_data_dict: dict[str, Any]):
         """Fill this object from the data stored in a dictionary where
         the key should match a slot or object variable
 

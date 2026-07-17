@@ -1,5 +1,4 @@
 from copy import copy
-from typing import List
 from warnings import warn
 
 from nautical.location.point import Point
@@ -19,7 +18,7 @@ class Buoy:
         self.description = description
         self._location: Point = None
         self._present: BuoyData = None
-        self._past: List[BuoyData] = []
+        self._past: list[BuoyData] = []
 
         if location is not None:
             self.location = location

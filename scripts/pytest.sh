@@ -8,14 +8,14 @@
 # virtual environment.
 #----------------------------------------------
 
-# Exit if python 3 is not python3.6 or greater
+# Exit if python 3 is not python3.9 or greater
 pyv=$(python3 -c 'import sys; print("{}.{}".format(sys.version_info.major, sys.version_info.minor))')
 
 
 
-if [[ "$pyv" < "3.6" ]]; then
+if [[ "$pyv" < "3.9" ]]; then
     echo "";
-    echo "No python version > 3.6 found.";
+    echo "No python version >= 3.9 found.";
     echo "If you believe that your python version meets the requirements, then";
     echo "please set an alias for python3 to python.";
     echo "";
