@@ -131,7 +131,9 @@ class Point:
 
         return haversine(self.as_tuple(), other.as_tuple(), hav_units)
 
-    def in_range(self, other: "Point", distance: float, units: DistanceUnits = DistanceUnits.METERS) -> bool:
+    def in_range(
+        self, other: "Point", distance: float, units: DistanceUnits = DistanceUnits.METERS
+    ) -> bool:
         """Deteremine if the points are within a specific distance of eachother.
 
         :param other: The other `Point`

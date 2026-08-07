@@ -26,9 +26,16 @@ class NauticalLogFormatter(logging.Formatter):
             }
         else:
             plain = logging.Formatter(self.fmt)
-            self._formatters = {level: plain for level in (
-                logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR, logging.CRITICAL
-            )}
+            self._formatters = {
+                level: plain
+                for level in (
+                    logging.DEBUG,
+                    logging.INFO,
+                    logging.WARNING,
+                    logging.ERROR,
+                    logging.CRITICAL,
+                )
+            }
 
     def format(self, record: logging.LogRecord) -> str:
         formatter = self._formatters.get(record.levelno, self._formatters[logging.DEBUG])

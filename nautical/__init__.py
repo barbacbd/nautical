@@ -1,3 +1,4 @@
+from .cache import clear_memory_cache
 from .io import create_buoy, fill_buoy, get_buoy_sources
 from .location import Point
 from .noaa.buoy import Buoy, BuoyData, Source, SourceType
@@ -14,4 +15,5 @@ __all__ = [
     "create_buoy",
     "fill_buoy",
     "get_buoy_sources",
+    "clear_memory_cache",
 ]

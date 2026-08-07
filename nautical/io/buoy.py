@@ -4,6 +4,8 @@ from re import sub
 
 from bs4 import BeautifulSoup
 
+from nautical.cache.file import load_buoy, save_buoy
+from nautical.cache.memory import _buoy_cache
 from nautical.io.web import get_noaa_forecast_url, get_url_source
 from nautical.log import get_logger
 from nautical.noaa.buoy.buoy import Buoy
@@ -12,31 +14,76 @@ from nautical.noaa.buoy.buoy_data import BuoyData
 log = get_logger(__name__)
 
 
-def create_buoy(buoy: str) -> Buoy | None:
+def create_buoy(buoy: str, use_cache: bool = True) -> Buoy | None:
     """Provide a full workup for a specific buoy. If the buoy is None or it cannot
     be found then the data returned will be considered invalid as None
 
     :param buoy: id of the buoy to do a workup on
+    :param use_cache: when True, check memory and disk caches before fetching
     :return: BuoyWorkup if successful else None
     """
     if not buoy:
         return None
 
+    if use_cache:
+        cached = _buoy_cache.get(buoy)
+        if cached is not None and isinstance(cached, Buoy) and cached.valid:
+            return cached
+
+        disk_cached = load_buoy(buoy)
+        if disk_cached is not None and disk_cached.valid:
+            _buoy_cache.set(buoy, disk_cached)
+            return disk_cached
+
     buoy_data = Buoy(buoy)
-    fill_buoy(buoy_data)
+    _fill_buoy_from_network(buoy_data)
 
     if not buoy_data.valid:
         return None
 
+    if use_cache:
+        _buoy_cache.set(buoy, buoy_data)
+        try:
+            save_buoy(buoy_data)
+        except OSError:
+            log.warning("Failed to write buoy %s to disk cache", buoy)
+
     return buoy_data
 
 
-def fill_buoy(buoy: Buoy) -> None:
+def fill_buoy(buoy: Buoy, use_cache: bool = True) -> None:
     """Pass in a Buoy object that needs to be filled in with the current data.
     The buoy object will have the validity set if the results were successful
 
     :param buoy: nautical.noaa.buoy.Buoy object
+    :param use_cache: when True, check memory and disk caches before fetching
     """
+    if use_cache:
+        cached = _buoy_cache.get(buoy.station)
+        if cached is not None and isinstance(cached, Buoy) and cached.valid:
+            buoy.valid = cached.valid
+            buoy.present = cached.present
+            return
+
+        disk_cached = load_buoy(buoy.station)
+        if disk_cached is not None and disk_cached.valid:
+            buoy.valid = disk_cached.valid
+            buoy.present = disk_cached.present
+            _buoy_cache.set(buoy.station, buoy)
+            return
+
+    _fill_buoy_from_network(buoy)
+
+    if use_cache and buoy.valid:
+        _buoy_cache.set(buoy.station, buoy)
+        try:
+            save_buoy(buoy)
+        except OSError:
+            log.warning("Failed to write buoy %s to disk cache", buoy.station)
+
+
+def _fill_buoy_from_network(buoy: Buoy) -> None:
+    """Fetch buoy data from NOAA and populate the buoy object."""
     url = get_noaa_forecast_url(buoy.station)
     soup = get_url_source(url)
 
@@ -89,7 +136,10 @@ def get_current_data(soup: BeautifulSoup, buoy: BuoyData, search: str | list[str
                     except (IndexError, TypeError, AttributeError) as error:
                         log.error(
                             "%s - key_field: %s, key: %s, value: %s",
-                            error, key_data, key, value,
+                            error,
+                            key_data,
+                            key,
+                            value,
                         )
 
     # no variables set indicates errors or invalid buoy

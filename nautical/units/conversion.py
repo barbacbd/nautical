@@ -42,7 +42,9 @@ PressureLookup = {
 }
 
 
-def convert_temperature(value: float, init_units: TemperatureUnits, final_units: TemperatureUnits) -> float:
+def convert_temperature(
+    value: float, init_units: TemperatureUnits, final_units: TemperatureUnits
+) -> float:
     """Convert the temperature value from the initial units to the
     final units
 

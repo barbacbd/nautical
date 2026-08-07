@@ -10,8 +10,8 @@ from __future__ import annotations
 import time
 from collections.abc import Callable
 from functools import wraps
-from typing import Any
 from socket import timeout as SocketTimeout
+from typing import Any
 from urllib.error import HTTPError, URLError
 
 from nautical.log import get_logger
@@ -103,8 +103,9 @@ class RateLimiter:
         # Consume a token
         self.tokens -= 1
 
-        # Ensure minimum interval between requests
-        time.sleep(self.min_interval)
+        # Only enforce minimum interval when tokens are running low
+        if self.tokens < self.requests_per_window * 0.25:
+            time.sleep(self.min_interval)
 
 
 # Global rate limiter for NOAA requests
@@ -113,7 +114,9 @@ class RateLimiter:
 _global_rate_limiter = RateLimiter(requests_per_window=30, window_seconds=60)
 
 
-def get_retry_delay(attempt: int, config: RetryConfig, retry_after: str | int | None = None) -> float:
+def get_retry_delay(
+    attempt: int, config: RetryConfig, retry_after: str | int | None = None
+) -> float:
     """Calculate delay before next retry attempt.
 
     Args:
@@ -190,7 +193,9 @@ def should_retry(error: Exception, config: RetryConfig) -> tuple[bool, str | Non
     return False, None
 
 
-def with_retry(config: RetryConfig | None = None, rate_limiter: RateLimiter | None = None) -> Callable:
+def with_retry(
+    config: RetryConfig | None = None, rate_limiter: RateLimiter | None = None
+) -> Callable:
     """Decorator to add retry logic to a function.
 
     Args:
@@ -238,7 +243,10 @@ def with_retry(config: RetryConfig | None = None, rate_limiter: RateLimiter | No
 
                     log.info(
                         "Retry %d/%d after %.1fs: %s",
-                        attempt + 1, config.max_retries, delay, type(e).__name__,
+                        attempt + 1,
+                        config.max_retries,
+                        delay,
+                        type(e).__name__,
                     )
 
                     time.sleep(delay)
@@ -252,7 +260,13 @@ def with_retry(config: RetryConfig | None = None, rate_limiter: RateLimiter | No
     return decorator
 
 
-def retry_request(func: Callable, config: RetryConfig | None = None, rate_limiter: RateLimiter | None = None, *args: Any, **kwargs: Any) -> Any:
+def retry_request(
+    func: Callable,
+    config: RetryConfig | None = None,
+    rate_limiter: RateLimiter | None = None,
+    *args: Any,
+    **kwargs: Any,
+) -> Any:
     """Retry a function call with retry logic.
 
     Alternative to decorator when you can't use @with_retry.

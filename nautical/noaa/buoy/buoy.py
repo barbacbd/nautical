@@ -11,7 +11,9 @@ from nautical.noaa.buoy.buoy_data import BuoyData
 class Buoy:
     # pylint: disable=too-many-instance-attributes
 
-    def __init__(self, station: str, description: str | None = None, location: Point | None = None) -> None:
+    def __init__(
+        self, station: str, description: str | None = None, location: Point | None = None
+    ) -> None:
         """
         :param station: ID of the station
         :param description: snippet of information to describe this station
@@ -83,7 +85,9 @@ class Buoy:
                 if present_data.epoch_time > self._present.epoch_time:
                     self._update_past(self._present)
                 else:
-                    raise InvalidBuoyDataError("Failed to set present data, time is in the past.", station=self.station)
+                    raise InvalidBuoyDataError(
+                        "Failed to set present data, time is in the past.", station=self.station
+                    )
 
             self._present = present_data
 

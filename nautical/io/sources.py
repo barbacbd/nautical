@@ -6,6 +6,8 @@ from urllib.request import urlopen
 
 from pykml import parser
 
+from nautical.cache.file import load_sources, save_sources
+from nautical.cache.memory import _sources_cache
 from nautical.location.point import Point
 from nautical.log import get_logger
 from nautical.noaa.buoy.buoy import Buoy
@@ -17,7 +19,9 @@ from .cdata import fill_buoy_with_cdata
 log = get_logger(__name__)
 
 
-def get_buoy_sources(source_types: SourceType | list[SourceType] = SourceType.ALL) -> dict[str, Source]:
+def get_buoy_sources(
+    source_types: SourceType | list[SourceType] = SourceType.ALL, use_cache: bool = True
+) -> dict[str, Source]:
     """NOAA is kind enough to provide all of names, ids, and other information about ALL
     of their known buoys in a kml document hosted at the link provided
     (https://www.ndbc.noaa.gov/kml/marineobs_by_pgm.kml). Read through this document and
@@ -35,6 +39,19 @@ def get_buoy_sources(source_types: SourceType | list[SourceType] = SourceType.AL
         source_lst = [SourceType.as_strings(x) for x in SourceType if x != SourceType.ALL]
     else:
         source_lst = list(set([SourceType.as_strings(x) for x in source_lst]))
+
+    cache_key = ",".join(sorted(source_lst))
+    if use_cache:
+        cached = _sources_cache.get(cache_key)
+        if cached is not None and isinstance(cached, dict):
+            return cached
+
+        disk_cached = load_sources()
+        if disk_cached is not None:
+            filtered = {k: v for k, v in disk_cached.items() if k in source_lst}
+            if filtered:
+                _sources_cache.set(cache_key, filtered)
+                return filtered
 
     sources = {}
 
@@ -89,10 +106,19 @@ def get_buoy_sources(source_types: SourceType | list[SourceType] = SourceType.AL
 
             sources[source.name] = source
 
+    if use_cache and sources:
+        _sources_cache.set(cache_key, sources)
+        try:
+            save_sources(sources)
+        except OSError:
+            log.warning("Failed to write sources to disk cache")
+
     return sources
 
 
-def validate_sources(source_data: dict[str, Source], remove_invalid: bool = True) -> dict[str, Source]:
+def validate_sources(
+    source_data: dict[str, Source], remove_invalid: bool = True
+) -> dict[str, Source]:
     """This function is presumed to be executed after `get_buoy_sources`.
     The results of the previous function meet the requirements for the
     formatted parameter here. The function will attempt to parse all

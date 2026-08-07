@@ -132,3 +132,62 @@ def dumps(data: dict, filename: str = NAUTICAL_CACHE_FILE) -> None:
 
     with open(filename, "w+") as cache_file:
         jdump(_data, cache_file, indent=4)
+
+
+def load_buoy(station_id: str, filename: str = NAUTICAL_CACHE_FILE) -> Buoy | None:
+    """Load a single cached buoy by station ID, returning None if not found or expired."""
+    from .time import should_update
+
+    cached = load(filename, CacheData.ALL)
+    if not cached:
+        return None
+
+    time_stamp = cached.get(CacheData.TIME.name)
+    if time_stamp and should_update(time_stamp):
+        return None
+
+    for buoy in cached.get(CacheData.BUOYS.name, []):
+        if buoy.station == station_id:
+            return buoy
+    return None
+
+
+def save_buoy(buoy: Buoy, filename: str = NAUTICAL_CACHE_FILE) -> None:
+    """Upsert a single buoy into the disk cache."""
+    setup()
+    cached = load(filename, CacheData.ALL)
+
+    buoys = cached.get(CacheData.BUOYS.name, [])
+    buoys = [b for b in buoys if b.station != buoy.station]
+    buoys.append(buoy)
+
+    sources = cached.get(CacheData.SOURCES.name, [])
+    dumps({CacheData.BUOYS.name: buoys, CacheData.SOURCES.name: sources}, filename)
+
+
+def load_sources(filename: str = NAUTICAL_CACHE_FILE) -> dict[str, Source] | None:
+    """Load cached sources, returning None if not found or expired."""
+    from .time import should_update
+
+    cached = load(filename, CacheData.ALL)
+    if not cached:
+        return None
+
+    time_stamp = cached.get(CacheData.TIME.name)
+    if time_stamp and should_update(time_stamp):
+        return None
+
+    sources = cached.get(CacheData.SOURCES.name, [])
+    if not sources:
+        return None
+    return {s.name: s for s in sources}
+
+
+def save_sources(sources: dict[str, Source], filename: str = NAUTICAL_CACHE_FILE) -> None:
+    """Save sources to the disk cache."""
+    setup()
+    cached = load(filename, CacheData.ALL)
+
+    buoys = cached.get(CacheData.BUOYS.name, [])
+    source_list = list(sources.values())
+    dumps({CacheData.BUOYS.name: buoys, CacheData.SOURCES.name: source_list}, filename)
